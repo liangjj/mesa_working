@@ -1,0 +1,35 @@
+$route
+2s+1=1,hf
+guess=huckel,scf=(cycles=64)
+ci drt=(vexcite=2,refexcite=99)
+print=(scf=(vector=all),ci=no)
+$end
+
+$nonstd
+ 1//1,2;
+ 2//2;
+ 3//2,12,30;
+ 4//1,2;
+ 5//3;
+ 6//1;
+ 8//1,11,21;
+ 9//1,21;
+19//51;
+20//01;
+ 
+$drt
+1cor 4doc 8uoc 1vir 
+$end
+ 
+$title
+h2o test case: single point cisd/automatic symmetry generation
+ 
+$geom
+o1(basis=dz)
+h2(basis=dz) o1 r1
+h3(basis=dz) o1 r2  h2 a1
+ 
+r1=0.959447
+r2=0.959447
+a1=104.8318
+$end

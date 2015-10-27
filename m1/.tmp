@@ -1,0 +1,70 @@
+high@radium;  type=PIPE;  [ENABLED, INACTIVE];  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+low@radium;  type=PIPE;  [ENABLED, INACTIVE];  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+Destination machine: bismuth
+low-run@bismuth;  type=PIPE;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+high-run@bismuth;  type=PIPE;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+low-queue@bismuth;  type=BATCH;  [ENABLED, RUNNING];  PIPEONLY;  pri=16  lim=4
+  0 exit;   2 run;   0 stage;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+         REQUEST NAME        REQUEST ID            USER  PRI    STATE     PGRP
+    1:         R.Opp.       106.uranium.lanl.go schrecke  31  RUNNING     3976
+    2:          prod2        71.radium.lanl.gov      rlm  31  RUNNING    10580
+high-queue@bismuth;  type=BATCH;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=4
+  0 exit;   0 run;   0 stage;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+Destination machine: fire
+low-run@fire;  type=PIPE;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+high-run@fire;  type=PIPE;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+low-queue@fire;  type=BATCH;  [ENABLED, RUNNING];  PIPEONLY;  pri=16  lim=4
+  0 exit;   2 run;   0 stage;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+         REQUEST NAME        REQUEST ID            USER  PRI    STATE     PGRP
+    1:             es        77.nitrogen.lanl.g    gomez  31  RUNNING      923
+    2:          prod2        72.radium.lanl.gov      rlm  31  RUNNING    10107
+high-queue@fire;  type=BATCH;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=4
+  0 exit;   0 run;   0 stage;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+Destination machine: air
+low-run@air;  type=PIPE;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+high-run@air;  type=PIPE;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+low-queue@air;  type=BATCH;  [ENABLED, RUNNING];  PIPEONLY;  pri=16  lim=4
+  0 exit;   2 run;   0 stage;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+         REQUEST NAME        REQUEST ID            USER  PRI    STATE     PGRP
+    1:             HB       103.uranium.lanl.go schrecke  31  RUNNING     3931
+    2:      nxcls.csh        98.nitrogen.lanl.g   sriram  31  RUNNING     8600
+high-queue@air;  type=BATCH;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=4
+  0 exit;   0 run;   0 stage;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+Destination machine: earth
+high@earth;  type=PIPE;  [ENABLED, INACTIVE];  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+low-run@earth;  type=PIPE;  [ENABLED, INACTIVE];  PIPEONLY;  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+low@earth;  type=PIPE;  [ENABLED, INACTIVE];  pri=16  lim=1
+  0 depart;   0 route;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+low-queue@earth;  type=BATCH;  [ENABLED, RUNNING];  PIPEONLY;  pri=16  lim=4
+  0 exit;   2 run;   0 stage;   0 queued;   0 wait;   0 hold;   0 arrive;
+
+         REQUEST NAME        REQUEST ID            USER  PRI    STATE     PGRP
+    1:          prod2        69.radium.lanl.gov      rlm  31  RUNNING    11426
+    2:          prod2        70.radium.lanl.gov      rlm  31  RUNNING    11460

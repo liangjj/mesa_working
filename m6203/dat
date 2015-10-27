@@ -1,0 +1,21 @@
+
+#  @(#)Makefile	5.1 11/6/94
+#
+#
+SOURCE = m6203
+SOURCE_LIB=$(LIBRARY)/m6203lib.a
+
+SRCS.f90 = 	\
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f90
+
+LIB_SRCS.f90 = \
+		$(MESA_HOME)/$(SOURCE)/Lebedev_Data.f90 \
+		$(MESA_HOME)/$(SOURCE)/Data.f90 \
+		$(MESA_HOME)/$(SOURCE)/Grid_Defined_Types.f90 \
+		$(MESA_HOME)/$(SOURCE)/Gauss_Quadrature.f90 \
+		$(MESA_HOME)/$(SOURCE)/Gauss_Angular_Quadrature.f90 \
+		$(MESA_HOME)/$(SOURCE)/Lebedev_Quadrature.f90 \
+		$(MESA_HOME)/$(SOURCE)/Renormalization.f90 \
+		$(MESA_HOME)/$(SOURCE)/Grid_Generation.f90 \
+		$(MESA_HOME)/$(SOURCE)/Matrix_Elements.f90
+

@@ -1,0 +1,104 @@
+
+
+ pde solution by product formula
+
+
+
+
+
+ radial mesh
+
+ no. of pomits=       500
+ rstart=  -0.200000E+02      rstop=   0.200000E+02
+ delr=   0.800000E-01
+
+
+ temporal mesh
+
+ no. of ponts=      4000
+ tstart=   0.00000 tstop=        2.00000
+ delt=   0.500000E-03
+
+
+
+ Potential Type
+
+
+ GP nonlinear
+
+ Number of atoms =   0.000000E+00
+ a/d0 =   1.000000E+00
+ phase =   3.141593E+00      coefficient =   1.000000E+00
+ shift =     0.00000
+
+
+
+
+
+ summary of mesh parameters
+
+ delt =   0.500000E-03
+ delr =   0.800000E-01
+ tv =   0.390625E-01
+
+
+
+
+
+ initial function overlap=
+   0.177245E+01
+
+
+
+ norm at initial time=
+   0.100000E+01
+   <r>=  -0.460339E-16
+   <r2>=   0.500000E+00
+   3.14159265358979              501
+
+
+ check of the eigevalues
+
+
+
+
+ propagation in r and t
+
+
+
+ time=        0.50000      it=      1000
+   norm=   0.100000E+01
+   <r>=   0.199997E+01
+  <r2>=   4.624875E+00      deviation=   7.905570E-01
+
+
+ time=        1.00000      it=      2000
+   norm=   0.100000E+01
+   <r>=   0.399995E+01
+  <r2>=   1.699950E+01      deviation=   9.999608E-01
+
+
+ time=        1.50000      it=      3000
+   norm=   0.100000E+01
+   <r>=   0.599992E+01
+  <r2>=   3.762388E+01      deviation=   1.274686E+00
+
+
+ time=        2.00000      it=      4000
+   norm=   0.100000E+01
+   <r>=   0.799989E+01
+  <r2>=   6.649801E+01      deviation=   1.581040E+00
+
+
+
+
+
+
+ timimg information 
+
+ number of time steps =      4000
+ total time(sec) =          189.979379
+ average time/step =      0.047494844675
+
+ digonalization =     14.023167610168
+

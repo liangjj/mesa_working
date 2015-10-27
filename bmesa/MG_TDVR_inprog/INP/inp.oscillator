@@ -1,0 +1,79 @@
+$route
+ number-of-space-dimensions=1 print=(iterative-solve=xall)
+ use-atomic-units dimension-1=x number-of-time-regions=1
+ xiterative-linear-system-solve coordinate-system=cartesian
+ m8001=punch
+$end
+          
+$nonstd
+80//01;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$h0(x)
+ number-of-grids=1 quadrature-type=legendre
+ right-boundary-condition=0 print=sector=xall
+$end
+
+$h0(x,grid(1))
+ number-of-regions=1 region-boundaries=(-8.0d0,8.d0)
+ number-of-points-per-region=(60) print=(space=xall)
+$end
+
+$v0(x)
+ use-atomic-units potential=harmonic-oscillator
+$end
+ 
+$h0(t1)
+ number-of-grids=1 quadrature-type=legendre 
+ number-of-points-per-region=(10) region-boundaries=(0.d0,1.0d0)
+ print=(tdvr=solution)
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$h0(t2)
+ number-of-grids=1 quadrature-type=legendre 
+ number-of-points-per-region=(20) region-boundaries=(1.d0,2.0d0)
+ print=(space=all)
+$end
+
+$v0(t2)
+ potential=none
+$end
+
+$h0(t3)
+ number-of-grids=1 quadrature-type=legendre 
+ number-of-points-per-region=(20) region-boundaries=(2.d0,5.0d0)
+ print=(space=xall)
+$end
+
+$v0(t3)
+ potential=none
+$end
+
+$gmres
+ overlap-tolerance=1.e-10 convergence=1.e-05
+ preconditioner=block maximum-size-of-preconditioning-block=500
+ xprint=(iterative-solve=all) maximum-number-of-iterations=400
+ maximum-number-of-vectors=400 xprint=iterative-solve=all
+$end
+
+$initial-state
+ driver=gaussian-pulse exponential=(.5d0) shift=(0.d0)
+$end
+
+$trials
+ type-of-trial-vectors=unit number-of-trial-vectors=1
+$end
+
+$vtnlse(1,1,t1)
+ 
+$end
+

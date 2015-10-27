@@ -1,0 +1,5 @@
+ 
+for f in $*
+  do
+    cp $f $f.F
+  done

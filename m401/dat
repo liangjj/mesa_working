@@ -1,0 +1,33 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M401
+#
+SOURCE = m401
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/alter.f \
+	$(MESA_HOME)/$(SOURCE)/coefs.f \
+	$(MESA_HOME)/$(SOURCE)/corges.f \
+	$(MESA_HOME)/$(SOURCE)/defsc.f \
+	$(MESA_HOME)/$(SOURCE)/ehuckl.f \
+	$(MESA_HOME)/$(SOURCE)/eneg.f \
+	$(MESA_HOME)/$(SOURCE)/expand.f \
+	$(MESA_HOME)/$(SOURCE)/expges.f \
+	$(MESA_HOME)/$(SOURCE)/fixup.f \
+	$(MESA_HOME)/$(SOURCE)/getmo.f \
+	$(MESA_HOME)/$(SOURCE)/hukmat.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+	$(MESA_HOME)/$(SOURCE)/merge.f \
+	$(MESA_HOME)/$(SOURCE)/minbas.f \
+	$(MESA_HOME)/$(SOURCE)/ovrlap.f \
+	$(MESA_HOME)/$(SOURCE)/prjges.f \
+	$(MESA_HOME)/$(SOURCE)/putrec.f \
+	$(MESA_HOME)/$(SOURCE)/rdbas.f \
+	$(MESA_HOME)/$(SOURCE)/rdges.f \
+	$(MESA_HOME)/$(SOURCE)/rdmo.f \
+	$(MESA_HOME)/$(SOURCE)/scalef.f \
+	$(MESA_HOME)/$(SOURCE)/sizmb.f \
+	$(MESA_HOME)/$(SOURCE)/sto3g.f \
+	$(MESA_HOME)/$(SOURCE)/symorb.f \
+	$(MESA_HOME)/$(SOURCE)/symprj.f \
+	$(MESA_HOME)/$(SOURCE)/symtriz.f 

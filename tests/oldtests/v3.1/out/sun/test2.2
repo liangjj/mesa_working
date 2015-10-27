@@ -1,0 +1,482 @@
+ mesa(2.2);7/27/92;bsd 4.2 unix.                                                
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+
+      6-Nov-1992 10:57:54    
+     los alamos national laboratory;sun 4/280s(vivaldi);                             
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test2.2                                                                                                    
+     out:    /usr2/rlm/mesa/out/test2.2                                                                                                      
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf                                                                                                                
+     rint:   /vivaldi/tmp/rint                                                                                                               
+     int:    /vivaldi/tmp/int                                                                                                                
+     tint:   /vivaldi/tmp/tint                                                                                                               
+     gint:   /vivaldi/tmp/gint                                                                                                               
+     rdint:  /vivaldi/tmp/rdint                                                                                                              
+     dint:   /vivaldi/tmp/dint                                                                                                               
+     zint:   /vivaldi/tmp/zint                                                                                                               
+     ham:    /vivaldi/tmp/ham                                                                                                                
+     moden:  /vivaldi/tmp/moden                                                                                                              
+     aoden:  /vivaldi/tmp/aoden                                                                                                              
+     saoden: /vivaldi/tmp/saoden                                                                                                             
+     gden:   /vivaldi/tmp/gden                                                                                                               
+     fci:    /vivaldi/tmp/fci                                                                                                                
+     machine size:          4000000
+     user defined maxsiz:    900000
+ title:
+      h2o test case: closed shell scf optimization(murtaugh-sargent) 
+ route:
+     1//1,2;
+     :opt;
+     2//1(:endopt);
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     7//1,2,12,31(:opt);
+     :endopt;
+     19//51;
+     20//01;
+ options:
+     maxsiz=900000 2s+1=1 hf scf=(pulay) guess=(huckel) opt basis=dz,sym=off
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   0.949000 r1      
+      3   3   h  dz          1   0.949000 r2        2  112.300 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ murtaugh-sargent optimization:
+     initial parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949000   estimate d2e/dx2                              
+                r2      0.949000   estimate d2e/dx2                              
+                a1    112.3000     estimate d2e/dx2                              
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     0.94900   0.00000
+                 h2     0.94900   1.57629   0.00000
+ interatomic angles:
+          h2-o1-h3 =112.3000
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    0.949000
+      3   3   h              0.878024    0.000000   -0.360104
+ rotational constants (ghz):   1010.3518272    403.6377188    288.4152205
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262666( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                    3999999
+     all integrals held in core.
+     nuclear repulsion energy:    9.257562
+     iter              energy    diis convergence
+       13       -76.010985419         0.000000003
+     rotating scf orbitals under core fock operator
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                       772607(281.1%)
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8       -0.001862    0.000000   -0.001249
+       2          1       -0.000541    0.000000    0.002820
+       3          1        0.002403    0.000000   -0.001571
+     max     0.002820     rms     0.001546
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1   0.002820 (  1)
+           3   h     1   0.002820 (  2)   2   0.000971 (  3)
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   1 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     second derivative matrix not updated -- first cycle.
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1     0.57840
+                 r2     0.00000   0.57840
+                 a1     0.00000   0.00000   0.22937
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79335   0.00282   0.00004   1.79339
+                 r2     1.79335   0.00282   0.00004   1.79339
+                 a1     1.96000   0.00097   0.00003   1.96004
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002820     0.000450     no 
+                     rms force     0.002369     0.000300     no 
+          maximum displacement     0.000038     0.001800     yes
+              rms displacement     0.000036     0.001200     yes
+     energy                      -76.010985
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949020   -de/dx=     0.002820                          
+                r2      0.949020   -de/dx=     0.002820                          
+                a1    112.3019     -de/dx=     0.000971                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   2 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  1  2
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79339   0.00280   0.00006   1.79344
+                 r2     1.79339   0.00280   0.00006   1.79344
+                 a1     1.96004   0.00096   0.00005   1.96009
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002795     0.000450     no 
+                     rms force     0.002349     0.000300     no 
+          maximum displacement     0.000056     0.001800     yes
+              rms displacement     0.000054     0.001200     yes
+     energy                      -76.010986
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949050   -de/dx=     0.002795                          
+                r2      0.949050   -de/dx=     0.002795                          
+                a1    112.3047     -de/dx=     0.000962                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   3 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  2  3
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79344   0.00276   0.00007   1.79352
+                 r2     1.79344   0.00276   0.00007   1.79352
+                 a1     1.96009   0.00095   0.00006   1.96015
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002759     0.000450     no 
+                     rms force     0.002319     0.000300     no 
+          maximum displacement     0.000073     0.001800     yes
+              rms displacement     0.000070     0.001200     yes
+     energy                      -76.010986
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949089   -de/dx=     0.002759                          
+                r2      0.949089   -de/dx=     0.002759                          
+                a1    112.3083     -de/dx=     0.000950                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   4 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  3  4
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79352   0.00271   0.00009   1.79361
+                 r2     1.79352   0.00271   0.00009   1.79361
+                 a1     1.96015   0.00093   0.00008   1.96023
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002713     0.000450     no 
+                     rms force     0.002279     0.000300     no 
+          maximum displacement     0.000090     0.001800     yes
+              rms displacement     0.000086     0.001200     yes
+     energy                      -76.010986
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949136   -de/dx=     0.002713                          
+                r2      0.949136   -de/dx=     0.002713                          
+                a1    112.3128     -de/dx=     0.000934                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   5 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  4  5
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79361   0.00266   0.00011   1.79371
+                 r2     1.79361   0.00266   0.00011   1.79371
+                 a1     1.96023   0.00091   0.00009   1.96032
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002655     0.000450     no 
+                     rms force     0.002231     0.000300     no 
+          maximum displacement     0.000105     0.001800     yes
+              rms displacement     0.000101     0.001200     yes
+     energy                      -76.010987
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949192   -de/dx=     0.002655                          
+                r2      0.949192   -de/dx=     0.002655                          
+                a1    112.3180     -de/dx=     0.000914                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   6 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  5  6
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79371   0.00259   0.00012   1.79383
+                 r2     1.79371   0.00259   0.00012   1.79383
+                 a1     1.96032   0.00089   0.00010   1.96042
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002588     0.000450     no 
+                     rms force     0.002175     0.000300     no 
+          maximum displacement     0.000119     0.001800     yes
+              rms displacement     0.000114     0.001200     yes
+     energy                      -76.010988
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949255   -de/dx=     0.002588                          
+                r2      0.949255   -de/dx=     0.002588                          
+                a1    112.3240     -de/dx=     0.000890                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   7 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  6  7
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79383   0.00251   0.00013   1.79396
+                 r2     1.79383   0.00251   0.00013   1.79396
+                 a1     1.96042   0.00086   0.00011   1.96054
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002512     0.000450     no 
+                     rms force     0.002111     0.000300     no 
+          maximum displacement     0.000132     0.001800     yes
+              rms displacement     0.000127     0.001200     yes
+     energy                      -76.010988
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949325   -de/dx=     0.002512                          
+                r2      0.949325   -de/dx=     0.002512                          
+                a1    112.3305     -de/dx=     0.000864                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   8 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  7  8
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79396   0.00243   0.00014   1.79411
+                 r2     1.79396   0.00243   0.00014   1.79411
+                 a1     1.96054   0.00083   0.00012   1.96066
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002428     0.000450     no 
+                     rms force     0.002040     0.000300     no 
+          maximum displacement     0.000144     0.001800     yes
+              rms displacement     0.000138     0.001200     yes
+     energy                      -76.010989
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949401   -de/dx=     0.002428                          
+                r2      0.949401   -de/dx=     0.002428                          
+                a1    112.3377     -de/dx=     0.000834                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   9 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  8  9
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79411   0.00234   0.00015   1.79426
+                 r2     1.79411   0.00234   0.00015   1.79426
+                 a1     1.96066   0.00080   0.00013   1.96080
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002336     0.000450     no 
+                     rms force     0.001963     0.000300     no 
+          maximum displacement     0.000153     0.001800     yes
+              rms displacement     0.000147     0.001200     yes
+     energy                      -76.010990
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949482   -de/dx=     0.002336                          
+                r2      0.949482   -de/dx=     0.002336                          
+                a1    112.3453     -de/dx=     0.000803                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number  10 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles  9 10
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79426   0.00224   0.00016   1.79442
+                 r2     1.79426   0.00224   0.00016   1.79442
+                 a1     1.96080   0.00077   0.00014   1.96094
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002238     0.000450     no 
+                     rms force     0.001881     0.000300     no 
+          maximum displacement     0.000162     0.001800     yes
+              rms displacement     0.000155     0.001200     yes
+     energy                      -76.010991
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949567   -de/dx=     0.002238                          
+                r2      0.949567   -de/dx=     0.002238                          
+                a1    112.3533     -de/dx=     0.000769                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number  11 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles 10 11
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79442   0.00214   0.00017   1.79459
+                 r2     1.79442   0.00214   0.00017   1.79459
+                 a1     1.96094   0.00073   0.00015   1.96108
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002135     0.000450     no 
+                     rms force     0.001794     0.000300     no 
+          maximum displacement     0.000168     0.001800     yes
+              rms displacement     0.000161     0.001200     yes
+     energy                      -76.010992
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949656   -de/dx=     0.002135                          
+                r2      0.949656   -de/dx=     0.002135                          
+                a1    112.3617     -de/dx=     0.000733                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number  12 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles 11 12
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79459   0.00203   0.00017   1.79476
+                 r2     1.79459   0.00203   0.00017   1.79476
+                 a1     1.96108   0.00070   0.00015   1.96123
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.002028     0.000450     no 
+                     rms force     0.001704     0.000300     no 
+          maximum displacement     0.000173     0.001800     yes
+              rms displacement     0.000166     0.001200     yes
+     energy                      -76.010992
+     predicted change              0.000000
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949748   -de/dx=     0.002028                          
+                r2      0.949748   -de/dx=     0.002028                          
+                a1    112.3703     -de/dx=     0.000695                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number  13 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     msstep: c is too small... resetting the inverse hessian matrix.
+     update second derivatives using information from cycles 12 13
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79476   0.00192   0.00018   1.79494
+                 r2     1.79476   0.00192   0.00018   1.79494
+                 a1     1.96123   0.00066   0.00015   1.96138
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.001918     0.000450     no 
+                     rms force     0.001612     0.000300     no 
+          maximum displacement     0.000176     0.001800     yes
+              rms displacement     0.000169     0.001200     yes
+     energy                      -76.010993
+     predicted change              0.000000
+     optimization stopped.
+     -- number of cycles exceeded,  mxcycl=  13
+     flag reset to prevent archiving.
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949841   -de/dx=     0.001918                          
+                r2      0.949841   -de/dx=     0.001918                          
+                a1    112.3790     -de/dx=     0.000657                          
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.22117   0.28631   0.28631
+                 h1     0.28631   0.34860  -0.03180
+                 h2     0.28631  -0.03180   0.34860
+     total atomic charges:
+          o             8.79379
+          h1            0.60311
+          h2            0.60311
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       2.6       0.4       0.0         0
+      101         1       1.0       0.5       0.0         0
+      102         1      13.9       0.8       0.0         0
+      201        14      39.0      15.2       0.0         0
+      202        13      15.7       4.6       0.0         0
+      302        13      19.2       4.4       0.0         0
+      312        13     224.3      18.4       0.0         0
+      330        13      13.8       8.4       0.0         0
+      401        13      26.0       4.5       0.0         0
+      501        13     171.1      12.3       0.0         0
+      701        13       7.4       3.3       0.0         0
+      702        13      36.0       4.6       0.0         0
+      712        13     572.2      28.7       0.0         0
+      731        13       6.1       3.4       0.0         0
+     1951         1       1.1       0.4       0.0         0
+             total:    1149.2     109.9       0.0         0

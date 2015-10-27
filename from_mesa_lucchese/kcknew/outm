@@ -1,0 +1,1584 @@
+
+
+
+f77(1)								       f77(1)
+Digital								      Digital
+
+
+
+Name
+  f77 -	invokes	the DIGITAL Fortran 77 (formerly DEC Fortran) compiler
+
+Syntax
+  ff7777 [	_o_p_t_i_o_n_s	] _f_i_l_e_n_a_m_e [ _o_p_t_i_o_n_s ]
+
+Description
+  The _f_7_7 command invokes the DIGITAL Fortran 77 (FORTRAN-77) compiler.	It
+  produces object code files in	DIGITAL	UNIX Alpha extended _c_o_f_f format.
+
+  The _f_7_7 command interprets arguments (filenames) as follows:
+
+  oo++    Arguments with the suffix .f, .for, or .FOR are interpreted as
+       FORTRAN-77 source programs.  These programs are compiled, and the name
+       of the resulting	object program is the basename of the source file
+       with a .o substituted for the .f, .for, or .FOR.	 (For example, in
+       source file myfile.f, myfile is the basename; so	the object program is
+       named myfile.o.)	If the source program is compiled and loaded, the .o
+       file is deleted.
+
+  oo++    Arguments with the suffix .F are	interpreted as FORTRAN source pro-
+       grams, which must be processed by the C preprocessor ( _c_p_p(1)) before
+       being compiled.	_c_p_p(1) produces	a file with the	suffix .i.
+
+       Note that if you	have myfile.F and myfile.i as distinct files, _c_p_p(1)
+       overwrites myfile.i to produce an output	file with the same name.
+
+  oo++    Arguments with the suffix .i are	interpreted as FORTRAN-77 source pro-
+       grams that have been preprocessed by _c_p_p(1).  They are compiled
+       without further preprocessing.
+
+  The following	are environmental variables that can be	set:
+
+  oo++    DECFORT:	The location of	the f77	compiler to invoke.
+
+  oo++    DECFORT_CC: The location	of the cc command.
+
+  oo++    DECFORT_FPP: The	name of	the preprocessor for FORTRAN files.
+
+  oo++    DECFORT_INIT: Initial options for the _f_7_7 command.  If this variable
+       is defined, its value has to have the form:
+
+	  [[pre] [:: [post]]
+
+       where the items in "[ ]"	are optional and can be	empty, and where
+       "pre" and "post"	are strings to be added	to the command line.  "pre"
+       is added	to the front of	the command line, before any characters	the
+       user typed;  "post" is added to the end of the command line.
+
+  oo++    TMPDIR: The directory for temporary files.
+
+
+  The _f_7_7 command passes the following command line options to _c_p_p(1):
+  --DD_n_a_m_e, --DD_n_a_m_e=_d_e_f, --II,, --II_d_i_r, --MM,, --UU_n_a_m_e,, and --WWpp,,.......
+
+  The _f_7_7 command defines the following	_c_p_p(1) macros to _c_p_p(1):
+  LANGUAGE_FORTRAN, __LANGUAGE_FORTRAN__, unix,	__unix__, __alpha, and
+  __osf__.
+
+  The following	examples demonstrate optimizing	across multiple	input files:
+
+    1.	f77 -o foo ax.f	bx.f cx.f
+
+	This command causes the	files ax.f, bx.f, and cx.f to be
+	compiled as one	program, with the resulting executable
+	file foo.
+
+    2.	f77 -c -O4 ax.f	bx.f cx.f
+
+	This command causes the	files ax.o, bx.o and cx.o to
+	be created.  Interprocedural optimization is hindered
+	because	these input files are separately compiled.
+
+    3.	f77 -c -o foo.o	-O4 ax.f bx.f cx.f
+
+	This command causes the	files ax.f, bx.f and cx.f to be
+	compiled as one	program, with the resulting object file
+	foo.o.	This produces better optimization.
+
+
+  _f_7_7 sends its	output to _s_t_d_e_r_r. Upon completion, the _f_7_7 driver returns one
+  of the following status values:
+
+     0	-  SUCCESS
+     1	-  FAILURE
+     2	-  SUBPROCESS_FAILURE (preprocessor, decfort, or ld)
+     3	-  SIGNAL
+
+
+  You can override some	options	specified on the command line by using the
+  OPTIONS statement in your FORTRAN source program.  An	OPTIONS	statement
+  affects only the program unit	where the statement occurs.  For more infor-
+  mation, see the _D_I_G_I_T_A_L _F_o_r_t_r_a_n _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l.
+
+  For more information on this version of the DIGITAL Fortran 77 compiler,
+  see the release notes	in /usr/lib/cmplrs/fort/relnotes.
+
+Options
+  Some _f_7_7 options are specified using keywords. Specify these options in the
+  form:	-_n_a_m_e _k_e_y_w_o_r_d. You must	spell out the -_n_a_m_e completely,	but you	can
+  abbreviate the _k_e_y_w_o_r_d to its	shortest unique	prefix (4 characters is	the
+  recommended length). For example, you	can specify --aassssuummee
+  nnooaaccccuurraaccyy__sseennssiittiivvee as --aassssuummee nnooaacc,,	and --cchheecckk uunnddeerrffllooww as	--cchheecckk uunnddee..
+
+  The _f_7_7 command takes	the following options:
+
+  --11	       Executes	at least one iteration of DO loops.  (FORTRAN-77 DO
+	       loops are not executed if the upper limit is smaller than the
+	       lower limit.) This option has the same effect as	--nnooff7777..
+
+  --6666	       Allows extensions that enhance FORTRAN-66 compatibility (same
+	       as the --nnooff7777 option).
+
+  --aalliiggnn ccoommmmoonnss
+	       Aligns all COMMON block entities	on natural boundaries, up to
+	       4-bytes.	 The default is	--aalliiggnn nnooccoommmmoonnss..
+
+  --aalliiggnn ddccoommmmoonnss
+	       Aligns all COMMON block entities	on natural boundaries, up to
+	       8-bytes.	 The default is	--aalliiggnn nnooccoommmmoonnss..  For optimal per-
+	       formance	on Alpha systems, specify --aalliiggnn rreeccoorrddss (the
+	       default)	and --aalliiggnn ddccoommmmoonnss..
+
+  --aalliiggnn nnoorreeccoorrddss
+	       Aligns all RECORD fields	on the next available byte boundary,
+	       instead of natural boundaries.  The default is --aalliiggnn rreeccoorrddss,,
+	       unless you specify --vvmmss (which sets the --aalliiggnn nnoorreeccoorrddss
+	       option).
+
+  --aarrcchh	       Selects which version of	the Alpha architecture to generate
+	       instructions for.  The format is:
+
+		 -arch generic | host |	ev4 | ev5 | ev56 | pca56
+
+
+	       All Alpha processors implement a	core set of instructions,
+	       with possible extensions.  The following	instruction set
+	       extensions exist:
+
+		 BWX - Byte/Word manipulation instructions
+		 MAX - Multimedia instructions
+
+
+	       The Alpha Architecture reference	manual describes these exten-
+	       sions in	detail.
+
+	       The --aarrcchh option	selected determines whether or not the com-
+	       piler can generate instructions that are	part of	these exten-
+	       sions.
+
+	       Beginning with DIGITAL UNIX Version 4.0,	and continuing with
+	       subsequent versions,  the operating system kernel includes an
+	       instruction emulator.
+
+	       This capability allows new instructions,	not implemented	on
+	       the host	processor chip,	to execute and produce correct
+	       results.	 Applications using emulated instructions will run
+	       correctly, but may incur	significant emulation overhead at
+	       runtime.
+
+	       The following are --aarrcchh options:
+
+	       oo++   ggeenneerriicc
+
+		   Generates instructions that are appropriate for most	alpha
+		   processors.	This is	the default.
+
+	       oo++   hhoosstt
+
+		   Generates instructions for the machine the compiler is
+		   running on (for example, ev56 instructions on an ev56 pro-
+		   cessor and ev4 instructions on an ev4 processor).
+
+	       oo++   eevv44
+
+		   Generates instructions for ev4 processors (for 21064,
+		   20164A, 21066, and 21068 chips).
+
+		   Applications	compiled with this option will not incur any
+		   emulation overhead on any Alpha processor.
+
+	       oo++   eevv55
+
+		   Generates instructions for ev5 processors (some 21164
+		   chips).
+
+		   Applications	compiled with this option will not incur any
+		   emulation overhead on any Alpha processor.
+
+	       oo++   eevv5566
+
+		   Generates instructions for ev56 processors (some 21164
+		   chips).
+
+		   This	option permits the compiler to generate	any EV4
+		   instruction plus any	instruction contained in the BWX
+		   extension.
+
+		   Applications	compiled with this option may incur emulation
+		   overhead on ev4 and ev5 processors, but will	still run
+		   correctly.
+
+	       oo++   ppccaa5566
+
+		   Generates instructions for pca56 processors (21164PC
+		   chips).
+
+		   This	option permits the compiler to generate	any EV4
+		   instruction plus any	instruction contained in the BWX or
+		   MAX extension.
+
+		   Applications	compiled with this option may incur emulation
+		   overhead on ev4 and ev5 and ev56 processors,	but will
+		   still run correctly.
+
+  --aassssuummee bbaacckkssllaasshh
+	       Treats the backslash (\)	character literally in character
+	       literals.  The default is --aassssuummee nnoobbaacckkssllaasshh,, which treats
+	       the backslash character as C-style control (escape) character
+	       syntax.
+
+  --aassssuummee bbyytteerreeccll
+	       Specifies (for unformatted data files) that the units for the
+	       OPEN statement RECL specifier (record length) value are in
+	       bytes, not longwords (four-byte units). For formatted files,
+	       the RECL	unit is	always in bytes. The default is	--aassssuummee
+	       nnoobbyytteerreeccll.
+
+	       INQUIRE returns RECL in bytes if	the unit is not	open.
+	       INQUIRE returns RECL in longwords if the	file is	open for
+	       unformatted data	(and --aassssuummee bbyytteerreeccll is not specified); oth-
+	       erwise, it returns RECL in bytes.
+
+  --aassssuummee dduummmmyy__aalliiaasseess
+	       Assumes that dummy (formal) arguments to	procedures share
+	       memory locations	with other dummy arguments or with COMMON
+	       variables that are assigned.  These program semantics slow
+	       performance and do not strictly obey the	FORTRAN-77 Standard.
+	       The default is --aassssuummee nnoodduummmmyy__aalliiaasseess..
+
+  --aassssuummee nnooaaccccuurraaccyy__sseennssiittiivvee
+	       Reorders	floating-point operations, based on algebraic identi-
+	       ties (inverses, associativity, and distribution), to improve
+	       performance. The	default	is --aassssuummee aaccccuurraaccyy__sseennssiittiivvee..
+
+  --aassssuummee nnoossoouurrccee__iinncclluuddee
+	       Tells the compiler to search the	default	directory for INCLUDE
+	       files (same as when --vvmmss	is used).  The default is --aassssuummee
+	       ssoouurrccee__iinncclluuddee,, which tells the compiler	to search the direc-
+	       tory the	source file is in for any INCLUDEs.
+
+  --aassssuummee nnoouunnddeerrssccoorree
+	       Does not	append a trailing underscore character to external
+	       user-defined names: the main program name, named	COMMON,	BLOCK
+	       DATA, and names implicitly or explicitly	declared EXTERNAL;
+	       the name	of blank COMMON	remains	_BLNK__. FORTRAN intrinsic
+	       names are not affected.	The default is --aassssuummee uunnddeerrssccoorree..
+
+  --aauuttoommaattiicc   Places local variables on the run-time stack. The default is
+	       --nnooaauuttoommaattiicc..
+
+  --CC	       Generates code to perform run-time checks on subscript and
+	       substring expressions (same as the --cchheecckk bboouunnddss	option). An
+	       error is	reported if the	expression is outside the dimension
+	       of the array or the length of the string.  The default is
+	       --cchheecckk nnoobboouunnddss..
+
+  --cc	       Suppresses the loading phase of the compilation and forces an
+	       object file to be produced even if only one program is com-
+	       piled.  If you specify multiple files and want full interpro-
+	       cedural optimizations, you must also specify the	--oo option.
+	       (This creates a single .o file.)
+
+  --ccaallll__sshhaarreedd Tells _l_d(1) to produce a	dynamic	executable that	uses share-
+	       able objects during run-time.  The linker searches for
+	       unresolved references in	shared library (.so) files before
+	       searching in archive library (.a) files.	The run-time loader
+	       is invoked to bring in all required shareable objects and
+	       resolve any symbols that	remained undefined during static
+	       link-time. This is the default.
+
+  --cchheecckk bboouunnddss
+	       Generates code to perform run-time checks on subscript and
+	       substring expressions. An error is reported if the expression
+	       is outside the dimension	of the array or	the length of the
+	       string.	The default is --cchheecckk nnoobboouunnddss..
+
+  --cchheecckk nnooffoorrmmaatt
+	       Suppresses the FORVARMIS	fatal error.  This error occurs	at
+	       run time	when the data type of an item being formatted for
+	       output does not match the format	descriptor being used (for
+	       example,	a REAL*4 item formatted	with an	I edit descriptor).
+	       If --vvmmss is specified, the default is --cchheecckk ffoorrmmaatt; otherwise,
+	       the default is --cchheecckk nnooffoorrmmaatt.
+
+	       With --cchheecckk nnooffoorrmmaatt,, the data item is formatted	using the
+	       specified descriptor unless the length of the item cannot
+	       accommodate the descriptor (for example,	it is still an error
+	       to pass an INTEGER*2 item to an E edit descriptor).
+
+  --cchheecckk nnoooouuttppuutt__ccoonnvveerrssiioonn
+	       Suppresses the OUTCONERR	continuable error message.  This
+	       error occurs at run time	when a data item is too	large to fit
+	       in a designated FORMAT descriptor field.	 The field is filled
+	       with asterisks (*) and execution	continues.  If --vvmmss is speci-
+	       fied, the default is --cchheecckk oouuttppuutt__ccoonnvveerrssiioonn, which displays
+	       the OUTCONERR message; otherwise, the default is	--cchheecckk
+	       nnoooouuttppuutt__ccoonnvveerrssiioonn.
+
+  --cchheecckk nnooppoowweerr
+	       Suppresses the run-time errors for 0.0**0.0 and
+	       <negative-value>**<integer-value-of-type-real>, so 0.0**0.0 is
+	       1.0 and (-3.0)**3.0 is -27.0.  The default is --cchheecckk ppoowweerr,,
+	       which causes fatal run-time errors for these cases.
+
+  --cchheecckk oovveerrffllooww
+	       Generates code to trap on integer overflow.  The	default	is
+	       --cchheecckk nnoooovveerrffllooww..
+
+  --cchheecckk uunnddeerrffllooww
+	       Produces	a message at run time to warn that floating-point
+	       underflow has occurred.	Floating-point underflow replaces the
+	       result with 0, unless you specify the --ffppee33 or --ffppee44 option.
+	       The default is --cchheecckk nnoouunnddeerrffllooww..
+
+  --cchheecckk__bboouunnddss
+	       Generates code to perform run-time checks on subscript and
+	       substring expressions (same as the --cchheecckk bboouunnddss	option).   An
+	       error is	reported if the	expression is outside the dimension
+	       of the array or the length of the string.  The default
+	       suppresses range	checking.
+
+  --ccooll7722       Treats the statement field of each source line as ending	in
+	       column 72 (same as the --nnooeexxtteenndd__ssoouurrccee option).
+
+  --ccoonnvveerrtt bbiigg__eennddiiaann
+	       Specifies that unformatted data will be in big endian integer
+	       format of the appropriate size: INTEGER*1, INTEGER*2, or
+	       INTEGER*4; and IEEE floating point format of the	appropriate
+	       size: REAL*4, REAL*8, COMPLEX*8,	or COMPLEX*16.	Note that
+	       INTEGER*1 data is the same for little endian and	big endian.
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoonnvveerrtt ccrraayy
+	       Specifies that unformatted data will be in big endian integer
+	       format of the appropriate size: INTEGER*1, INTEGER*2, or
+	       INTEGER*4; and CRAY (TM)	floating-point format of size REAL*8
+	       or COMPLEX*16.
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoonnvveerrtt ffddxx Specifies that unformatted data will be in little endian
+	       integer format of the appropriate size: INTEGER*1, INTEGER*2,
+	       or INTEGER*4; DIGITAL VAX floating-point	format F_floating for
+	       size REAL*4 or COMPLEX*8, D_floating for	size REAL*8 or COM-
+	       PLEX*16,	and X_floating for REAL*16.
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoonnvveerrtt ffggxx Specifies that unformatted data will be in little endian
+	       integer format of the appropriate size: INTEGER*1, INTEGER*2,
+	       or INTEGER*4; DIGITAL VAX floating-point	format F_floating for
+	       size REAL*4 or COMPLEX*8, floating-point	format G_floating of
+	       size REAL*8 or COMPLEX*16, and X_floating for REAL*16.
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoonnvveerrtt iibbmm Specifies that unformatted data will be in big endian integer
+	       format of the appropriate size: INTEGER*1, INTEGER*2, or
+	       INTEGER*4; and IBM (TM) System\370 floating-point format	of
+	       size REAL*4 or COMPLEX*8	(IBM short 4) and size REAL*8 or COM-
+	       PLEX*16 (IBM long 8).
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoonnvveerrtt lliittttllee__eennddiiaann
+	       Assumes that unformatted	data will be in	native RISC little
+	       endian integer format of	the appropriate	size: INTEGER*1,
+	       INTEGER*2, or INTEGER*4;	and IEEE floating-point	format of the
+	       appropriate size: REAL*4, REAL*8, REAL*16, COMPLEX*8, or	COM-
+	       PLEX*16.	 Note that INTEGER*1 data is the same for little
+	       endian and big endian.
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoonnvveerrtt nnaattiivvee
+	       Specifies that unformatted data should not be converted.	 This
+	       is the default.
+
+  --ccoonnvveerrtt vvaaxxdd
+	       Specifies that unformatted data will be in little endian
+	       integer format of the appropriate size: INTEGER*1, INTEGER*2,
+	       or INTEGER*4; and DIGITAL VAX floating-point format F_floating
+	       for size	REAL*4 or COMPLEX*8, D_floating	for size REAL*8	or
+	       COMPLEX*16, and H_floating for REAL*16.
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoonnvveerrtt vvaaxxgg
+	       Specifies that unformatted data will be in little endian
+	       integer format of the appropriate size: INTEGER*1, INTEGER*2,
+	       or INTEGER*4; and DIGITAL VAX floating-point format F_floating
+	       for size	REAL*4 or COMPLEX*8, floating-point format G_floating
+	       of size REAL*8 or COMPLEX*16, and H_floating for	REAL*16.
+
+	       The default is --ccoonnvveerrtt nnaattiivvee..	For more information, see
+	       your DIGITAL Fortran user manual.
+
+  --ccoorrdd	       Runs the	_c_o_r_d(1)	procedure-rearranger on	the resulting file
+	       after linking.  This rearrangement reduces the cache conflicts
+	       of the program's	text.  The output of _c_o_r_d(1) is	left in	the
+	       file specified by the --oo	_o_u_t_p_u_t option (or a.out, by default).
+	       At least	one --ffeeeeddbbaacckk _f_i_l_e must	be specified.
+
+  --ccpppp	       Runs _c_p_p(1) on all FORTRAN source files before compiling.
+
+  --ccrroossss__rreeffeerreennccee
+	       Includes	in the listing (if one is generated with --VV ), a
+	       cross-reference of all symbols used in the source program,
+	       along with line numbers of definitions and uses (same as	the
+	       --sshhooww xxrreeff option).  The	default	is --nnooccrroossss__rreeffeerreennccee..
+
+  --DD_n_a_m_e=_d_e_f
+  --DD_n_a_m_e       Defines the _n_a_m_e	for _c_p_p(1), as if by #define.  If no defini-
+	       tion is given, the name is defined as "1".
+
+  --dd__lliinneess     Compiles	lines having a D in column 1 of	the source program.
+	       The default is to treat such lines as comments.
+
+  --ddoouubbllee__ssiizzee 6644
+	       Defines DOUBLE PRECISION	declarations, constants, functions,
+	       and intrinsics as REAL*8; it has	no effect on DOUBLE COMPLEX
+	       data.  This is the default.
+
+  --ddoouubbllee__ssiizzee 112288
+	       Defines DOUBLE PRECISION	declarations, constants, functions,
+	       and intrinsics as REAL*16; it has no effect on DOUBLE COMPLEX
+	       data.  The default is --ddoouubbllee__ssiizzee 6644.
+
+  --eerrrroorr__lliimmiitt _n_n
+	       Specifies the maximum number of error-level or fatal-level
+	       compiler	errors allowed for a file specified on the f77 com-
+	       mand line.  If you specify --nnooeerrrroorr__lliimmiitt,, there	is no limit
+	       on the number of	errors that are	allowed.  The default is
+	       --eerrrroorr__lliimmiitt 3300 (or a maximum of	30 error-level and fatal-
+	       level messages).
+
+	       If --cc is	specified on the command line and the maximum number
+	       of errors is reached, a warning message is issued and the next
+	       file (if	any) on	the command line is compiled.  If --cc is	not
+	       specified, a warning message is issued and compilation ter-
+	       minates.
+
+  --eexxtteenndd__ssoouurrccee
+	       Treats the statement field of each source line as ending	in
+	       column 132, instead of column 72.  The default is
+	       --nnooeexxtteenndd__ssoouurrccee..
+
+  --ff6666	       Allows extensions that enhance FORTRAN-66 compatibility (same
+	       as the --nnooff7777 option).
+
+  --ff7777	       Enforces	FORTRAN-77 semantics instead of	FORTRAN-66 semantics.
+	       This is the default.
+
+  --ffaasstt	       Sets the	following command options that can improve run-time
+	       performance: --aassssuummee nnooaaccccuurraaccyy__sseennssiittiivvee,, --aalliiggnn ddccoommmmoonnss,,
+	       --mmaatthh__lliibbrraarryy ffaasstt,, and --OO44 (the	default).
+
+  --ffeeeeddbbaacckk _f_i_l_e
+	       Specifies the _f_i_l_e to be	used by	_c_o_r_d(1)	or the compiler	for
+	       further optimizations.  This _f_i_l_e is produced by	_p_r_o_f(1)	with
+	       its --ffeeeeddbbaacckk option from an execution of the program produced
+	       by _p_i_x_i_e(1).
+
+  --ffppee00	or --ffppee
+	       Terminates a program during run time if a floating-point
+	       operation results in overflow, a	division by zero, or invalid
+	       data; before termination, the compiler issues a message,	and
+	       creates a core dump file. In the	case of	floating-point under-
+	       flow, the program does not terminate, but continues with	the
+	       underflow value set to zero. (The compiler issues a warning
+	       message if --cchheecckk uunnddeerrffllooww is set).  This is the default.
+
+  --ffppee11	       Continues program execution if a	floating-point operation
+	       results in overflow, a division by zero,	invalid	data, or
+	       floating-point underflow	(the underflow value is	set to zero,
+	       and the compiler	issues a warning message if --cchheecckk uunnddeerrffllooww
+	       is set).
+
+  --ffppee22	       Continues program execution if a	floating-point operation
+	       results in overflow, a division by zero,	invalid	data, or
+	       floating-point underflow, and prints a warning message in the
+	       first two instances. In the case	of floating-point underflow,
+	       the underflow value is set to zero.  Upon program completion,
+	       the compiler provides a count of	how many times each exception
+	       occurred.
+
+  --ffppee33	       Continues program execution if a	floating-point operation
+	       results in overflow, a division by zero,	invalid	data, or
+	       floating-point underflow	(the compiler issues a warning mes-
+	       sage if --cchheecckk uunnddeerrffllooww	is set).  For underflow, the under-
+	       flow value is not set to	zero, and gradual underflow occurs.
+
+  --ffppee44	       Continues program execution if a	floating-point operation
+	       results in overflow, a division by zero,	invalid	data, or
+	       floating-point underflow, and prints a warning message in the
+	       first two instances. Upon program completion, the compiler
+	       provides	a count	of how many times each exception occurred.
+	       For underflow, the underflow value is not set to	zero, and
+	       gradual underflow occurs.
+
+  --ffpppp	       Runs _f_p_p(1) on all FORTRAN files	before compiling; it has no
+	       effect on compilation of	C programs. _f_p_p(1) handles a subset
+	       of the functionality of _c_p_p(1).
+
+  --ffpprrmm	cchhooppppeedd
+	       Causes the compiler to round results of floating-point opera-
+	       tions toward zero.
+
+  --ffpprrmm	ddyynnaammiicc
+	       Allows run-time selection of a rounding mode by calling the
+	       DIGITAL UNIX _w_r_i_t_e__r_n_d(3) routine.  The _r_e_a_d__r_n_d(3) routine
+	       can be used to find the current rounding	mode (which is stored
+	       in the floating-point control register (fpcr)).
+
+	       If you specify --ffpprrmm ddyynnaammiicc without calling the	_w_r_i_t_e__r_n_d(3)
+	       routine,	the default setting ( --ffpprrmm nneeaarreesstt ) is used.
+
+  --ffpprrmm	mmiinnuuss__iinnffiinniittyy
+	       Causes the compiler to round results of floating-point opera-
+	       tions toward the	next smallest representative value.
+
+  --ffpprrmm	nneeaarreesstt
+	       Causes the compiler to round results of floating-point opera-
+	       tions toward the	nearest	representable value.  This is the
+	       default.
+
+  --gg00	       Prevents	symbolic debugging information from appearing in the
+	       object file.
+
+  --gg11	       Produces	traceback information (showing pc to line correla-
+	       tion) in	the object file, substantially increasing its size.
+	       This is the default.
+
+  --gg22 or --gg    Produces	traceback and symbolic debugging information in	the
+	       object file.  This option sets the --OO00 option, which turns off
+	       all compiler optimizations and makes debugging more accurate.
+	       However,	if you specify an explicit --OO option, the specified
+	       option is effective.
+
+  --gg33	       Produces	traceback and symbolic debugging information in	the
+	       object file, and	performs whatever optimizations	you specify.
+	       This option can produce additional debugging information
+	       describing the effects of optimizations,	but debugging inaccu-
+	       racies can occur	as a result of the optimizations that have
+	       been performed.
+
+  --ggeenn__ffeeeeddbbaacckk
+	       Directs the compiler to generate	code that will produce accu-
+	       rate feedback information when profiled.	 The steps are:
+
+		 1. f77	-gen_feedback -o x x.f
+
+		 2. pixie x
+
+		 3. x.pixie
+
+		 4. prof x -pixie -feedback x.fb x.Addrs x.Counts
+
+		 5. f77	-feedback x.fb -O5 -fast -o x x.f
+
+
+  --ggrraannuullaarriittyy bbyyttee
+	       Ensures that data of byte size can be accessed from different
+	       threads sharing data in memory.
+
+  --ggrraannuullaarriittyy lloonnggwwoorrdd
+	       Ensures that naturally aligned data of longword size (4 bytes)
+	       can be accessed from different threads sharing data in memory.
+	       When this option	is in effect, attempts to access smaller size
+	       data or misaligned data can result in data items	that are
+	       inconsistently updated for multiple threads.
+
+  --ggrraannuullaarriittyy qquuaaddwwoorrdd
+	       Ensures that naturally aligned data of quadword size (8 bytes)
+	       can be accessed from different threads sharing data in memory.
+	       This is the default.
+
+	       When this option	is in effect, attempts to access smaller size
+	       data or misaligned data can result in data items	that are
+	       inconsistently updated for multiple threads.
+
+  --II	       Prevents	_c_p_p(1) from searching for #include files in the	stan-
+	       dard directory /usr/include.  It	also prevents the compiler
+	       from searching there for	files specified	in an INCLUDE state-
+	       ment.
+
+  --II_d_i_r	       Directs the search for _c_p_p(1) #include files and	files speci-
+	       fied in a DIGITAL Fortran INCLUDE statement.  The file names
+	       must not	begin with slash (/). Directories are searched in the
+	       following order:	(1) the	directory preceding the	input file
+	       name on the command line; (2) the directories specified by the
+	       --II_d_i_r option; (3) the standard directory	/usr/include.  (See
+	       also the	--nnooiinncclluuddee option.)
+
+  --ii22	       Makes default integer and logical variables 2-bytes long	(same
+	       as the --iinntteeggeerr__ssiizzee 1166 option).	 The default is	--iinntteeggeerr__ssiizzee
+	       3322..  For	optimal	performance on Alpha systems, use 4- or	8-
+	       byte integer or logical values instead of 2-byte	values.
+
+  --ii44	       Makes default integer and logical variables 4-bytes long	(same
+	       as the --iinntteeggeerr__ssiizzee 3322 option).	 This is the default.
+
+  --ii88	       Makes default integer and logical variables 8-bytes long	(same
+	       as the --iinntteeggeerr__ssiizzee 6644 option).	 This option is	only avail-
+	       able on Alpha systems.  The default is --iinntteeggeerr__ssiizzee 3322..
+
+  --iiddeenntt       Specifies that _w_h_a_t(1) style identification strings should be
+	       placed in the .o	object file.  The formats of the strings are:
+
+		 (c)compiler-identification
+		 (m)module-name
+		 (d)date
+
+	       These strings are always	created	for Fortran main programs,
+	       and when	the CDEC$ IDENT	statement in source creates a _w_h_a_t(1)
+	       module identification string.  The default is --nnooiiddeenntt..
+
+  --iinnlliinnee aallll  Inlines every call that it is possible to inline	while still
+	       generating correct code.	 However, recursive routines will not
+	       cause an	infinite loop at compile time.
+
+  --iinnlliinnee mmaannuuaall
+	       Inlines only statement functions. This is the default for
+	       optimization levels --OO22 and --OO33..
+
+  --iinnlliinnee nnoonnee Suppresses all inlining of routines.  This is the default for
+	       optimization levels --OO00 and --OO11..
+
+  --iinnlliinnee ssiizzee Inlines all of the routines in the --iinnlliinnee mmaannuuaall category,
+	       plus any	additional calls that the compiler determines will
+	       improve run-time	performance without significantly increasing
+	       the size	of the program.	 This option was previously called
+	       --iinnlliinnee aauuttoommaattiicc (and --iinnlliinnee ssppaaccee ).
+
+  --iinnlliinnee ssppeeeedd
+	       Inlines all of the routines in the --iinnlliinnee mmaannuuaall category,
+	       plus any	additional calls that the compiler determines will
+	       improve run-time	performance, even where	it may significantly
+	       increase	the size of the	program.  This is the default for
+	       optimization levels --OO,, --OO44,, and	--OO55..
+
+  --iinntteeggeerr__ssiizzee	1166
+	       Makes default integer and logical variables 2-bytes long.  The
+	       default is --iinntteeggeerr__ssiizzee	3322..  For optimal performance on	Alpha
+	       systems,	use 4- or 8-byte integer or logical values instead of
+	       2-byte values.
+
+  --iinntteeggeerr__ssiizzee	3322
+	       Makes default integer and logical variables 4-bytes long.
+	       This is the default.
+
+  --iinntteeggeerr__ssiizzee	6644
+	       Makes default integer and logical variables 8-bytes long.
+	       This option is only available on	Alpha systems.	The default
+	       is --iinntteeggeerr__ssiizzee	3322..
+
+  --KK	       Keeps temporary files created during compilation	and linking.
+	       This option does	not affect the naming of temporary files.  To
+	       see the names and locations of the temporary files, specify
+	       --vv..
+
+  --LL	       Prevents	the linker from	searching for libraries	in the stan-
+	       dard directories.
+
+  --LL_d_i_r	       Directs the linker to search for	libraries in _d_i_r before
+	       searching the standard directories.
+
+  --ll_s_t_r_i_n_g     Searches	-lib_s_t_r_i_n_g libraries for _l_d (see _l_d(1) ).  This
+	       option should be	placed at the end of the command line.
+
+  --MM	       Tells _c_p_p(1) to generate	dependency lists suitable for
+	       _m_a_k_e(1),	instead	of the normal output.
+
+  --mmaacchhiinnee__ccooddee
+	       Includes	in the listing (if one is generated with --VV ), a
+	       machine language	representation of the compiled code.  This
+	       machine language	cannot be assembled.  The default is
+	       --nnoommaacchhiinnee__ccooddee..
+
+  --mmaatthh__lliibbrraarryy	aaccccuurraattee
+	       Specifies that the compiler is to select	the version of the
+	       math library routine which provides the most accurate result
+	       for mathematical	intrinsic functions.  This is the default.
+
+	       For certain ranges of input values, the selected	routine	may
+	       execute more slowly than	if you used --mmaatthh__lliibbrraarryy ffaasstt..
+
+  --mmaatthh__lliibbrraarryy	ffaasstt
+	       Specifies that the compiler is to select	the version of the
+	       math library routine which provides the highest execution per-
+	       formance	for certain mathematical intrinsic functions, such as
+	       EXP and SQRT.
+
+	       For certain ranges of input values, the selected	routine	may
+	       not provide a result that is as accurate	as --mmaatthh__lliibbrraarryy
+	       aaccccuurraattee	(the default setting) provides.
+
+  --nnaammeess aass__iiss Causes the compiler to distinguish case differences in iden-
+	       tifiers and to preserve the case	of external names.  The
+	       default is --nnaammeess lloowweerrccaassee..
+
+  --nnaammeess lloowweerrccaassee
+	       Causes the compiler to ignore case differences in identifiers
+	       and to convert external names to	lowercase.  This is the
+	       default.
+
+  --nnaammeess uuppppeerrccaassee
+	       Causes the compiler to ignore case differences in identifiers
+	       and to convert external names to	uppercase.  The	default	is
+	       --nnaammeess lloowweerrccaassee..
+
+  --nnooaauuttoommaattiicc Causes all local	variables to be	statically allocated.  This
+	       is the default.
+
+  --nnooccpppp       Does not	run _c_p_p(1) on any FORTRAN source files before compil-
+	       ing.
+
+  --nnooccrroossss__rreeffeerreennccee
+	       Does not	include	in the listing (if one is generated with --VV
+	       ), a cross-reference of all symbols used	in the source pro-
+	       gram.  This is the default.
+
+  --nnooeerrrroorr__lliimmiitt
+	       Specifies that there is no limit	to the number of error-level
+	       or fatal-level compiler errors allowed for a file specified on
+	       the command line.
+
+  --nnooeexxtteenndd__ssoouurrccee
+	       Treats the statement field of each source line as ending	in
+	       column 72 of the	source program.	 This is the default.
+
+  --nnooff7777       Allows extensions that enhance FORTRAN-66 compatibility.
+
+  --nnooffpppp       Does not	run _f_p_p(1) (or _c_p_p(1) )	on FORTRAN source files
+	       before compiling.
+
+  --nnooffoorr__mmaaiinn  Specifies that the main program is not written in FORTRAN, and
+	       prevents	the compiler from linking for_main.o into applica-
+	       tions. The default is --ffoorr__mmaaiinn..
+
+  --nnooii44	       Makes default integer and logical variables 2-bytes long	(same
+	       as the --iinntteeggeerr__ssiizzee 1166 option).	 For optimal performance on
+	       Alpha systems, use 4- or	8-byte integer or logical values
+	       instead of 2-byte values.
+
+  --nnooiiddeenntt     Specifies that _w_h_a_t(1) style identification strings should not
+	       be placed in the	.o object file,	unless the source contains
+	       the CDEC$ IDENT statement or a main program.
+
+  --nnooiinncclluuddee   Prevents	the compiler from searching in /usr/include for	files
+	       specified in a DIGITAL Fortran INCLUDE statement.  You can
+	       specify the --II_d_i_r option	along with this	option.	 This option
+	       has no effect on	searches for _c_p_p(1) #include files.
+
+  --nnooiinnlliinnee    Suppresses all inlining of routines (same as the	--iinnlliinnee	nnoonnee
+	       option).
+
+  --nnoonn__sshhaarreedd  Prevents	_l_d(1) from producing a dynamic executable.  The
+	       linker will search regular archive library (.a) files to
+	       resolve undefined references; .so files	are not	searched.
+	       Object files (.o	suffix)	from archives are included in the
+	       executable produced. The	default	is --ccaallll__sshhaarreedd..
+
+  --nnooppiippeelliinnee  Disables	the use	of instruction scheduling to certain inner-
+	       most loops. Also	disables prefetching of	data to	reduce the
+	       impact of cache misses.
+
+	       This option must	be specified if	you want this type of optimi-
+	       zation disabled and you are also	specifying --OO55,	since --ppiippee--
+	       lliinnee is performed by default at the --OO55 level of	optimization.
+
+  --nnoorreeccuurrssiivvee Compiles	all FUNCTION and SUBROUTINE procedures for non-
+	       recursive execution. This is the	default.
+
+  --nnoorreeeennttrraannccyy
+	       Tells the DIGITAL Fortran RTL that the program will not	be
+	       relying on threaded or asynchronous (AST) reentrancy.  This
+	       option is the same as the --rreeeennttrraannccyy nnoonnee option.
+
+  --nnoorruunn       Directs the driver not to execute the compiler and other
+	       phases of the process.  If you use this option with the --vv
+	       option, you can see what	would have been	executed.
+
+  --nnoossppeeccuullaattee Disables	all speculative	code scheduling.  This option is only
+	       available on systems running DIGITAL UNIX Version 4.0 or
+	       higher.	This is	the same as the	--ssppeeccuullaattee nnoonnee	option.
+
+  --nnoossyynnttaaxx__oonnllyy
+	       Specifies that full compilation with optimization and object
+	       code generation will be performed. This is the default.
+
+  --nnoottrraannssffoorrmm__llooooppss
+	       Disables	a group	of loop	transformation optimizations that
+	       apply to	array references within	loops.	This group of optimi-
+	       zations includes	loop blocking, loop distribution, loop
+	       fusion, loop interchange, loop scalar replacement, and outer
+	       loop unrolling.
+
+	       This option must	be specified if	you want this type of optimi-
+	       zation disabled and you are also	specifying --OO55,	since
+	       --ttrraannssffoorrmm__llooooppss	is performed by	default	at the --OO55 level of
+	       optimization.
+
+  --nnoowwaarrnn      Suppresses all warning messages.	This option has	the same
+	       effect as --wwaarrnn nnooggeenneerraall..
+
+  --OO00	       Disables	all optimizations. Does	not check for unassigned
+	       variables.
+
+  --OO11	       Enables local optimizations and recognition of common subex-
+	       pressions.  The call graph determines the order of compilation
+	       of procedures.
+
+  --OO22	       Enables global optimization and all --OO11 optimizations.  This
+	       includes	code motion, strength reduction	and test replacement,
+	       split lifetime analysis,	code scheduling, and inlining of
+	       arithmetic statement functions.
+
+  --OO33	       Enables additional global optimizations that improve speed (at
+	       the cost	of extra code size), for example: integer multiplica-
+	       tion and	division expansion (using shifts), loop	unrolling,
+	       and code	replication to eliminate branches.  Also performs all
+	       --OO22 optimizations.
+
+  --OO44 or --OO    Enables inline expansion	of small procedures and	all --OO33
+	       optimizations.  This is the default.  However, if you specify
+	       the --gg option, the default is --OO00..  (See	also the --gg22 or	--gg
+	       option.)
+
+  --OO55	       Enables software	pipelining, loop transformation	optimiza-
+	       tions, and other	optimizations, including byte-vectorization,
+	       and insertion of	additional NOPs	(No Operations)	for alignment
+	       of multi-issue sequences.
+
+	       Loop transformation optimizations are a group of	optimizations
+	       that apply to array references within loops. These optimiza-
+	       tions can improve the performance of the	memory system and can
+	       apply to	multiple nested	loops. This type of optimization can
+	       also be specified by using the --ttrraannssffoorrmm__llooooppss option.
+
+	       Software	pipelining  applies instruction	scheduling to certain
+	       innermost loops,	allowing  instructions within a	loop to	"wrap
+	       around" and execute in a	different iteration of the loop.
+	       This can	reduce the impact of long-latency operations, result-
+	       ing in faster loop execution. This type of optimization can
+	       also be specified by using the --ppiippeelliinnee	option.
+
+	       To determine whether using --OO55 benefits your particular pro-
+	       gram, you should	time program execution for the same program
+	       compiled	with --OO44..
+
+  --oo _o_u_t_p_u_t    Names the final output file _o_u_t_p_u_t. The a.out file is unaf-
+	       fected.
+
+  --oomm	       Performs	code optimization after	linking, including NOP (No
+	       Operation) removal, .lita removal, and reallocation of common
+	       symbols.	This option also positions the global pointer regis-
+	       ter so the maximum addresses fall in the	gp-accessible window.
+	       The --oomm option is supported only	for programs compiled with
+	       the --nnoonn__sshhaarreedd option.
+
+	       The following options can be passed directly to --oomm by using
+	       the --WWLL compiler	option:
+
+	       oo++   --WWLL,,--oomm__ccoommpprreessss__lliittaa
+
+		   Removes unused .lita	entries	after optimization, and	then
+		   compresses the .lita	section.
+
+	       oo++   --WWLL,,--oomm__ddeeaadd__ccooddee
+
+		   Removes dead	code (unreachable instructions)	generated
+		   after applying optimizations. The .lita section is not
+		   compressed by this option.
+
+	       oo++   --WWLL,,--oomm__nnoo__iinnsstt__sscchheedd
+
+		   Turns off instruction scheduling.
+
+	       oo++   --WWLL,,--oomm__nnoo__aalliiggnn__llaabbeellss
+
+		   Turns off alignment of labels. Normally, the	--oomm option
+		   quadword aligns the targets of all branches to improve
+		   loop	performance.
+
+	       oo++   --WWLL,,--oomm__GGccoommmmoonn,,nnuumm
+
+		   Sets	the size threshold of common symbols. Every common
+		   symbol whose	size is	less than or equal to "num" will be
+		   allocated close to each other. This option can be used to
+		   improve the probability that	the symbol can be accessed
+		   directory from the global pointer register. Normally, the
+		   --oomm option tries to collect all common symbols together.
+
+  --oonneettrriipp     Executes	at least one iteration of DO loops.  (FORTRAN-77 DO
+	       loops are not executed if the upper limit is smaller than the
+	       lower limit.) This option has the same effect as	--nnooff7777..
+
+  --PP	       Runs only _c_p_p(1)	and puts the result for	each source file, by
+	       suffix convention (for example, .f, .r, .e, and .s), in a
+	       corresponding .i	file, after being processed by the appropri-
+	       ate preprocessors.  The .i file does not	have line numbers (#)
+	       in it.  This option sets	the --ccpppp option.
+
+  --pp00	       Does not	permit profiling. If loading occurs, the standard
+	       run-time	startup	routine	(crt0.o) is used, and the profiling
+	       libraries are not searched.  This is the	default.
+
+  --pp11 or --pp    Sets up profiling by periodically sampling the value of the
+	       program counter.	 This option only effects the loading.	When
+	       loading occurs, this option replaces the	standard run-time
+	       startup routine with the	profiling run-time startup routine
+	       (mcrt0.o) and searches the level	1 profiling library
+	       (libprof1.a).
+
+	       When profiling occurs, the startup routine calls	_m_o_n_s_t_a_r_t_u_p(3)
+	       and produces the	file mon.out, which contains execution-
+	       profiling data for use with the postprocessor _p_r_o_f(l).  If you
+	       specify --pp11 or --pp,, you should also specify --gg11 or higher.
+
+  --ppaadd__ssoouurrccee  Specifies that source records shorter than the statement	field
+	       width are to padded with	spaces on the right, out to the	end
+	       of the statement	field.	This affects the interpretation	of
+	       character and Hollerith literals	that are continued across
+	       source records.
+
+	       The default is --nnooppaadd__ssoouurrccee,, which causes a warning to be
+	       displayed if a character	or Hollerith literal that ends before
+	       the statement field ends	is continued onto the next source
+	       record.
+
+  --ppgg	       Sets up profiling for _g_p_r_o_f(1), which produces a	call graph
+	       showing the execution of	the program. With this option, the
+	       standard	run-time startup routine is replaced by	the gcrt0.o
+	       routine,	and _l_d(1) inserts calls	to _mcount at each entry
+	       label.
+
+	       Programs	that are linked	with the --ppgg option and	then run,
+	       produce the files gmon.out and gmon.sum.	 File gmon.out con-
+	       tains a dynamic call graph and profile; file gmon.sum contains
+	       a summarized dynamic call graph and profile. To display the
+	       output, run _g_p_r_o_f on the	gmon.out file.
+
+  --ppiippeelliinnee    Applies instruction scheduling to certain innermost loops,
+	       allowing	instructions within a loop to "wrap around" and	exe-
+	       cute in a different iteration of	the loop.  This	can reduce
+	       the impact of long-latency operations, resulting	in faster
+	       loop execution. --ppiippeelliinnee also enables prefetching of data to
+	       reduce the impact of cache misses.
+
+	       This type of optimization can be	specified for optimization
+	       levels --OO22 and higher; it is performed by default if --OO55	is in
+	       effect.
+
+  --pptthhrreeaadd     Informs the linker to use threaded libraries (see also --rreeeenn--
+	       ttrraannccyy _k_e_y_w_o_r_d options).
+
+  --rr88	       Defines REAL declarations, constants, functions,	and intrin-
+	       sics as DOUBLE PRECISION	(REAL*8), and defines COMPLEX
+	       declarations, constants,	functions, and intrinsics as DOUBLE
+	       COMPLEX (COMPLEX*16).  This option is the same as the
+	       --rreeaall__ssiizzee 6644 option.
+
+  --rr1166	       Defines REAL declarations, constants, functions,	and intrin-
+	       sics as REAL*16.	 It does not affect COMPLEX objects.  This
+	       option is the same as the --rreeaall__ssiizzee 112288	option.
+
+  --rreeaall__ssiizzee 3322
+	       Defines REAL declarations, constants, functions,	and intrin-
+	       sics as REAL*4, and defines COMPLEX declarations, constants,
+	       functions, and intrinsics as COMPLEX (COMPLEX*8).  This is the
+	       default.
+
+  --rreeaall__ssiizzee 6644
+	       Defines REAL declarations, constants, functions,	and intrin-
+	       sics as DOUBLE PRECISION	(REAL*8), and defines COMPLEX
+	       declarations, constants,	functions, and intrinsics as DOUBLE
+	       COMPLEX (COMPLEX*16).  The default is --rreeaall__ssiizzee	3322..
+
+  --rreeaall__ssiizzee 112288
+	       Defines REAL declarations, constants, functions,	and intrin-
+	       sics as REAL*16.	 It does not affect COMPLEX objects.
+
+  --rreeccuurrssiivvee   Compiles	all FUNCTION and SUBROUTINE procedures for possible
+	       recursive execution. This sets the --aauuttoommaattiicc option.  The
+	       default is --nnoorreeccuurrssiivvee..
+
+  --rreeeennttrraannccyy aassyynncchh
+	       Tells the DIGITAL Fortran RTL that the program may contain
+	       asynchronous (AST) handlers that	could call the RTL. This
+	       causes the RTL to guard against AST interrupts inside its own
+	       critical	regions.
+
+  --rreeeennttrraannccyy nnoonnee
+	       Tells the DIGITAL Fortran RTL that the program will not be
+	       relying on threaded or asynchronous (AST) reentrancy.  So, the
+	       RTL will	not guard against such interrupts inside the RTL.
+	       This is the default and is the same as the --nnoorreeeennttrraannccyy
+	       option.
+
+  --rreeeennttrraannccyy tthhrreeaaddeedd
+	       Tells the DIGITAL Fortran RTL that the program is mul-
+	       tithreaded, such	as programs using the DECthreads library.
+	       This causes the RTL to use thread locking to guard its own
+	       critical	regions.
+
+  --SS	       Creates an assembleable listing file of the compiled source.
+	       The name	of this	listing	file is	the base name of the source
+	       file with a .s substituted for the .f, .for, or .FOR.  No link
+	       step occurs.
+
+	       You cannot generate a --SS	listing	and a --VV listing in the	same
+	       compilation.
+
+  --sshhaarreedd      Produces	a dynamic shareable object for inclusion in a shared
+	       library.	The linker will	produce	a shareable object that	other
+	       dynamic executables can use at run-time.	 If you	also specify
+	       the --cc option, a	.o file	is created; otherwise, a .so file is
+	       created.	The default is --ccaallll__sshhaarreedd..
+
+  --sshhooww	ccooddee   Includes	in the listing (if one is generated with --VV ), a
+	       machine language	representation of the compiled code (same as
+	       the --mmaacchhiinnee__ccooddee option).  This	machine	language cannot	be
+	       assembled.  The default is --sshhooww	nnooccooddee..
+
+  --sshhooww	iinncclluuddee
+	       Includes	in the listing (if one is generated with --VV ), any
+	       text file specified with	INCLUDE	in the source program. The
+	       default is --sshhooww	nnooiinncclluuddee..
+
+  --sshhooww	nnoommaapp  Excludes	from the listing (if one is generated with --VV ),
+	       information about the symbols used in the source	program.  The
+	       default is --sshhooww	mmaapp..
+
+  --sshhooww	xxrreeff   Includes	in the listing (if one is generated with --VV ), a
+	       cross-reference of all symbols used in the source program,
+	       along with line numbers of definitions and uses (same as	the
+	       --ccrroossss__rreeffeerreennccee	option).  The default is --sshhooww nnooxxrreeff..
+
+  --ssppeeccuullaattee aallll
+	       Enables speculative code	scheduling for all routines in the
+	       program.	This option is only available on systems running
+	       DIGITAL UNIX Version 4.0	or higher.
+
+	       Speculation occurs when a conditionally executed	instruction
+	       is moved	to a position before a test instruction	so that	the
+	       moved instruction is then executed unconditionally.  This
+	       reduces instruction latency stalls, but performance may be
+	       reduced because the run-time system must	dismiss	exceptions
+	       caused by speculative instructions.  Speculation	affects	code
+	       most noticeably at --OO33 and higher.
+
+	       Any exception (for example: SIGSEGV, SIGBUS, or SIGFPE),	any-
+	       where in	the entire program, is assumed to be speculative.
+	       All of these exceptions are quietly dismissed without calling
+	       any user-mode signal handler.  If a module is compiled using
+	       --ssppeeccuullaattee aallll, it cannot be linked with	any other module or
+	       library that does its own exception processing.
+
+	       Since speculation turns off some	run-time error checking, this
+	       option should not be used while debugging or while testing for
+	       errors.
+
+  --ssppeeccuullaattee bbyy__rroouuttiinnee
+	       Indicates that all routines in the current module can do
+	       speculation, but	this speculation will not affect routines in
+	       other modules in	the program.  This option is only available
+	       on systems running DIGITAL UNIX Version 4.0 or higher.
+
+  --ssppeeccuullaattee nnoonnee
+	       Disables	all speculative	code scheduling.  This option is only
+	       available on systems running DIGITAL UNIX Version 4.0 or
+	       higher.	This is	the same as the	--nnoossppeeccuullaattee option.
+
+  --ssttaanndd mmiiaa   Controls	whether	the compiler suppresses	diagnostic messages
+	       for extensions to the ANSI FORTRAN-77 standard that are
+	       included	in the NTT Technical Requirement TR550001, Multiven-
+	       dor Integration Architecture (MIA) Version 1.1, Division	2,
+	       Part 3-2, Programming Language FORTRAN. This option enables
+	       syntax checking ( --ssttaanndd	ssyynnttaaxx ) to be performed.  The
+	       default is --ssttaanndd nnoommiiaa..
+
+  --ssttaanndd sseemmaannttiicc
+	       Causes the compiler to issue informational messages for state-
+	       ments that conform to the ANSI Standard but become nonstandard
+	       because of how they are used.  This option sets the --ssttaanndd
+	       ssyynnttaaxx option.  The default is --ssttaanndd nnoosseemmaannttiicc..
+
+  --ssttaanndd ssoouurrccee__ffoorrmm
+	       Causes the compiler to issue informational messages for state-
+	       ments that use tab formatting or	contain	lowercase characters
+	       outside of character literals and comments. The default is
+	       --ssttaanndd nnoossoouurrccee__ffoorrmm..
+
+  --ssttaanndd ssyynnttaaxx
+	       Causes the compiler to issue informational messages for syntax
+	       extensions to the ANSI Standard.	 The default is	--ssttaanndd nnoossyynn--
+	       ttaaxx..
+
+  --ssttaattiicc      Causes all local	variables to be	statically allocated (same as
+	       the --nnooaauuttoommaattiicc	option).  This is the default.
+
+  --ssttdd	       Produces	warnings for things that are not standard in the
+	       language	(same as the --ssttaanndd sseemmaannttiicc --ssttaanndd ssyynnttaaxx options).
+
+  --ssyynncchhrroonnoouuss__eexxcceeppttiioonnss
+	       Causes the compiler to generate TRAPB instructions after	every
+	       floating-point instruction.  This is a very expensive but
+	       effective way to	synchronize the	instruction stream containing
+	       floating-point exceptions so the	failing	instruction can	be
+	       accurately located by the debugger or a handler.	 The default
+	       is --nnoossyynncchhrroonnoouuss__eexxcceeppttiioonnss..
+
+  --ssyynnttaaxx__oonnllyy Specifies that the source file will be checked only for
+	       correct syntax. No code is generated, no	object file is pro-
+	       duced, and some error checking done by the optimizer is
+	       bypassed	(for example, checking for uninitialized variables).
+	       This option lets	you do a quick syntax check of your source
+	       file.  The default is --nnoossyynnttaaxx__oonnllyy..
+
+  --tthhrreeaaddss     Informs the linker to use threaded libraries (see also --rreeeenn--
+	       ttrraannccyy _k_e_y_w_o_r_d options).
+
+  --ttrraannssffoorrmm__llooooppss
+	       Specifies a group of loop transformation	optimizations that
+	       apply to	array references within	loops. These optimizations
+	       can improve the performance of the memory system	and usually
+	       apply to	multiply nested	loops.
+
+	       The loops chosen	for loop transformation	optimizations are
+	       always "counted"	loops (which include DO	or IF loops, but not
+	       DO WHILE	loops).
+
+	       Conditions that typically prevent the loop transformation
+	       optimizations from occurring include subprogram references
+	       that are	not inlined (such as an	external function call), com-
+	       plicated	exit conditions, and uncounted loops.
+
+	       The types of optimizations associated with --ttrraannssffoorrmm__llooooppss
+	       include:
+
+		 Loop blocking
+		 Loop distribution
+		 Loop fusion
+		 Loop interchange
+		 Loop scalar replacement
+		 Outer loop unrolling
+
+	       This type of optimization can be	specified for optimization
+	       levels --OO22 and higher; it is performed by default if --OO55	is in
+	       effect.
+
+	       To determine whether using --ttrraannssffoorrmm__llooooppss benefits your par-
+	       ticular program,	you should time	program	execution for the
+	       same program (or	subprogram) compiled at	--OO44..
+
+  --ttuunnee	       Selects processor-specific instruction tuning for implementa-
+	       tions of	the Alpha architecture.	 The format is:
+
+		 -tune generic | host |	ev4 | ev5 | ev56 | pca56
+
+
+	       Regardless of the setting of the	--ttuunnee option, the generated
+	       code will run correctly on all implementations of the Alpha
+	       architecture.  Tuning for a specific implementation can
+	       improve run-time	performance;  it is also possible that code
+	       tuned for a specific target may run slower on another target.
+	       The following are --ttuunnee options:
+
+	       oo++   ggeenneerriicc
+
+		   Selects instruction tuning that is appropriate for all
+		   implementations of the Alpha	architecture.	This is	the
+		   default.
+
+	       oo++   hhoosstt
+
+		   Selects instruction tuning that is appropriate for the
+		   machine the compilation is occurring	on.
+
+	       oo++   eevv44
+
+		   Selects instruction tuning for the 21064, 20164A, 21066,
+		   and 21068 implementations of	the Alpha architecture.
+
+	       oo++   eevv55
+
+		   Selects instruction tuning for the 21164 implementation of
+		   the Alpha architecture.
+
+	       oo++   eevv5566
+
+		   Selects instruction tuning for ev56 processors (some	21164
+		   chips).
+
+	       oo++   ppccaa5566
+
+		   Selects instruction tuning for pca56	processors (21164PC
+		   chips).
+
+  --UU	       Causes the compiler to distinguish between uppercase and
+	       lowercase letters in identifiers	and external names.  This
+	       option is the same as the --nnaammeess	aass__iiss option.
+
+  --UU_n_a_m_e       Tells _c_p_p(1) to remove any initial definition of	_n_a_m_e.
+
+  --uu	       Makes the default type of a variable undefined (IMPLICIT
+	       NONE), which causes the compiler	to issue a warning for any
+	       undeclared symbols (same	as the --wwaarrnn ddeeccllaarraattiioonnss option).
+	       This behavior differs from default FORTRAN rules.
+
+  --uunnrroollll _n    Controls	loop unrolling done by the optimizer (at levels	--OO33
+	       and above).  The	_n specifies the	number of times	loop bodies
+	       are to be unrolled; it must be an integer in the	range 0
+	       through 16. --nnoouunnrroollll is	not allowed.  The default is --uunnrroollll
+	       00 (where	the optimizer uses its default unroll amount).
+
+  --VV	       Creates a listing file of the source file with various
+	       compile-time information	appended. The name of the listing
+	       file is the basename of the source file with a .l substituted
+	       for the .f, .for, or .FOR.
+
+	       How you compile source files determines how the listing file
+	       is created. If you compile several source files together, one
+	       listing file is created (named with the basename	of the first
+	       input file and the .l suffix).  If you compile source files
+	       one at a	time, a	separate listing file is created for each
+	       input file (named with the basename of the input	file and the
+	       .l suffix).
+
+  --vv	       Prints the passes as they execute with their arguments and
+	       their input and output files; also prints final resource	usage
+	       in the C-shell _t_i_m_e format.
+
+  --vvmmss	       Causes the run-time system to behave like DIGITAL Fortran on
+	       OpenVMS VAX systems (VAX	FORTRAN) in the	following ways:
+
+	       oo++   Reinforces certain defaults
+
+		   Reinforces the following DIGITAL Fortran 77 defaults:
+		   --ffppee00,, --ssttaattiicc,, --nnaammeess lloowweerrccaassee (so	A is equivalent	to
+		   a), and --nnoorreeccuurrssiivvee..  You can override this	by specifying
+		   the option on the command line.  For	example, if you
+		   specify --vvmmss	--ffppee22,, you get --ffppee22..  The --vvmmss	option also
+		   forces --cchheecckk ffoorrmmaatt	and --cchheecckk oouuttppuutt__ccoonnvveerrssiioonn..
+
+	       oo++   Alignment
+
+		   --vvmmss	does not affect	the alignment of fields	in records or
+		   items in COMMON.  Use --aalliiggnn	nnoorreeccoorrddss to pack fields of
+		   records on the next byte boundary for compatibility with
+		   DIGITAL Fortran on OpenVMS VAX systems.
+
+	       oo++   INCLUDE qualifiers
+
+		   Recognizes /LIST and	/NOLIST	at the end of the file path-
+		   name	in an INCLUDE statement	at compile time.
+
+		   If the file name in the INCLUDE statement does not specify
+		   the complete	path, the path used is the current directory.
+
+	       oo++   Quotation mark character (")
+
+		   Recognizes a	quotation mark as starting an octal constant
+		   (such as "177) instead of a character literal ("...").
+
+	       oo++   Control character syntax
+
+		   Does	not recognize the \n control character syntax in
+		   character literals (same as the --aassssuummee bbaacckkssllaasshh option).
+
+	       oo++   Deleted records in relative files
+
+		   When	a record in a relative file is deleted,	the first
+		   byte	of that	record is set to a known character (currently
+		   '@').  Attempts to read that	record later result in
+		   ATTACCNON errors.  The rest of the record (the whole
+		   record, if --vvmmss is not set) is set to nulls for unformat-
+		   ted files and spaces	for formatted files.
+
+	       oo++   ENDFILE records
+
+		   When	an ENDFILE is performed	on a sequential	unit, an
+		   actual one byte record containing a Ctrl/D is written to
+		   the file.  If --vvmmss is not set, an internal ENDFILE flag is
+		   set and the file is truncated.
+
+		   The --vvmmss option does	not affect ENDFILE on relative files;
+		   such	files are truncated.
+
+	       oo++   Reading deleted records and ENDFILE records
+
+		   The run-time	direct access READ routine checks the first
+		   byte	of the retrieved record. If this byte is '@' or	NULL
+		   ("\0"), then	ATTACCNON is returned.
+
+		   The run-time	sequential access READ routine checks to see
+		   if the record it just read is one byte long and contains a
+		   Ctrl/D. If this is true, it returns EOF.
+
+	       oo++   OPEN	effects
+
+		   Carriage control defaults to	FORTRAN	if the file is for-
+		   matted, and the unit	is connected to	a terminal (checked
+		   by means of _i_s_a_t_t_y(3) ). Otherwise, carriage	control
+		   defaults to LIST.
+
+		   The --vvmmss option affects the record length for direct
+		   access and relative organization files.  The	buffer size
+		   is increased	by one (to accommodate the deleted record
+		   character).
+
+	       oo++   Implied logical unit	numbers
+
+		   Recognizes certain environment variables at run time	for
+		   ACCEPT, PRINT, and TYPE statements, and for READ and	WRITE
+		   statements that do not specify a unit number, such as:
+		   READ	(*,1000).  For more information, see your DIGITAL
+		   Fortran user	manual.
+
+	       oo++   Treatment of	blanks in input
+
+		   Causes the defaults for keyword BLANK= in OPEN statements
+		   to become 'NULL' for	an explicit OPEN, and 'ZERO' for an
+		   implicit OPEN of an external	or internal file.
+
+  --WWpp,,_a_r_g_1[,_a_r_g_2...]
+	       Passes switches _a_r_g_1[,_a_r_g_2...] to _c_p_p(1)	that the driver	does
+	       not normally pass to _c_p_p(1); for	example: --WWpp,,--CC,,--MM passes --CC
+	       --MM to _c_p_p(1).  --WWpp,,......  does not	invoke _c_p_p(1); use --ccpppp	to
+	       force the execution of _c_p_p(1).
+
+  --ww	       Suppresses all warning messages (same as	the --nnoowwaarrnn option).
+
+  --ww11	       Suppresses warnings about unused	variables (same	as the --wwaarrnn
+	       nnoouunnuusseedd	option).
+
+  --wwaarrnn	aarrgguummeenntt__cchheecckkiinngg
+	       Enables warnings	about argument mismatches between caller and
+	       callee, when compiled together.	The default is --wwaarrnn
+	       nnooaarrgguummeenntt__cchheecckkiinngg..
+
+  --wwaarrnn	ddeeccllaarraattiioonnss
+	       Makes the default type of a variable undefined (IMPLICIT
+	       NONE), which causes the compiler	to issue a warning for any
+	       undeclared symbols.  This behavior differs from default FOR-
+	       TRAN rules.  The	default	is --wwaarrnn nnooddeeccllaarraattiioonnss..
+
+  --wwaarrnn	nnooaalliiggnnmmeennttss
+	       Suppresses warning messages for data that is not	naturally
+	       aligned.	 The default is	--wwaarrnn aalliiggnnmmeennttss..
+
+  --wwaarrnn	nnooggeenneerraall
+	       Suppresses all warning messages (same as	the --nnoowwaarrnn option).
+	       The default is --wwaarrnn ggeenneerraall..
+
+  --wwaarrnn	nnooiinnffoorrmmaattiioonnaall
+	       Suppresses all informational messages. The default is --wwaarrnn
+	       iinnffoorrmmaattiioonnaall,, unless you also specify --wwaarrnn nnooggeenneerraall..	In
+	       this case, no warning or	informational messages are displayed.
+
+  --wwaarrnn	nnoouunnccaalllleedd
+	       Suppresses warning messages when	a statement function is	never
+	       called. The default is --wwaarrnn uunnccaalllleedd..
+
+  --wwaarrnn	nnoouunniinniittiiaalliizzeedd
+	       Suppresses warning messages for a variable that is used before
+	       a value is assigned to it.  The default is --wwaarrnn	uunniinniittiiaall--
+	       iizzeedd..
+
+  --wwaarrnn	nnoouunnrreeaacchhaabbllee
+	       Suppresses warning messages for a section of code that is
+	       unreachable (no path to it). The	default	is --wwaarrnn uunnrreeaacchhaabbllee..
+
+  --wwaarrnn	nnoouussaaggee
+	       Suppresses warning messages about questionable programming
+	       practices which,	although allowed, often	are the	result of
+	       programming errors.  For	example, a continued character or
+	       Hollerith literal whose first part ends before the statement
+	       field and appears to end	with trailing spaces.  The default is
+	       --wwaarrnn uussaaggee..
+
+  --wwaarrnn	ttrruunnccaatteedd__ssoouurrccee
+	       Displays	a warning at compile time when there are source	char-
+	       acters to the right of column 80	(or column 132 if
+	       --eexxtteenndd__ssoouurrccee is specified) in a non-comment line.  The
+	       default is --wwaarrnn	nnoottrruunnccaatteedd__ssoouurrccee, which suppresses the
+	       warning.
+
+  --wwaarrnn	uunnuusseedd Enables warning messages	about unused variables.	 The default
+	       is --wwaarrnn	nnoouunnuusseedd..
+
+  --wwhhaatt	       Prints the version strings of the f77 driver and	the DIGITAL
+	       Fortran 77 compiler.  If	--wwhhaatt appears alone on the command
+	       line, the compiler is not executed.
+
+  _f_7_7 ignores the following options and	displays an informative	message	say-
+  ing they are unsupported:
+
+  --aalliiggnn88
+  --aalliiggnn1166
+  --aalliiggnn3322     Allows misalignment in COMMON.
+
+  --ccooll112200      Truncates source	after column 120.
+
+  --qq	       Does not	display	file and program names.
+
+  --ww6666	       Suppresses F66 compatibility warnings.
+
+  _f_7_7 does not process the following options, but passes them to the _c_c(1)
+  compiler:
+
+  --DD _n_u_m       Tells _l_d(1) to set the data segment origin.  If _n_u_m starts
+	       with a hexadecimal letter, precede it with the digit "0".
+
+  --ffppttmm	_x      Tells _c_c(1) how to support exception handling (on DIGITAL UNIX
+	       systems only).
+
+  --kkoo _o_u_t_p_u_t   Tells _c_c(1) the name for	the output file	created	by ucode
+	       loader.
+
+  --NN......	       Tells _c_c(1) to enlarge static tables.
+
+  --OOlliimmiitt _n_u_m  Tells _c_c(1) to NOOPT if a routine is too	big.
+
+  --ssyyssttyyppee _n_a_m_e
+	       Names compilation environment (on ULTRIX	RISC systems only).
+
+  --TT _n_u_m       Tells _l_d(1) to set the text segment origin.  If _n_u_m starts
+	       with a hexadecimal letter, precede it with the digit "0".
+
+  --ttaassoo	       Helps port programs that	assume addresses can fit into 32-bit
+	       variables.
+
+  --WW......	       Passes command line options to other phases of the compilation
+	       process.
+
+  _f_7_7 stops compilation	if the following option	is specified:
+
+  --EEBB	       Produces	big endian byte	order.
+
+  The compiler assumes other arguments are either loader options or FORTRAN-
+  77-compatible	object files, typically	produced by an earlier _f_7_7 run,	or by
+  libraries of FORTRAN-77-compatible routines.	These files, together with
+  the results of any compilations specified, are loaded	in the order given,
+  producing an executable program with the default name	a.out.
+
+Restrictions
+  The standard library,	/usr/lib/libc.a, is loaded with	the --llcc	loader option
+  and not a full pathname. The wrong library can be loaded if there are	files
+  with the name	libc.a in the directories specified with the --LL	loader
+  option, or in	the default directories	searched by the	loader.
+
+Diagnostics
+  The _f_7_7 command produces diagnostic messages that are	intended to be self-
+  explanatory.	The loader can also produce occasional messages.
+
+Files
+
+  a.out				      Loaded output
+
+  file.f			      Input file
+
+  file.o			      Object file
+
+  mon.out			      File produced for	analysis by _p_r_o_f(1)
+
+  /tmp/for*			      Temporary
+
+  /usr/bin/f77			      Link to f77 command processor
+
+  /usr/bin/fpr			      Formats FORTRAN carriage-control list-
+				      ings for printing
+
+  /usr/bin/fsplit		      Utility to break FORTRAN modules into
+				      individual routines
+
+  /usr/bin/ld			      Link editor (ld)
+
+  /usr/include			      Standard directory for `#include'	files
+
+  /usr/include/foriosdef.f	      PARAMETER	statements for the values of
+				      IOSTAT
+
+  /usr/include/for_fpe_flags.f	      PARAMETER	statements defining the	flags
+				      for floating point exception handling
+				      used by FOR_GET_FPE( ) and FOR_SET_FPE(
+				      )
+
+  /usr/lib/cmplrs/fort/decfort	      DIGITAL Fortran 77 compiler
+
+  /usr/lib/cmplrs/fort/fort	      f77 command processor
+
+  /usr/lib/cord			      Procedure-rearranger
+
+  /usr/lib/cpp			      C	macro preprocessor
+
+  /usr/lib/crt0.o		      Run-time startup
+
+  /usr/lib/fpp			      FORTRAN macro preprocessor
+
+  /usr/lib/ftoc			      Interface	between	_p_r_o_f(1)	and _c_o_r_d(1)
+
+  /usr/lib/libc.a		      Standard library,	see _i_n_t_r_o(3)
+
+  /usr/lib/libfor.a		      DIGITAL Fortran I/O support
+
+  /usr/lib/libFutil.a		      DIGITAL Fortran miscellaneous run-time
+				      support
+
+  /usr/lib/libm.a		      Math library
+
+  /usr/lib/libots.a		      DIGITAL Fortran run-time string support
+
+  /usr/lib/libprof1.a		      Level 1 profiling	library
+
+  /usr/lib/libUfor.a		      DIGITAL Fortran UNIX interface library,
+				      see _i_n_t_r_o(3f)
+
+  /usr/lib/mcrt0.o		      Startup for profiling
+
+  /usr/lib/nls/msg/en_US.88591/for_msg.cat
+				      FORTRAN run-time message catalog
+
+  /usr/shlib/libc.so		      Standard library,	see _i_n_t_r_o(3)
+
+  /usr/shlib/libfor.so		      DIGITAL Fortran I/O support
+
+  /usr/shlib/libFutil.so	      DIGITAL Fortran miscellaneous run-time
+				      support
+
+  /usr/shlib/libots.so		      DIGITAL Fortran run-time string support
+
+  /usr/shlib/libUfor.so		      DIGITAL Fortran UNIX interface library,
+				      see _i_n_t_r_o(3f)
+
+See Also
+  as(1), cc(1),	cord(1), cpp(1), dbx(1), decladebug(1),	fpr(1),	fsplit(1),
+  ftoc(1), gprof(1), ld(1), lex(1), pixie(1), prof(1), what(1),	monitor(3),
+  monstartup(3), read_rnd(3), write_rnd(3), intro(3f)
+
+  _D_I_G_I_T_A_L _F_o_r_t_r_a_n _L_a_n_g_u_a_g_e _R_e_f_e_r_e_n_c_e _M_a_n_u_a_l
+  Your DIGITAL Fortran user manual
+  _D_I_G_I_T_A_L _F_o_r_t_r_a_n _7_7 _R_e_l_e_a_s_e _N_o_t_e_s in /usr/lib/cmplrs/fort/relnotes
+  DIGITAL Fortran 77 help file (text format) in
+	/usr/lib/cmplrs/fort/decfortran.hlp
+
+
+
+
+
+
+
+
+
+
+

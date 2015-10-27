@@ -1,0 +1,59 @@
+#  @(#)Makefile	5.1 11/6/94../Generic_Propagator
+#
+# Makefile for making the propagator codes
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables for the fortran compiler
+# and the varios flags and libraries needed.
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+MAKE = make
+MFLAGS = 
+#LD = $(FC)
+#LDFLAGS = 
+#AR = -ar
+#ARFLAGS = rvu
+#RANLIB = ranlib
+RCS = RCS
+#
+GENERIC_PROPAGATOR_DIR = \
+/home/mesa/mesa/bmesa/Time_Propagation/Time_Prop/Generic_Propagator
+UTILITY_TO_GO_DIR = $(GENERIC_PROPAGATOR_DIR)/Utility_To_Go
+CHARACTER_MANIPULATION_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/Character_Manipulation_Subroutines
+COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/Common_Los_Alamos_Mathematical_Subroutines
+GENERAL_UTILITY_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/General_Utility_Subroutines
+MATHEMATICAL_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/Mathematical_Subroutines
+
+UTILITY_DIRECTORY = \
+	$(CHARACTER_MANIPULATION_SUBROUTINES_DIR) \
+	$(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR) \
+	$(GENERAL_UTILITY_SUBROUTINES_DIR) \
+	$(MATHEMATICAL_SUBROUTINES_DIR) \
+
+all: $(UTILITY_DIRECTORY) 
+
+util: $(UTILITY_DIRECTORY) 
+
+.RECURSIVE: $(UTILITY_DIRECTORY)
+$(UTILITY_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+directory: FORCE
+	cd $(CHARACTER_MANIPULATION_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) \
+           $(MFLAGS) directory
+	cd $(GENERAL_UTILITY_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) directory
+
+clean: FORCE
+	cd $(CHARACTER_MANIPULATION_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) \
+           $(MFLAGS) clean
+	cd $(GENERAL_UTILITY_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) clean
+
+FORCE:

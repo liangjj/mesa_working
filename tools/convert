@@ -1,0 +1,17 @@
+for file in $*
+  do
+    echo $file
+    cd $file
+    grep "[eE][+-]" *.f 
+    grep "[rR]eal" *.f
+    cd ..
+   done
+  do
+    echo $file
+    cd $file
+    grep "[mM]in[0-9]" *.f 
+    grep "[mM]ax[0-9]" *.f
+    grep "[iI][fF]ix" *.f
+    cd ..
+   done
+ 

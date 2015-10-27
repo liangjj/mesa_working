@@ -1,0 +1,175 @@
+ mesa(5.1);11/6/94;hp-ux 9.01 unix.                                             
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     g.j. tawa,b. schneider,m.o. braunstein,p.j. hay,a.k. rappe              
+
+     18-apr-1995 10:12:11    
+     los alamos national laboratory;hp735(cesium);rlm                                
+ files/memory:
+     inp:    test11.9                                                                                                                        
+     out:    otest11.9                                                                                                                       
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_24377                                                                                                       
+     rint:   /cesium/rlm/tmp/rint_24377                                                                                                      
+     int:    /cesium/rlm/tmp/int_24377                                                                                                       
+     tint:   /cesium/rlm/tmp/tint_24377                                                                                                      
+     gint:   /cesium/rlm/tmp/gint_24377                                                                                                      
+     rdint:  /cesium/rlm/tmp/rdint_24377                                                                                                     
+     dint:   /cesium/rlm/tmp/dint_24377                                                                                                      
+     zint:   /cesium/rlm/tmp/zint_24377                                                                                                      
+     ham:    /cesium/rlm/tmp/ham_24377                                                                                                       
+     moden:  /cesium/rlm/tmp/moden_24377                                                                                                     
+     aoden:  /cesium/rlm/tmp/aoden_24377                                                                                                     
+     saoden: /cesium/rlm/tmp/saoden_24377                                                                                                    
+     gden:   /cesium/rlm/tmp/gden_24377                                                                                                      
+     fci:    /cesium/rlm/tmp/fci_24377                                                                                                       
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+       ch2 singlet/ slater-vwn / test poisson
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//11;
+     19//51;
+     20//01;
+ options:
+     dft,2s+1=1,scf=(exchf=slater,corrf=vwn,pulay), guess=huckel,poisson=(lmax=6,nrad
+     ial=101),print=(m511=vector),grid=sg1
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   c  6-31g   
+      2   2   h  6-31g       1   1.130000 r        
+      3   3   h  6-31g       1   1.130000 r         2  100.900 theta    
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    4
+     number beta electrons:     4
+ basis dimensions:
+     $ primitive cartesians    30
+     $ contracted cartesians   13
+     $ basis functions         13
+ distance matrix (angstroms):
+                              c        h1        h2                              
+                  c      .00000
+                 h1     1.13000    .00000
+                 h2     1.13000   1.74262    .00000
+ interatomic angles:
+          h2-c1-h3 =100.9000
+ symmetry:
+     full point group:  c2v 
+     utilizing group :  c2v 
+     number of salcs :   a1   a2   b1   b2   
+                          7    0    2    4
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   c               .000000     .000000    -.179882
+      2   2   h               .000000     .871308     .539647
+      3   3   h               .000000    -.871308     .539647
+ rotational constants (ghz):    565.6365734    330.2619258    208.5149425
+ isotopes:
+     c-12    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     11601
+     maximum usable field length       153101
+     #primitive integrals possible     199728
+     #primitive integrals computed     193742( 97.0%)
+     #contracted integrals possible      4186
+     #contracted integrals kept          3393( 81.1%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+     project symmetry vectors
+     symprj found symmetry contamination
+ m511:
+     memory available(bytes)             48000000
+     diis convergence:                    1.0E-08
+     energy convergence:                  1.0E-09
+     exchange-correlation functional: slater-vwn 
+     shell 1 occupations by symmetry
+           a1   a2   b1   b2   
+            3    0    0    1
+     shell 2 occupations by symmetry
+           a1   a2   b1   b2   
+            4    0    2    3
+     maximum block size                      3816
+        grid size; atom  1:sg1               3816    1 blocks
+        grid size; atom  2:sg1               3720    1 blocks
+        grid size; atom  3:sg1               3720    1 blocks
+        density-matrix cutoff:            1.0E-50
+        density cutoff:                   1.0E-16
+     all integrals held in core.
+     nuclear repulsion energy:           5.923250
+     iter              energy    diis convergence
+        7       -38.700440087          .000000445     scf converged
+     final vector:
+                              1         2         3         4         5    
+                             a1        a1        b2        a1        b1          
+     eigenvalues --    -9.85184   -.61449   -.35934   -.18610   -.17948
+          c       s     -.99406    .19277    .00000   -.12001    .00000
+                  s     -.04041   -.37760    .00000    .20602    .00000
+                  s      .02404   -.38839    .00000    .56465    .00000
+                  x      .00000    .00000    .00000    .00000   -.61202
+                  y      .00000    .00000   -.46068    .00000    .00000
+                  z     -.00370   -.19591    .00000   -.47045    .00000
+                  x      .00000    .00000    .00000    .00000   -.51561
+                  y      .00000    .00000   -.14232    .00000    .00000
+                  z      .00580   -.08272    .00000   -.32299    .00000
+          h1      s      .00172   -.17491   -.25267   -.11547    .00000
+                  s     -.00706   -.05791   -.26719   -.18235    .00000
+          h2      s      .00172   -.17491    .25267   -.11547    .00000
+                  s     -.00706   -.05791    .26719   -.18235    .00000
+                              6         7         8    
+                             a1        b2        b1                              
+     eigenvalues --      .07523    .12083    .48829
+          c       s      .11134    .00000    .00000
+                  s     -.20114    .00000    .00000
+                  s    -1.59239    .00000    .00000
+                  x      .00000    .00000  -1.05170
+                  y      .00000    .50331    .00000
+                  z     -.36182    .00000    .00000
+                  x      .00000    .00000   1.10218
+                  y      .00000   1.04870    .00000
+                  z     -.81222    .00000    .00000
+          h1      s      .06973   -.11236    .00000
+                  s     1.31707  -1.31320    .00000
+          h2      s      .06973    .11236    .00000
+                  s     1.31707   1.31320    .00000
+     total integrated charge:        7.9999970551
+     time for j-matrix:                        .0
+     time for k-matrix:                       8.6
+ m1951:
+     wavefunction analysis for kohn-sham orbitals
+     bond-order matrix:
+                              c        h1        h2                              
+                  c     5.81098    .22796    .22796
+                 h1      .22796    .69148   -.05289
+                 h2      .22796   -.05289    .69148
+     total mulliken charges:
+          c             6.26690
+          h1             .86655
+          h2             .86655
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0    156001
+      102         1       1.1        .0        .0    120010
+      202         1        .2        .0        .0     10079
+      302         1        .1        .0        .0     11824
+      312         1        .8        .0        .0    345967
+      330         1        .1        .0        .0     76395
+      401         1        .3        .0        .0         0
+      511         1       9.7        .0        .0         0
+     1951         1        .2        .0        .0      1875
+             total:      12.7        .0        .0    345967

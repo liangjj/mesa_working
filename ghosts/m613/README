@@ -1,0 +1,6 @@
+these routines were active when we called the "canned" spline routine.  it 
+doesn't always seem to work well, so we have replaced it with our own.  the
+advantages of these rotuines are that the spline order is variable, whereas 
+the new one does cubic splines only, and a flag can be set so that the
+derivative of the functions is returned as well as the function.
+

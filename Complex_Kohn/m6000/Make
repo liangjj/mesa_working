@@ -1,0 +1,22 @@
+######################################################################
+#
+#     action
+#
+#     Hewlett-Packard Visual User Environment
+#
+#     Copyright (c) 1992 Hewlett-Packard Company
+#
+#     $Revision: 1.2 $
+#
+######################################################################
+
+# This file represents a HP VUE action.  The contents of the file do not
+# matter; the action will work even if the file is empty.  If this file is
+# executable and the name of the file matches an entry in the action
+# database (*.vf files), the HP VUE File Manager will treat this file as an
+# action.
+# 
+# For more information on VUE actions, see the HP VUE manuals.
+
+echo "HP VUE action.  Invoke using the HP VUE File Manager"
+

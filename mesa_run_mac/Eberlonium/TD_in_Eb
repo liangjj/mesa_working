@@ -1,0 +1,25 @@
+# This runs the TD propagation code
+
+$route
+
+$end
+
+$nonstd
+2//75;
+20//1;
+$end
+
+$title
+Testing CN Code
+$end
+$time_dependent
+ method_of_solution=diagonalize  step_size=.07  
+ right_end=100.d0 left_end=-100.d0 get_eigenvectors 
+ number_of_eigenvectors=10 lower_index=1 upper_index=10 
+ number_of_time_steps=1000 time_step=.08
+ electric_field=0.0d0 omega=.148d0 type_potential=eberlonium
+$end
+ $potential
+ type_potential=eberlonium well_depth=-1.0  charge=-1.0 power=2 a=1.0 b=1.0
+ $end
+electric_field=0.05d0 omega=.148d0 type_potential=eberlonium

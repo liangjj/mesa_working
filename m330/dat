@@ -1,0 +1,16 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M330
+#
+SOURCE=m330
+SOURCE_LIB = $(LIBRARY)/m330lib.a
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f
+
+LIB_SRCS = \
+	$(MESA_HOME)/$(SOURCE)/fix32.f \
+	$(MESA_HOME)/$(SOURCE)/fix64.f \
+	$(MESA_HOME)/$(SOURCE)/mn330.f \
+	$(MESA_HOME)/$(SOURCE)/sort32.f \
+	$(MESA_HOME)/$(SOURCE)/sort64.f

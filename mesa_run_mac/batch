@@ -1,0 +1,4 @@
+#
+runmesa inp=inp.scf out=out.scf
+runmesa inp=inp.setup out=out.setup
+runmesa inp=inp.opt out=out.opt

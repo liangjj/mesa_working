@@ -1,0 +1,63 @@
+$route
+ number-of-space-dimensions=1 m6290=(time-dimension=yes,space-dimension=yes)
+ print=(xm6290=(points,polynomials),xm6295=(all),iterative-solve=(all)) 
+ open-bec=new xuse-modified-functions xusing-chebyshev-points
+ xread-iosys use-atomic-units space-dimension-1=r
+ m6291=(time-dimension=yes,space-dimension=yes) 
+ spatial-grid-number=(2) mode=multigrid time-grid-number=(2)
+ m6299=time=on xtest-h0 number-of-time-regions=1 top-grid=2
+ xdiagonalize-hamiltonian
+ multigrid-procedure=on xiterative-linear-system-solve
+$end
+          
+$nonstd
+62//90,91,95;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$grids-dimension-r
+ number-of-subgrids=2 coordinate-type=r quadrature-type=legendre
+ xl=0.0d0 xr=1.0d0 f-xl=0 f-xr=0 fix-end-points fix-left-end-point
+ fix-right-end-point number-of-points-per-subgrid=(5,10)
+$end
+ 
+$time=on
+ pure-time-perturbation=none driver=state-vector initial-state=0
+ space-time-perturbation=none 
+$end
+
+$grids-time-region-1
+ number-of-subgrids=2 quadrature-type=legendre 
+ tl=0.d0 tr=5.0d0 number-of-points-per-subgrid=(10,30) 
+$end
+
+$gmres
+ overlap-tolerance=1.e-10 convergence=1.e-08
+ xpreconditioner=block maximum-size-of-preconditioning-block=100
+ xprint=(iterative-solve=all) maximum-number-of-iterations=400
+ maximum-number-of-vectors=400 xprint=iterative-solve=all
+$end
+
+$multigrid
+ overlap-tolerance=1.e-10 convergence=(1.e-06)
+ xpreconditioner=none maximum-number-of-iterations=(10,10,10)
+ maximum-number-of-vectors=(10,10,10) print=(iterative-solve=all,mgrid=all)
+ number-of-multigrid-cycles=1 number-of-smoothing-steps=0
+$end
+
+$trials
+ type-of-trial-vectors=unit number-of-trial-vectors=1
+$end
+
+$v0-r-1
+ potential-type=well v=-1.d0
+$end 
+ 
+$vt
+ units=atomic-units electric-field-frequency=.2d0 
+ electric-field-strength=.001d0
+$end 

@@ -1,0 +1,8 @@
+$time_dependent
+ method_of_solution=imaginary_time_so  step_size=.1  
+ right_end=1.d0 left_end=0.d0 get_eigenvectors 
+ number_of_eigenvectors=1 lower_index=1 upper_index=1 
+ number_of_time_steps=50000 time_step=.01
+ energy_convergence_parameter=1.d-15
+$end
+electric_field=0.05d0 omega=.148d0 type_potential=eberlonium

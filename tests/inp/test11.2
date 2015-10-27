@@ -1,0 +1,19 @@
+$route
+dft,2s+1=3,scf=(exchf=slater,corrf=null,pulay,lebord=23,radgrid=51,
+density-cutoff=1.0d-20)
+guess=(huckel),print=(guess,m511=vector),grid=general
+$title
+ ch2 triplet  slater
+$geom
+c(basis=ndzp)
+h1(basis=olddzp) c r
+h2(basis=olddzp) c r h1 theta
+
+r=1.092
+theta=134.4
+$end
+$ndzp c
+$include dz
+type=d
+  0.8 1.0
+$end

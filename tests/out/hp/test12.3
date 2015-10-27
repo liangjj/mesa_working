@@ -1,0 +1,67 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 18:15:35    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.3                                                                                                   
+     out:    /usr2/mesa/tests/out/hp/test12.3                                                                                                
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_2894                                                                                                        
+     rint:   /cesium/rlm/tmp/rint_2894                                                                                                       
+     int:    /cesium/rlm/tmp/int_2894                                                                                                        
+     tint:   /cesium/rlm/tmp/tint_2894                                                                                                       
+     gint:   /cesium/rlm/tmp/gint_2894                                                                                                       
+     rdint:  /cesium/rlm/tmp/rdint_2894                                                                                                      
+     dint:   /cesium/rlm/tmp/dint_2894                                                                                                       
+     zint:   /cesium/rlm/tmp/zint_2894                                                                                                       
+     ham:    /cesium/rlm/tmp/ham_2894                                                                                                        
+     moden:  /cesium/rlm/tmp/moden_2894                                                                                                      
+     aoden:  /cesium/rlm/tmp/aoden_2894                                                                                                      
+     saoden: /cesium/rlm/tmp/saoden_2894                                                                                                     
+     gden:   /cesium/rlm/tmp/gden_2894                                                                                                       
+     fci:    /cesium/rlm/tmp/fci_2894                                                                                                        
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+     H2 Two State Calculation
+ route:
+     1//1,2,3,4;
+     8//6,22;
+     9//2,30,35;
+     20//1;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk) drop=42 ksym=(symmetry=1,psalc) 
+     print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(ngroups=
+     3,nrefs=3) ci=(nroots=2,cycles=60) sym=norotate kohn=(nsmall=2,ncsfs=91,nl2=45,f
+     reeze,hqq,energy=(.4410,.55125,.66152,.735))
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000     .000000     .000000     .370424
+       2    2   h  small      1.000     .000000     .000000    -.370424
+       3        zq scat        .000     .000000     .000000     .000000
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     $ primitive cartesians    20
+     $ contracted cartesians   20
+     $ basis functions         20
+ new options in force:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk) drop=42 ksym=(symmetry=1,psalc) 
+     print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(ngroups=
+     3,nrefs=3) ci=(nroots=2,cycles=60) sym=norotate kohn=(nsmall=2,ncsfs=91,nl2=45,f
+     reeze,hqq,energy=(.4410,.55125,.66152,.735))
+  m104: 
+ lnkerr: io system: error opening unit kohn             as old...it does not exist
+
+
+ ######## cannot close kohn             which is unit:  11

@@ -1,0 +1,35 @@
+FC = mpif90
+LD = $(FC)
+
+F90C = $(FC)
+F90FLAGS = $(FFLAGS)
+CXXFLAGS = $(FFLAGS)
+
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+
+DEFAULT: TDCC_IT.exe
+
+PHONY: clean
+
+# .f files are Fortran77 and do not contain modules
+%.o: %.f
+	$(FC) $(FFLAGS) -c $<
+
+%.o: %.f90
+	$(F90C) $(F90FLAGS) -c $<
+
+%.mod: %.f90
+	$(F90C) $(F90FLAGS) -c $<
+
+%.o: %.F90
+	$(F90C) $(F90FLAGS) -c $<
+
+%.mod: %.F90
+	$(F90C) $(F90FLAGS) -c $<
+
+%.exe : %.o
+	$(F90C) $(F90FLAGS) $^ $(LDFLAGS) -o $@
+
+clean:
+	rm -f *.o *.mod *.il *.exe
+

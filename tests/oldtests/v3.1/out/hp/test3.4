@@ -1,0 +1,223 @@
+ mesa(%I%);%G%;hp-ux 8.07 unix.                                                 
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+
+      6-nov-1992 18:03:11    
+     los alamos national laboratory;hp730(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test3.4                                                                                                    
+     out:    /cesium/rlm/mesa/out/test3.4                                                                                                    
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf                                                                                                             
+     rint:   /cesium/rlm/tmp/rint                                                                                                            
+     int:    /cesium/rlm/tmp/int                                                                                                             
+     tint:   /cesium/rlm/tmp/tint                                                                                                            
+     gint:   /cesium/rlm/tmp/gint                                                                                                            
+     rdint:  /cesium/rlm/tmp/rdint                                                                                                           
+     dint:   /cesium/rlm/tmp/dint                                                                                                            
+     zint:   /cesium/rlm/tmp/zint                                                                                                            
+     ham:    /cesium/rlm/tmp/ham                                                                                                             
+     moden:  /cesium/rlm/tmp/moden                                                                                                           
+     aoden:  /cesium/rlm/tmp/aoden                                                                                                           
+     saoden: /cesium/rlm/tmp/saoden                                                                                                          
+     gden:   /cesium/rlm/tmp/gden                                                                                                            
+     fci:    /cesium/rlm/tmp/fci                                                                                                             
+     machine size:          4000000
+     user defined maxsiz:   1000000
+ title:
+     h2o test case:scf/triplet ivo/ci
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1,2;
+     8//2,11;
+     9//2;
+     20//1;
+ options:
+     hf basis=dz 2s+1=1 scf=(core-fock,pulay) guess=huckel print=(scf=(vector=all),iv
+     o) drt=(nrefs=1,ngroups=3,rdsym,nsym=1) ci=(nroots=5),sym=off ivo=triplet
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   1.070000 r1       
+      3   3   h  dz          1   1.070000 r2        2  109.200 a1       
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ distance matrix (angstroms):
+                             o1        h2        h3                              
+                 o1      .00000
+                 h2     1.07000    .00000
+                 h3     1.07000   1.74437    .00000
+ interatomic angles:
+          h2-o1-h3 =109.2000
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o               .000000     .000000     .000000
+      2   2   h               .000000     .000000    1.070000
+      3   3   h              1.010483     .000000    -.351887
+ rotational constants (ghz):    734.8541248    329.5969272    227.5404407
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262480( 95.5%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                    5999999
+     all integrals held in core.
+     nuclear repulsion energy:    8.216293
+     iter              energy    diis convergence
+       13       -75.988541585          .000000007
+     rotating scf orbitals under core fock operator
+ m502:improved virtual orbitals
+     triplet ivo calculation
+     f vector-coupling-constant     1.00000
+     shell    no. orbitals     alpha        beta 
+           1         4         2.00000     -1.00000
+           2         1         1.00000     -1.00000
+           3         9          .00000       .00000
+     memory use                    5999999
+     all integrals held in core.
+     reading the rwf file
+     *** ivo energy evaluation ***
+     nuclear repulsion energy            8.216293182
+     closed  shell     energy          -82.452923791
+     open    shell     energy           -1.253613318
+     total   core      energy          -75.490243927
+
+        state        ivo eigenvalue        total energy   
+         1              -.231897276       -75.722141203
+         2              -.160907052       -75.651150979
+         3               .285277460       -75.204966467
+         4               .366569629       -75.123674298
+         5               .505300978       -74.984942949
+
+                              1         2         3         4         5    
+     eigenvalues --   -20.57498  -1.30492   -.66484   -.54124   -.49830
+          o1      s     -.58110    .13251    .00000   -.04272    .00000
+                  s     -.46127    .18338    .00000   -.05974    .00000
+                  s      .00047   -.51629    .00000    .18505    .00000
+                  s     -.00190   -.48691    .00000    .23553    .00000
+                  x     -.00122   -.07848   -.32254   -.50527    .00000
+                  y      .00000    .00000    .00000    .00000   -.73003
+                  z     -.00086   -.05577    .45386   -.35908    .00000
+                  x      .00035   -.02888   -.12010   -.27407    .00000
+                  y      .00000    .00000    .00000    .00000   -.40746
+                  z      .00025   -.02052    .16900   -.19477    .00000
+          h2      s     -.00005   -.11198    .23700   -.13957    .00000
+                  s      .00017   -.01347    .14679   -.08893    .00000
+          h3      s     -.00005   -.11198   -.23700   -.13957    .00000
+                  s      .00017   -.01347   -.14679   -.08893    .00000
+                              6         7         8         9        10    
+     eigenvalues --     -.23190   -.16091    .28528    .36657    .50530
+          o1      s     -.06196    .00000    .00000   -.02699    .00000
+                  s     -.08731    .00000    .00000   -.03932    .00000
+                  s      .28089    .00000    .00000    .15949    .00000
+                  s      .76150    .00000    .00000    .30606    .00000
+                  x      .35785   -.35940    .00000   -.71484    .44867
+                  y      .00000    .00000   -.90067    .00000    .00000
+                  z      .25431    .50573    .00000   -.50801   -.63134
+                  x      .25538   -.34613    .00000   1.02836  -1.10656
+                  y      .00000    .00000   1.08541    .00000    .00000
+                  z      .18149    .48705    .00000    .73082   1.55708
+          h2      s     -.16785   -.17340    .00000    .03420   -.26148
+                  s     -.77863  -1.01074    .00000   -.43611   -.83860
+          h3      s     -.16785    .17340    .00000    .03420    .26148
+                  s     -.77863   1.01074    .00000   -.43611    .83860
+                             11        12        13        14    
+     eigenvalues --      .67428    .70083   1.04220  42.27601
+          o1      s     -.05192    .00000    .13653  -1.73103
+                  s     -.08108    .00000    .23455   1.87592
+                  s      .47284    .00000  -1.86577   -.38521
+                  s     -.67166    .00000   2.59679    .32069
+                  x      .07921    .23102   -.07790   -.00738
+                  y      .00000    .00000    .00000    .00000
+                  z      .05629   -.32507   -.05536   -.00524
+                  x      .12966   -.25100    .57649    .04730
+                  y      .00000    .00000    .00000    .00000
+                  z      .09215    .35319    .40969    .03362
+          h2      s     -.91715    .92496   -.39105   -.00937
+                  s      .80406  -1.24770   -.56489   -.07234
+          h3      s     -.91715   -.92496   -.39105   -.00937
+                  s      .80406   1.24770   -.56489   -.07234
+     overwriting scf vector with ivos
+ m802:drt generation
+     number of symmetries:         1
+     number of basis functions:   14
+     number of references:         1
+     number of groups:             3
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  4   4        type  1            1
+             5-  5   1        type  2            1
+             6- 14   9        type  3            1
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1              9             9         9       F
+     integral information:
+         number of integrals:     6867
+         number of groups:           1
+         group size:              6867
+ m811:transformation
+     guga order
+     orbital set:"scf vector"    
+     number of symmetries                 1
+     orbitals transformed                14
+     orbitals frozen                      0
+     orthonormality deviation       .20E-13
+     memory use                       55143
+ m902: hamiltonian construction
+     forming the entire hamiltonian of     9 configurations
+     total number of matrix elements:          45
+     effective zero cutoff          :      .1E-08
+     number exceeding cutoff        :          87(193.3%)
+       incore diagonalization
+
+      root   reference  guess energy    ci energy    c(0)
+       1         9   -75.7221412       -75.7221412     -1.0000
+       2         8   -75.6511510       -75.6511510     -1.0000
+       3         7   -75.2049665       -75.2049665     -1.0000
+       4         6   -75.1236743       -75.1236743     -1.0000
+       5         5   -74.9849429       -74.9849429      1.0000
+       ci energies have been stored on rwf file
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1       1.6        .0        .0         0
+      202         1        .3        .0        .0         0
+      302         1        .2        .0        .0         0
+      312         1       1.4        .0        .0         0
+      330         1        .2        .0        .0         0
+      401         1        .4        .0        .0         0
+      501         1       3.9        .0        .0         0
+      502         1        .2        .0        .0         0
+      802         1        .3        .0        .0         0
+      811         1        .4        .0        .0         0
+      902         1        .5        .0        .0         0
+             total:       9.5        .0        .0         0

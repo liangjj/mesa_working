@@ -1,0 +1,41 @@
+$route
+ print=(xm6234,m6235=(xwavefunction,k-matrix,xintermediate-results))
+ potential-type=square-well
+$end
+$nonstd
+62//34,35;
+20//01;
+$end
+$bsroot
+maximum-l-value=0 number-of-zeros=100 right-boundary=500.d0
+$end
+$grid
+r-matrix-radius=2.d0
+no-integration-regions=1 no-points-region-1=100 starting-r-region-1=0.d0
+final-r-region-1=2.d0 no-points-region-2=40 starting-r-region-2=1.d0
+final-r-region-2=2.d0 
+$end
+$channels
+no-of-channels=2 channel-l-values=(0,0) 
+channel-energies=(0.0d0,.375d0) potential-range=1.d0
+no-basis-functions-per-channel=(40,40) v11=0.0d0 v22=0.0d0
+v21=1.581138830d0
+no-zero-value-basis-functions-per-channel=(39,39)
+$end
+$energy
+no-energies=1 energies=(.5)
+$end
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

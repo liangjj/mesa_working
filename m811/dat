@@ -1,0 +1,18 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M811
+#
+SOURCE = m811
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/chknrm.f \
+	$(MESA_HOME)/$(SOURCE)/fock.f \
+	$(MESA_HOME)/$(SOURCE)/getdrt.f \
+	$(MESA_HOME)/$(SOURCE)/m811.f \
+	$(MESA_HOME)/$(SOURCE)/pm811.f \
+	$(MESA_HOME)/$(SOURCE)/reordr.f \
+	$(MESA_HOME)/$(SOURCE)/trn1e.f \
+	$(MESA_HOME)/$(SOURCE)/trn1so.f \
+	$(MESA_HOME)/$(SOURCE)/trn2e.f \
+	$(MESA_HOME)/$(SOURCE)/totrso.f \
+	$(MESA_HOME)/$(SOURCE)/vecout.f 

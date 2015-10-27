@@ -1,0 +1,32 @@
+#   @(#)Makefile	1.4   8/1/91
+#
+# Makefile for M940
+#
+SOURCE = m940
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f
+
+LIB_SRCS = \
+	$(MESA_HOME)/$(SOURCE)/david.f \
+	$(MESA_HOME)/$(SOURCE)/diagh.f \
+	$(MESA_HOME)/$(SOURCE)/eig940.f \
+	$(MESA_HOME)/$(SOURCE)/exchng.f \
+	$(MESA_HOME)/$(SOURCE)/fnltrn.f \
+	$(MESA_HOME)/$(SOURCE)/guess2.f \
+	$(MESA_HOME)/$(SOURCE)/ham.f \
+	$(MESA_HOME)/$(SOURCE)/hamilt.f \
+	$(MESA_HOME)/$(SOURCE)/hampp.f \
+	$(MESA_HOME)/$(SOURCE)/hampq.f \
+	$(MESA_HOME)/$(SOURCE)/hamqq.f \
+	$(MESA_HOME)/$(SOURCE)/hamunf.f \
+	$(MESA_HOME)/$(SOURCE)/hmult.f \
+	$(MESA_HOME)/$(SOURCE)/hpqmul.f \
+	$(MESA_HOME)/$(SOURCE)/incore.f \
+	$(MESA_HOME)/$(SOURCE)/loops.f \
+	$(MESA_HOME)/$(SOURCE)/mn940.f \
+	$(MESA_HOME)/$(SOURCE)/rdham.f \
+	$(MESA_HOME)/$(SOURCE)/scr2ham.f \
+	$(MESA_HOME)/$(SOURCE)/tranpp.f \
+	$(MESA_HOME)/$(SOURCE)/tranpq.f \
+	$(MESA_HOME)/$(SOURCE)/tvmult.f

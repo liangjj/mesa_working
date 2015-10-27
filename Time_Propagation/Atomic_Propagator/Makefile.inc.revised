@@ -1,0 +1,56 @@
+#
+# Included Makefile for DMRG.
+#
+# Including Makefiles must define TOP_DIR appropriately.
+#
+# $Id: Makefile.inc.revised,v 1.1 2008/11/22 19:43:25 bschneid Exp bschneid $
+#
+
+#
+# System-dependent definitions
+#
+TOP_DIR = $(MESA_HOME)/Time_Propagation/Atomic_Propagator
+#
+# Suffix rules
+#
+.SUFFIXES: .f90 .mod .F90 $(SUFFIXES)
+#
+# Libraries
+#
+#.F90.o:
+#	$(F90) $(F90FLAGS) $(CPPFLAGS) -I$(MODULES) -I$(ATOMIC_PROP_MODULES) $<
+#.f90.o:
+#	$(F90) $(F90FLAGS) -I$(MODULES) -I$(ATOMIC_PROP_MODULES) $<
+
+F90FLAGS = -L$(MKL_PATH) -I$(MKL_INCLUDE) $(CPPFLAGS) -I$(MODULES) -I$(ATOMIC_PROP_MODULES) -O4
+CPPFLAGS =
+LDFLAGS = $(F90FLAGS)
+#
+# Basic and Sub Directories
+#
+ATOMIC_PROP_MODULES = $(TOP_DIR)/Modules
+ATOMIC_PROP_SOURCES = $(TOP_DIR)/Sources
+ATOMIC_PROP_MAIN = $(TOP_DIR)/Main
+#
+PROPAGATION = \
+	    $(ATOMIC_PROP_MODULES) \
+	    $(ATOMIC_PROP_SOURCES) \
+	    $(ATOMIC_PROP_MAIN)
+#
+# Libraries
+ATOMIC_PROP_SOURCE_LIB = $(ATOMIC_PROP_SOURCES)/prop_source_lib_f90.a
+ATOMIC_PROP_MOD_LIB = $(ATOMIC_PROP_MODULES)/prop_mod_lib_f90.a
+DVR_LIB = $(DVR)/dvr_lib_f90.a
+FD_LIB = $(DVR)/fd_lib_f90.a
+#
+# Driver
+#
+DRIVER = $(ATOMIC_PROP_MAIN)/atom_prop
+#
+# Miscellaneous
+#
+MAKE = make
+MFLAGS = 
+RCS = RCS
+CO = co -u
+RANLIB = ranlib

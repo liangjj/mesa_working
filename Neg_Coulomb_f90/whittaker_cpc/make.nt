@@ -1,0 +1,59 @@
+PROG1 =	whittaker
+PROG2 = simos
+
+SRCS =	precisn.f90 \
+	io_units.f90 \
+	weniger.f90 \
+	whittaker_w.f90
+
+SRCS1 = whittaker_w_test.f90
+SRCS2 = simos.f90 \
+	simos_test.f90
+
+OBJS =	precisn.obj \
+	io_units.obj \
+	weniger.obj \
+	whittaker_w.obj
+
+OBJ1 = whittaker_w_test.obj
+OBJ2 = simos.obj simos_test.obj
+
+#Intel mkl library for blas and lapack:
+#LIBS = "D:\Program Files\lib32\DEFAULT\CVF\mkl_c.lib" \
+	"D:\Program Files\lib32\DEFAULT\CVF\mkl_s.lib"
+
+#F90 = f90
+#F90FLAGS =
+#LDFLAGS = 
+
+all: $(PROG1) $(PROG2)
+
+$(PROG1): $(OBJS) $(OBJ1)
+	$(F90) $(LDFLAGS) $(OBJS) $(OBJ1) $(MD_LIB) /exe:$@
+$(PROG2): $(OBJS) $(OBJ2)
+	$(F90) $(LDFLAGS) $(OBJS) $(OBJ2) $(MD_LIB) /exe:$@
+
+clean:
+	rm -f $(PROG) $(OBJS) *.mod
+
+.SUFFIXES: $(SUFFIXES) .f90 .f
+
+.f90.obj:
+	$(F90) $(F90FLAGS) -c $<
+
+weniger.obj: precisn.obj io_units.obj
+whittaker_w.obj: precisn.obj io_units.obj weniger.obj
+whittaker_w_test.obj: precisn.obj io_units.obj whittaker_w.obj
+simos_test.obj: precisn.obj io_units.obj whittaker_w.obj simos.obj
+
+
+
+
+
+
+
+
+
+
+
+

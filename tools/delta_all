@@ -1,0 +1,87 @@
+
+ HOMEDIR=$MESA_HOME
+ LIBDIR=$HOMEDIR'/library'
+ SOURCEDIR=$HOMEDIR'/source'
+ PARTS='chr clams dft dpintgrl intgrl io math sym util'
+ MACHINEDEPENDENT='mdutil/aix mdutil/hp mdutil/sgi'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' mdutil/stardent mdutil/sun'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' mdutil/ultrix mdutil/unicos'
+ VERSION='5'
+#for file in library chr clams dft dpintgrl intgrl io math sym util mdutil/sun
+# do main directory, then library, then parts, then main links
+ cd $HOMEDIR
+#      sccs check returns a nonzero exit status if something is being edited
+    if sccs check >/dev/null
+    then
+#       echo 'do nothing'
+       :
+    else
+       for f in  `sccs tell` 
+          do
+             echo "release $VERSION" | sccs delget `sccs tell -u`
+          done 
+    fi
+#now do library
+ cd $LIBDIR
+    if sccs check >/dev/null
+    then
+#      echo 'do nothing'
+       :
+    else
+       for f in  `sccs tell` 
+          do
+             echo "release $VERSION" | sccs delget `sccs tell -u`
+          done 
+    fi
+#now do components of library
+ for file in $PARTS
+    do
+       cd $file
+#      sccs check returns a nonzero exit status if something is being edited
+       if sccs check >/dev/null
+       then
+#         echo 'do nothing'
+         :
+       else
+          for f in  `sccs tell` 
+             do
+                echo "release $VERSION" | sccs delget `sccs tell -u`
+             done 
+       fi
+       cd ..
+    done
+ for file in $MACHINEDEPENDENT
+    do
+       cd $LIBDIR'/'$file
+#      sccs check returns a nonzero exit status if something is being edited
+       if sccs check >/dev/null
+       then
+#         echo 'do nothing'
+         :
+       else
+          for f in  `sccs tell` 
+             do
+                echo "release $VERSION" | sccs delget `sccs tell -u`
+             done 
+       fi
+       cd ..
+    done
+#now do main routines
+ cd $HOMEDIR
+ for file in m[0-9]*
+    do
+       cd $file
+#      sccs check returns a nonzero exit status if something is being edited
+       if sccs check >/dev/null
+       then
+#         echo 'do nothing'
+          :
+       else
+          for f in  `sccs tell` 
+             do
+                echo "release $VERSION" | sccs delget `sccs tell -u`
+             done 
+       fi
+       cd ..
+    done
+ 

@@ -1,0 +1,141 @@
+#  @(#)Makefile	5.1 11/6/94../Generic_Propagator
+#
+# Makefile for making the propagator codes
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables F90, F90FLAGS and MD_LIB to the fortran compiler, the flags
+# you set and the location of the machine dependentfortran.  You can define them here as well but I
+# find that less convenient.
+#
+# There is a grand makefile in the CC_Prop directory that with the command make will compile and load
+# everything.  Similarly a make clean will remove all but the sources.  Ypu can also go into the individual
+# subdirectoies and do individual makes.
+#
+# The CC_Prop directory contains the sources, modules and main code.  The DVR_Library directory builds the
+# FEDVR library which computes everthing needed to compute the one-body operators in the FEDVR basis as well
+# as some other things like the Poisson solver for the two-electron integrals.  The Utilities directory is a hack
+# of the old Mesalib directories.  Its mostly all of it except  IOsys.  I like to use these routines over and over again
+# as they do lots of good things and rewriting code is not my favorite pastime.  This directory would basically allow
+# a user to function independently of BLAS, LAPACK etc. if they needed to since it has fortran versions of all of
+# that and a heck of a lot more such as the LANL CLAMS library and the SLATEC library.
+#
+# This Makefile defines the major directories and then recursively goes into each of them in the proper order
+# and compiles and loads what is needed.  The last directory, Main, is where the executable is created and where all the
+# externals get satisfied.
+#
+include $(TOP_DIR)/Makefile.inc
+MAKE = make
+MFLAGS = 
+RANLIB = ranlib
+RCS = RCS
+#
+# Define Directories
+#
+PROP = ../CC_Prop
+	PROP_MAIN = $(PROP)/Main 
+	PROP_SOURCES = $(PROP)/Prop_Sources 
+	PROP_MODULES = $(PROP)/Prop_Modules
+#
+UTILITY = $(PROP)/Utilities 
+	CHARACTER_MANIPULATION_SUBROUTINES = \
+		$(UTILITY)/Character_Manipulation_Subroutines 
+	COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES = \
+		$(UTILITY)/Common_Los_Alamos_Mathematical_Subroutines 
+	GENERAL_UTILITY_SUBROUTINES = \
+		$(UTILITY)/General_Utility_Subroutines 
+	MATHEMATICAL_SUBROUTINES = \
+		$(UTILITY)/Mathematical_Subroutines
+#
+DVR_LIBRARY = $(PROP)/DVR_Library
+	DVR_MAIN = \
+		$(DVR_LIBRARY)/dvrlib_f90/Main 
+	DVR_SHARED = \
+		$(DVR_LIBRARY)/dvrlib_f90/Shared_f90
+	DVR_SPACE = \
+		$(DVR_LIBRARY)/dvrlib_f90/Space_f90 
+	DVR_TIME = \
+		$(DVR_LIBRARY)/dvrlib_f90/Time_f90
+	FD = \
+		$(DVR_LIBRARY)/fdlib_f90/Main
+#
+MODULES = $(PROP)/Modules
+#
+U = \
+	$(CHARACTER_MANIPULATION_SUBROUTINES) \
+	$(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES) \
+	$(GENERAL_UTILITY_SUBROUTINES) \
+	$(MATHEMATICAL_SUBROUTINES) 
+#
+POTENTIAL = $(PROP)/Potential
+#
+DVR = \
+	$(DVR_MAIN) \
+	$(DVR_SHARED) \
+	$(DVR_SPACE) \
+	$(DVR_TIME) \
+	$(FD) 
+#
+PROPAGATION = \
+	$(PROP_MODULES) \
+	$(PROP_SOURCES) \
+	$(PROP_MAIN)
+
+
+all: $(MODULES) $(UTILITY) $(POTENTIAL) \
+     $(DVR) $(PROPAGATION) 
+
+.RECURSIVE: $(MODULES)
+$(MODULES): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(UTILITY)
+$(UTILITY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(POTENTIAL)
+$(POTENTIAL): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(DVR)
+$(DVR): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(PROPAGATION)
+$(PROPAGATION): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+directory: FORCE
+	cd $(MODULES) ; $(MAKE) $(MFLAGS) directory
+	cd $(CHARACTER_MANIPULATION_SUBROUTINES) ; $(MAKE) $(MFLAGS) directory
+	cd $(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES) ; $(MAKE) \
+           $(MFLAGS) directory
+	cd $(GENERAL_UTILITY_SUBROUTINES) ; $(MAKE) $(MFLAGS) directory
+	cd $(MATHEMATICAL_SUBROUTINES) ; $(MAKE) $(MFLAGS) directory
+	cd $(POTENTIAL) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_MAIN) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_SHARED) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_SPACE) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_TIME) ; $(MAKE) $(MFLAGS) directory
+	cd $(FD) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_MODULES) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_SOURCES) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_MAIN) ; $(MAKE) $(MFLAGS) directory
+
+clean: FORCE
+	cd $(MODULES) ; $(MAKE) $(MFLAGS) clean
+	cd $(CHARACTER_MANIPULATION_SUBROUTINES) ; $(MAKE) $(MFLAGS) clean
+	cd $(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES) ; $(MAKE) \
+           $(MFLAGS) clean
+	cd $(GENERAL_UTILITY_SUBROUTINES) ; $(MAKE) $(MFLAGS) clean
+	cd $(MATHEMATICAL_SUBROUTINES) ; $(MAKE) $(MFLAGS) clean
+	cd $(POTENTIAL) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_MAIN) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_SHARED) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_SPACE) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_TIME) ; $(MAKE) $(MFLAGS) clean
+	cd $(FD) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_MODULES) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_SOURCES) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_MAIN) ; $(MAKE) $(MFLAGS) clean
+
+FORCE:

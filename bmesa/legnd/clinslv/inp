@@ -1,0 +1,40 @@
+$route
+ print=(linslv=(xhamiltonian,converged-solutions,best-solutions,residuals))
+ linslv=(form=one-minus-matrix,number-of-solutions-at-a-time=1,
+         two-schmidt-orthogonalizations)
+$end
+          
+$nonstd
+50//00;
+20//01;
+$end
+$title
+ complex linear solve test
+$end
+$clinslv
+ number-of-points=20 fix-end-points left-end-point=0.d0 right-end-point=1.d0
+ fix-left-end-point fix-right-end-point
+ left-boundary-condition=0 right-boundary-condition=1
+ left-derivative=0 right-derivative=0
+ number-of-energies=1 energies=5.d0 xdiagonalize
+ number-of-right-hand-sides=1 xiterative-linear-solve
+$end
+$v
+ potential-type=none
+ real-v=-1.d0 imag-v=-1.d0 
+$end
+$rhs
+ type-right-hand-side=one
+$end
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

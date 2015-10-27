@@ -1,0 +1,42 @@
+#!/bin/bash
+#PBS -V -j oe
+#PBS -l nodes=2:p4:ppn=2
+#PBS -q medium
+#-----------------------------------------------------
+# The following reflect the environment where the user ran qsub:
+## PBS_O_HOST    The host where you ran the qsub command.
+## PBS_O_LOGNAME Your user ID where you ran qsub.
+## PBS_O_HOME    Your home directory where you ran qsub.
+## PBS_O_WORKDIR The working directory where you ran qsub.
+## These reflect the environment where the job is executing:
+## PBS_ENVIRONMENT Set to PBS_BATCH to indicate the job is a batch job, or
+#                  to PBS_INTERACTIVE to indicate the job is a PBS
+#                  interactive job.
+## PBS_O_QUEUE   The original queue you submitted to.
+## PBS_QUEUE     The queue the job is executing from.
+## PBS_JOBID     The job's PBS identifier.
+## PBS_JOBNAME   The job's name.
+#-----------------------------------------------------
+
+if [ "x$PBS_NODEFILE" = "x" ] ; then
+        echo "This script must be submitted to qsub. Got that?"
+        exit 1
+fi
+
+LAM_HOME=/usr/local/lf95/lam/32
+
+# Define the program and its arguments
+prog=MPDFortran
+
+nNodes=0
+wd=$PBS_O_WORKDIR;
+for node in `cat $PBS_NODEFILE`; do
+        echo $node
+        nNodes=`expr $nNodes + 1`
+done
+
+date
+${LAM_HOME}/bin/lamboot $PBS_NODEFILE
+${LAM_HOME}/bin/mpirun -c $nNodes -v -w -D $wd/$prog
+${LAM_HOME}/bin/wipe $PBS_NODEFILE
+date

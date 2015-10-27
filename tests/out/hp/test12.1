@@ -1,0 +1,188 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 18:15:20    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.1                                                                                                   
+     out:    /usr2/mesa/tests/out/hp/test12.1                                                                                                
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_2500                                                                                                        
+     rint:   /cesium/rlm/tmp/rint_2500                                                                                                       
+     int:    /cesium/rlm/tmp/int_2500                                                                                                        
+     tint:   /cesium/rlm/tmp/tint_2500                                                                                                       
+     gint:   /cesium/rlm/tmp/gint_2500                                                                                                       
+     rdint:  /cesium/rlm/tmp/rdint_2500                                                                                                      
+     dint:   /cesium/rlm/tmp/dint_2500                                                                                                       
+     zint:   /cesium/rlm/tmp/zint_2500                                                                                                       
+     ham:    /cesium/rlm/tmp/ham_2500                                                                                                        
+     moden:  /cesium/rlm/tmp/moden_2500                                                                                                      
+     aoden:  /cesium/rlm/tmp/aoden_2500                                                                                                      
+     saoden: /cesium/rlm/tmp/saoden_2500                                                                                                     
+     gden:   /cesium/rlm/tmp/gden_2500                                                                                                       
+     fci:    /cesium/rlm/tmp/fci_2500                                                                                                        
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+     H2 Two State Test       
+ route:
+     1//1,2;
+     2//2;
+     3//1,2,12,30;
+     4//1;
+     5//1,2;
+     6//4;
+     20//01;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) drop=42 guess=core print=(drop,guess=all,scf
+     =(vector=all),ivo,nodis,noang) geom=(coord,inau,nocrowd) ksym=(symmetry=1) kohn=
+     (nsmall=2) sym=norotate
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000     .000000     .000000     .370424
+       2    2   h  small      1.000     .000000     .000000    -.370424
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     $ primitive cartesians    16
+     $ contracted cartesians   16
+     $ basis functions         16
+ symmetry:
+     full point group:  d*h 
+     utilizing group :  d2h 
+     number of salcs :   ag   b1g  b2g  b3g  au   b1u  b2u  b3u  
+                          6    0    1    1    0    6    1    1
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   h               .000000     .000000     .370424
+      2   2   h               .000000     .000000    -.370424
+ rotational constants (ghz):       .0000000   1827.2741336   1827.2741336
+ isotopes:
+     h-1     h-1     
+  m301:dropping functions
+  
+  atom number  1
+  charge       1.0
+  bflabl      h1      s       
+   primitive type s=1 p=2 d=3 etc.  1
+  number of contracted functions 5
+  number of cartesian functions 1
+   primitive type s=1 p=2 d=3 etc.  2
+  number of contracted functions 1
+  number of cartesian functions 3
+  
+  atom number  2
+  charge       1.0
+  bflabl      h2      s       
+   primitive type s=1 p=2 d=3 etc.  1
+  number of contracted functions 5
+  number of cartesian functions 1
+   primitive type s=1 p=2 d=3 etc.  2
+  number of contracted functions 1
+  number of cartesian functions 3
+       atom=1 type=p keep=(z)                 
+      ncart ncont  3 1
+       atom=2 type=p keep=(z)                 
+      ncart ncont  3 1
+       atom=3 type=p keep=(z)                 
+      ncart ncont  3 0
+  
+  orbital   index   label 
+      1      1  h1      s       
+      2      2          s       
+      3      3          s       
+      4      4          s       
+      5      5          s       
+      6      0          x       
+      7      0          y       
+      8      6          z       
+      9      7  h2      s       
+     10      8          s       
+     11      9          s       
+     12     10          s       
+     13     11          s       
+     14      0          x       
+     15      0          y       
+     16     12          z       
+  
+  orbital   new label 
+      1  h1      s       
+      2          s       
+      3          s       
+      4          s       
+      5          s       
+      6          z       
+      7  h2      s       
+      8          s       
+      9          s       
+     10          s       
+     11          s       
+     12          z       
+       newnbf: 12
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length      1887
+     maximum usable field length        10551
+     $primitive integrals possible      14631
+     $primitive integrals computed      14445( 98.7%)
+     $contracted integrals possible      9316
+     $contracted integrals kept          5405( 58.0%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     core hamiltonian.
+     initial guess vector.
+                              1         2         3         4         5    
+     eigenvalues --    -1.28223   -.61133   -.30642   -.01767   1.50008
+          h1      s     -.00383    .00275   -.00152    .00225   -.00830
+                  s     -.02788    .02135   -.02351    .03372    .03539
+                  s     -.14570    .11033   -.03978    .05731   -.88781
+                  s     -.35511    .50590   -.70747   1.37966   1.22348
+                  s     -.08776   1.06128    .85874  -2.47439   -.53914
+                  z      .03138    .01182    .03221   -.02052    .37952
+          h2      s     -.00383   -.00275   -.00152   -.00225   -.00830
+                  s     -.02788   -.02135   -.02351   -.03372    .03539
+                  s     -.14570   -.11033   -.03978   -.05731   -.88781
+                  s     -.35511   -.50590   -.70747  -1.37966   1.22348
+                  s     -.08776  -1.06128    .85874   2.47439   -.53914
+                  z     -.03138    .01182   -.03221   -.02052   -.37952
+                              6         7         8         9        10    
+     eigenvalues --     1.97601   2.24141   4.27401  12.68224  13.36658
+          h1      s     -.01207   -.00933    .00322    .02907   -.03152
+                  s      .02317    .03372    .00153  -1.08733   1.14572
+                  s    -1.21670   -.95221    .21725   1.16900  -1.34851
+                  s     2.13349    .80205   1.10500   -.63628    .81119
+                  s    -1.37343   -.25437   -.38743    .19667   -.46393
+                  z     -.15560   -.48635  -1.37086    .05685    .20251
+          h2      s      .01207   -.00933   -.00322    .02907    .03152
+                  s     -.02317    .03372   -.00153  -1.08733  -1.14572
+                  s     1.21670   -.95221   -.21725   1.16900   1.34851
+                  s    -2.13349    .80205  -1.10500   -.63628   -.81119
+                  s     1.37343   -.25437    .38743    .19667    .46393
+                  z     -.15560    .48635  -1.37086   -.05685    .20251
+                             11        12    
+     eigenvalues --    87.98016  88.36348
+          h1      s     -.89263   -.89644
+                  s      .71731    .75129
+                  s     -.43455   -.50375
+                  s      .21705    .28793
+                  s     -.06762   -.16373
+                  z     -.01653    .05834
+          h2      s     -.89263    .89644
+                  s      .71731   -.75129
+                  s     -.43455    .50375
+                  s      .21705   -.28793
+                  s     -.06762    .16373
+                  z      .01653    .05834
+     project symmetry vectors

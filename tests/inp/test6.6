@@ -1,0 +1,18 @@
+$route
+maxsiz=125000,basis=dz,sym=off
+mcscf=(cas,cycles=10,number-of-core-orbitals=3,convergence=12)
+drtmc=(rdsym,nsym=1,nbf=4,vexcite=99), guess=(chk=mcscf) geom=rdchk
+print=(gradient=total)
+frequencies
+force-constants=(numerical=(two-point))
+$end
+
+$drtmc
+2doc1 2uoc1
+$end
+
+
+$title
+ h2o test case:  casscf(903) geometry/vectors from optimization run.
+                 forceconstantsinternal/two-point formula
+$end

@@ -1,0 +1,363 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+     10-Jul-1993 02:42:25    
+     los alamos national laboratory;sun 4/280s(vivaldi);                             
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.1                                                                                                   
+     out:    /usr2/mesa/tests/out/sun/test12.1                                                                                               
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf                                                                                                                
+     rint:   /vivaldi/tmp/rint                                                                                                               
+     int:    /vivaldi/tmp/int                                                                                                                
+     tint:   /vivaldi/tmp/tint                                                                                                               
+     gint:   /vivaldi/tmp/gint                                                                                                               
+     rdint:  /vivaldi/tmp/rdint                                                                                                              
+     dint:   /vivaldi/tmp/dint                                                                                                               
+     zint:   /vivaldi/tmp/zint                                                                                                               
+     ham:    /vivaldi/tmp/ham                                                                                                                
+     moden:  /vivaldi/tmp/moden                                                                                                              
+     aoden:  /vivaldi/tmp/aoden                                                                                                              
+     saoden: /vivaldi/tmp/saoden                                                                                                             
+     gden:   /vivaldi/tmp/gden                                                                                                               
+     fci:    /vivaldi/tmp/fci                                                                                                                
+     machine size:          4000000
+     user defined maxsiz:   1000000
+ title:
+     H2 Two State Test       
+ route:
+     1//1,2;
+     2//2;
+     3//1,2,12,30;
+     4//1;
+     5//1,2;
+     6//4;
+     20//01;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) drop=42 guess=core print=(drop,guess=all,scf
+     =(vector=all),ivo,nodis,noang) geom=(coord,inau,nocrowd) ksym=(symmetry=1) kohn=
+     (nsmall=2) sym=norotate
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000    0.000000    0.000000    0.370424
+       2    2   h  small      1.000    0.000000    0.000000   -0.370424
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     # primitive cartesians    16
+     # contracted cartesians   16
+     # basis functions         16
+ symmetry:
+     full point group:  d*h
+     utilizing group :  d2h
+     number of salcs :   ag   b1g  b2g  b3g  au   b1u  b2u  b3u  
+                          6    0    1    1    0    6    1    1
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   h              0.000000    0.000000    0.370424
+      2   2   h              0.000000    0.000000   -0.370424
+ rotational constants (ghz):      0.0000000   1827.2741336   1827.2741336
+ isotopes:
+     h-1     h-1     
+ m301:dropping functions
+ 
+ atom number   1
+ charge          1.0000000000000
+ bflabl      h1      s       
+  primitive type s=1 p=2 d=3 etc.   1
+ number of contracted functions  5
+ number of cartesian functions  1
+  primitive type s=1 p=2 d=3 etc.   2
+ number of contracted functions  1
+ number of cartesian functions  3
+ 
+ atom number   2
+ charge          1.0000000000000
+ bflabl      h2      s       
+  primitive type s=1 p=2 d=3 etc.   1
+ number of contracted functions  5
+ number of cartesian functions  1
+  primitive type s=1 p=2 d=3 etc.   2
+ number of contracted functions  1
+ number of cartesian functions  3
+      atom=1 type=p keep=(z)                 
+     ncart ncont   3  1
+      atom=2 type=p keep=(z)                 
+     ncart ncont   3  1
+      atom=3 type=p keep=(z)                 
+     ncart ncont   3  0
+ 
+ orbital   index   label 
+      1      1  h1      s       
+      2      2          s       
+      3      3          s       
+      4      4          s       
+      5      5          s       
+      6      0          x       
+      7      0          y       
+      8      6          z       
+      9      7  h2      s       
+     10      8          s       
+     11      9          s       
+     12     10          s       
+     13     11          s       
+     14      0          x       
+     15      0          y       
+     16     12          z       
+ 
+ orbital   new label 
+      1  h1      s       
+      2          s       
+      3          s       
+      4          s       
+      5          s       
+      6          z       
+      7  h2      s       
+      8          s       
+      9          s       
+     10          s       
+     11          s       
+     12          z       
+      newnbf:  12
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length      1887
+     maximum usable field length        10551
+     #primitive integrals possible      14631
+     #primitive integrals computed      14445( 98.7%)
+     #contracted integrals possible      9316
+     #contracted integrals kept          5405( 58.0%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     core hamiltonian.
+     initial guess vector.
+                              1         2         3         4         5
+     eigenvalues --    -1.28223  -0.61133  -0.30642  -0.01767   1.50008
+          h1      s    -0.00383   0.00275   0.00152   0.00225   0.00830
+                  s    -0.02788   0.02135   0.02351   0.03372  -0.03539
+                  s    -0.14570   0.11033   0.03978   0.05731   0.88781
+                  s    -0.35511   0.50590   0.70747   1.37966  -1.22348
+                  s    -0.08776   1.06128  -0.85874  -2.47439   0.53914
+                  z     0.03138   0.01182  -0.03221  -0.02052  -0.37952
+          h2      s    -0.00383  -0.00275   0.00152  -0.00225   0.00830
+                  s    -0.02788  -0.02135   0.02351  -0.03372  -0.03539
+                  s    -0.14570  -0.11033   0.03978  -0.05731   0.88781
+                  s    -0.35511  -0.50590   0.70747  -1.37966  -1.22348
+                  s    -0.08776  -1.06128  -0.85874   2.47439   0.53914
+                  z    -0.03138   0.01182   0.03221  -0.02052   0.37952
+                              6         7         8         9        10
+     eigenvalues --     1.97601   2.24141   4.27401  12.68224  13.36658
+          h1      s     0.01207   0.00933   0.00322   0.02907  -0.03152
+                  s    -0.02317  -0.03372   0.00153  -1.08733   1.14572
+                  s     1.21670   0.95221   0.21725   1.16900  -1.34851
+                  s    -2.13349  -0.80205   1.10500  -0.63628   0.81119
+                  s     1.37343   0.25437  -0.38743   0.19667  -0.46393
+                  z     0.15560   0.48635  -1.37086   0.05685   0.20251
+          h2      s    -0.01207   0.00933  -0.00322   0.02907   0.03152
+                  s     0.02317  -0.03372  -0.00153  -1.08733  -1.14572
+                  s    -1.21670   0.95221  -0.21725   1.16900   1.34851
+                  s     2.13349  -0.80205  -1.10500  -0.63628  -0.81119
+                  s    -1.37343   0.25437   0.38743   0.19667   0.46393
+                  z     0.15560  -0.48635  -1.37086  -0.05685   0.20251
+                             11        12
+     eigenvalues --    87.98016  88.36348
+          h1      s    -0.89263  -0.89644
+                  s     0.71731   0.75129
+                  s    -0.43455  -0.50375
+                  s     0.21705   0.28793
+                  s    -0.06762  -0.16373
+                  z    -0.01653   0.05834
+          h2      s    -0.89263   0.89644
+                  s     0.71731  -0.75129
+                  s    -0.43455   0.50375
+                  s     0.21705  -0.28793
+                  s    -0.06762   0.16373
+                  z     0.01653   0.05834
+ m501:
+     memory use                    3999999
+     all integrals held in core.
+     nuclear repulsion energy:    0.714286
+     iter              energy    diis convergence
+        5        -1.132266814         0.000000724
+     rotating scf orbitals under core fock operator
+ m502:improved virtual orbitals
+     triplet ivo calculation
+     f vector-coupling-constant     1.00000
+     shell    no. orbitals     alpha        beta 
+           1         1         1.00000     -1.00000
+           2        11         0.00000      0.00000
+     memory use                    3999999
+     all integrals held in core.
+     reading the rwf file
+     *** ivo energy evaluation ***
+     nuclear repulsion energy            0.714285714
+     closed  shell     energy            0.000000000
+     open    shell     energy           -1.252486477
+     total   core      energy           -0.538200762
+
+        state        ivo eigenvalue        total energy   
+         1             -0.218675988        -0.756876751
+         2              0.035576530        -0.502624232
+         3              0.378911422        -0.159289340
+         4              2.078004537         1.539803774
+         5              2.555022863         2.016822101
+
+                              1         2         3         4         5
+     eigenvalues --    -0.59407  -0.21868   0.03558   0.37891   2.07800
+          h1      s    -0.00329   0.00231   0.00165  -0.00198   0.00903
+                  s    -0.02412   0.01573   0.03062  -0.03902  -0.03807
+                  s    -0.11224   0.09405   0.01869  -0.01494   0.93388
+                  s    -0.26445   0.29239   0.81340  -1.53711  -1.21715
+                  s    -0.21636   1.42918  -0.85555   2.33915   0.52041
+                  z     0.01572   0.01619  -0.02490   0.02138  -0.36134
+          h2      s    -0.00329  -0.00231   0.00165   0.00198   0.00903
+                  s    -0.02412  -0.01573   0.03062   0.03902  -0.03807
+                  s    -0.11224  -0.09405   0.01869   0.01494   0.93388
+                  s    -0.26445  -0.29239   0.81340   1.53711  -1.21715
+                  s    -0.21636  -1.42918  -0.85555  -2.33915   0.52041
+                  z    -0.01572   0.01619   0.02490   0.02138   0.36134
+                              6         7         8         9        10
+     eigenvalues --     2.55502   2.87622   4.93527  13.46236  14.14266
+          h1      s    -0.01248   0.00932   0.00344  -0.02932   0.03181
+                  s     0.02803  -0.03861   0.00284   1.08726  -1.14584
+                  s    -1.22184   0.92288   0.24268  -1.16108   1.34217
+                  s     2.09158  -0.75150   1.06478   0.62780  -0.79627
+                  s    -1.28390   0.22884  -0.36426  -0.19298   0.45334
+                  z    -0.18406   0.50137  -1.36682  -0.05494  -0.20556
+          h2      s     0.01248   0.00932  -0.00344  -0.02932  -0.03181
+                  s    -0.02803  -0.03861  -0.00284   1.08726   1.14584
+                  s     1.22184   0.92288  -0.24268  -1.16108  -1.34217
+                  s    -2.09158  -0.75150  -1.06478   0.62780   0.79627
+                  s     1.28390   0.22884   0.36426  -0.19298  -0.45334
+                  z    -0.18406  -0.50137  -1.36682   0.05494  -0.20556
+                             11        12
+     eigenvalues --    88.85545  89.23785
+          h1      s    -0.89262  -0.89643
+                  s     0.71690   0.75083
+                  s    -0.43386  -0.50298
+                  s     0.21649   0.28704
+                  s    -0.06740  -0.16309
+                  z    -0.01647   0.05833
+          h2      s    -0.89262   0.89643
+                  s     0.71690  -0.75083
+                  s    -0.43386   0.50298
+                  s     0.21649  -0.28704
+                  s    -0.06740   0.16309
+                  z     0.01647   0.05833
+     overwriting scf vector with ivos
+
+ the virtual orbitals start at orbital    3 and will be symmetry ordered 
+
+     ao orbital symmetry information
+ 
+symmetry  1
+
+          number of symmetry orbitals in this irrep   12
+
+     list of aos
+        1    2    3    4    5    6    7    8    9   10
+
+       11   12
+ 
+symmetry  6
+
+          number of symmetry orbitals in this irrep   12
+
+     list of aos
+        1    2    3    4    5    6    7    8    9   10
+
+       11   12
+
+      reading the rwf file 
+
+ kohnopt input: written to rwf and chk 
+ 
+mo orbital symmetry information
+ 
+symmetry  1
+
+          number of symmetry orbitals in this irrep    6
+
+     list of mos
+        1    3    4    5    6    7
+ 
+symmetry  6
+
+          number of symmetry orbitals in this irrep    6
+
+     list of mos
+        2    8    9   10   11   12
+
+ final vectors 
+                                   1         2         3         4         5
+          eigenvalues --    -0.59407  -0.21868   0.03558   2.07800   2.87622
+    1          h1      s    -0.00329   0.00231   0.00165   0.00903   0.00932
+    2                  s    -0.02412   0.01573   0.03062  -0.03807  -0.03861
+    3                  s    -0.11224   0.09405   0.01869   0.93388   0.92288
+    4                  s    -0.26445   0.29239   0.81340  -1.21715  -0.75150
+    5                  s    -0.21636   1.42918  -0.85555   0.52041   0.22884
+    6                  z     0.01572   0.01619  -0.02490  -0.36134   0.50137
+    7          h2      s    -0.00329  -0.00231   0.00165   0.00903   0.00932
+    8                  s    -0.02412  -0.01573   0.03062  -0.03807  -0.03861
+    9                  s    -0.11224  -0.09405   0.01869   0.93388   0.92288
+   10                  s    -0.26445  -0.29239   0.81340  -1.21715  -0.75150
+   11                  s    -0.21636  -1.42918  -0.85555   0.52041   0.22884
+   12                  z    -0.01572   0.01619   0.02490   0.36134  -0.50137
+                                   6         7         8         9        10
+          eigenvalues --    13.46236  88.85545   0.37891   2.55502   4.93527
+    1          h1      s    -0.02932  -0.89262  -0.00198  -0.01248   0.00344
+    2                  s     1.08726   0.71690  -0.03902   0.02803   0.00284
+    3                  s    -1.16108  -0.43386  -0.01494  -1.22184   0.24268
+    4                  s     0.62780   0.21649  -1.53711   2.09158   1.06478
+    5                  s    -0.19298  -0.06740   2.33915  -1.28390  -0.36426
+    6                  z    -0.05494  -0.01647   0.02138  -0.18406  -1.36682
+    7          h2      s    -0.02932  -0.89262   0.00198   0.01248  -0.00344
+    8                  s     1.08726   0.71690   0.03902  -0.02803  -0.00284
+    9                  s    -1.16108  -0.43386   0.01494   1.22184  -0.24268
+   10                  s     0.62780   0.21649   1.53711  -2.09158  -1.06478
+   11                  s    -0.19298  -0.06740  -2.33915   1.28390   0.36426
+   12                  z     0.05494   0.01647   0.02138  -0.18406  -1.36682
+                                  11        12
+          eigenvalues --    14.14266  89.23785
+    1          h1      s     0.03181  -0.89643
+    2                  s    -1.14584   0.75083
+    3                  s     1.34217  -0.50298
+    4                  s    -0.79627   0.28704
+    5                  s     0.45334  -0.16309
+    6                  z    -0.20556   0.05833
+    7          h2      s    -0.03181   0.89643
+    8                  s     1.14584  -0.75083
+    9                  s    -1.34217   0.50298
+   10                  s     0.79627  -0.28704
+   11                  s    -0.45334   0.16309
+   12                  z    -0.20556   0.05833
+
+ vectors have been written to the rwf file
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       1.4       0.3       0.0         0
+      101         1       0.8       0.3       0.0         0
+      102         1       1.4       0.4       0.0         0
+      202         1       2.0       0.5       0.0         0
+      301         1       3.9       0.4       0.0         0
+      302         1       1.3       0.4       0.0         0
+      312         1       2.6       0.6       0.0         0
+      330         1       1.2       0.6       0.0         0
+      401         1       2.0       0.3       0.0         0
+      501         1      10.0       0.7       0.0         0
+      502         1       1.0       0.3       0.0         0
+      604         1       1.9       0.6       0.0         0
+             total:      29.4       5.3       0.0         0

@@ -1,0 +1,46 @@
+*deck  %W% %G%
+      subroutine ecp(iatom,jatom,lamax,lbmax,nprimi,nprimj,
+     $                   nprim,ncont,nat,nbtype,ntypes,maxp2,maxi2,
+     $                   i1,j1,c,ex,noprim,ptprim,ptcont,cont,
+     $                   maxmom,mini,maxi,minj,maxj,nx,ny,nz,sp,
+     $                   ntpse,nlp,zlp,clp,acoef1,len1,ptcf1,
+     $                   z,a,ntop,ltop)
+      implicit real*8(a-h,o-z)
+c     ----- arguments unchanged -----
+      integer iatom,jatom,lamax,lbmax,nprimi,nprimj,nprim
+      integer ncont,nat,nbtype,ntypes,maxp2,maxi2
+      integer i1,j1 
+      real*8 c(3,nat),ex(nprim)
+      integer noprim(nat,ntypes)
+      integer ptprim(nat,ntypes),ptcont(nat,ntypes)
+      real*8 cont(ncont)
+      integer maxmom(ntypes)
+      integer mini,maxi,minj,maxj
+      integer nx(*),ny(*),nz(*)
+      integer nlp(*),ntpse(*)
+      real*8 zlp(*),clp(*)
+      complex*16 acoef1(len1)
+      integer ptcf1(0:ltop,0:ltop,0:ltop)
+      integer ntop,ltop
+c     ----- arguments returned -----
+      real*8 sp(maxp2,maxi2)
+c     ----- scratch space -----
+      real*8 z(*)
+      integer a(*)
+c     ----- local variables -----
+      logical hasecp
+      real*8 ca(3),cb(3)
+      real*8 half
+      parameter (half=5.0d-01)
+c
+c     controls computation of pseudopotential integrals.
+c
+c     the parameter ltop sets the limit on the total angular momentum
+c     which may be handled; i.e., ltop=6 implies f with f. 
+c     the parameter ntop deals with the value of n in the ecp projector.
+c     currently this is n=0,1,2, so ntop=lmax+2
+c     parameter (ntop=8,ltop=6)
+c     real*8 q(0:ntop,0:ltop)
+c     real*8 ang(0:ltop)
+c     real*8 xab(0:ltop+ltop),yab(0:ltop+ltop),zab(ltop+ltop)
+c

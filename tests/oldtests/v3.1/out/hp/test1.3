@@ -1,0 +1,154 @@
+ mesa(%I%);%G%;hp-ux 8.07 unix.                                                 
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+
+      6-nov-1992 17:44:41    
+     los alamos national laboratory;hp730(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test1.3                                                                                                    
+     out:    /cesium/rlm/mesa/out/test1.3                                                                                                    
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf                                                                                                             
+     rint:   /cesium/rlm/tmp/rint                                                                                                            
+     int:    /cesium/rlm/tmp/int                                                                                                             
+     tint:   /cesium/rlm/tmp/tint                                                                                                            
+     gint:   /cesium/rlm/tmp/gint                                                                                                            
+     rdint:  /cesium/rlm/tmp/rdint                                                                                                           
+     dint:   /cesium/rlm/tmp/dint                                                                                                            
+     zint:   /cesium/rlm/tmp/zint                                                                                                            
+     ham:    /cesium/rlm/tmp/ham                                                                                                             
+     moden:  /cesium/rlm/tmp/moden                                                                                                           
+     aoden:  /cesium/rlm/tmp/aoden                                                                                                           
+     saoden: /cesium/rlm/tmp/saoden                                                                                                          
+     gden:   /cesium/rlm/tmp/gden                                                                                                            
+     fci:    /cesium/rlm/tmp/fci                                                                                                             
+     machine size:          4000000
+     user defined maxsiz:   1000000
+ title:
+      boron test case: general scf   
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     19//51;
+     20//01;
+ options:
+     2s+1=2,q=0,geom=(coord,inau) print=(scf=(vector=all)),sym=off,guess=core hf,scf=
+     (convergence=5,gscf,nshell=2,shlnbf=(2,3), fn=(1.,1.), fd=(1.,6.), an=(2.,1.,0.)
+     , ad=(1.,3.,1.), bn=(-1.,-1.,0.),bd=(1.,6.,1.))
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   b  dz         5.000     .000000     .000000     .000000
+ molecular parameters:
+     charge:                    0
+     multiplicity:              2
+     number alpha electrons:    3
+     number beta electrons:     2
+ basis dimensions:
+     # primitive cartesians    21
+     # contracted cartesians   10
+     # basis functions         10
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   b               .000000     .000000     .000000
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     11601
+     maximum usable field length       102561
+     #primitive integrals possible      74925
+     #primitive integrals computed      74925(100.0%)
+     #contracted integrals possible      1540
+     #contracted integrals kept           976( 63.4%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     core hamiltonian.
+ m501:
+     memory use                    5999999
+     all integrals held in core.
+
+
+        --- general scf calculation ---
+        number of orbitals in each shell
+           2      3      5  
+
+  general scf coupling constants 
+              f           
+             1           2           3       
+  ------------------------------------------
+   1     1.0000000    .1666667    .0000000
+
+            alpha 
+             1           2           3       
+  ------------------------------------------
+   1     2.0000000    .3333333    .0000000
+   2      .3333333    .0000000    .0000000
+   3      .0000000    .0000000    .0000000
+
+            beta 
+             1           2           3       
+  ------------------------------------------
+   1    -1.0000000   -.1666667    .0000000
+   2     -.1666667    .0000000    .0000000
+   3      .0000000    .0000000    .0000000
+     nuclear repulsion energy:     .000000
+     iter              energy    diis convergence
+       12       -24.522913584          .000009712
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     scf vector:
+                              1         2         3         4         5    
+     eigenvalues --    -7.70109   -.49716   -.30552   -.30552   -.30552
+          b       s     -.60798    .13502    .00000    .00000    .00000
+                  s     -.43324    .18664    .00000    .00000    .00000
+                  s     -.00096   -.53738    .00000    .00000    .00000
+                  s     -.00042   -.57256    .00000    .00000    .00000
+                  x      .00000    .00000    .78927    .00000    .00000
+                  y      .00000    .00000    .00000    .78927    .00000
+                  z      .00000    .00000    .00000    .00000   -.78927
+                  x      .00000    .00000    .31626    .00000    .00000
+                  y      .00000    .00000    .00000    .31626    .00000
+                  z      .00000    .00000    .00000    .00000   -.31626
+                              6         7         8         9        10    
+     eigenvalues --      .32033    .32033    .32033    .46293  15.71628
+          b       s      .00000    .00000    .00000   -.14205  -1.72875
+                  s      .00000    .00000    .00000   -.24353   1.88547
+                  s      .00000    .00000    .00000   1.70788   -.35055
+                  s      .00000    .00000    .00000  -1.57012    .18966
+                  x      .90663    .00000    .00000    .00000    .00000
+                  y      .00000    .90663    .00000    .00000    .00000
+                  z      .00000    .00000    .90663    .00000    .00000
+                  x    -1.15970    .00000    .00000    .00000    .00000
+                  y      .00000  -1.15970    .00000    .00000    .00000
+                  z      .00000    .00000  -1.15970    .00000    .00000
+     bond-order matrix:
+                              b                                                  
+                  b     7.00000
+     spin-density matrix:
+                              b                                                  
+                  b     3.00000
+     total atomic charges and spins:
+            b          7.000000   3.000000
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .3        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1        .1        .0        .0         0
+      202         1        .3        .0        .0         0
+      302         1        .2        .0        .0         0
+      312         1        .4        .0        .0         0
+      330         1        .2        .0        .0         0
+      401         1        .3        .0        .0         0
+      501         1       3.3        .0        .0         0
+     1951         1        .2        .0        .0         0
+             total:       5.4        .0        .0         0

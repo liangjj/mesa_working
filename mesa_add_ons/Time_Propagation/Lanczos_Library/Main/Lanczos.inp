@@ -1,0 +1,30 @@
+$lanczos_setup
+    matrix_source=external  print=all_details
+$end
+
+$matrix_parameters
+ xsolve_only matrix_file_name=Ham.NO.dat
+ matrix_type=real xupper_triangle xpack_matrices in_core
+ preconditioner=none 
+ initial_state=from_input
+ xprint=on xmatrix_size=5
+   right_hand_side=(1.,1.,1.,2.,1.)
+$end
+
+$iterative_data
+ iterative_method=lanczos
+ type_matrix=real_matrix 
+ overlap_tolerance=1.e-10 convergence=1.d-10
+ orthogonalization_procedure=full 
+ xprint=(iterative=all) maximum_number_of_iterations=150
+ maximum_number_of_vectors=150 number_of_trials=1
+$end
+
+$initial_state
+ driver=right_hand_side
+$end
+   matrix_row_1=(1.) matrix_row_2=(.5,1.) matrix_row_3=(.3,.5,1.) 
+   matrix_row_4=(.3,.3,.5,1.) matrix_row_5=(.2,.3,.3,.5,1.) 
+   matrix_row_1=(1.) matrix_row_2=(.5,1.) matrix_row_3=(.3,.5,1.) 
+   matrix_row_4=(.3,.3,.5,1.) matrix_row_5=(.2,.3,.3,.5,1.) 
+   right_hand_side=(1.,1.,1.,2.,1.)

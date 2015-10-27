@@ -1,0 +1,874 @@
+ mesa(1.2);5/30/91;unix.                                                        
+     (c) 1990, the university of california.                                    
+     P.W. Saxe, B.H. Lengsfield iii, R.L. Martin, M. Page and B. Schneider.     
+
+     23-jul-1901 18:10:16    
+     National Science Foundation;Dec Alpha 600MHz(bohr);B. Schneider                 
+ main files/memory:
+     inp:   ../bmesa/MG_TDVR_inprog/i     out:    mesa.out                 
+     chk:   mesa.chk                      dat:    ../mesa.dat              
+     rwf:   tmp/mesa.rwf                  rint:   tmp/mesa.rint            
+     int:   tmp/mesa.int                  tint:   tmp/mesa.tint            
+     gint:  tmp/mesa.gint                 rdint:  tmp/mesa.rdint           
+     dint:  tmp/mesa.dint                 zint:   tmp/mesa.zint            
+     ham:   tmp/mesa.ham                  moden:  tmp/mesa.moden           
+     aoden: tmp/mesa.aoden                saoden: tmp/mesa.saoden          
+     gden:  tmp/mesa.gden                 fci:    tmp/mesa.fci             
+
+     machine size:        100000000
+ kohn and bec files:
+     kohn:  tmp/mesa.kohn                 kohndt: tmp/mesa.kohndt          
+     grid:  tmp/mesa.grid                 orbs:   tmp/mesa.orbs            
+     vstat: tmp/mesa.vstat                ylms:   tmp/mesa.ylms            
+     bessel:tmp/mesa.bessel               knints: tmp/mesa.knints          
+     tmat:  tmp/mesa.tmat                 blktmat:tmp/mesa.blktmt          
+     optint:tmp/mesa.optint               atomci: tmp/mesa.atomci          
+     lamdat:tmp/mesa.lamdat               bec:    tmp/mesa.bec             
+     hpart: tmp/mesa.hpart           
+     user defined maxsiz:  10000000
+ title:
+     time-propagation code   
+ route:
+     80//01;
+     20//01;
+ options:
+     number-of-space-dimensions=1 print=(sector=all,tdvr=all) use-atomic-units dimens
+     ion-1=r number-of-time-regions=1 xiterative-linear-system-solve pure-time-pertur
+     bation=t driver=one initial-state=0 space-time-perturbation=none no-spatial-hami
+     ltonian
+
+
+                    time-dependent basis function code
+
+                    number of spatial dimensions = 1
+
+               calculation = solve time-dependent schrodinger equation
+
+     time-dependent data
+     no spatial hamiltonian   = T
+     driver                   = one                     
+     state                    =  0
+     number of time intervals =   1
+
+                    dimension = r                       
+
+ left boundary condition  = 0
+ right boundary condition = 0
+
+ data for grid number =   1
+
+ number of regions =   1
+
+ number of points per region = 
+   3
+
+ region edges = 
+    0.00000E+00     0.10000E+01
+
+     region =   1 number of functions =   3
+     starting function =   1 ending function =   3
+     global starting function =   1 global ending function =   3
+     bridge function = F
+
+ potential type =         none                    
+
+     size of global basis set =    3
+
+     region =   1 number of functions =   3
+     starting function =   1 ending function =   3
+     global starting function =   1 global ending function =   3
+     bridge function = F
+
+ basis size =    3
+
+                    dimension = t1                      
+
+ left boundary condition  = 0
+ right boundary condition = 1
+
+ number of points per region = 
+ 150
+
+ region edges = 
+    0.00000E+00     0.20000E+02
+
+ basis size =  150
+
+     constructing factors for a time-dependent perturbation = t
+
+ initial state construction at first time =  0.00000000E+00
+
+ initial state =         one                     
+
+ channel interaction for 
+ channel i =   1 channel j =   1
+ space and time    = none                            
+ non-linear        = none                            
+
+     units = atomic-units    
+
+     direct solution of complex linear system of:
+                                                 size =  298
+                                                 no.rhs =   1
+
+ comparison between approximate and exact solution 
+ for linear potential in time
+ initial time =  0.00000000E+00
+
+ time        =  0.32843774E-02
+
+          approximate =  0.10108867E+01 -0.89927534E-03
+          exact       =  0.10000000E+01 -0.53935674E-05
+
+ time        =  0.11008820E-01
+
+          approximate =  0.10054310E+01 -0.50427489E-03
+          exact       =  0.10000000E+01 -0.60597057E-04
+
+ time        =  0.23145306E-01
+
+          approximate =  0.10096994E+01 -0.10694457E-02
+          exact       =  0.99999996E+00 -0.26785260E-03
+
+ time        =  0.39687539E-01
+
+          approximate =  0.10060639E+01 -0.12851844E-02
+          exact       =  0.99999969E+00 -0.78755029E-03
+
+ time        =  0.60628047E-01
+
+          approximate =  0.10092845E+01 -0.26220223E-02
+          exact       =  0.99999831E+00 -0.18378790E-02
+
+ time        =  0.85957536E-01
+
+          approximate =  0.10063516E+01 -0.42341866E-02
+          exact       =  0.99999318E+00 -0.36943406E-02
+
+ time        =  0.11566480E+00
+
+          approximate =  0.10090346E+01 -0.74973996E-02
+          exact       =  0.99997763E+00 -0.66891237E-02
+
+ time        =  0.14973673E+00
+
+          approximate =  0.10064702E+01 -0.11817793E-01
+          exact       =  0.99993716E+00 -0.11210309E-01
+
+ time        =  0.18815825E+00
+
+          approximate =  0.10087447E+01 -0.18588140E-01
+          exact       =  0.99984333E+00 -0.17700840E-01
+
+ time        =  0.23091242E+00
+
+          approximate =  0.10062892E+01 -0.27388379E-01
+          exact       =  0.99964464E+00 -0.26657114E-01
+
+ time        =  0.27798034E+00
+
+          approximate =  0.10080316E+01 -0.39673929E-01
+          exact       =  0.99925370E+00 -0.38626922E-01
+
+ time        =  0.32934123E+00
+
+          approximate =  0.10052397E+01 -0.55151495E-01
+          exact       =  0.99852976E+00 -0.54206241E-01
+
+ time        =  0.38497241E+00
+
+          approximate =  0.10059153E+01 -0.75354875E-01
+          exact       =  0.99725571E+00 -0.74034081E-01
+
+ time        =  0.44484932E+00
+
+          approximate =  0.10018350E+01 -0.10007187E+00
+          exact       =  0.99510889E+00 -0.98784089E-01
+
+ time        =  0.50894552E+00
+
+          approximate =  0.10001423E+01 -0.13089805E+00
+          exact       =  0.99162494E+00 -0.12915101E+00
+
+ time        =  0.57723270E+00
+
+          approximate =  0.99282552E+00 -0.16762880E+00
+          exact       =  0.98615449E+00 -0.16582920E+00
+
+ time        =  0.64968070E+00
+
+          approximate =  0.98612036E+00 -0.21184448E+00
+          exact       =  0.97781306E+00 -0.20947939E+00
+
+ time        =  0.72625755E+00
+
+          approximate =  0.97192252E+00 -0.26319711E+00
+          exact       =  0.96542565E+00 -0.26067858E+00
+
+ time        =  0.80692942E+00
+
+          approximate =  0.95542782E+00 -0.32305332E+00
+          exact       =  0.94746935E+00 -0.31984657E+00
+
+ time        =  0.89166069E+00
+
+          approximate =  0.92813938E+00 -0.39060905E+00
+          exact       =  0.92202028E+00 -0.38714158E+00
+
+ time        =  0.98041395E+00
+
+          approximate =  0.89407481E+00 -0.46659540E+00
+          exact       =  0.88671503E+00 -0.46231639E+00
+
+ time        =  0.10731500E+01
+
+          approximate =  0.84414951E+00 -0.54915763E+00
+          exact       =  0.83874310E+00 -0.54452733E+00
+
+ time        =  0.11698279E+01
+
+          approximate =  0.78124672E+00 -0.63762228E+00
+          exact       =  0.77489418E+00 -0.63209098E+00
+
+ time        =  0.12704050E+01
+
+          approximate =  0.69587520E+00 -0.72810012E+00
+          exact       =  0.69169392E+00 -0.72219078E+00
+
+ time        =  0.13748368E+01
+
+          approximate =  0.59041474E+00 -0.81735073E+00
+          exact       =  0.58567151E+00 -0.81054851E+00
+
+ time        =  0.14830772E+01
+
+          approximate =  0.45606396E+00 -0.89816012E+00
+          exact       =  0.45381092E+00 -0.89109800E+00
+
+ time        =  0.15950784E+01
+
+          approximate =  0.29660384E+00 -0.96348229E+00
+          exact       =  0.29423856E+00 -0.95573201E+00
+
+ time        =  0.17107911E+01
+
+          approximate =  0.10670658E+00 -0.10018738E+01
+          exact       =  0.10718695E+00 -0.99423888E+00
+
+ time        =  0.18301640E+01
+
+          approximate = -0.10453587E+00 -0.10024075E+01
+          exact       = -0.10376668E+00 -0.99460167E+00
+
+ time        =  0.19531445E+01
+
+          approximate = -0.33409440E+00 -0.95084457E+00
+          exact       = -0.33027071E+00 -0.94388625E+00
+
+ time        =  0.20796782E+01
+
+          approximate = -0.56200791E+00 -0.83622108E+00
+          exact       = -0.55780142E+00 -0.82997444E+00
+
+ time        =  0.22097094E+01
+
+          approximate = -0.77171045E+00 -0.64870867E+00
+          exact       = -0.76472308E+00 -0.64435907E+00
+
+ time        =  0.23431805E+01
+
+          approximate = -0.92924842E+00 -0.38862654E+00
+          exact       = -0.92247808E+00 -0.38604947E+00
+
+ time        =  0.24800327E+01
+
+          approximate = -0.10062152E+01 -0.65969978E-01
+          exact       = -0.99780219E+00 -0.66263079E-01
+
+ time        =  0.26202054E+01
+
+          approximate = -0.96454690E+00  0.28971100E+00
+          exact       = -0.95791567E+00  0.28704976E+00
+
+ time        =  0.27636369E+01
+
+          approximate = -0.78556059E+00  0.63219337E+00
+          exact       = -0.77929785E+00  0.62665370E+00
+
+ time        =  0.29102637E+01
+
+          approximate = -0.46201780E+00  0.89511427E+00
+          exact       = -0.45962375E+00  0.88811374E+00
+
+ time        =  0.30600212E+01
+
+          approximate = -0.30721985E-01  0.10074994E+01
+          exact       = -0.30519372E-01  0.99953418E+00
+
+ time        =  0.32128432E+01
+
+          approximate =  0.43841464E+00  0.90749514E+00
+          exact       =  0.43387715E+00  0.90097204E+00
+
+ time        =  0.33686622E+01
+
+          approximate =  0.82621824E+00  0.57636307E+00
+          exact       =  0.82008148E+00  0.57224678E+00
+
+ time        =  0.35274094E+01
+
+          approximate =  0.10064590E+01  0.61480368E-01
+          exact       =  0.99808623E+00  0.61837442E-01
+
+ time        =  0.36890147E+01
+
+          approximate =  0.87303750E+00 -0.50215691E+00
+          exact       =  0.86720770E+00 -0.49794659E+00
+
+ time        =  0.38534067E+01
+
+          approximate =  0.41974967E+00 -0.91665961E+00
+          exact       =  0.41651617E+00 -0.90912831E+00
+
+ time        =  0.40205130E+01
+
+          approximate = -0.22925581E+00 -0.98125699E+00
+          exact       = -0.22630309E+00 -0.97405693E+00
+
+ time        =  0.41902596E+01
+
+          approximate = -0.80472281E+00 -0.60609131E+00
+          exact       = -0.79871464E+00 -0.60171000E+00
+
+ time        =  0.43625716E+01
+
+          approximate = -0.10040821E+01  0.92676783E-01
+          exact       = -0.99584075E+00  0.91110960E-01
+
+ time        =  0.45373729E+01
+
+          approximate = -0.64947001E+00  0.76985579E+00
+          exact       = -0.64551521E+00  0.76374741E+00
+
+ time        =  0.47145864E+01
+
+          approximate =  0.11879361E+00  0.10009022E+01
+          exact       =  0.11781408E+00  0.99303567E+00
+
+ time        =  0.48941338E+01
+
+          approximate =  0.83825429E+00  0.55999173E+00
+          exact       =  0.83088632E+00  0.55644220E+00
+
+ time        =  0.50759358E+01
+
+          approximate =  0.95704018E+00 -0.31372207E+00
+          exact       =  0.95042654E+00 -0.31094917E+00
+
+ time        =  0.52599121E+01
+
+          approximate =  0.30145440E+00 -0.96204436E+00
+          exact       =  0.29917616E+00 -0.95419789E+00
+
+ time        =  0.54459815E+01
+
+          approximate = -0.64423176E+00 -0.77516182E+00
+          exact       = -0.63822506E+00 -0.76984984E+00
+
+ time        =  0.56340619E+01
+
+          approximate = -0.99367603E+00  0.16426571E+00
+          exact       = -0.98668587E+00  0.16263763E+00
+
+ time        =  0.58240701E+01
+
+          approximate = -0.31588027E+00  0.95742957E+00
+          exact       = -0.31348753E+00  0.94959232E+00
+
+ time        =  0.60159223E+01
+
+          approximate =  0.73568673E+00  0.68905764E+00
+          exact       =  0.72902792E+00  0.68448397E+00
+
+ time        =  0.62095337E+01
+
+          approximate =  0.91535674E+00 -0.42003605E+00
+          exact       =  0.90913308E+00 -0.41650576E+00
+
+ time        =  0.64048189E+01
+
+          approximate = -0.91143490E-01 -0.10038666E+01
+          exact       = -0.90376813E-01 -0.99590764E+00
+
+ time        =  0.66016916E+01
+
+          approximate = -0.98837361E+00 -0.19927546E+00
+          exact       = -0.98007008E+00 -0.19865208E+00
+
+ time        =  0.68000650E+01
+
+          approximate = -0.42946579E+00  0.91109725E+00
+          exact       = -0.42729899E+00  0.90411038E+00
+
+ time        =  0.69998513E+01
+
+          approximate =  0.81184682E+00  0.59658885E+00
+          exact       =  0.80579348E+00  0.59219665E+00
+
+ time        =  0.72009624E+01
+
+          approximate =  0.70643000E+00 -0.71959407E+00
+          exact       =  0.70086382E+00 -0.71329511E+00
+
+ time        =  0.74033095E+01
+
+          approximate = -0.65102734E+00 -0.76941961E+00
+          exact       = -0.64495022E+00 -0.76422458E+00
+
+ time        =  0.76068032E+01
+
+          approximate = -0.79675165E+00  0.61596784E+00
+          exact       = -0.79158757E+00  0.61105574E+00
+
+ time        =  0.78113537E+01
+
+          approximate =  0.62055795E+00  0.79391114E+00
+          exact       =  0.61587254E+00  0.78784580E+00
+
+ time        =  0.80168706E+01
+
+          approximate =  0.75836691E+00 -0.66471254E+00
+          exact       =  0.75234573E+00 -0.65876848E+00
+
+ time        =  0.82232632E+01
+
+          approximate = -0.74081449E+00 -0.68350655E+00
+          exact       = -0.73407685E+00 -0.67906640E+00
+
+ time        =  0.84304404E+01
+
+          approximate = -0.56133635E+00  0.83616257E+00
+          exact       = -0.55814854E+00  0.82974105E+00
+
+ time        =  0.86383107E+01
+
+          approximate =  0.93212332E+00  0.38191455E+00
+          exact       =  0.92532432E+00  0.37917661E+00
+
+ time        =  0.88467822E+01
+
+          approximate =  0.13776364E+00 -0.99878318E+00
+          exact       =  0.13670117E+00 -0.99061233E+00
+
+ time        =  0.90557630E+01
+
+          approximate = -0.99498729E+00  0.16429345E+00
+          exact       = -0.98679079E+00  0.16199982E+00
+
+ time        =  0.92651607E+01
+
+          approximate =  0.49326096E+00  0.87873623E+00
+          exact       =  0.48826480E+00  0.87269553E+00
+
+ time        =  0.94748829E+01
+
+          approximate =  0.62178790E+00 -0.79211673E+00
+          exact       =  0.61815297E+00 -0.78605782E+00
+
+ time        =  0.96848369E+01
+
+          approximate = -0.98163538E+00 -0.22550820E+00
+          exact       = -0.97460266E+00 -0.22394120E+00
+
+ time        =  0.98949302E+01
+
+          approximate =  0.25913715E+00  0.97415572E+00
+          exact       =  0.25721152E+00  0.96635513E+00
+
+ time        =  0.10105070E+02
+
+          approximate =  0.70902703E+00 -0.71731615E+00
+          exact       =  0.70332262E+00 -0.71087080E+00
+
+ time        =  0.10315163E+02
+
+          approximate = -0.98734119E+00 -0.20479633E+00
+          exact       = -0.97890177E+00 -0.20433140E+00
+
+ time        =  0.10525117E+02
+
+          approximate =  0.40409786E+00  0.92299620E+00
+          exact       =  0.39968564E+00  0.91665227E+00
+
+ time        =  0.10734839E+02
+
+          approximate =  0.48279745E+00 -0.88364417E+00
+          exact       =  0.48036989E+00 -0.87706600E+00
+
+ time        =  0.10944237E+02
+
+          approximate = -0.98720713E+00  0.19820853E+00
+          exact       = -0.98048127E+00  0.19661249E+00
+
+ time        =  0.11153218E+02
+
+          approximate =  0.81108970E+00  0.59761523E+00
+          exact       =  0.80523811E+00  0.59295158E+00
+
+ time        =  0.11361689E+02
+
+          approximate = -0.14180357E+00 -0.99821727E+00
+          exact       = -0.14087275E+00 -0.99002771E+00
+
+ time        =  0.11569560E+02
+
+          approximate = -0.58328044E+00  0.82299962E+00
+          exact       = -0.57849917E+00  0.81568297E+00
+
+ time        =  0.11776737E+02
+
+          approximate =  0.98173994E+00 -0.23171987E+00
+          exact       =  0.97350061E+00 -0.22868440E+00
+
+ time        =  0.11983129E+02
+
+          approximate = -0.90461327E+00 -0.44519724E+00
+          exact       = -0.89652432E+00 -0.44299452E+00
+
+ time        =  0.12188646E+02
+
+          approximate =  0.44351928E+00  0.90465288E+00
+          exact       =  0.43867358E+00  0.89864648E+00
+
+ time        =  0.12393197E+02
+
+          approximate =  0.17231166E+00 -0.99205290E+00
+          exact       =  0.17248960E+00 -0.98501134E+00
+
+ time        =  0.12596691E+02
+
+          approximate = -0.70183862E+00  0.72156946E+00
+          exact       = -0.69778944E+00  0.71630294E+00
+
+ time        =  0.12799038E+02
+
+          approximate =  0.98099849E+00 -0.22594798E+00
+          exact       =  0.97450936E+00 -0.22434683E+00
+
+ time        =  0.13000149E+02
+
+          approximate = -0.95551212E+00 -0.31820860E+00
+          exact       = -0.94889879E+00 -0.31558054E+00
+
+ time        =  0.13199935E+02
+
+          approximate =  0.66804583E+00  0.75445989E+00
+          exact       =  0.66339332E+00  0.74827088E+00
+
+ time        =  0.13398308E+02
+
+          approximate = -0.22146234E+00 -0.98372520E+00
+          exact       = -0.22012536E+00 -0.97547159E+00
+
+ time        =  0.13595181E+02
+
+          approximate = -0.26191492E+00  0.97424185E+00
+          exact       = -0.25950409E+00  0.96574201E+00
+
+ time        =  0.13790466E+02
+
+          approximate =  0.67267235E+00 -0.75217058E+00
+          exact       =  0.66694078E+00 -0.74511073E+00
+
+ time        =  0.13984078E+02
+
+          approximate = -0.93371734E+00  0.38257801E+00
+          exact       = -0.92572701E+00  0.37819242E+00
+
+ time        =  0.14175930E+02
+
+          approximate =  0.10074688E+01  0.51352925E-01
+          exact       =  0.99862375E+00  0.52446217E-01
+
+ time        =  0.14365938E+02
+
+          approximate = -0.89409658E+00 -0.46614205E+00
+          exact       = -0.88585240E+00 -0.46396716E+00
+
+ time        =  0.14554018E+02
+
+          approximate =  0.62451951E+00  0.79092346E+00
+          exact       =  0.61813889E+00  0.78606890E+00
+
+ time        =  0.14740088E+02
+
+          approximate = -0.25117386E+00 -0.97540178E+00
+          exact       = -0.24754806E+00 -0.96887562E+00
+
+ time        =  0.14924064E+02
+
+          approximate = -0.16151776E+00  0.99374540E+00
+          exact       = -0.16197642E+00  0.98679463E+00
+
+ time        =  0.15105866E+02
+
+          approximate =  0.54604711E+00 -0.84552773E+00
+          exact       =  0.54344477E+00 -0.83944493E+00
+
+ time        =  0.15285414E+02
+
+          approximate = -0.83987354E+00  0.55460200E+00
+          exact       = -0.83481166E+00  0.55053564E+00
+
+ time        =  0.15462627E+02
+
+          approximate =  0.99277658E+00 -0.16635547E+00
+          exact       =  0.98627064E+00 -0.16513700E+00
+
+ time        =  0.15637428E+02
+
+          approximate = -0.97367911E+00 -0.25669327E+00
+          exact       = -0.96702205E+00 -0.25469268E+00
+
+ time        =  0.15809740E+02
+
+          approximate =  0.77682444E+00  0.64138543E+00
+          exact       =  0.77139880E+00  0.63635201E+00
+
+ time        =  0.15979487E+02
+
+          approximate = -0.42662940E+00 -0.91310666E+00
+          exact       = -0.42367664E+00 -0.90581350E+00
+
+ time        =  0.16146593E+02
+
+          approximate = -0.20223106E-01  0.10080592E+01
+          exact       = -0.19856842E-01  0.99980283E+00
+
+ time        =  0.16310985E+02
+
+          approximate =  0.47766485E+00 -0.88822857E+00
+          exact       =  0.47376980E+00 -0.88064873E+00
+
+ time        =  0.16472591E+02
+
+          approximate = -0.84073959E+00  0.55712411E+00
+          exact       = -0.83391240E+00  0.55189682E+00
+
+ time        =  0.16631338E+02
+
+          approximate =  0.10058414E+01 -0.72140525E-01
+          exact       =  0.99750727E+00 -0.70563770E-01
+
+ time        =  0.16787157E+02
+
+          approximate = -0.90055679E+00 -0.45306739E+00
+          exact       = -0.89276432E+00 -0.45052399E+00
+
+ time        =  0.16939979E+02
+
+          approximate =  0.51831636E+00  0.86418847E+00
+          exact       =  0.51325670E+00  0.85823514E+00
+
+ time        =  0.17089736E+02
+
+          approximate =  0.53777597E-01 -0.10059237E+01
+          exact       =  0.54488465E-01 -0.99851440E+00
+
+ time        =  0.17236363E+02
+
+          approximate = -0.63234218E+00  0.78393675E+00
+          exact       = -0.62843863E+00  0.77785917E+00
+
+ time        =  0.17379795E+02
+
+          approximate =  0.98010933E+00 -0.23217801E+00
+          exact       =  0.97316651E+00 -0.23010203E+00
+
+ time        =  0.17519967E+02
+
+          approximate = -0.90131791E+00 -0.45018809E+00
+          exact       = -0.89453246E+00 -0.44700299E+00
+
+ time        =  0.17656819E+02
+
+          approximate =  0.36724152E+00  0.93854331E+00
+          exact       =  0.36422549E+00  0.93131079E+00
+
+ time        =  0.17790291E+02
+
+          approximate =  0.39517982E+00 -0.92739284E+00
+          exact       =  0.39237195E+00 -0.91980664E+00
+
+ time        =  0.17920322E+02
+
+          approximate = -0.94751123E+00  0.34420078E+00
+          exact       = -0.94014504E+00  0.34077456E+00
+
+ time        =  0.18046856E+02
+
+          approximate =  0.87594862E+00  0.49852098E+00
+          exact       =  0.86865220E+00  0.49542240E+00
+
+ time        =  0.18169836E+02
+
+          approximate = -0.13934012E+00 -0.99790082E+00
+          exact       = -0.13741962E+00 -0.99051292E+00
+
+ time        =  0.18289209E+02
+
+          approximate = -0.74137548E+00  0.68213530E+00
+          exact       = -0.73632680E+00  0.67662607E+00
+
+ time        =  0.18404922E+02
+
+          approximate =  0.96970265E+00  0.27363742E+00
+          exact       =  0.96230711E+00  0.27196511E+00
+
+ time        =  0.18516923E+02
+
+          approximate = -0.22171364E+00 -0.98313956E+00
+          exact       = -0.21961099E+00 -0.97558752E+00
+
+ time        =  0.18625163E+02
+
+          approximate = -0.79542963E+00  0.61907291E+00
+          exact       = -0.78952787E+00  0.61371471E+00
+
+ time        =  0.18729595E+02
+
+          approximate =  0.86977741E+00  0.50907543E+00
+          exact       =  0.86264356E+00  0.50581231E+00
+
+ time        =  0.18830172E+02
+
+          approximate =  0.21159412E+00 -0.98512542E+00
+          exact       =  0.21070325E+00 -0.97755007E+00
+
+ time        =  0.18926850E+02
+
+          approximate = -0.10066865E+01  0.42865743E-01
+          exact       = -0.99911628E+00  0.42031762E-01
+
+ time        =  0.19019586E+02
+
+          approximate =  0.23095350E+00  0.98097303E+00
+          exact       =  0.22870691E+00  0.97349533E+00
+
+ time        =  0.19108339E+02
+
+          approximate =  0.94585563E+00 -0.34804178E+00
+          exact       =  0.93870516E+00 -0.34472109E+00
+
+ time        =  0.19193071E+02
+
+          approximate = -0.39661584E+00 -0.92636509E+00
+          exact       = -0.39292373E+00 -0.91957106E+00
+
+ time        =  0.19273742E+02
+
+          approximate = -0.93379898E+00  0.37859357E+00
+          exact       = -0.92694579E+00  0.37519528E+00
+
+ time        =  0.19350319E+02
+
+          approximate =  0.29124507E+00  0.96476515E+00
+          exact       =  0.28850543E+00  0.95747826E+00
+
+ time        =  0.19422767E+02
+
+          approximate =  0.99968280E+00 -0.12768379E+00
+          exact       =  0.99202396E+00 -0.12604945E+00
+
+ time        =  0.19491054E+02
+
+          approximate =  0.11572239E+00 -0.10010088E+01
+          exact       =  0.11549481E+00 -0.99330808E+00
+
+ time        =  0.19555151E+02
+
+          approximate = -0.91400381E+00 -0.42433433E+00
+          exact       = -0.90678876E+00 -0.42158528E+00
+
+ time        =  0.19615028E+02
+
+          approximate = -0.74550822E+00  0.67812904E+00
+          exact       = -0.74015078E+00  0.67244095E+00
+
+ time        =  0.19670659E+02
+
+          approximate =  0.25917180E+00  0.97381071E+00
+          exact       =  0.25655872E+00  0.96652865E+00
+
+ time        =  0.19722020E+02
+
+          approximate =  0.96295239E+00  0.29697606E+00
+          exact       =  0.95542075E+00  0.29524766E+00
+
+ time        =  0.19769088E+02
+
+          approximate =  0.81414177E+00 -0.59394631E+00
+          exact       =  0.80822341E+00 -0.58887598E+00
+
+ time        =  0.19811842E+02
+
+          approximate =  0.94962295E-01 -0.10032232E+01
+          exact       =  0.94861310E-01 -0.99549050E+00
+
+ time        =  0.19850263E+02
+
+          approximate = -0.62382150E+00 -0.79143541E+00
+          exact       = -0.61858078E+00 -0.78572121E+00
+
+ time        =  0.19884335E+02
+
+          approximate = -0.98204513E+00 -0.22613168E+00
+          exact       = -0.97435852E+00 -0.22500104E+00
+
+ time        =  0.19914042E+02
+
+          approximate = -0.94139962E+00  0.35952045E+00
+          exact       = -0.93440672E+00  0.35620791E+00
+
+ time        =  0.19939372E+02
+
+          approximate = -0.65017200E+00  0.76995091E+00
+          exact       = -0.64563655E+00  0.76364484E+00
+
+ time        =  0.19960312E+02
+
+          approximate = -0.28186429E+00  0.96750079E+00
+          exact       = -0.28029050E+00  0.95991522E+00
+
+ time        =  0.19976855E+02
+
+          approximate =  0.47173632E-01  0.10066300E+01
+          exact       =  0.46211758E-01  0.99893167E+00
+
+ time        =  0.19988991E+02
+
+          approximate =  0.28754388E+00  0.96583489E+00
+          exact       =  0.28475487E+00  0.95860037E+00
+
+ time        =  0.19996716E+02
+
+          approximate =  0.43268349E+00  0.91011386E+00
+          exact       =  0.42881834E+00  0.90339074E+00
+
+ time        =  0.20000000E+02
+
+          approximate =  0.49148681E+00  0.87975121E+00
+          exact       =  0.48718768E+00  0.87329730E+00
+
+ time for right hand side   =  0.00000000E+00
+ time for perturbation      =  0.39062500E-02
+ time for driving term      =  0.00000000E+00
+
+ time for hamiltonian formation      =  0.39062500E-02
+ time for direct eigen or linear system solve =  0.97656250E-01
+ summary:
+     link   entries               charges          core use      
+                          cpu       sys      io         
+        1         1       0.1       0.0       0.0         0
+     8001         1       0.7       0.0       0.0 199640841
+             total:       0.8       0.0       0.0 199640841

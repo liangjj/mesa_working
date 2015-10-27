@@ -1,0 +1,4 @@
+&CONSTANTS  normalize = .false., recur = 'Continued_Fraction', 
+            l_max = 50, m_max = 50, radius_moeq = 1.4          &END
+&ELECTRON1  x1 = 10.0, y1 = -2.0, z1 = -50.0                   &END
+&ELECTRON2  x2 = 5.0, y2 = 1.0, z2 = -3.0                      &END

@@ -1,0 +1,37 @@
+$begin_data
+  number_of_data_sets=1 compute_regional_matrices
+$end
+
+$dvr_basis_case_1
+ number_of_space_variables=1  space_variable_1=x
+ kinetic_energy_type=packed coordinate_system=cartesian
+$end
+
+$h0(x)
+ number_of_points=21 read_grid_parameters
+ print=all weight_type=legendre  legendre_m=1
+ left_fixed_point right_fixed_point  number_of_fixed_points=2
+ drop_left_function drop_right_function 
+ number_of_major_blocks=1  automate
+$end
+
+ $block_1
+  default_order=(20) number_of_subregions=4
+  left_boundary=-1.0d0 right_boundary=1.00d0
+ $end
+
+ $block_2
+  default_order=(20) number_of_subregions=1
+  left_boundary=-.9d0 right_boundary=.90d0
+ $end
+
+ $block_3
+  default_order=(20) number_of_subregions=1
+  left_boundary=.9d0 right_boundary=1.0d0
+ $end
+
+$v_reg_1(x)
+ use_atomic_units potential=none angular_momentum=0
+$end
+
+

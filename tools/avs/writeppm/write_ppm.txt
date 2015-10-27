@@ -1,0 +1,29 @@
+NAME
+	Write PPM - PUT A BRIEF DESCRIPTION HERE
+
+SUMMARY
+	Name	Write PPM
+	Type	Output
+	Inputs	image - 	field 2D 4-vector uniform byte REQUIRED
+
+	Outputs	NONE
+	Parameters
+	Name		Type	Default	Choices
+	PPM output file	browser		File Type	Filename
+
+DESCRIPTION
+
+INPUTS
+	image - field 2D 4-vector uniform byte
+
+PARAMETERS
+
+PPM output file (browser)
+
+OUTPUTS
+
+EXAMPLE NETWORKS
+
+RELATED MODULES
+
+SEE ALSO

@@ -1,0 +1,53 @@
+$title
+time-propagation code
+$end
+
+$prop_basis
+     type-calculation=real-time
+ number-of-space-variables=1 coordinate-system=cartesian
+ space-variable-1=x use-atomic-units kinetic-energy-type=packed
+ plot get-eigenpairs diagonal-modification=none
+ propagation-order=4 xpropagation-method=arnoldi plot_step=1
+$end
+
+$h0(x)
+ automate number-of-major-blocks=1
+ number-of-fixed-points=2 left-fixed-point right-fixed-point 
+ drop-left-function drop-right-function xdo-not-diagonalize
+ order-of-finite-difference-formula=3 number-of-steps=1000
+ xprint=(all) xsector-print=sector-details reuse-space-data
+ plot_step=1
+$end
+
+ $block-1
+  default-order=7 number-of-subregions=130
+  left-boundary=-80.d0 right-boundary=80.d0
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=none
+$end
+
+$time
+ number-of-time-regions=2000 first-time=0.d0 time-interval=.005d0
+ xprint=(main=(xpointers,xpotential,xinitial-state,xnon-linear-potential,
+              xh-on-initial-state))
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$initial-state
+ driver=gaussian-pulse sigma=1.d0 alpha=1.d0 beta=4.d0 print=on
+$end
+
+$v_couple
+  v-space-time=none
+$end
+
+$lanczos_data
+ overlap-tolerance=1.e-10 convergence=1.d-06 
+ xprint=(lanczos=all) maximum-number-of-iterations=30
+ maximum-number-of-vectors=30 number-of-trials=1
+$end

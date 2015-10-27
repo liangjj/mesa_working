@@ -1,0 +1,31 @@
+$route
+
+$end
+          
+$nonstd
+11//02;
+20//01;
+$end
+
+$title
+Testing R-matrix code
+$end
+
+$r_matrix_basis
+ dimension=r  energy-units=k**/2
+ lowest-energy=3.2 highest-energy=3.7 energy-step=.005
+$end
+$h0(r)
+ number-of-major-blocks=1 parity=none  automate
+ number-of-fixed-points=2 left-fixed-point right-fixed-point 
+ print=all angular-momentum=0 reuse-space-data
+ drop-first-function xdrop-last-function
+$end
+ $block-1
+  default-order=8 number-of-subregions=20
+  left-boundary=0. right-boundary=25.
+ $end
+$v_reg_1(r)
+ use-atomic-units potential=power-exponential amplitude=7.5
+ exponent=1.0 power=2
+$end

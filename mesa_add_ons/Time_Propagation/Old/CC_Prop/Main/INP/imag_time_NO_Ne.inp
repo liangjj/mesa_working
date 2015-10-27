@@ -1,0 +1,33 @@
+$cc_setup
+               type_calculation=imaginary_time
+       hamiltonian_source=external propagation_method=lanczos
+       print=all_details eigenvalue_convergence=1.d-10 
+       no_coupled_channels no_one_body_potential
+$end
+
+$time
+ automate number_of_time_regions=100 first_time=0.d0 time_interval=.1d0
+ xprint=(main=(xpointers,xpotential,xinitial_state,xnon_linear_potential,
+              xh_on_initial_state))
+$end
+
+$hamiltonian_parameters
+ xdiagonalize_only hamiltonian_file_name=Ham.NO.dat
+ hamiltonian_type=real xupper_triangle pack_matrices in_core
+ preconditioner=cholesky_decomposition drop_tolerance=1.d-04
+ xinitial_state=from_input
+ non_orthogonal_basis print=off xmatrix_size=5 xread_only
+$end
+
+$iterative_data
+ iterative_method=preconditioned_lanczos
+ type_matrix=general non_orthogonal_basis 
+ overlap_tolerance=1.e-10 convergence=1.d-08
+ xorthogonalization_procedure=full 
+ xprint=(iterative=all) maximum_number_of_iterations=150
+ maximum_number_of_vectors=150 number_of_trials=1
+$end
+
+$initial_state
+ driver=random_vector
+$end

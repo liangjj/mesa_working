@@ -1,0 +1,12 @@
+#!/bin/bash
+#$ -N DC_DIAG
+#$ -cwd
+#$ -V
+#You should use a multiple of 8 for the number of cores:
+#$ -pe orte 8
+
+date
+
+mpiexec ./DC_DIAG
+
+date

@@ -1,0 +1,49 @@
+#!/bin/bash
+#------------
+## The following is the resources requirement section. I
+## you need to run your job on the xeon nodes, ng (not both
+## you need to specify either one of the followi
+## 1. "#PBS -l nodes=n1+n2+n3+n4"
+##
+## 2. "#PBS -l nodes=4:xeon"
+## If you need to run your job on t
+##
+## you need to specify either one of the following
+## 1. "#PBS -l nodes=n65+n66+n67+n68"
+##
+## 2. "#PBS -l nodes=4:pl"
+## #-----------------------------
+##
+#PBS -l nodes=17:opteron
+#PBS -q small
+## #-----------------------------
+# The following reflect the environment where the user r
+## PBS_O_HOST The host where you ran the qsub command.
+## PBS_O_LOGNAME Your user ID where you ran qsub. qsub.
+## PBS_O_HOME Your home directory where you ran
+## PBS_O_WORKDIR The working directory where you ran qsub.
+## These reflect the environment where the job is executing:
+## PBS_ENVIRONMENT Set to PBS_BATCH to indicate the job is a b
+## or to PBS_INTERACTIVE to indicate the job is a PBS
+## interactive job. original queue you submitted to.
+## PBS_O_QUEUE The
+## PBS_QUEUE The queue the job is executing from.
+## PBS_JOBID The job's PBS identifier.
+## PBS_JOBNAME The job's name. -----------
+#--------------------------------
+if [ "x$PBS_NODEFILE" = "x" ] ; then
+    echo "This script must be submitted to qsub."
+    exit 1
+fi
+prog=TDCC_IT.exe
+progArgs=""
+nNodes=0
+wd=$PBS_O_WORKDIR;
+for node in $(cat $PBS_NODEFILE); do
+    echo $node
+    nNodes=$(expr $nNodes + 1)
+done
+# execute the program on each node
+cd $wd
+mpirun -np $(expr $nNodes - 1) -nolocal -machinefile $PBS_NODEFILE $wd/$prog -- $progArgs
+#cleanup

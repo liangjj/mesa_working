@@ -1,0 +1,12 @@
+      ngb=ng/minesz
+      oddblock=mod(ng,minesz)
+      if(oddblock.ne.0) ngb=ngb+1
+      ioff=0
+c
+c     --- loop over these smaller blocks.
+      do 100 gb=1,ngb
+         if(gb.ne.ngb.or.oddblock.eq.0) then
+            n=minesz
+         else
+            n=oddblock
+         endif

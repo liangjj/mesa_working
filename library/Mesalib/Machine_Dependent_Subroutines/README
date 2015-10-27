@@ -1,0 +1,4 @@
+*deck @(#)README	4.1 7/9/93
+The machine dependent libraries which should be in good shape in this
+version are SUN, HP, SGI, and STARDENT. The others may also be ok, but
+since they haven't been worked on for some time, no guarantees are given.

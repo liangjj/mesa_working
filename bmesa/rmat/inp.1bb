@@ -1,0 +1,40 @@
+$route
+ print=(xm6234,m6235=(hamiltonian-eigenvalues,r-matrix,k-matrix),
+        xm6236=(r-matrix,k-matrix,debug))
+ potential-type=exponential       
+$end
+$nonstd
+62//34,35,36;
+20//01;
+$end
+$bsroot
+maximum-l-value=0 number-of-zeros=100 right-boundary=500.d0
+$end
+$grid
+r-matrix-radius=2.0d0
+number-of-integration-regions=1 number-of-points-region-1=50 
+starting-r-region-1=0.d0 final-r-region-1=2.0d0 final-r=15.d0
+potential-range=15.d0
+$end
+$channels
+number-of-channels=1 channel-l-values=(0) channel-energies=(0.d0)
+number-of-basis-functions-per-channel=(5) v11=-1.0d0
+number-of-zero-value-basis-functions-per-channel=(4)
+$end
+$energy
+number-energies=1 energies=(.5d0)
+$end
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

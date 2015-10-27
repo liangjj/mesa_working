@@ -1,0 +1,82 @@
+*deck %W% %G%
+      subroutine mkatmg(c,ian,grid,wts,rmax,lmax,nomega,nradial,natoms,
+     $                  ngrid,mxgrd,vwts,rnuc,amu,pwtx,rr,adjust,radii,
+     $                  wr,pr,usesg1,radshls,ptrad,dograd,gradwt,iatom)
+c***begin prologue     %M%
+c***date written       930518  
+c***revision date      %G%      
+c
+c***keywords           
+c***author             
+c***source             %W%   %G%
+c***purpose            return atomic integration grid for atom 'iatom'
+c***description
+c     
+c    
+c
+c***references
+c
+c***routines called
+c
+c***end prologue       %M%
+      implicit none
+c     --- input variables -----
+      integer rmax,lmax,mxgrd
+      integer nomega,nradial,natoms,iatom
+      logical adjust,usesg1,dograd
+c     --- input arrays (unmodified) ---
+      integer ian(natoms)
+      real*8 c(3,natoms)
+c     --- input arrays (scratch) ---
+c     --- output arrays ---
+      real*8 grid(mxgrd,3),wts(mxgrd),
+     $       gradwt(mxgrd,3,natoms),wr(rmax),pr(rmax)
+      integer ptrad(rmax)
+c     --- output variables ---
+      integer ngrid,radshls
+      real*8 radii(natoms)
+c     --- scratch arrays ---
+      real*8 rnuc(natoms,natoms),vwts(mxgrd)
+      real*8 amu(natoms,natoms),pwtx(natoms),rr(natoms)
+c     --- local variables ---
+      integer atom
+      integer inp,iout
+      real*8 rhomax,rhomx
+c
+      common /io/inp,iout
+c
+c     --- generate the atomic grids ---
+      nradial=rmax-1
+c     --- are we to adjust cell functions according to atomic radii.
+      if(adjust) then
+         do 10 atom=1,natoms
+            radii(atom)=rhomax('slater',ian(iatom))
+   10    continue
+      endif
+c
+      if(ian(iatom).gt.36) call lnkerr('no alpha for that yet')
+      if (usesg1.and.ian(iatom).le.18) then
+c
+c        --- for now, always use 51 radial points for the 
+c            standard grid.
+         radshls=51-1
+         rhomx=rhomax('slater',ian(iatom))
+         call sg1(grid(1,1),wts(1),wr,pr,
+     $            rhomx,c(1,iatom),mxgrd,51,ian(iatom),
+     $            ngrid,ptrad(1))
+      else
+         radshls=nradial
+         rhomx=rhomax('slater',ian(iatom))
+         call atgrd(grid(1,1),wts(1),lmax,nomega,rmax,
+     $              ngrid,pr,wr,rhomx,c(1,iatom),
+     $              mxgrd,ptrad(1))
+      endif
+c
+c        --- generate the voronoi weightings --
+      call vorgrad(natoms,c,grid(1,1),wts(1),mxgrd,
+     $             ngrid,iatom,vwts(1),rnuc,amu,
+     $             pwtx,rr,adjust,radii,dograd,gradwt(1,1,1))
+c
+c
+      return
+      end

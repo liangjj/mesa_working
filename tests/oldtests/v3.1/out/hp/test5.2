@@ -1,0 +1,151 @@
+ mesa(%I%);%G%;hp-ux 8.07 unix.                                                 
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+
+      6-nov-1992 18:10:24    
+     los alamos national laboratory;hp730(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test5.2                                                                                                    
+     out:    /cesium/rlm/mesa/out/test5.2                                                                                                    
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf                                                                                                             
+     rint:   /cesium/rlm/tmp/rint                                                                                                            
+     int:    /cesium/rlm/tmp/int                                                                                                             
+     tint:   /cesium/rlm/tmp/tint                                                                                                            
+     gint:   /cesium/rlm/tmp/gint                                                                                                            
+     rdint:  /cesium/rlm/tmp/rdint                                                                                                           
+     dint:   /cesium/rlm/tmp/dint                                                                                                            
+     zint:   /cesium/rlm/tmp/zint                                                                                                            
+     ham:    /cesium/rlm/tmp/ham                                                                                                             
+     moden:  /cesium/rlm/tmp/moden                                                                                                           
+     aoden:  /cesium/rlm/tmp/aoden                                                                                                           
+     saoden: /cesium/rlm/tmp/saoden                                                                                                          
+     gden:   /cesium/rlm/tmp/gden                                                                                                            
+     fci:    /cesium/rlm/tmp/fci                                                                                                             
+     machine size:          4000000
+     user defined maxsiz:    900000
+ title:
+      h2o test case: closed shell scf
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     19//51;
+     20//01;
+ options:
+     maxsiz=900000 2s+1=1 print=(scf=vector) hf scf=(pulay) guess=(huckel) basis=dz,s
+     ym=off
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1    .959447 r1       
+      3   3   h  dz          1    .959447 r2        2  104.832 a1       
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o      .00000
+                 h1      .95945    .00000
+                 h2      .95945   1.52064    .00000
+ interatomic angles:
+          h2-o1-h3 =104.8318
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o               .000000     .000000     .000000
+      2   2   h               .000000     .000000     .959447
+      3   3   h               .927480     .000000    -.245601
+ rotational constants (ghz):    824.4271390    433.7171609    284.2028519
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262670( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                    5999999
+     all integrals held in core.
+     nuclear repulsion energy:    9.172700
+     iter              energy    diis convergence
+       12       -76.009404973          .000000010
+     rotating scf orbitals under core fock operator
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     scf vector:
+                              1         2         3         4         5    
+     eigenvalues --   -20.55939  -1.36034   -.71663   -.56595   -.50604
+          o       s     -.58100   -.13031    .00000    .04717    .00000
+                  s     -.46124   -.18072    .00000    .06579    .00000
+                  s      .00013    .50935    .00000   -.19887    .00000
+                  s     -.00187    .45186    .00000   -.26750    .00000
+                  x     -.00132    .10147    .35010    .49637    .00000
+                  y      .00000    .00000    .00000    .00000    .72879
+                  z     -.00102    .07810   -.45487    .38204    .00000
+                  x      .00037    .02615    .10812    .25934    .00000
+                  y      .00000    .00000    .00000    .00000    .40895
+                  z      .00028    .02013   -.14047    .19960    .00000
+          h1      s     -.00002    .13737   -.25531    .13964    .00000
+                  s      .00017    .00665   -.13102    .05991    .00000
+          h2      s     -.00002    .13737    .25531    .13964    .00000
+                  s      .00017    .00665    .13102    .05991    .00000
+                              6         7         8         9    
+     eigenvalues --      .21800    .31023    .86569    .89184
+          o       s      .04968    .00000    .00000   -.02242
+                  s      .06643    .00000    .00000   -.03147
+                  s     -.10477    .00000    .00000    .08401
+                  s    -1.25656    .00000    .00000    .39450
+                  x     -.21259   -.24542    .00000   -.68547
+                  y      .00000    .00000    .90167    .00000
+                  z     -.16362    .31887    .00000   -.52758
+                  x     -.41486   -.62642    .00000   1.04666
+                  y      .00000    .00000  -1.08485    .00000
+                  z     -.31930    .81388    .00000    .80558
+          h1      s      .05382   -.03904    .00000   -.16117
+                  s     1.05486  -1.56639    .00000   -.27726
+          h2      s      .05382    .03904    .00000   -.16117
+                  s     1.05486   1.56639    .00000   -.27726
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.20854    .28311    .28311
+                 h1      .28311    .36546   -.03595
+                 h2      .28311   -.03595    .36546
+     total atomic charges:
+          o             8.77476
+          h1             .61262
+          h2             .61262
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1       1.5        .0        .0         0
+      202         1        .3        .0        .0         0
+      302         1        .2        .0        .0         0
+      312         1       1.4        .0        .0         0
+      330         1        .2        .0        .0         0
+      401         1        .4        .0        .0         0
+      501         1       3.6        .0        .0         0
+     1951         1        .2        .0        .0         0
+             total:       8.2        .0        .0         0

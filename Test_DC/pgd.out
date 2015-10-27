@@ -1,0 +1,10 @@
+ 
+               =============
+                Program PGD 
+               =============
+ 
+Number of processors =      8
+ 
+Blacs process dimensions, p,q,nblock =      1     1    64
+ 
+DC Parallel General Eigensolution for klsp =  0

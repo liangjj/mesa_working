@@ -1,0 +1,243 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 14:58:22    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test2.10                                                                                                   
+     out:    /usr2/mesa/tests/out/hp/test2.10                                                                                                
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_13804                                                                                                       
+     rint:   /cesium/rlm/tmp/rint_13804                                                                                                      
+     int:    /cesium/rlm/tmp/int_13804                                                                                                       
+     tint:   /cesium/rlm/tmp/tint_13804                                                                                                      
+     gint:   /cesium/rlm/tmp/gint_13804                                                                                                      
+     rdint:  /cesium/rlm/tmp/rdint_13804                                                                                                     
+     dint:   /cesium/rlm/tmp/dint_13804                                                                                                      
+     zint:   /cesium/rlm/tmp/zint_13804                                                                                                      
+     ham:    /cesium/rlm/tmp/ham_13804                                                                                                       
+     moden:  /cesium/rlm/tmp/moden_13804                                                                                                     
+     aoden:  /cesium/rlm/tmp/aoden_13804                                                                                                     
+     saoden: /cesium/rlm/tmp/saoden_13804                                                                                                    
+     gden:   /cesium/rlm/tmp/gden_13804                                                                                                      
+     fci:    /cesium/rlm/tmp/fci_13804                                                                                                       
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+      h2o test case: open shell scf forceconstantsinternal                           
+                                      /two-point difference formula  
+ route:
+     1//1,2;
+     :d2e;
+     2//5(:endd2e);
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     7//1,2,12,31(:d2e);
+     :endd2e;
+     19//51;
+     20//01;
+ options:
+     2s+1=3,maxsiz=900000 print=(scf=vector) hf scf=(pulay) guess=chk geom=rdchk freq
+     uencies force-constants=(numerical=(two-point)) basis=dz,sym=off
+
+ m101:  process geometry input.
+     z-matrix read from checkpoint file 
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   1.264380 r1       
+      3   3   h  dz          1   1.264380 r2        2   92.033 a1       
+ molecular parameters:
+     charge:                    0
+     multiplicity:              3
+     number alpha electrons:    6
+     number beta electrons:     4
+ basis dimensions:
+     $ primitive cartesians    32
+     $ contracted cartesians   14
+     $ basis functions         14
+ m205:numerical second derivatives
+     initialization pass
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o      .00000
+                 h1     1.26438    .00000
+                 h2     1.26438   1.81955    .00000
+ interatomic angles:
+          h2-o1-h3 = 92.0334
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o               .000000     .000000     .000000
+      2   2   h               .000000     .000000    1.264380
+      3   3   h              1.263584     .000000    -.044862
+ rotational constants (ghz):    366.1943616    302.9245210    165.7840699
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     $primitive integrals possible     274866
+     $primitive integrals computed     260472( 94.8%)
+     $contracted integrals possible      5565
+     $contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ m501:
+     memory use                   12000000
+     all integrals held in core.
+     nuclear repulsion energy:    6.987261
+     iter              energy    diis convergence
+        1       -75.714048011          .000000001
+     rotating scf orbitals under core fock operator
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                       729712(265.5%)
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8         .000005     .000000     .000005
+       2          1        -.000007     .000000     .000002
+       3          1         .000002     .000000    -.000007
+     max      .000007     rms      .000004
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1    .000002 (  1)
+           3   h     1    .000002 (  2)   2    .000016 (  3)
+ m205:numerical second derivatives
+     d2e cycle    0
+ m205:numerical second derivatives
+     d2e cycle    1
+ m205:numerical second derivatives
+     d2e cycle    2
+ m205:numerical second derivatives
+     d2e cycle    3
+ m205:numerical second derivatives
+     d2e cycle    4
+ m205:numerical second derivatives
+     d2e cycle    5
+ m205:numerical second derivatives
+     d2e cycle    6
+     finite difference second derivative calculation:
+     double point difference formula: stepsize =  .010
+     the internal coordinate force constant matrix
+                             r1        r2        a1                              
+                 r1      .34238   -.21636    .02731
+                 r2     -.21636    .34238    .02731
+                 a1      .02732    .02732    .22776
+     calculation of vibrational frequencies
+
+     zero point vibrational energy:    10.41 kcal/mole
+     ***** normal modes of vibration *****
+     cartesian normal modes 
+                              1         2         3         4         5    
+     frequencies --          .0        .0        .0        .0        .0
+         1              -.53131    .00984    .00000    .00000    .79379
+         2               .82285    .12197    .07932    .00000    .54917
+         3              -.08954    .72043    .54980    .00000   -.09890
+         4              -.05154   -.14256    .05317    .00000    .11742
+         5              -.00197   -.55388    .81385    .00000    .00436
+         6              -.02248    .18084    .13801    .00000   -.02483
+         7              -.13627    .00762   -.00189    .00000    .20216
+         8               .00000    .00000    .00000  -1.00000    .00000
+         9              -.10425    .32578    .08487    .00000    .05696
+                              6         7         8         9    
+     frequencies --          .0    1427.9    1902.4    3950.4
+         1              -.00539   -.21663   -.10496   -.17187
+         2              -.01272    .00000    .00000    .00000
+         3               .27426   -.20907   -.10129    .17807
+         4               .69956    .64561   -.23285    .00000
+         5              -.17561    .00000    .00000    .00000
+         6               .06884    .19461    .65965   -.68511
+         7              -.02622    .21739    .65098    .68468
+         8               .00000    .00000    .00000    .00000
+         9              -.63162    .63830   -.25611   -.02430
+     internal coordinate normal modes 
+                              1         2         3    
+     frequencies --      1427.9    1902.4    3950.4
+                 r1      .50458    .70328   -.70711
+                 r2      .50456    .70328    .70711
+                 a1     -.70058    .10390    .00000
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     scf vector:
+                              1         2         3         4         5    
+     eigenvalues --   -20.67944  -1.31647   -.65818   -.61020   -.28437
+          o       s     -.58112    .13892    .00000    .03464    .00000
+                  s     -.46133    .19259    .00000    .04885    .00000
+                  s      .00056   -.55385    .00000   -.16138    .00000
+                  s     -.00159   -.51354    .00000   -.15987    .00000
+                  x     -.00088   -.04789    .45073    .44657    .00000
+                  y      .00000    .00000    .00000    .00000   -.79368
+                  z     -.00086   -.04668   -.46237    .43533    .00000
+                  x      .00030   -.02456    .18552    .22774    .00000
+                  y      .00000    .00000    .00000    .00000   -.32734
+                  z      .00029   -.02394   -.19031    .22201    .00000
+          h1      s     -.00007   -.06601   -.15883    .13735    .00000
+                  s      .00010   -.01199   -.13520    .10665    .00000
+          h2      s     -.00007   -.06601    .15883    .13735    .00000
+                  s      .00010   -.01199    .13520    .10665    .00000
+                              6         7         8         9        10    
+     eigenvalues --      .01394    .09824    .81132    .84660    .92561
+          o       s      .00000    .04262    .00000    .01741    .00000
+                  s      .00000    .05826    .00000    .02656    .00000
+                  s      .00000   -.13167    .00000   -.11492    .00000
+                  s      .00000   -.66517    .00000   -.24457    .00000
+                  x      .33586   -.26764    .00000    .63358   -.60634
+                  y      .00000    .00000   -.84512    .00000    .00000
+                  z     -.34453   -.26090    .00000    .61764    .62200
+                  x      .32295   -.34620    .00000   -.86300   1.09364
+                  y      .00000    .00000   1.11220    .00000    .00000
+                  z     -.33129   -.33749    .00000   -.84128  -1.12187
+          h1      s      .22599    .13301    .00000   -.24647    .03436
+                  s      .81285    .77165    .00000    .52881    .67667
+          h2      s     -.22599    .13301    .00000   -.24647   -.03436
+                  s     -.81285    .77165    .00000    .52881   -.67667
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.37138   -.05803   -.05803
+                 h1     -.05803   1.22008   -.28971
+                 h2     -.05803   -.28971   1.22008
+     spin-density matrix:
+                              o        h1        h2                              
+                  o     1.67083   -.25820   -.25820
+                 h1     -.25820    .96273   -.28175
+                 h2     -.25820   -.28175    .96273
+     total mulliken charges and spins:
+            o          8.255319   1.154434
+            h1          .872341    .422783
+            h2          .872341    .422783
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0    156001
+      102         1       1.1        .0        .0    120010
+      205         8       4.1        .0        .0     21605
+      202         7       1.3        .0        .0       145
+      302         7       1.0        .0        .0      9816
+      312         7       7.1        .0        .0    530834
+      330         7        .9        .0        .0     79139
+      401         7       1.8        .0        .0         0
+      501         7      14.7        .0        .0     32421
+      701         7        .5        .0        .0      4001
+      702         7       1.7        .0        .0     21409
+      712         7      23.1        .0        .0    203196
+      731         7        .3        .0        .0       255
+     1951         1        .2        .0        .0      3849
+             total:      58.1        .0        .0    530834

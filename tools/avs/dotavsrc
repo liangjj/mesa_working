@@ -1,0 +1,31 @@
+#	"@(#)avsrc	7.2 Stellar 91/10/17"
+#			Copyright 1989 by
+#			Stellar Computer Inc.
+#			All Rights Reserved
+#	
+#	This software comprises unpublished confidential information of
+#	Stellar Computer Inc. and may not be used, copied or made
+#	available to anyone, except in accordance with the license
+#	under which it is furnished.
+#	
+#	
+
+DisplayPixmapWindow		512x512+270+20
+ModuleLibraries	 		/usr/avs/MSI/MSIChemLib /usr/avs/unsupp_mods/Unsupported /usr/avs/avs_library/Supported /usr2/mesa/tools/avs/MESA
+
+# These are the defaults which can be reset in this file:
+NetworkDirectory 		/usr2/mesa/tools/avs/nets
+# DataDirectory			/usr/avs/data
+# NetworkWindow			960x960+290+30
+
+# Force software rendering
+NoHW	1
+
+# Use this visual type for CRX24(Z) and TVRX
+#VisualType	DirectColor
+#additional lines for chemviewer support
+
+StackSelector choice_browser
+HelpPath /usr/avs/MSI/help
+# NetworkDirectory /usr/avs/MSI/demo/NETWORKS
+

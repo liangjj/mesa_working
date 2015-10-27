@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# Needed environment variables
+# TMPDIR - directory for work directory
+# MESA - main mesa directory
+# ver - which compiler version (beginning with a period or blank)
+
+date
+
+echo mesa test 3 - basis set with high L H2O scf calculation 
+echo using version $ver
+
+PATH=$PATH:$MESA/bin$ver
+rundir=run_mesa_test_3$ver
+
+siz=4000000
+
+cd $TMPDIR
+rm -r $rundir
+mkdir $rundir
+cd $rundir
+cp $MESA/mesa.dat .
+mkdir tmp
+
+cat <<EOF | sed -e "s/#.*//" > mesa.inp 
+\$title
+dzp h2o closed shell scf
+\$end
+
+\$route
+maxsiz=900000 
+2s+1=1 
+print=(basis,basis.scf=vector,int=s) 
+hf scf=(pulay) 
+guess=(core) 
+basis=rrl,sym=off 
+\$end
+
+\$geom
+o
+h1 o r1
+h2 o r2 h1 a1
+
+r1=1.949 
+r2=1.949 
+a1=112.3 
+\$end
+
+\$rrl h
+/hydrogen scaled by 1.2
+type=s
+19.2406 0.032828
+2.8992 0.231208
+0.6534 0.817238
+type=s
+0.1776 1.0
+type=p
+1.0000 1.0
+\$end
+\$rrl o
+/ oxygen
+type=s
+7816.5400 0.002031
+1175.8200 0.015436
+273.1880 0.073771
+81.1696 0.247606
+27.1836 0.611832
+3.4136 0.241205
+type=s
+9.5322 1.0
+type=s
+0.9398 1.0
+type=s
+0.2846 1.0
+type=p
+35.1832 0.019580
+7.9040 0.124189
+2.3051 0.394727
+0.7171 0.627375
+type=p
+0.2137 1.0
+type=d
+0.85 1.0
+type=f
+1.0 1.0
+type=g
+1.0 1.0
+\$end
+EOF
+optmesa siz=$siz
+cat mesa.out
+
+date

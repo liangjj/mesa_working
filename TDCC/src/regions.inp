@@ -1,0 +1,10 @@
+16     16
+ 8      8  
+0.d0  1.5d0   2.d0
+0.d0  1.5d0   2.d0
+
+read(2,*)(num_reg(j), j=1, ndim)
+read(2,*)(numfunc(j), j=1, ndim)
+DO j=1, ndim        
+   read(2,*)bdstart(j), bdstop(j), bdslope(j)     
+END DO

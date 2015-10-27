@@ -1,0 +1,52 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+     20-Jul-1994 08:54:01    
+     los alamos national laboratory;unknown(bogon);russo                             
+ files/memory:
+     inp:    polar1                                                                                                                          
+     out:    polar3.out                                                                                                                      
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/russo/rwf_24004                                                                                                    
+     rint:   /vivaldi/tmp/russo/rint_24004                                                                                                   
+     int:    /vivaldi/tmp/russo/int_24004                                                                                                    
+     tint:   /vivaldi/tmp/russo/tint_24004                                                                                                   
+     gint:   /vivaldi/tmp/russo/gint_24004                                                                                                   
+     rdint:  /vivaldi/tmp/russo/rdint_24004                                                                                                  
+     dint:   /vivaldi/tmp/russo/dint_24004                                                                                                   
+     zint:   /vivaldi/tmp/russo/zint_24004                                                                                                   
+     ham:    /vivaldi/tmp/russo/ham_24004                                                                                                    
+     moden:  /vivaldi/tmp/russo/moden_24004                                                                                                  
+     aoden:  /vivaldi/tmp/russo/aoden_24004                                                                                                  
+     saoden: /vivaldi/tmp/russo/saoden_24004                                                                                                 
+     gden:   /vivaldi/tmp/russo/gden_24004                                                                                                   
+     fci:    /vivaldi/tmp/russo/fci_24004                                                                                                    
+     machine size:         16000000
+     user defined maxsiz:   1000000
+ title:
+             
+ route:
+     6//66;
+ options:
+     polord=4
+ input data:
+    1.0000000000000   -1060.5348636330
+   0.55578000000000   -1060.5376543250
+   0.55356000000000   -1060.5376633790
+   0.55303000000000   -1060.5376654620
+   0.55281000000000   -1060.5376663260
+   0.55268000000000   -1060.5376668270
+   0.55000000000000   -1060.5376762710
+   0.54000000000000   -1060.5376960360
+   0.53000000000000   -1060.5376858010
+   0.50000000000000   -1060.5377004000
+   0.25000000000000   -1060.5363801540
+ The coefficients are:
+  0   -1060.5354717155
+  1    5.9365138103474D-03
+  2   -6.2294893277610D-02
+  3   0.10908465949901
+  4   -5.2118197171266D-02

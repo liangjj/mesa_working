@@ -1,0 +1,26 @@
+*deck @(#)ssub.f	5.1  11/6/94
+c     currently loads from cftmath.
+      subroutine ssub(v,w,s,n)
+c***begin prologue     ssub
+c***date written       850601  (yymmdd)
+c***revision date      yymmdd  (yymmdd)
+c***keywords           vector, scalar, subtract
+c***author             saxe, paul (lanl)
+c***source             @(#)ssub.f	5.1   11/6/94
+c***purpose            vectorized scalar subtract v=w-s ,
+c                      where v,w are vectors and s a scalar.
+c***description
+c                      call ssub(v,w,s,n)
+c                        v        output vector dimensioned (n).
+c                        w        input vector dimensioned (n).
+c                        s        scalar.
+c
+c***references
+c***routines called    (none)
+c***end prologue       ssub
+      real*8 v(n),w(n),s
+      do 1 i=1,n
+         v(i)=w(i)-s
+    1 continue
+      return
+      end

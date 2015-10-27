@@ -1,0 +1,64 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      6-Apr-1994 16:16:51    
+     los alamos national laboratory;unknown(bogon);russo                             
+ files/memory:
+     inp:    junk                                                                                                                            
+     out:    junk.out                                                                                                                        
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/russo/rwf_15119                                                                                                    
+     rint:   /vivaldi/tmp/russo/rint_15119                                                                                                   
+     int:    /vivaldi/tmp/russo/int_15119                                                                                                    
+     tint:   /vivaldi/tmp/russo/tint_15119                                                                                                   
+     gint:   /vivaldi/tmp/russo/gint_15119                                                                                                   
+     rdint:  /vivaldi/tmp/russo/rdint_15119                                                                                                  
+     dint:   /vivaldi/tmp/russo/dint_15119                                                                                                   
+     zint:   /vivaldi/tmp/russo/zint_15119                                                                                                   
+     ham:    /vivaldi/tmp/russo/ham_15119                                                                                                    
+     moden:  /vivaldi/tmp/russo/moden_15119                                                                                                  
+     aoden:  /vivaldi/tmp/russo/aoden_15119                                                                                                  
+     saoden: /vivaldi/tmp/russo/saoden_15119                                                                                                 
+     gden:   /vivaldi/tmp/russo/gden_15119                                                                                                   
+     fci:    /vivaldi/tmp/russo/fci_15119                                                                                                    
+     machine size:          4000000
+     user defined maxsiz:   1000000
+ title:
+             
+ route:
+     9//99;
+ options:
+     polord=2
+ input data:
+    1.8250000000000   -1961.6147100000
+    1.8350000000000   -1961.6142600000
+    1.8450000000000   -1961.6123500000
+    1.8250000000000   -1961.6137900000
+    1.8350000000000   -1961.6148500000
+    1.8450000000000   -1961.6142600000
+    1.8250000000000   -1961.6115300000
+    1.8350000000000   -1961.6139200000
+    1.8450000000000   -1961.6147500000
+ The coefficients are:
+Constant term:   -1947.7473587240
+x^  1*y^  0 term =     13.493574565536
+x^  0*y^  1 term =    -17.405127950826
+x^  2*y^  0 term =     7.7852790575685
+x^  1*y^  1 term =    -13.950187399551
+x^  0*y^  2 term =     7.1299947830347
+point   1function=   -1961.6147100000 fit=   -1961.6146872875
+point   2function=   -1961.6142600000 fit=   -1961.6142924635
+point   3function=   -1961.6123500000 fit=   -1961.6123405836
+point   4function=   -1961.6137900000 fit=   -1961.6138186014
+point   5function=   -1961.6148500000 fit=   -1961.6148187960
+point   6function=   -1961.6142600000 fit=   -1961.6142619349
+point   7function=   -1961.6115300000 fit=   -1961.6115239162
+point   8function=   -1961.6139200000 fit=   -1961.6139191296
+point   9function=   -1961.6147500000 fit=   -1961.6147572872
+ quadratic surface has minimum at x=    1.8370304870534 and y=    3.0176773485375
+at which point the x deriv is   -1.4210854715202D-14 and the y deriv is 
+    1.4210854715202D-14
+and the function itself is   -1961.6148349787

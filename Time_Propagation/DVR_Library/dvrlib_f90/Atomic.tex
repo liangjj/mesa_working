@@ -1,0 +1,297 @@
+\documentclass[preprint,showpacs,preprintnumbers,amsmath,amssymb]{revtex4}
+
+\def \<{\langle}
+
+\def \>{\rangle}
+
+\begin{document}
+
+\title{Atomic Calculations using Finite Element DVR}
+\author{B. I. Schneider}
+
+\address{ Physics Division, National Science Foundation, Arlington,
+Virginia 22230 and Electron and Optical Physics Division, National
+Institute of Standards and Technology, Gaithersburg, MD 20899}
+
+\date{\today}
+
+\maketitle
+
+%
+
+% ****** End of file template.aps ******
+
+\section{Introduction}
+The purpose of these notes is to outline a plan which uses the finite 
+element discrete variable method(FEDVR) to perform atomic structure and 
+scattering calculations.  While any weight function is acceptable, here 
+we restrict ourselves to the Legendre weight function, w(r)=1 and the 
+points and weights of the Gauss-Legendre-Lobatto points mapped onto the 
+domain of each element.  Thus in each element, we have a set of DVR 
+functions of the form,
+\begin{equation}
+  \chi^{i}_{qlm}(r,\Omega)  = Y_{lm}(\Omega) \psi^{i}_{q}(r) 
+\end{equation}
+where the set of points in interval $i$ is required by the Lobatto rule 
+to include the two endpoints.  If the boundary conditions require it, 
+either the first, last or both functions in a sub-interval may be absent 
+from the basis.  This is often necessary to satisfy the condition of 
+regularity at the origin and decay of the bound-state wavefunctions 
+at large radial distances.  In order to connect up two adjacent regions, 
+the last DVR function in region $i$ and the first DVR function in 
+region $i+1$ are linearly combined to get a bridge function,
+\begin{equation}
+  \hat \psi^{i}_{n-1}(r)  = \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r).  
+\end{equation}
+Note that this function has a discontinuous derivative at the boundary 
+which needs careful treatment.  The collection of all of the bridge and 
+non-bridge functions form the basis.
+
+\section{Matrix Elements}
+\subsection{one electron integrals}
+Since all of the integrals may be computed by integrating over the 
+sub-domains and then summing the results, with the exception of integrals 
+involving the derivatives of the bridge functions, all are straightforward.
+Since the kinetic energy operator contains a second derivative, it is 
+necessary to ``soften'' the problem variationally by using Green's theorem 
+(integration by parts) to get what is called, a variationally weak 
+condition which avoids the non-existence of the second derivative at the 
+boundary.  This is functionally equivalent to modifying the second 
+derivative by adding a Bloch operator in each interval.  Thus we replace the
+radial kinetic energy operator in each interval by
+\begin{equation}
+ L = -\frac{1}{2} \frac{d^2}{dr^{2}}  
+                    + \frac{1}{2} \delta(r-r_{right}) \frac{d}{dr} 
+                    - \frac{1}{2} \delta(r-r_{left}) \frac{d}{dr} 
+\end{equation}
+We now compute the required integrals.  First the overlaps.  For non-bridge 
+functions,
+\begin{equation}
+    O^{i,j}_{p,q} = \int dr \psi^{i}_{p}(r) \psi^{i}_{q}(r)
+                = w^{i}_{p} \delta_{i,j} \delta_{p,q}
+\end{equation}
+and for the bridge functions, 
+\begin{equation}
+        O^{i,i}_{n-1,n-1} = \int dr ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) )
+                        ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) )
+              = O^{i,i}_{n,n} + O^{i+1,i+1}_{1,1}
+              = w^{i}_{n} + w^{i+1}_{1}
+\end{equation}
+So, all the overlaps are diagonal, as expected.
+Matrix elements involving any local potential, including the centrifugal
+potential, are also diagonal.  Thus,
+\begin{equation}
+    U^{i,j}_{p,q} = \int dr \psi^{i}_{p}(r) U(r) \psi^{i}_{q}(r)
+                = w^{i}_{p} U(r^{i}_{p}) \delta_{i,j} \delta_{p,q}
+\end{equation}
+and for the bridge functions, 
+\begin{equation}
+        U^{i,i}_{n-1,n-1} = \int dr ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) )
+                   U(r)  ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) )
+              = U^{i,i}_{n,n} + U^{i+1,i+1}_{1,1}
+              = ( w^{i}_{n} + w^{i+1}_{1} ) U(r^{i}_{n})
+\end{equation}
+Note that the normalization for the bridge functions removes the double
+weighting in the final normalized matrix elements.
+Now, turn to the $L$ matrix elements. The non-bridge matrix elements are,
+\begin{equation}
+    L^{i,i}_{p,q} = \int dr \psi^{i}_{p}(r) L \psi^{i}_{q}(r)
+                = w^{i}_{p} \psi^{ \prime \prime i }_{q}(r^{i}_{p})
+\end{equation}
+The matrix elements between a non-bridge and bridge function are,
+\begin{eqnarray}
+    L^{i,i}_{p,n-1} &=& \int dr \psi^{i}_{p}(r) L 
+                      ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) ) \\ \nonumber
+                &=& L^{i,i}_{p,n} \\ \nonumber
+    L^{i,i-1}_{p,m-1} &=& \int dx \psi^{i}_{p}(r) L 
+                      ( \psi^{i}_{1}(r) + \psi^{i-1}_{m}(r) ) \\ \nonumber
+                &=& L^{i,i}_{p,1} 
+\end{eqnarray}
+Finally, the bridge-bridge matrix elements are,
+\begin{eqnarray}
+    L^{i,i}_{n-1,n-1} &=& \int dr ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) ) L 
+                      ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) ) \\ \nonumber
+            &=& L^{i,i}_{n,n} + L^{i+1,i+1}_{1,1} \\ \nonumber
+    L^{i,i-1}_{n-1,m-1} &=& \int dr ( \psi^{i}_{n}(r) + \psi^{i+1}_{1}(r) )
+                    L ( \psi^{i-1}_{m}(r) + \psi^{i}_{1}(r) ) \\ \nonumber
+            &=& L^{i,i}_{n,1} 
+\end{eqnarray}
+Thus, we see that there are never contributions to the matrix elements
+coming from cross interval integrations.  Global matrix elements are
+simply formed from linear combinations of matrix elements diagonal in the
+element indices.  The entire calculation is simply reduced to computing,
+\begin{eqnarray}
+    L^{i,i}_{p,q} &=& \int dr \psi^{i}_{p}(r) L ( \psi^{i}_{q}(r) 
+                                        \\ \nonumber
+       &=& \int_{r_{left}}^{r_{right}} dr \psi^{i}_{p}(r) L \psi^{i}_{q}(r)
+\end{eqnarray}
+where we allow the indices $p$ and $q$ to be $1$ and $n$.
+If we transform to the standard interval (-1,1), we get
+\begin{eqnarray}
+   L^{i,i}_{p,q} &=& - \frac{1}{r_{right} - r_{left} }
+     \int_{-1}^{1} dr f\psi^{i}_{p}(x) \frac{ d^2 \psi^{i}_{q}(x)} {dx^2} 
+         + \frac{1}{2} \psi^{i}_{p}(1) \psi^{\prime i}_{q}(x) \mid_{x=1}  
+         - \frac{1}{2} \psi^{i}_{p}(-1) \psi^{\prime i}_{q}(x) \mid_{x=-1}  
+\end{eqnarray}
+Clearly the surface terms vanish unless $p$ is either $1$ or $n$. 
+For the remaining discussion, we assume we have re-normalized
+the FEDVR functions so that their INTEGRAL is unity.
+\subsection{two electron integrals}
+If we define atomic densities as the product of two of the orbitals, the 
+two electron integrals may simply be written as,
+\begin{equation}
+    V_{ij,kl} = \int d{\bf r_1} d{\bf r_2}  \rho_{ik}({\bf r_1}) 
+                   \frac{1}{{\bf r_1} - {\bf r_2} } \rho_{jl}({\bf r_2 }) 
+\end{equation}
+Each of the densities is given as,
+\begin{equation}
+ \rho_{ij}({\bf r})  = \sum_{LM} d^{LM}_{l_{i}m_{i}l_{j}m_{j}} 
+                                 Y_{LM}(\Omega) 
+                       \gamma_{ij}(r) 
+\end{equation}
+where the coupling of the spherical harmonics of the individual orbitals
+follows the usual Clebsch-Gordan rules.  We may also expand the interaction
+potential in spherical harmonics,
+\begin{equation}
+    \frac{1}{{\bf r_1} - {\bf r_2} } = 4 \pi \sum_{lm} \frac{1}{(2l+1)} 
+                                    Y_{lm}(\Omega_{1}) Y_{lm}(\Omega_{2}) 
+                                      \frac{r_{<}^{l}}{r_{>}^{l+1}}
+\end{equation}
+The two electron integral may then be reduced to,
+\begin{eqnarray}
+    V_{ij,kl} = 4 \pi \sum_{LM} \frac{1}{(2L+1)} 
+                d^{LM}_{l_{i}m_{i}l_{k}m_{k}} d^{LM}_{l_{j}m_{j}l_{n}m_{n}} 
+                  \int r^{2}_{1} dr_1 r^{2}_{2} dr_2
+                  \gamma_{ik}(r_1) \frac{r_{<}^{L}}{r_{>}^{L+1}}
+                   \gamma_{jn}(r_2)      \\ \nonumber
+              = 4 \pi \sum_{LM} \frac{1}{(2L+1)} 
+                d^{LM}_{l_{i}m_{i}l_{k}m_{k}} d^{LM}_{l_{j}m_{j}l_{n}m_{n}} 
+                V^{L}_{ij,kl}
+\end{eqnarray}
+The essential difficulty with this integral is the derivative discontinuity
+of the radial matrix element.  A naive application of the quadrature rule
+relating the DVR functions to simple sums over the values of functions at
+the quadrature points, yields poor accuracy.  However, it is possible to 
+avoid this and to retain high accuracy by using Poisson's equation.  
+We define
+\begin{equation}
+    U^{L}_{ik}(r) = \int r_{1}^{2} dr_{1} 
+                     \gamma_{ik}(r_1) \frac{r_{<}^{L}}{r_{>}^{L+1}}      
+\end{equation}
+which is equivalent to the radial differential equation,
+\begin{equation}
+ \frac{1}{r^2} \frac{d}{dr} r^2 \frac {d}{dr} 
+                 U^{L}_{ik}(r) 
+              - \frac{L(L+1)}{r^2} U^{L}_{ik}(r) 
+               = - (2L+1) \gamma_{ik}(r)      
+\end{equation}
+In writing this I assume that the orbitals are defined to behave as 
+$r^{l+1}$ at the origin, so that the radial density is actually the product
+of two orbitals divided by $r^2$  This has the effect of cancelling a 
+factor of $\frac{1}{r^2}$ from both sides of the above equation. 
+\begin{equation}
+ \frac{d}{dr} r^2 \frac {d}{dr} U^{L}_{ik}(r) - L(L+1) U^{L}_{ik}(r) 
+              = - (2L+1) \psi^{t}_{i}(r) \psi^{v}_{k}(r)
+\end{equation}
+We now define,
+\begin{equation}
+ U^{L}_{ik}(r)= \frac{ V^{L}_{ik}(r) }{r}
+\end{equation}
+to get,
+\begin{equation}
+ \frac{d^2}{dr^2} V^{L}_{ik}(r) - \frac{L(L+1)}{r^2} V^{L}_{ik}(r) 
+              = - (2L+1) \frac {\psi^{t}_{i}(r) \psi^{v}_{k}(r) }{r}
+\end{equation}
+To solve this differential equation requires two boundary conditions.  
+These can be discovered by looking at the definition of $U^{L}$,
+\begin{equation}
+  U^{L}_{ik}(r) = \frac{1}{r^{L+1}} \int_{0}^{r} dr_{1} 
+                   \psi^{t}_{i}(r_{1}) \psi^{v}_{k}(r_{1}) r_{1}^{L}
+                  + r^{L} \int_{r}^{r_{N}} dr_{1} 
+         \frac { \psi^{t}_{i}(r_{1}) \psi^{v}_{k}(r_{1}) }{r^{L+1}}
+\end{equation}
+At $r=0$, $U^{L}$ behaves like $r^{L}$ and the multiplicative $r$ factor
+which converts to $V^{L}$, gives a zero boundary condition at the origin
+for all $L$.  At the last point, $U^{L}$ behaves like $\frac{1}{r^{L+1}}$ 
+and the multiplicative $r$ factor gives,
+\begin{equation}
+ V^{L}_{ik}(r_{N}) = \frac{1}{r_{N}^{L}} \int_{0}^{\infty} dr 
+                   \psi^{t}_{i}(r) \psi^{v}_{k}(r) r^{L}
+                   = \frac{r^{L}_{i}}{r^{L}_{N}} \delta_{i,k} 
+\end{equation}
+This extremely simple result is a consequence of the use of the DVR basis.
+So, now we may solve eq(21).  The simplest formal procedure is to solve
+the differential equation for a solution which is zero at both boundaries
+and to then add a solution of the homogeneous equation satisfying the
+inhomogeneous boundary condition at the last point.  
+\begin{equation}
+ V^{L}_{ik}(r) = \sum_{j \neq N } c^{ik}_{j} \psi_{j}(r) 
+                  +  r^{L+1} \frac {r^{L}_{i}}{r^{2L+1}_{N}} \delta_{i,k}
+\end{equation}
+Note that the last DVR function is excluded from the sum to ensure a 
+zero value at the last point.
+Inserting the expression about into equation(21) and projecting onto the 
+basis yields,
+\begin{equation}
+ \sum_{t} T_{it} c^{jl}_{t}  = - (2L+1) \delta_{i,j} 
+                            \delta_{j,l} \frac{1}{\sqrt{w_{i}} r_{i}}
+\end{equation}
+The matrix $T$ is defined as,
+\begin{equation}
+ T_{ij} = \langle \psi_{i} \mid \frac{d^2}{dr^2} - \frac{L(L+1)}{r^2}
+           \mid \psi_{j} \rangle
+\end{equation}
+and the integration must be performed using the Bloch operator for the
+second derivative.  The formal solution to this equation is,
+\begin{equation}
+ c^{jl}_{i}  = - (2L+1) T^{-1}_{ij} \delta_{j,l} 
+                        \frac{1}{\sqrt{w_{j}} r_{j}}
+\end{equation}
+Using this yields the final expression for $U^{L}_{jl}$
+\begin{equation}
+ U^{L}_{jl}(r) = -(2L+1) \frac{ \delta_{j,l} }{r r_{j} \sqrt{w_{j}} }
+               \sum_{i} T^{-1}_{ij} \psi_{i}(r)  
+               + \delta_{j,l} \frac{ r^{L} r^{L}_{j} }{r^{2L+1}_{N}}
+\end{equation}
+and therefore,
+\begin{equation}
+  V^{L}_{ij,kl} = \delta_{i,k} \delta_{j,l} \big [ 
+                    -(2L+1) \frac{ T^{-1}_{ij} }{ r_{i} \sqrt{w_{i}}
+                                                  r_{j} \sqrt{w_{j}} }
+                    + \frac{ r^{L}_{i} r^{L}_{j } } { r^{2L+1}_{N} }
+                    \big ]
+\end{equation}
+\section{Hamiltonian}
+The next step in the process is the construction of the Hamiltonian matrix
+from the one-and-two-electron integrals.  Since there is nothing physical about
+the FEDVR basis, a first step, would be to set up some model, single particle
+Hamiltonian, preferably with a local but realistic interaction, and diagonalize
+it to get a single set of orbitals.  It would be possible to use the Fock
+Hamiltonian but that would require using the two-electron integrals.  Not
+impossible, but perhaps more than is needed.  
+\par
+So, initially, we set up a one-body problem using the FEDVR.  Let us consider
+the structure of the one-body Hamiltonian matrix for two finite elements with
+3 basis functions in the first and 2 in the second element.
+ \[ \left ( \begin{array}{lllll}
+(H_{1,1} - E) & H_{1,2} & 0 & 0 & 0 \\
+H_{2,1} & (H_{2,2} - E ) & H_{2,3} & 0 & 0 \\
+0 & H_{3,2} & ( H_{3,3} - E ) & H_{3,4} & 0 \\
+0 & 0 & H_{4,3} & ( H_{4,4} - E ) & H_{4,5} \\
+0 & 0 & 0 & H_{5,4} & ( H_{5,5} - E )
+\end{array} \right ) \]
+If we were to consider the first element as an ``internal'' region, where
+exchange and correlation effects were important and the second element as an
+``external'' region, dominated by long-range forces, the connection is
+provided by the ``bridge'' function which straddles the two regions.  A 
+reasonable approach would be ignore region two and just diagonalize the
+leading (3x3) submatrix to get a set of ``internal'' orbitals.  These orbitals
+would be used to build the many-electron spin-eigenfunctions required for
+the target states and the pseudostates.
+\end{document}
+
+
+
+
+
+

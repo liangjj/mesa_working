@@ -1,0 +1,72 @@
+1. Several bug fixes.  Problems with non-adiabatic coupling on
+   some platforms have not been fixed(test9.1) -- this presumably
+   relates to the entry point mess in m911.
+2. New functionality:
+    Through the sterling efforts of Tom Russo,Tony Rappe,Jeff Hay,
+    Matt Braunstein,and Rich Martin, we now have:
+    ecp gradients through g-functions (intgrl,m303,m712).
+    ecp analytic second derivatives through f-functions (intgrl,m303,m712).
+    closed and restricted open-shell dft (m511).
+    spin-orbit ci (m304,m807,m904) -- compliments russ pitzer.
+       note that this was originally interfaced with mesa by
+       matt braunstein(lanl). matt also put together an integral
+       link (m204) to compute the one-center approximation to the
+       spin-orbit operator.  It has been tested for s and p functions;
+       code exists, but has not been tested for d and f-functions.
+       It is somewhat loosely coupled to mesa, in that two additional
+       input files are needed:genin and ciin. the ci will work for
+       any point group for systems with an even number of elecrons
+       (rmp,summer 1992). For systems with an odd numner of electrons,
+       the molecule must have c2v symmetry or higher.
+    sgi version available compliments of tony rappe(csu).
+3. Note that the values of the physical constants have been
+   updated. This means that runs which used angstroms previously will now
+   be slightly different because of a different conversion to bohr, etc.
+   If you want to use the old ones specify "oldconstants" on the route.
+4. Renamed link m203 to m732 and made appropriate changes.  This is because
+   m731 transforms forces from cartesian to internal coordinates, 
+   and 'old m203' transforms force constants from cartesian to internals.
+5. Changed the syntax for second derivative runs so that it may make a 
+   little more sense. The opt=() field is now used just to specify
+   an optimization algorithm. If you want force-constants, you specify
+   force-constants=(analytic,                          the default
+                   (numerical=(internal, one-point     the numerical default
+                               cartesian,two-point,    
+                               stepsize)
+   In fact, force-constants by itself defaults to analytic.
+   Take a look at the tests in /usr2/mesa/tests/inp like
+   test2.4,test2.5,test2.6,test2.7. This entailed some changes in the
+   standard route specification in m1 and mesa.dat.
+   I also made reasonable defaults in the case of force-constant runs
+   i.e. you no longer have to specify nderiv=2 for analytic derivatives,
+   scf=(core-fock) or transformation=scf for analytic derivatives.
+   In addition, the keyword phrase transformation=scf is now known as
+   transformation=canonical.
+6. Added a new test2.10, and moved the old test2.10 to test2.11.  The
+   new test does finite-difference force-constants for open shell scf.
+   Also added test8.2,test8.3. Test 8.2 does finite-difference force
+   constants using ecp derivatives. Test8.3 does analytic second derivative
+   force-constants. The second derivative code has been tested using
+   finite-difference through f-functions. By the way, changes were
+   necessary to m712 in order to do second derivatives of f-functions
+   even without ecp's. Also entailed modifying filmas.f to contain
+   atomic masses for all the elements. Added tests 11.1-11.4, which test
+   different functionals/ closed and restricted open shell dft. Finally, 
+   modified the PPP test10.2 to a more stable situation, and added test10.3
+   and 10.4. test10.3 goes through the spin-orbit ci links
+   --- note that it doesn't have all the data needed to run so it should 
+   be skipped over right now. Test10.4 excercises ci transition dipoles.
+7. Modified m330 to destroy the raw integral file after the first half
+   sort. For large cases, the rints file and the ints file no longer have
+   to simultaneously reside on disk.
+8. Modified lnkerr.f to send its message to the standard error.  This is
+   usually the terminal, but can be set by modifying stderr.f in mdutil.
+9. Some housecleaning done. Dead code moved into ghosts as it was found.
+   Output for force-constant runs condensed. Modified fock.f and gdmat.f
+   in m1011 so that they are identical to jandks.f and gdmat.f in both
+   m501 and m503. We should move these to the library someday. Cut down
+   the unnecessary printing in m204,m205.
+10.Note that the output of the tests do not report the isotopes being
+   used in the calculation properly (after distance matrix). They pick 
+   the masses up fine, but the print bug was found after the tests were run,
+   and fixed before version 4.3 was made and saved. 

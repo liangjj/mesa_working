@@ -1,0 +1,14 @@
+#   @(#)Makefile	1.4   8/2/91
+#
+#  Makefile for the propagator code
+#
+.SUFFIXES: .f90 .mod .F90 $(SUFFIXES)
+SRCS = Test.f90 
+TEST_DRIVER=Test
+
+.f90.o:
+	$(F90) $(F90FLAGS) $<
+$(TEST_DRIVER): $(SRCS:.f90=.o) \
+                  $(MD_LIB)
+	$(LD90) $(LDFLAGS) $(SRCS:.f90=.o) \
+	$(MD_LIB) -o $(TEST_DRIVER)

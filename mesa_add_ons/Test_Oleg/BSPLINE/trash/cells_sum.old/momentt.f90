@@ -1,0 +1,81 @@
+!=====================================================================
+    SUBROUTINE  momentt (k,rkm)
+!=====================================================================
+!
+!   Computes moments with derivatives in intervals
+!
+!---------------------------------------------------------------------
+!
+!   on entry
+!   --------
+!       k      the power of moments
+!
+!   on exit
+!   -------
+!                                               _
+!       rkm    the moments defining as <B_i|r^k|B_j> over an interval
+!
+!---------------------------------------------------------------------
+
+    USE spline_param
+    USE spline_grid
+
+    IMPLICIT NONE
+    INTEGER, INTENT(in) :: k
+    REAL(KIND=8), DIMENSION(ks*ks,nv), INTENT(out) :: rkm
+
+    ! .. local variables
+
+    INTEGER :: iv, i, j, m, jk
+    REAL(KIND=8) :: hp1
+    REAL(KIND=8), DIMENSION(ks) :: gw
+    REAL(KIND=8), DIMENSION(ks,ks) :: bj
+    
+      ! .. the first equal-step region
+
+      DO iv=1,ml+ks-1
+        gw = grw(iv,:)
+        if( k > 0 ) gw = gw * gr(iv,:)**k
+        if( k < 0 ) gw = gw * grm(iv,:)**(-k)
+
+        Do j = 1,ks
+          bj(:,j) = bsq(iv,:,j)*gw(:)
+        End do
+
+        m = 0
+        DO i=1,ks
+          DO j=1,ks
+            m = m + 1
+            rkm(m,iv) = SUM(bsp(iv,:,i)*bj(:,j))
+          END DO
+        END DO
+      END DO
+
+      ! .. the log region --- using scaling law
+
+      hp1 = (1.d0+h)**k
+      jk = ks*ks
+      DO iv=ml+ks,ml+me-ks+2
+          rkm(1:jk,iv) = rkm(1:jk,iv-1)*hp1
+      END DO
+
+      ! .. the last equal step region
+
+      DO iv=ml+me-ks+3,nv
+        gw = grw(iv,:)
+        if( k > 0 ) gw = gw * gr(iv,:)**k
+        if( k < 0 ) gw = gw * grm(iv,:)**(-k)
+        Do j = 1,ks
+          bj(:,j) = bsq(iv,:,j)*gw(:)
+        End do
+        m = 0
+        DO i=1,ks
+          DO j=1,ks
+            m = m + 1
+            rkm(m,iv) = SUM(bsp(iv,:,i)*bj(:,j))
+          END DO
+        END DO
+      END DO
+
+  END SUBROUTINE momentt
+

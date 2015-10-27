@@ -1,0 +1,869 @@
+*deck @(#)cgsl.f	1.1 9/8/91
+c***begin prologue     cgsl
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           cgsl, link m1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            solve complex linear systems
+c***description        solve a linear equation in which
+c***                   the matrix has been factored, is real
+c***                   and the right hand side is complex.
+c***                   this is a specialization of the linpack
+c***                   routine sgesl to a complex rhs.                  
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       cgsl
+      subroutine cgsl(a,lda,n,ipvt,b)
+      implicit integer (a-z)
+      real *8 a
+      complex*16  b, t
+      dimension a(lda,n), b(n), ipvt(n)
+      nm1=n-1
+      if (nm1.lt.1) go to 30
+          do 20 k=1,nm1
+             l=ipvt(k)
+             t=b(l)
+             if (l.eq.k) go to 10
+                 b(l)=b(k)
+                 b(k)=t
+   10        continue
+             call csxpy(n-k,t,a(k+1,k),b(k+1))
+   20     continue
+   30 continue
+         do 40 kb=1,n
+             k=n+1-kb
+             b(k)=b(k)/a(k,k)
+             t=-b(k)
+             call csxpy(k-1,t,a(1,k),b(1))
+   40     continue
+      return
+      end
+*deck @(#)clvcmp.f	1.1 9/8/91
+c***begin prologue     clvcmp
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           clvcmp, link 1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            solve complex linear systems
+c***description        solve a set(s) of linear equations in which
+c***                   the matrix and the right hand side are
+c***                   complex.
+c***                  
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       clvcmp
+      subroutine clvcmp (hamcc,ipvt,rhsf,n,m,ifac,prnt,fil)
+      implicit integer(a-z)
+      complex*16  hamcc, rhsf
+      character *(*) ifac
+      character *24 fil
+      character *80 title
+      logical prnt
+      dimension hamcc(n,n), rhsf(n,m)
+      dimension ipvt(n)
+      common /io/ inp, iout
+      write(iout,*) 'Matrix'
+      do 90 i=1,n
+	 write(iout,*) 'Row'
+         write(iout,*) (hamcc(i,j),j=1,n)
+   90 continue
+c----------------------------------------------------------------------c
+c     compute lu factorization of complex matrix                       c
+c----------------------------------------------------------------------c
+      if (ifac.eq.'factor') then
+         call iosys ('write real '//fil//' to tmat',2*n*n,
+     1               hamcc,0,' ')
+         call cgefa (hamcc,n,n,ipvt,info)
+      else
+c----------------------------------------------------------------------c
+c                solve equations                                       c
+c----------------------------------------------------------------------c
+         call iosys ('write real '//fil//' to tmat',2*m*n,
+     1               rhsf,0,' ')
+         do 20 i=1,m
+            call cgesl (hamcc,n,n,ipvt,rhsf(1,i),0)
+   20    continue
+         if (prnt) then
+             title='complex-solution'
+             call prntcm(title,rhsf,n,m,n,m,iout)
+         endif
+      endif
+      return
+      end
+*deck @(#)ffmat.f	1.1 9/8/91
+c***begin prologue     ffmat
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           ffmat, link 1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            effective free-free matrix elements
+c***description        calculate effective free-free kohn matrix elements
+c***references         schneider and rescigno, physical review
+c***routines called    iosys, util and mdutil
+c***end prologue       ffmat
+      subroutine ffmat(a,b,c,d,n,m,dir,prnt)
+      implicit integer(a-z)
+      real *8 d
+      complex *16 a,b,c
+      character *(*) dir
+      character *80 title
+      logical prnt
+      dimension a(n,n), b(n,m), c(m,n)
+      dimension d(m,n)
+      common /io/ inp, iout
+      if (dir.eq.'complex') then
+          call cambc(a,b,c,n,m,n)
+      else
+          call amcbc(a,b,d,n,m,n)
+      endif
+      if (prnt) then
+          title='new-right-hand-side'
+          call prntcm(title,a,n,n,n,n,iout)
+      endif
+      return
+      end
+*deck @(#)frmcmp.f	1.1 9/8/91
+c***begin prologue     frmcmp
+c***date written       880630   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           frmcmp, link 1107, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m6009
+c***purpose            calculate full complex matrix from scattering
+c***                   integrals and then the t matrices.
+c***description        assembles complete matrix for kohn solution
+c***                   without partitioning off the bound-bound
+c***                   component first. t matrices also extracted.
+c***                   useful for checks and for a more direct method.
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       frmcmp
+c
+      subroutine frmcmp(vrr,vii,vir,vri,vbfr,vbfi,vfrb,vfib,hambb,
+     1                  matcmp,crhs,clhs,ipvt,tmat,seig,svec,dum,
+     2                  dir,matbb,ntchn,n,prh,prs,prn,fil)
+      implicit integer (a-z)
+      character *80 title
+      character *24 fil
+      logical dir, prh, prs, prn
+      real *8 vrr, vbfr, vfrb, hambb, dum
+      complex *16 vii, vri, vir, vbfi, vfib, matcmp, crhs, clhs
+      complex *16 tmat, seig, svec
+      character *15 type
+      dimension vrr(ntchn,ntchn), vii(ntchn,ntchn), vri(ntchn,ntchn)
+      dimension vir(ntchn,ntchn), vbfr(matbb,ntchn), vbfi(matbb,ntchn)
+      dimension vfrb(ntchn,matbb), vfib(ntchn,matbb), hambb(matbb,matbb)
+      dimension matcmp(n,n), crhs(n,ntchn), clhs(n,ntchn), ipvt(n)
+      dimension tmat(ntchn,ntchn), svec(ntchn,ntchn)
+      dimension seig(ntchn), dum(3*ntchn)
+      common /io/ inp, iout
+      call czero(matcmp,n*n)
+      call czero(crhs,n*ntchn)
+c----------------------------------------------------------------------c
+c         fill in the full matrix using the basic integrals            c
+c----------------------------------------------------------------------c
+c         free-free 
+      icnt=0
+      do 10 i=matbb+1,n
+         icnt=icnt+1
+         jcnt=0
+         do 20 j=matbb+1,n
+            jcnt=jcnt+1
+            matcmp(i,j)=vii(icnt,jcnt)
+            crhs(i,jcnt)=vir(icnt,jcnt)
+   20    continue
+   10 continue
+c      free-bound
+      icnt=0
+      do 30 i=matbb+1,n
+         icnt=icnt+1
+         do 40 j=1,matbb
+            matcmp(i,j)=vfib(icnt,j)
+   40    continue
+   30 continue
+c     bound-free
+      do 50 i=1,matbb
+         jcnt=0
+         do 60 j=matbb+1,n
+            jcnt=jcnt+1
+            matcmp(i,j)=vbfi(i,jcnt)
+            crhs(i,jcnt)=vbfr(i,jcnt)
+   60    continue
+   50 continue
+c     bound-bound
+      do 70 i=1,matbb
+         do 80 j=1,matbb
+            matcmp(i,j)=hambb(i,j)
+   80    continue
+   70 continue
+      if (prh) then
+          title='full matrix'
+          call prntcm(title,matcmp,n,n,n,n,iout)
+          title='full complex rhs'
+          call prntcm(title,crhs,n,ntchn,n,ntchn,iout)
+      endif
+      call ccopy(crhs,clhs,n*ntchn)
+      call cgefa (matcmp,n,n,ipvt,info)
+      do 90 i=1,ntchn
+         call cgesl(matcmp,n,n,ipvt,crhs(1,i),0)
+   90 continue
+      if (prs) then
+          title='full complex solution'
+          call prntcm(title,crhs,n,ntchn,n,ntchn,iout)
+      endif
+      call matm(crhs,n*ntchn)
+      icnt=0      
+      do 100 i=matbb+1,n
+         icnt=icnt+1
+         jcnt=0
+         do 100 j=matbb+1,n
+            jcnt=jcnt+1
+  100 vir(icnt,jcnt)=crhs(i,jcnt)
+c----------------------------------------------------------------------c
+c                extract non variational t matrices                    c
+c----------------------------------------------------------------------c
+      call tnonvr (vir,tmat,seig,svec,dum,dir,ntchn)
+c----------------------------------------------------------------------c
+      call cebtc(vri,clhs,crhs,ntchn,n,ntchn)
+      if (prn) then
+          title='full complex numerator'
+          call prntcm(title,vri,ntchn,ntchn,ntchn,ntchn,iout)
+      endif
+      do 200 i=1,ntchn
+         do 200 j=1,ntchn
+            tmat(i,j)=vrr(i,j)+vri(i,j)
+  200 continue
+c----------------------------------------------------------------------c
+c              extract variational t matrices                          c
+c----------------------------------------------------------------------c
+         type='not partitioned'
+         call tvar(vrr,vir,vri,vfrb,vbfr,tmat,
+     1             seig,svec,dum,dir,type,ntchn,matbb,fil)
+c----------------------------------------------------------------------c
+      return
+      end
+*deck @(#)kohnop.f	1.1 9/8/91
+c***begin prologue     m6009
+c***date written       880423   (yymmdd)
+c***revision date      890620   (yymmdd)
+c***                   extensive revision to make compatible with polyatomic
+c***                   calculations. all single center matrix elements
+c***                   removed. they are now calculated in m6005 and final
+c***                   matrices assembled in m6008.             
+c***keywords           m6009, link 6009, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m6009
+c***purpose            perform kohn variational calculations
+c***description        muti-channel kohn variational calculations using
+c***                   separable exchange and optical potentials for
+c***                   molecules.
+c
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       m6009
+      program kohnop
+      implicit integer(a-z)
+      parameter (dime=100)
+      logical logkey, logky
+      real *8 z, zdum
+      complex *16 zdumc
+      real *8 energy, eau, eev, egrnd
+      character *4096 ops
+      character *8 cpass
+      character *128 filint, filtmt
+      character *1600 card
+      character *16 chrkey
+      character *24 filnm
+      character *15 type
+      character *3 ans
+      character *16 fptoc
+      common a(1)
+      dimension z(1)
+      common /io/ inp, iout
+      common / memory / ioff
+      dimension energy(dime), logky(10)
+      equivalence (z,a)
+      call drum
+      write (iout,1)
+c----------------------------------------------------------------------c
+c                  recover options string                              c
+c----------------------------------------------------------------------c
+      call iosys ('read character options from rwf',-1,0,0,ops)
+      logky(1)=logkey(ops,'m6009=no-partitioning',.false.,' ')
+      logky(2)=logkey(ops,'m6009=real',.false.,' ')
+      logky(3)=logkey(ops,'print=m6009=all',.false.,' ')
+      logky(4)=logkey(ops,'print=m6009=complex-rhs',.false.,' ')
+      logky(5)=logkey(ops,'print=m6009=new-rhs',.false.,' ')
+      logky(6)=logkey(ops,'print=m6009=hfull',.false.,' ')
+      logky(7)=logkey(ops,'print=m6009=full-solution',.false.,' ')
+      logky(8)=logkey(ops,'print=m6009=complex-numerator',.false.,' ')
+      logky(9)=logkey(ops,'print=m6009=rhs',.false.,' ')
+      if (logky(3)) then
+          do 100 i=4,9
+             logky(i)=.true.
+  100     continue
+      endif
+c----------------------------------------------------------------------c
+c                  position input file                                 c 
+c            read in title ,  filenames and                            c
+c                   various parameters                                 c
+c----------------------------------------------------------------------c
+      call posinp ('$kohnopt',cpass)
+      call cardin (card)
+      if (logky(1)) then
+          write (iout,2)
+      else
+          write (iout,3)
+      endif
+      if (logky(2)) then
+          write (iout,4)
+      else
+          write (iout,5)
+      endif
+      call iosys ('read character "kohn integral filename" from '//
+     1            'rwf',-1,0,0,filint)
+      call iosys ('open kohnint as old',0,0,0,filint)
+      call iosys ('read character "kohn tmatrix filename" from rwf',
+     1             -1,0,0,filtmt)
+      call iosys ('open tmat as unknown',262144,0,0,filtmt) 
+c----------------------------------------------------------------------c
+c          read in information to determine memory for calculation     c
+c----------------------------------------------------------------------c
+      call iosys ('read integer "no. energies" from kohnint',1,nen,
+     1            0,' ')
+      call iosys ('read real "scatt energies" from kohnint',nen,energy,
+     1            0,' ')
+      call iosys ('read integer "total channels" from kohnint',1,ntchn,
+     1            0,' ')
+      call iosys ('read integer "total bound" from kohnint',1,matbv,0,
+     1            ' ')
+      call iosys ('read real "chan energies" from kohnint',1,egrnd,0,
+     1            ' ')
+      write (iout,6) ntchn, matbv
+c----------------------------------------------------------------------c
+
+c                    lets get the needed memory                        c
+c----------------------------------------------------------------------c
+c     for free-free primitive matrix elements
+      ffwds=9*ntchn*ntchn+2*ntchn*matbv
+c     for bound-free and free-bound primitive matrix elements
+      bfwds=2*ntchn*ntchn+4*ntchn*matbv
+c     for full bound-bound hamiltonian including optical potential
+      bbwds=2*ntchn*matbv+matbv*matbv
+      weneed=ffwds+bfwds+bbwds
+c----------------------------------------------------------------------c
+c               branch if partitioning used                            c
+c----------------------------------------------------------------------c
+      if (logky(1)) then
+          ncomp=matbv+ntchn
+          matwds=2*ncomp*ncomp+4*ncomp*ntchn                
+          add=ncomp
+      else
+          matwds=0
+          add=max(matbv,ntchn)
+      endif
+c----------------------------------------------------------------------c
+c              add up words to now and those needed for                c
+c              additional calculation of t-matrix                      c
+c----------------------------------------------------------------------c
+      weneed=weneed+matwds+add+4*ntchn*ntchn+5*ntchn
+      call iosys ('read integer maxsiz from rwf',1,maxcor,0,' ')
+      if (maxcor.lt.weneed) then
+          call lnkerr ('cannot get enough memory:will quit')
+      endif
+      call iosys ('write integer maxsiz to rwf',1,weneed,0,' ')
+      call getscm(weneed,z(1),ngot,'kohn',0)
+      write (iout,7) weneed
+c----------------------------------------------------------------------c 
+c                    parcel out the arrays                             c
+c----------------------------------------------------------------------c
+      hpp=ioff
+      hpm=hpp+2*ntchn*ntchn
+      hpb=hpm+2*ntchn*ntchn
+      vrr=hpb+2*ntchn*matbv
+      vii=vrr+ntchn*ntchn
+      vir=vii+2*ntchn*ntchn
+      vri=vir+2*ntchn*ntchn
+      tvir=vri
+      vfrb=vri+2*ntchn*ntchn
+      vfib=vfrb+ntchn*matbv
+      vbfr=vfib+2*ntchn*matbv
+      vbfi=vbfr+ntchn*matbv
+      hambb=vbfi+2*ntchn*matbv
+c----------------------------------------------------------------------c
+c    branch here depending on whether you partition off the            c
+c                        bound-bound matrix                            c
+c----------------------------------------------------------------------c
+      if (logky(1)) then
+          ncomp=matbv+ntchn
+          matcmp=hambb+matbv*matbv
+          crhs=matcmp+2*ncomp*ncomp
+          clhs=crhs+2*ncomp*ntchn
+          hld=clhs+2*ncomp*ntchn
+          ipvt=wpadti(hld)
+      else
+          hld=hambb+matbv*matbv      
+          ipvt=wpadti(hld)
+      endif
+c     for extraction of t-matrix
+      tmat=hld+add
+      seig=tmat+2*ntchn*ntchn
+      svec=seig+2*ntchn
+      dum=svec+2*ntchn*ntchn
+c----------------------------------------------------------------------c
+c              memory obtained: lets do calculation                    c
+c----------------------------------------------------------------------c
+c----------------------------------------------------------------------c
+c                  begin energy dependent step                         c
+c----------------------------------------------------------------------c
+      do 20 ene=1,nen
+         eau=.5d+00*energy(ene)
+         eev=eau*27.21
+         write (iout,8) eau, eev
+c----------------------------------------------------------------------c
+c               read in the bound-bound hamiltonian matrix             c 
+c               containing exchange and correlation                    c
+c----------------------------------------------------------------------c
+         call rddeno(z(hambb),energy(ene),matbv)
+c----------------------------------------------------------------------c
+c               read in all free-free and bound-free matrix            c
+c                           elements                                   c
+c----------------------------------------------------------------------c
+         filnm='hpp-'//fptoc(energy(ene))
+         call iosys ('read real '//filnm//' from kohnint',
+     1               2*ntchn*ntchn,z(hpp),0,' ')
+         filnm='hpm-'//fptoc(energy(ene))
+         call iosys ('read real '//filnm//' from kohnint',
+     1               2*ntchn*ntchn,z(hpm),0,' ')
+         filnm='hpb-'//fptoc(energy(ene))
+         call iosys ('read real '//filnm//' from kohnint',
+     1               2*ntchn*matbv,z(hpb),0,' ')
+c----------------------------------------------------------------------c
+c                  get the derived matrices                            c
+c----------------------------------------------------------------------c
+         call mkfree(z(hpp),z(hpm),z(vrr),z(vii),z(vri),z(vir),ntchn) 
+         call mkfrbn(z(hpb),z(vfrb),z(vfib),z(vbfr),z(vbfi),matbv,ntchn)
+c----------------------------------------------------------------------c
+c           construct the final matrix and right hand side             c 
+c----------------------------------------------------------------------c
+         if (.not.logky(1)) then
+c----------------------------------------------------------------------c
+c           solve the linear equations using partitioning              c
+c----------------------------------------------------------------------c
+             call slvlin(z(hambb),a(ipvt),zdum,z(vbfi),matbv,ntchn,
+     1                   'factor','complex',logky(9))
+             call slvlin(z(hambb),a(ipvt),zdum,z(vbfi),matbv,ntchn,
+     1                   'no factor','complex',logky(9))
+c----------------------------------------------------------------------c
+             call slvlin(z(hambb),a(ipvt),z(vbfr),zdumc,matbv,ntchn,
+     1                   'no factor','real',logky(9))
+c----------------------------------------------------------------------c
+c                  make effective free-free matrix                     c 
+c----------------------------------------------------------------------c
+             call ffmat(z(vii),z(vfib),z(vbfi),zdum,ntchn,matbv,
+     1                  'complex',logky(5))
+             call ffmat(z(vir),z(vfib),zdumc,z(vbfr),ntchn,matbv,
+     1                  'real',logky(5))
+             call matm(z(vir),ntchn*ntchn)
+c----------------------------------------------------------------------c
+c                    solve complex linear system                       c
+c                    to get free coefficients                          c
+c----------------------------------------------------------------------c
+             filnm='mpp-'//fptoc(energy(ene))
+             call clvcmp(z(vii),a(ipvt),z(vir),ntchn,ntchn,'factor',
+     1                   logky(4),filnm)
+             call ccopy(z(vir),z(tvir),ntchn*ntchn)
+             filnm='rpp-'//fptoc(energy(ene))
+             call clvcmp(z(vii),a(ipvt),z(vir),ntchn,ntchn,'no factor',
+     1                   logky(4),filnm)
+c----------------------------------------------------------------------c
+c                extract non variational t matrices                    c
+c----------------------------------------------------------------------c
+             call tnonvr (z(vir),z(tmat),z(seig),z(svec),z(dum),
+     1                    logky(2),ntchn)
+c----------------------------------------------------------------------c
+c              extract variational t matrices                          c
+c----------------------------------------------------------------------c
+             type='partitioned'
+             filnm='tmat-'//fptoc(energy(ene))
+             call tvar(z(vrr),z(vir),z(tvir),z(vfrb),z(vbfr),z(tmat),
+     1                 z(seig),z(svec),z(dum),logky(2),type,ntchn,
+     2                 matbv,filnm)
+c----------------------------------------------------------------------c
+c           solve the linear equations without partitioning            c
+c           and extract required t matrices.                           c
+c----------------------------------------------------------------------c
+         else
+             call frmcmp(z(vrr),z(vii),z(vir),z(vri),z(vbfr),z(vbfi),
+     1                   z(vfrb),z(vfib),z(hambb),z(matcmp),z(crhs),
+     2                   z(clhs),a(ipvt),z(tmat),z(seig),z(svec),
+     3                   z(dum),logky(2),matbv,ntchn,ncomp,logky(6),
+     4                   logky(7),logky(8),filnm)
+         endif 
+   20 continue
+      call iosys ('rewind all on kohnint read-and-write',0,0,0,' ')
+      call iosys ('close kohnint',0,0,0,' ')
+      call iosys ('rewind all on tmat read-and-write',0,0,0,' ')
+      call iosys ('close tmat',0,0,0,' ')
+      call iosys ('write integer maxsiz to rwf',1,maxcor,0,' ')
+      call chainx (0)
+      stop
+    1 format (//,20x,'***** m6009:kohn variational scattering program **
+     1***')
+    2 format (/,15x,'calculation performed without partitioning')
+    3 format (/,15x,'calculation performed with partitioning')
+    4 format (/,5x,'use the kohn with real boundary conditions')
+    5 format (/,5x,'use the kohn with complex boundary conditions')
+    6 format (/,5x,'no. channels',1x,i3,2x,'size of bound-bound matrix',
+     1        1x,i4)
+    7 format (/,5x,i8,1x,'words obtained by getscm')
+    8 format (/,5x,'incident electron energy',1x,f15.8,'(hartrees)',
+     1        1x,f15.8,'(ev)')
+      end
+*deck @(#)matm.f	1.1 9/8/91
+c***begin prologue     matm
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           matm, link 1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            negative of a matrix
+c***description        a = -a
+c***references         schneider and rescigno, physical review
+c***routines called    iosys, util and mdutil
+c***end prologue       matm
+      subroutine matm(a,n)
+      implicit integer(a-z)
+      complex *16 a
+      dimension a(n)
+      do 10 i=1,n
+         a(i)=-a(i)
+   10 continue
+      return
+      end
+*deck @(#)mkfrbn.f	1.1 9/8/91
+c***begin prologue     mkfrbn
+c***date written       890528   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           bound-free
+c***author             schneider, barry (lanl)
+c***source             m6009
+c***purpose            fill bound-free matrices
+c*** 
+c
+c***references         none      
+c
+c***routines called    none
+c***end prologue       mkfrbn
+      subroutine mkfrbn(hpb,vfrb,vfib,vbfr,vbfi,matbv,ntchn)
+      implicit integer (a-z)
+      complex *16 hpb, vfib, vbfi
+      real *8 vfrb, vbfr
+      dimension hpb(ntchn,matbv), vfrb(ntchn,matbv), vfib(ntchn,matbv)
+      dimension vbfr(matbv,ntchn), vbfi(matbv,ntchn)
+      do 10 ch1=1,ntchn
+         do 20 bfn=1,matbv
+            vfrb(ch1,bfn)=imag(hpb(ch1,bfn))
+            vfib(ch1,bfn)=hpb(ch1,bfn)
+            vbfr(bfn,ch1)=vfrb(ch1,bfn)
+            vbfi(bfn,ch1)=vfib(ch1,bfn)
+   20    continue
+   10 continue
+      return
+      end 
+*deck @(#)mkfree.f	1.1 9/8/91
+c***begin prologue     mkfree
+c***date written       890528   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           free-free
+c***author             schneider, barry (lanl)
+c***source             m6009
+c***purpose            fill free-free matrices
+c*** 
+c
+c***references         none      
+c
+c***routines called    none
+c***end prologue       mkfree
+      subroutine mkfree(hpp,hpm,vrr,vii,vri,vir,ntchn)
+      implicit integer (a-z)
+      complex *16 hpp, hpm, vii, vri, vir
+      real *8 vrr
+      dimension hpp(ntchn,ntchn), hpm(ntchn,ntchn), vrr(ntchn,ntchn)
+      dimension vii(ntchn,ntchn), vri(ntchn,ntchn), vir(ntchn,ntchn)
+      do 10 ch1=1,ntchn
+         do 20 ch2=1,ch1
+            vii(ch1,ch2)=hpp(ch1,ch2)
+            vii(ch2,ch1)=vii(ch1,ch2)
+            vrr(ch1,ch2)=imag(hpm(ch1,ch2))
+            vrr(ch2,ch1)=vrr(ch1,ch2)
+            vir(ch1,ch2)=hpm(ch1,ch2)
+            vri(ch2,ch1)=vir(ch1,ch2)
+            vir(ch2,ch1)=hpm(ch2,ch1)
+            vri(ch1,ch2)=vir(ch2,ch1)
+   20    continue
+   10 continue
+      return
+      end  
+*deck @(#)rddeno.f	1.1 9/8/91
+c***begin prologue     rddeno
+c***date written       890528   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           read, bound
+c***author             schneider, barry (lanl)
+c***source             m6009
+c***purpose            read in kohn energy dependent
+c***                   denominator matrix
+c*** 
+c
+c***references         none      
+c
+c***routines called    iosys
+c***end prologue       rddeno
+      subroutine rddeno(hambb,energy,mxb)
+      implicit integer (a-z)
+      real *8 energy, hambb
+      character *24 ftit
+      character*16 fptoc
+      dimension hambb(mxb,mxb)
+      ftit='bbdn-'//fptoc(energy)
+      call iosys ('read real '//ftit//' from kohnint',mxb*mxb,hambb,
+     1             0,' ')
+      return
+      end 
+*deck @(#)slvlin.f	1.1 9/8/91
+c***begin prologue     slvlin
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           slvlin, link 1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            solve complex linear systems
+c***description        solve a set(s) of linear equations in which
+c***                   the matrix is real and the right hand side
+c***                   is real or complex.
+c***                  
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       slvlin
+      subroutine slvlin (hambb,ipvt,hambfr,hambfc,n,m,ifac,type,prnt)
+      implicit integer(a-z)
+      real*8 hambb, hambfr
+      complex*16  hambfc
+      character *(*) ifac, type
+      character *80 title
+      logical prnt
+      dimension hambb(n,n), hambfr(n,m), hambfc(n,m)
+      dimension ipvt(n)
+      common /io/ inp, iout
+c----------------------------------------------------------------------c
+c     compute lu factorization of bound bound matrix                   c
+c----------------------------------------------------------------------c
+      if (ifac.eq.'factor') then
+          call sgefa (hambb,n,n,ipvt,info)
+      else
+c----------------------------------------------------------------------c
+c                solve equations                                       c
+c----------------------------------------------------------------------c
+         if (type.eq.'real') then
+            do 20 i=1,m
+               call sgesl (hambb,n,n,ipvt,hambfr(1,i),0)
+   20       continue
+            if (prnt) then
+                title='real right hand side'
+                call prntrm(title,hambfr,n,m,n,m,iout)
+            endif
+         else
+            do 30 i=1,m
+               call cgsl(hambb,n,n,ipvt,hambfc(1,i))
+   30       continue
+            if (prnt) then
+                title='complex right hand side'
+                call prntcm(title,hambfc,n,m,n,m,iout)
+            endif
+         endif
+      endif
+      return
+      end
+*deck @(#)tnonvr.f	1.1 9/8/91
+c***begin prologue     tnonv
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           tnonv, link 1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            find non-variational t-matrix
+c***description        
+c***                   
+c***                   
+c***                  
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       tnonv
+      subroutine tnonvr (vff,tmat,seig,svec,dum,dir,ntchn)
+      complex*16 vff, tmat, seig, svec, catan, cfac
+      character *80 title
+      logical dir
+      real*8 dum, phase, epsum, rtest, atan2, impart, repart 
+      dimension vff(ntchn,ntchn), tmat(ntchn,ntchn), seig(ntchn)
+      dimension svec(ntchn,ntchn), dum(3*ntchn)
+      common /io/ inp, iout
+      cfac=cmplx(0.d0,2.d0)
+      write (iout,220)
+      if (.not.dir) then
+          title='t-matrix'
+         else
+          title='k-matrix'
+      endif
+      call prntcm(title,vff,ntchn,ntchn,ntchn,ntchn,iout)
+      call ccopy(vff,tmat,ntchn*ntchn)
+      if (.not.dir) then
+         do 150 i=1,ntchn
+            do 140 j=1,ntchn
+               tmat(i,j)=cfac*tmat(i,j)
+  140       continue
+  150    continue
+         do 160 j=1,ntchn
+            tmat(j,j)=tmat(j,j)+1.d+00
+  160    continue   
+      endif
+      job=1
+      call cgeev (tmat,ntchn,ntchn,seig,svec,ntchn,dum,job,info)
+      write (iout,200)
+      if (.not.dir) then
+         epsum=0.d+00
+         do 170 i=1,ntchn
+            impart=imag(seig(i))
+            repart=real(seig(i))
+            phase=atan2(impart,repart)
+            phase=phase*.5d+00
+            rtest=seig(i)*conjg(seig(i))
+            write (iout,210) i,phase,rtest
+            epsum=epsum+phase
+  170    continue
+      else
+         epsum=0.d+00
+         do 180 i=1,ntchn
+            phase=catan(seig(i))
+            write (iout,210) i,phase,rtest
+            epsum=epsum+phase
+  180    continue
+      endif
+      write (iout,300) epsum
+      return
+  220 format (/,10x,'variationally uncorrected results')
+  200 format (/,10x,' eigenphases of s matrix')
+  210 format (/,2x,'phase no.',1x,i3,2x,'phase =',2x,e15.8,2x,'modulus =
+     1 ',2x,f10.5)
+  300 format(/,5x,'eigenphase sum:',1x,e15.8)
+      end
+*deck @(#)tvar.f	1.1 9/8/91
+c***begin prologue     tvar
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           tvar, link 1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            find variational t-matrix
+c***description        
+c***                   
+c***                   
+c***                  
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       tvar
+      subroutine tvar(vrr,vir,tvir,vfrb,vbfr,tmat,seig,svec,dum,
+     1                dir,type,ntchn,matbb,fil)
+      implicit integer (a-z)
+      real *8 vrr, vfrb, vbfr, phase, rtest, dum
+      real *8 atan2, epsum, impart, repart
+      complex *16 vir, tvir, tmat, cfac, svec, seig, catan
+      logical dir
+      character *80 title
+      character *16 fil
+      character *(*) type
+      dimension vrr(ntchn,ntchn), vfrb(ntchn,matbb), vir(ntchn,ntchn)
+      dimension tvir(ntchn,ntchn), vbfr(matbb,ntchn)
+      dimension seig(ntchn), svec(ntchn,ntchn), dum(3*ntchn)
+      dimension tmat(ntchn,ntchn)
+      common /io/ inp, iout
+      data cfac/ (0.d+00,2.d+00)/
+c----------------------------------------------------------------------------c
+c        now form variationally stable t-matrix                              c
+c----------------------------------------------------------------------------c
+      if (type.eq.'partitioned') then
+          do 70 i=1,ntchn
+             do 70 j=1,ntchn
+                tmat(j,i)=vrr(i,j)
+   70     continue
+          call ebc(vrr,vfrb,vbfr,ntchn,matbb,ntchn)
+          do 75 i=1,ntchn
+             do 75 j=1,ntchn
+                tmat(i,j)=tmat(i,j)-vrr(i,j)
+   75     continue
+          call cambtc(tmat,tvir,vir,ntchn,ntchn,ntchn)
+      endif
+      do 90 i=1,ntchn
+         do 90 j=1,ntchn
+            tmat(i,j)=-2.d+00*tmat(i,j)
+   90 continue
+      if (.not.dir) then
+         title='t-matrix'
+      else
+         title='k-matrix'
+      endif
+      write (iout,250)
+      call iosys ('write real '//fil//' to tmat',2*ntchn*ntchn,
+     1            tmat,0,' ')
+      call prntcm(title,tmat,ntchn,ntchn,ntchn,ntchn,iout)     
+      if (.not.dir) then
+         do 150 i=1,ntchn
+            do 140 j=1,ntchn
+               tmat(i,j)=cfac*tmat(i,j)
+  140       continue
+  150    continue
+         do 160 j=1,ntchn
+            tmat(j,j)=tmat(j,j)+1.d+00
+  160    continue   
+      endif
+      job=1
+      call cgeev (tmat,ntchn,ntchn,seig,svec,ntchn,dum,job,info)
+      write (iout,200)
+      if (.not.dir) then
+         epsum=0.d+00
+         do 170 i=1,ntchn
+            impart=imag(seig(i))
+            repart=real(seig(i))
+            phase=atan2(impart,repart)
+            phase=phase*.5d+00
+            rtest=seig(i)*conjg(seig(i))
+            write (iout,210) i,phase,rtest
+            epsum=epsum+phase
+  170    continue
+      else
+         epsum=0.d+00
+         do 180 i=1,ntchn
+            phase=catan(seig(i))
+            rtest=1.d+00
+            write (iout,210) i,phase,rtest
+            epsum=epsum+phase
+  180    continue
+      endif
+      write (iout,300) epsum
+      return
+  200 format (/,10x,' eigenphases of s matrix')
+  210 format (/,2x,'phase no.',1x,i3,2x,'phase =',2x,e15.8,2x,'modulus =
+     1 ',2x,f10.5)
+  250 format (/,10x,'variationally corrected results')
+  300 format (/,5x,'eigenphase sum:',1x,e15.8)
+      end

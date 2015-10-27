@@ -1,0 +1,71 @@
+$route
+ number-of-space-dimensions=1 use-trap-units 
+ m6290=(time-dimension=yes,space-dimension=yes)
+ print=(xm6290=(points,polynomials),m6295=(all)) xm6290=check-orthogonality 
+ open-bec=new xuse-modified-functions xusing-chebyshev-points
+ xread-iosys use-atomic-units space-dimension-1=x
+ m6291=(time-dimension=yes,space-dimension=yes) 
+ spatial-grid-number=(1) mode=multigrid time-grid-number=(1)
+ m6299=time=on test-h0 number-of-time-regions=1 
+ multigrid-procedure=on xiterative-linear-system-solve
+$end
+          
+$nonstd
+62//90,91,95;
+20//01;
+$end
+$title
+time-propagation code
+$end
+
+
+$trap
+ atom=na-3d
+$end
+
+$v0-x-1
+ potential-type=harmonic-oscillator omega=177.d0 use-trap-units
+$end 
+
+$time=on
+ pure-time-perturbation=none driver=state-vector initial-state=0
+ space-time-perturbation=sine-dipole-field  number-of-time-regions=1
+$end
+
+$grids-dimension-x
+ number-of-subgrids=1 coordinate-type=x quadrature-type=legendre
+ xl=-10.d0 xr=10.d0 fix-end-points fix-left-end-point fix-right-end-point
+ number-of-points-per-subgrid=(100)
+$end
+
+$grids-time-region-1
+ number-of-subgrids=1 quadrature-type=legendre
+ tl=0.d0 tr=5.d0 number-of-points-per-subgrid=(10)
+$end
+
+$gmres
+ overlap-tolerance=1.e-10 convergence=1.e-08
+ preconditioner=forced-block maximum-size-of-preconditioning-block=100
+ maximum-number-of-iterations=200 maximum-number-of-vectors=200
+ xprint=(iterative-solve=all)
+$end
+
+$trials
+ type-of-trial-vectors=unit number-of-trial-vectors=1
+$end
+
+$vt
+ units=trap-units electric-field-frequency=1.0d0 
+ electric-field-strength=.01d0
+$end 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

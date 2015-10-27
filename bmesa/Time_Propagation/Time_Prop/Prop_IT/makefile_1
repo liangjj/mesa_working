@@ -1,0 +1,95 @@
+#   @(#)Makefile	1.4   8/2/91
+#
+#  Makefile for the propagator code
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+REMOVE = NO
+MAIN = $(MESA_HOME)
+LIB = $(MAIN)/library
+MODDIR = $(LIB)/Modules/New_Modules
+MESABIN =  $(MESA_BIN)
+MODLIB = $(MODDIR)/modlib_f90.a
+TIMPRP = $(MAIN)/bmesa/Time_Propagation
+DVRLIB = $(LIB)/dvrlib_f90/dvrlib_f90.a
+FDLIB = $(LIB)/fdlib_f90/fdlib_f90.a
+POTLIB = $(LIB)/potlib/potlib_f90.a
+HAMLIB = $(LIB)/hamlib/hamlib.a
+MESALIB = $(LIB)/mesalib.a
+ITDVRLIB  = $(LIB)/itlib/itdvrlib.a
+TDVRLIB = $(LIB)/tdvrlib/tdvrlib.a
+TIMLIB = $(TIMPRP)/timlib_f90.a
+MDLIB = /usr/lib/libcxml.a    
+
+FC = fort
+FFLAGS = -c -O5 
+
+LD = $(FC)
+LDFLAGS =
+
+RCS = RCS
+CO = co -l
+
+MODSRCS = \
+	packed_dvr_matrix_vector_multiply.f90 \
+	fd_m_v.f90 \
+	h_m_v.f90 \
+	h_on_vector.f90 \
+	v_mat_v.f90 \
+	v_v_mat.f90 \
+	v_out_so_mat_v_in.f90 \
+	v_out_v_in_so_mat.f90 \
+	dvr_matrix_vector_multiply.f90 \
+	finite_element_matrix_multiply.f90 \
+	arnoldi_diagonalize.f90 \
+	arnoldi_exponential_propagator.f90 \
+	arnoldi_matrices.f90 \
+	arnoldi_vectors.f90 \
+	test_overlap.f90 \
+	check_convergence.f90 \
+	check_normalization.f90 \
+	trial_vectors.f90 \
+	arnoldi_driver.f90 \
+	regional_diagonalization.f90
+
+SRCS = \
+	add_absorb.f90 \
+	arnoldi_data.f90 \
+	check_gs_energy.f90 \
+	ground_state_energy.f90 \
+	input_prop.f90 \
+	ke_reg_dvr.f90 \
+	ke_reg_fd.f90 \
+	modify_diag.f90 \
+        plot_propagator.f90 \
+	pt_reg.f90 \
+	regional_matrices.f90 \
+	setup.f90 \
+	space_prop.f90 
+
+
+%.mod : %.o
+	@if [! -f $@ ]; then \
+	rm $< \
+	$(MAKE) $< \
+        fi
+
+%.o : %.f90
+	$(FC) $(FFLAGS) $<
+
+all: $(MESABIN)/m1225
+$(MESABIN)/m1225: $(MODSRCS:.f90=.o) \
+		  $(SRCS:.f90=.o)  \
+                  $(TIMLIB) $(DVRLIB) $(FDLIB) \
+                  $(MODLIB) $(HAMLIB) $(POTLIB) $(ITDVRLIB) \
+                  $(TDVRLIB) $(MESALIB) $(MDLIB)
+	$(LD) $(LDFLAGS) $(MODSRCS:.f90=.o) \
+			 $(SRCS:.f90=.o)  \
+	$(TIMLIB) $(DVRLIB) $(FDLIB) $(MODLIB) \
+	$(HAMLIB) $(POTLIB) $(ITDVRLIB) $(TDVRLIB) \
+	$(MESALIB) $(MDLIB) -o $(MESABIN)/m1225     
+
+sources: $(SRCS) $(LIBSRCS)
+	$(CO) $(RCS)/*.f90
+
+clean:
+	rm *.o *.mod *~

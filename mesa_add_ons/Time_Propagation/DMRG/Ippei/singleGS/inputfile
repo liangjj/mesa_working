@@ -1,0 +1,24 @@
+ &itpIntParams
+  systemSize=5, maxBoseFilling=5, ITPswitch=1, messageSwitchITP=0, maxITPsteps=1500, chiMin=1, chiMax=8, chiInc=1, chiConvSwitch=1, muPoints=2, JUPoints=2, JUSwitch=0
+ &end
+
+ &itpRealParams
+  dtITP=0.1, numberTolInner=0.000001, numberTolOuter=0.000025, muMin=0.4, muMax=0.5, JUMin=0.3, JUMax=0.4, trap=0.0, lambda=0.1
+ &end
+
+ &itpFileParams
+  itpDir='ITPDATA/', itpExt='.dat'
+ &end
+
+ &evoIntParams
+  chiEnlargeSwitch=1, chiEvo=10, numDataStores=100, evoSwitch=0, messageSwitchEvo=1, xShiftPoints=10
+ &end
+
+ &evoRealParams
+  dtEvo=0.01, evolveTime=50.0, x0Min=1.0, x0Max=1.1
+ &end
+
+ &evoFileParams
+  evoInDir='ITPDATA/', evoInExt='.dat', iIn=1, jIn=1, evoOutDir='EVODATA/', evoOutExt='.dat'
+ &end
+ 

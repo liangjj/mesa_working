@@ -1,0 +1,42 @@
+
+#   this script opens all the files in MESA under SCCS control for editing.
+#  
+ HOMEDIR=$MESA_HOME
+ LIBDIR=$HOMEDIR'/library'
+ MDUTIL=$HOMEDIR'/library/mdutil'
+ PARTS='chr clams dpintgrl intgrl io math sym util'
+ MACHINEDEPENDENT='mdutil/aix mdutil/hp mdutil/sgi'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' mdutil/stardent mdutil/sun'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' mdutil/ultrix mdutil/unicos'
+# do main directory, then library, then parts, then main links
+ cd $HOMEDIR
+    sccs edit SCCS
+#now do library
+ cd $LIBDIR
+    sccs edit SCCS
+#now do components of library
+    for file in $PARTS
+    do
+       cd $file
+       sccs edit SCCS 
+       cd ..
+    done
+    cd $MDUTIL
+    sccs edit SCCS
+    for file in $MACHINEDEPENDENT
+    do
+       cd $LIBDIR'/'$file
+       sccs edit SCCS
+       cd ..
+    done
+#now do main routines
+ cd $HOMEDIR
+ for file in m[0-9]*
+ do
+    cd $file
+    sccs edit SCCS 
+    cd ..
+ done
+#now tar it all.
+#cd $HOMEDIR
+#tar -cvoFFf $1 $HOMEDIR

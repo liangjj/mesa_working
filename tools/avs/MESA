@@ -1,0 +1,7 @@
+# AVS Module Library Version: 1
+external "Mesa Checkfile Reader" 0 "mesareader2" 1 0 1 "molecule" 0 "molecule" \
+        1 "Check file" "string" 
+external "Peeping Tom" 0 "molvoyeur" 4 1 "molecule" 1 "molecule" 0 1 \
+        "Output File" "string" 
+external "Write PPM" 0 "write_ppm" 4 1 "image" 1 \
+        "field 2D 4-vector uniform byte" 0 1 "PPM output file" "string" 

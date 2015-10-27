@@ -1,0 +1,18 @@
+$route
+dft,2s+1=1,scf=(exchf=slater,corrf=null,pulay,lebord=23,radgrid=51),
+guess=huckel,print=(m511=vector),grid=general
+$title
+  ch2 singlet/ slater-null 
+$geom
+c(basis=ndzp)
+h1(basis=olddzp) c r
+h2(basis=olddzp) c r h1 theta
+
+r=1.130
+theta=100.9
+$end
+$ndzp c
+$include dz
+type=d
+  0.8 1.0
+$end

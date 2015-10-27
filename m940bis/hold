@@ -1,0 +1,267 @@
+david.f:      call iosys('read integer '//title(2)//' from hamiltonian',1,
+david.f:      call iosys('read real '//title(3)//' from hamiltonian',
+david.f:         call iosys('read real "guess:'//itoc(guess)//'" from guess',
+david.f:      call iosys('read real diagonals from bliu',-1,s,0,' ')
+david.f:         call iosys('write real "mc root '//itoc(iroot)//'" to rwf',
+david.f:         call iosys('write real "'//code(1:ilen)//' root '//itoc(iroot)
+david.f:            call iosys('write real energy to rwf',1,
+david.f:      call iosys('write real "'//code(1:ilen)//' energy '
+diagh.f:      call iosys('read character "print flag" from rwf',-1,0,0,prtflg)
+diagh.f:      call iosys('read integer '//headr(2)//' from hamiltonian',1,
+diagh.f:      call iosys('read integer mxcore from rwf',1,canget,0,' ')
+diagh.f:          call iosys('open guess as scratch',0,0,0,' ')
+diagh.f:          call iosys('destroy guess',0,0,0,' ')
+eig940.f:            call iosys('write real "mc root '//itoc(iroot)//'" to rwf',
+eig940.f:            call iosys('write real "'//code(1:ilen)//' root '
+eig940.f:         call iosys('write real "'//code(1:ilen)//' energy '
+eig940.f:      call iosys('write real energy to rwf',1,eigval(nroots)+repcor,
+exchng.f:      call iosys('rewind "guga integrals" on '//unit,0,0,0,' ')
+exchng.f:         call iosys('read real "guga integrals" from '//unit//
+exchng.f:                              call iosys('write integer '//bufnam//
+exchng.f:                              call iosys('write integer '//bufnam//
+exchng.f:                           call iosys('write integer '//bufnam//
+exchng.f:                           call iosys('write integer '//bufnam//
+fnltrn.f:         call iosys('read real "q-ci root '//itoc(i)//'" from rwf',
+fnltrn.f:      call iosys('rewind all on scratch',0,0,0,' ')
+fnltrn.f:      call iosys('read integer '//bufr(2)//' from scratch',
+fnltrn.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+fnltrn.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+fnltrn.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+fnltrn.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+fnltrn.f:      call iosys('destroy scratch',0,0,0,' ')
+fnltrn.f:      call iosys('create integer '//bufr(1)//' on hamiltonian',
+fnltrn.f:                  call iosys('write integer '//bufr(1)//
+fnltrn.f:                  call iosys('write integer '//bufr(1)//
+fnltrn.f:          call iosys('write integer '//bufr(1)//
+fnltrn.f:          call iosys('write integer '//bufr(1)//
+fnltrn.f:      call iosys('endfile '//bufr(1)//' on hamiltonian',0,0,0,' ')
+fnltrn.f:      call iosys('write integer '//bufr(2)//' to hamiltonian',
+fnltrn.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+getvec.f:      call iosys('does "p-space vectors" exist on '//dsk,0,0,0,answer)
+getvec.f:            call iosys('read real "p-space vectors" from '//dsk//
+guess2.f:      call iosys('read real '//title(3)//' from hamiltonian',
+guess2.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+guess2.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+guess2.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+guess2.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+guess2.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+guess2.f:         call iosys('write real "guess:'//itoc(root)//'" to guess',
+guess2.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+ham.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+ham.f:      call iosys('read real '//title(3)//' from hamiltonian',nwks,
+ham.f:      call iosys('read integer '//title(2)//' from hamiltonian',
+ham.f:         call iosys('read integer '//title(1)//' from hamiltonian '//
+ham.f:         call iosys('read integer '//title(1)//' from hamiltonian '//
+ham.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+ham.f:      call iosys('write real h to hamiltonian',nwks*nwks,h,0,' ')
+hamilt.f:      call iosys('create integer '//title(1)//' on hamiltonian',
+hamilt.f:             call iosys('read integer nwksq from '//dsk,1,nwksq,0,' ')
+hamilt.f:          call iosys('write integer '//title(1)//' to hamiltonian'//
+hamilt.f:          call iosys('write integer '//title(1)//' to hamiltonian'//
+hamilt.f:      call iosys('endfile '//title(1)//' on hamiltonian',0,0,0,' ')
+hamilt.f:      call iosys('write integer '//title(2)//' to hamiltonian',
+hamilt.f:      call iosys('write real '//title(3)//' to hamiltonian',
+hamilt.f:      call iosys('write real "h '//title(3)//'" to rwf',nwks,c,0,' ')
+hamilt.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+hampp.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+hampp.f:      call iosys('read real diagonals from hamiltonian',nwks,diag,0,' ')
+hampp.f:      call iosys('write real '//title(3)//' to hamiltonian',nwksp,
+hampp.f:      call iosys('create integer '//title(1)//' on hamiltonian',
+hampp.f:      call iosys('read integer "number of elements" from hamiltonian',
+hampp.f:         call iosys('read integer buffers from hamiltonian '//
+hampp.f:         call iosys('read integer buffers from hamiltonian '//
+hampp.f:                   call iosys('write integer '//title(1)//
+hampp.f:                   call iosys('write integer '//title(1)//
+hampp.f:          call iosys('write integer '//title(1)//
+hampp.f:          call iosys('write integer '//title(1)//
+hampp.f:      call iosys('endfile '//title(1)//' on hamiltonian',0,0,0,' ')
+hampp.f:      call iosys('write integer '//title(2)//
+hampp.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+hampp.f:         call iosys('write real h(pp) to hamiltonian',nwksp*nwksp,
+hampq.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+hampq.f:      call iosys('read integer "number of elements" from hamiltonian',
+hampq.f:      call iosys('create integer '//title(1)//' on hamiltonian',
+hampq.f:         call iosys('read integer buffers from hamiltonian '//
+hampq.f:         call iosys('read integer buffers from hamiltonian '//
+hampq.f:                   call iosys('write integer '//title(1)//
+hampq.f:                   call iosys('write integer '//title(1)//
+hampq.f:          call iosys('write integer '//title(1)//' to hamiltonian'//
+hampq.f:          call iosys('write integer '//title(1)//' to hamiltonian'//
+hampq.f:      call iosys('endfile '//title(1)//' on hamiltonian',0,0,0,' ')
+hampq.f:      call iosys('write integer '//title(2)//' to hamiltonian',
+hampq.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+hampq.f:         call iosys('write real h(pq) to hamiltonian',nwksp*nwksq,
+hamqq.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+hamqq.f:      call iosys('read real diagonals from hamiltonian',nwks,diag,0,' ')
+hamqq.f:      call iosys('write real '//title(3)//' to hamiltonian',nwksq,
+hamqq.f:      call iosys('read integer "number of elements" from hamiltonian',
+hamqq.f:      call iosys('create integer '//title(1)//' on hamiltonian',
+hamqq.f:         call iosys('read integer buffers from hamiltonian '//
+hamqq.f:         call iosys('read integer buffers from hamiltonian '//
+hamqq.f:                   call iosys('write integer '//title(1)//
+hamqq.f:                   call iosys('write integer '//title(1)//
+hamqq.f:          call iosys('write integer '//title(1)//' to hamiltonian'//
+hamqq.f:          call iosys('write integer '//title(1)//' to hamiltonian'//
+hamqq.f:      call iosys('endfile '//title(1)//' on hamiltonian',0,0,0,' ')
+hamqq.f:      call iosys('write integer '//title(2)//' to hamiltonian',
+hamqq.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+hamqq.f:         call iosys('write real h(qq) to hamiltonian',nwksq*nwksq,
+hamunf.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+hamunf.f:      call iosys('read real '//title(3)//' from hamiltonian',nwks,
+hamunf.f:      call iosys('read integer '//title(2)//' from hamiltonian',
+hamunf.f:         call iosys('read integer '//title(1)//' from hamiltonian '//
+hamunf.f:         call iosys('read integer '//title(1)//' from hamiltonian '//
+hamunf.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+hmult.f:         call iosys('rewind all on hamiltonian',0,0,0,' ')
+hmult.f:            call iosys('read integer '//headr//' from hamiltonian '//
+hmult.f:            call iosys('read integer '//headr//' from hamiltonian '//
+hmult.f:            call iosys('read integer '//headr//' from hamiltonian '//
+hmult.f:            call iosys('read integer '//headr//' from hamiltonian '//
+hpqmul.f:         call iosys('rewind all on hamiltonian',0,0,0,' ')
+hpqmul.f:            call iosys('read integer '//headr//' from hamiltonian '//
+hpqmul.f:            call iosys('read integer '//headr//' from hamiltonian '//
+hpqmul.f:            call iosys('read integer '//headr//' from hamiltonian '//
+hpqmul.f:            call iosys('read integer '//headr//' from hamiltonian '//
+incore.f:      call iosys('read integer '//title(2)//' from hamiltonian',1,
+incore.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+incore.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+incore.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+incore.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+incore.f:         call iosys('read integer '//title(1)//' from hamiltonian'//
+incore.f:      call iosys('read real '//title(3)//' from hamiltonian',
+incore.f:      call iosys('read real '//title(3)//' from hamiltonian',
+loops.f:      call iosys('rewind "guga integrals" on '//unit,0,0,0,' ')
+loops.f:         call iosys('read real "guga integrals" from '//unit//
+loops.f:                              call iosys('write integer '//bufnam//
+loops.f:                              call iosys('write integer '//bufnam//
+loops.f:                            call iosys('write integer '//bufnam//
+loops.f:                            call iosys('write integer '//bufnam//
+m940.f:      call iosys('read character options from rwf',-1,0,0,ops)
+m940.f:      call iosys ('read character "guga integral filename" '//
+m940.f:      call iosys('open gints as old',0,0,0,gints)
+m940.f:      call iosys('read character "print flag" from rwf',-1,0,0,prtflg)
+m940.f:      call iosys('read integer "number of basis functions" from rwf',
+m940.f:      call iosys('read character "checkpoint filename" from rwf',
+m940.f:      call iosys('open chk as old',0,0,0,namchk)
+m940.f:      call iosys('read character "drt file name '//key(1:lenkey)
+m940.f:      call iosys('read character "drt unit file name '//dsk
+m940.f:      call iosys('open '//dsk//' as unknown',0,0,0,nmcnfg)
+m940.f:c     of the Hamiltonian.  it is in iosys format.
+m940.f:c     of a non-iosys version of the non-zero elements of the
+m940.f:          call iosys('read integer nwksp from chk',1,nwksp,0,' ')
+m940.f:          call iosys('read integer nwksq from chk',1,nwksq,0,' ')
+m940.f:          call iosys('close chk',0,0,0,namchk)
+m940.f:          call iosys('does "internal orbitals" exist on '//dsk,0,0,
+m940.f:             call iosys('read integer "internal orbitals" from '//dsk,
+m940.f:          call iosys('read integer nwks from '//dsk,1,nwks,0,' ')
+m940.f:          call iosys('rewind all on '//dsk//' read-and-write',0,0,0,' ')
+m940.f:          call iosys('write integer "target roots" to '//dsk,1,
+m940.f:          call iosys('write integer "target orbitals" to '//dsk,1,
+m940.f:          call iosys('write integer "target walks" to '//dsk,
+m940.f:          call iosys('write integer roots to rwf',1,roots,0,' ')
+m940.f:          call iosys('read integer nwksp from '//dsk,1,nwksp,0,' ')
+m940.f:          call iosys('read integer nwksq from '//dsk,1,nwksq,0,' ')
+m940.f:          call iosys('write integer "p space roots" to '//
+m940.f:          call iosys('read integer nwksp from '//dsk,1,nwksp,0,' ')
+m940.f:          call iosys('read integer nwksq from '//dsk,1,nwksq,0,' ')
+m940.f:          call iosys('write integer "q space roots" to '//
+m940.f:          call iosys('read integer nwksp from '//dsk,1,nwksp,0,' ')
+m940.f:          call iosys('read integer nwksq from '//dsk,1,nwksq,0,' ')
+m940.f:          call iosys('read integer nwksp from '//dsk,1,nwksp,0,' ')
+m940.f:          call iosys('read integer nwksq from '//dsk,1,nwksq,0,' ')
+m940.f:          call iosys('read integer nwksp from '//dsk,1,nwksp,0,' ')
+m940.f:          call iosys('read integer nwksq from '//dsk,1,nwksq,0,' ')
+m940.f:          call iosys('write integer nwks to rwf',1,nwks,0,' ')
+m940.f:          call iosys('write integer roots to rwf',1,roots,0,' ')
+m940.f:          call iosys('read integer nwks from '//dsk,1,nwks,0,' ')
+m940.f:          call iosys('write integer roots to rwf',1,roots,0,' ')
+m940.f:      call iosys('write character mcorci to rwf',0,0,0,mcorci)
+m940.f:      call iosys('write character "ci used" to rwf',0,0,0,citype)
+m940.f:      call iosys('read integer ngroup from '//dsk,1,ngroup,0,' ')
+m940.f:      call iosys('read integer "symmetries in ci" from '//dsk,
+m940.f:      call iosys('read integer norbs from '//dsk,1,norbs,0,' ')
+m940.f:      call iosys('read integer nrows from '//dsk,1,nrows,0,' ')
+m940.f:      call iosys('read integer nlevs from '//dsk,1,nlevs,0,' ')
+m940.f:      call iosys('read integer orbfrm from '//dsk,1,orbfrm,0,' ')
+m940.f:      call iosys('read integer numij from '//dsk,1,nnp,0,' ')
+m940.f:      call iosys('read integer nmax from '//dsk,1,nmax,0,' ')
+m940.f:      call iosys('read integer nijvir from '//dsk,1,nnpvir,0,' ')
+m940.f:      call iosys('read real "nuclear repulsion energy" from rwf',
+m940.f:      call iosys('write integer "ci buffer length" to rwf',
+m940.f:      call iosys('read integer arc from '//dsk,4*nrows,a(arc),0,' ')
+m940.f:      call iosys('read integer weight from '//dsk,4*nrows,a(wt),0,' ')
+m940.f:      call iosys('read integer nlwks from '//dsk,nrows,a(nlwks),0,' ')
+m940.f:      call iosys('read integer ijadd from '//dsk,nnp,a(ijadd),0,' ')
+m940.f:      call iosys('read integer ijgrp from '//dsk,nnp,a(ijgrp),0,' ')
+m940.f:      call iosys('read integer kadd from '//dsk,
+m940.f:      call iosys('read integer ladd from '//dsk,norbs*nsym,
+m940.f:      call iosys('read integer orbsym from '//dsk,norbs,a(orbsym),0,' ')
+m940.f:      call iosys('read integer b from '//dsk,nrows,a(b),0,' ')
+m940.f:      call iosys('does "frozen core energy" exist on rwf',0,0,0,
+m940.f:         call iosys('read real "frozen core energy" from rwf',1,
+m940.f:         call iosys('read character "hamiltonian filename" '//
+m940.f:         call iosys('open hamiltonian as new',0,0,0,namham)
+m940.f:         call iosys('open hamiltonian as scratch',0,0,0,' ')
+m940.f:      call iosys('write integer "buffer size" to hamiltonian',
+m940.f:              call iosys('open target as old',0,0,0,nmtarg)
+m940.f:              call iosys('rewind all on target read-and-write',
+m940.f:              call iosys('read integer "target walks" '//
+m940.f:              call iosys('read integer "target orbitals" '//
+m940.f:              call iosys('read integer "target roots" from target',
+m940.f:          call iosys('read integer mxcore from rwf',1,canget,0,' ')          
+m940.f:      call iosys('close hamiltonian',0,0,0,' ')         
+m940.f:      call iosys('close gints',0,0,0,' ')
+rdham.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+rdham.f:         call iosys('read real '//title(3)//' from hamiltonian',
+rdham.f:      call iosys('read integer '//title(2)//' from hamiltonian',
+rdham.f:         call iosys('read integer '//title(1)//
+rdham.f:         call iosys('read integer '//title(1)//
+rdham.f:         call iosys('read integer '//title(1)//
+rdham.f:         call iosys('read integer '//title(1)//
+rdham.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+scr2ham.f:      call iosys('read integer '//bufr(2)//' from scratch',
+scr2ham.f:      call iosys('write integer '//bufr(2)//' to hamiltonian',
+scr2ham.f:      call iosys('create integer '//bufr(1)//' on hamiltonian',
+scr2ham.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+scr2ham.f:         call iosys('write integer '//bufr(1)//' to hamiltonian '//
+scr2ham.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+scr2ham.f:         call iosys('write integer '//bufr(1)//' to hamiltonian '//
+scr2ham.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+scr2ham.f:         call iosys('write integer '//bufr(1)//' to hamiltonian '//
+scr2ham.f:         call iosys('read integer '//bufr(1)//' from scratch '//
+scr2ham.f:         call iosys('write integer '//bufr(1)//' to hamiltonian '//
+scr2ham.f:      call iosys('endfile '//bufr(1)//' on hamiltonian',0,0,0,' ')
+scr2ham.f:      call iosys('write integer '//bufr(2)//' to hamiltonian',
+scr2ham.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+scr2ham.f:      call iosys('destroy scratch',0,0,0,' ')
+tranpp.f:      call iosys('does "p-space vectors" exist on '//dsk,0,0,0,answer)
+tranpp.f:            call iosys('read real "p-space vectors" from '//dsk//
+tranpp.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+tranpp.f:      call iosys('read integer '//headr(2)//' from hamiltonian',
+tranpp.f:      call iosys('read real '//headr(3)//' from hamiltonian',nwksp,
+tranpp.f:      call iosys('write real '//bufr(3)//' to hamiltonian', 
+tranpp.f:      call iosys('create integer '//bufr(1)//' on hamiltonian',
+tranpp.f:                  call iosys('write integer '//bufr(1)//
+tranpp.f:                  call iosys('write integer '//bufr(1)//
+tranpp.f:          call iosys('write integer '//bufr(1)//
+tranpp.f:          call iosys('write integer '//bufr(1)//
+tranpp.f:      call iosys('endfile '//bufr(1)//' on hamiltonian',0,0,0,' ')
+tranpp.f:      call iosys('write integer '//bufr(2)//' to hamiltonian',
+tranpp.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+tranpq.f:      call iosys('rewind all on hamiltonian',0,0,0,' ')
+tranpq.f:      call iosys('read integer '//headr(2)//' from hamiltonian',
+tranpq.f:      call iosys('open scratch as scratch',0,0,0,' ')
+tranpq.f:      call iosys('create integer '//bufr(1)//' on scratch',
+tranpq.f:                  call iosys('write integer '//bufr(1)//
+tranpq.f:                  call iosys('write integer '//bufr(1)//
+tranpq.f:          call iosys('write integer '//bufr(1)//
+tranpq.f:          call iosys('write integer '//bufr(1)//
+tranpq.f:      call iosys('endfile '//bufr(1)//' on scratch',0,0,0,' ')
+tranpq.f:      call iosys('write integer '//bufr(2)//' to scratch',
+tranpq.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+tranpq.f:      call iosys('rewind all on scratch read-and-write',0,0,0,' ')
+tvmult.f:         call iosys('read real "ci root '//itoc(i)
+tvmult.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')
+tvmult.f:         call iosys('read real '//title(3)//' from hamiltonian',
+tvmult.f:      call iosys('read integer '//title(2)//' from hamiltonian',
+tvmult.f:      call iosys('rewind all on hamiltonian read-and-write',0,0,0,' ')

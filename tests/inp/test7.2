@@ -1,0 +1,28 @@
+$route
+ 2s+1=1 print=(mcscf=vector,ci=no) 
+ mcscf=(cas,cycles=15,number-of-core-orbitals=3)
+ drtmc=(rdsym,nsym=1,nbf=4,vexcite=99)
+ ci drt=(rdsym,nsym=1,vexcite=2)
+ guess=chk,sym=off
+$end
+ 
+$drtmc
+ 2doc1 2uoc1
+$end
+
+$drt
+ 1cor1 2doc1 2%doc1 2%uoc1 6uoc1 1vir1 
+$end
+ 
+$title
+ h2o test case: mcscf/mrcisd
+ 
+$geom
+o1(basis=dz)
+h2(basis=dz) o1 r1
+h3(basis=dz) o1 r2  h2 a1
+  
+r1=0.958
+r2=0.958
+a1=107.3
+$end

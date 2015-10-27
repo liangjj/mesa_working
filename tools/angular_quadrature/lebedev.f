@@ -1,0 +1,397 @@
+*deck %W% %G%
+      subroutine lebedev(p,w,l,npts)
+      implicit none
+c***begin prologue     %M%
+c***date written       930427  
+c***revision date      %G%      
+c
+c***keywords           spherical harmonics, numerical integration,
+c                      angular quadrature 
+c***author             r.l. martin, lanl
+c***source             %W%   %G%
+c***purpose            returns the points and weights associated with
+c                      gaussian quadrature on the unit sphere.
+c***description
+c                      this routine returns the points and weights associated
+c                      with integration on the unit sphere. in particular,
+c                      quadratures of a given order l exactly integrate
+c                      all surface harmonics of degree l or less. the base
+c                      points of the quadrature are invariant under the
+c                      octahedral group plus inversion. the jacobian
+c                      [sin(theta)dtheta dphi] is implicitly included, so
+c                      the working formula for integrating a polynomial f
+c                      using this routine is simply Sum f(p(i))*w(i).
+c
+c                      p  ---  quadrature points (x/r,y/r,z/r), output.
+c                      w  ---  quadrature weights, output.
+c                      l  ---  order requested, input.
+c                   npts  ---  number of points in the quadrature, input.
+c                              the correspondence between order and npts is:
+c                              l     npts
+c                              ----------
+c                              3        6
+c                              9       38
+c                             11       50
+c                             13       75
+c                             15       86
+c                             17      110
+c                             19      146
+c                             23      194
+c
+c    
+c
+c***references
+c                      v.i. lebedev, zh. vychisl. mat. mat. fiz, 15,48(1975)
+c                                    ibid.,16,293(1976).
+c                      see also
+c                      a.d. mclaren, math. comput. 17, 361(1963).
+c                      a.h. stroud, approximate calculation of multiple
+c                                   integrals (prentice-hall,1971)
+c***routines called
+c                      none
+c***end prologue       %M%
+c
+c     --- input variables ---
+      integer l,npts
+c     --- input arrays (unmodified) ---
+c     --- input arrays (modified) ---
+c     --- input arrays (scratch) ---
+c     --- output arrays ---
+      real*8 p(3,npts),w(npts)
+c     --- output variables ---
+c     --- scratch arrays ---
+c     --- local variables ---
+      integer pts,i,xyz,a,b,c,k,n1,n2,n3
+      integer lmax,n1max,n2max,n3max
+      parameter (lmax=29,n1max=6,n2max=2,n3max=2)
+      real*8 a1,a2,a3,signa,signb,signc,root2i,root3i
+      real*8 zero,half,one,two,three,four,pi
+      data zero/0.0d+00/, half/0.5d+00/, one/1.0d+00/ 
+      data two/2.0d+00/, three/3.0d+00/, four/4.0d+00/ 
+      real*8 bk(n1max),lb(n1max),mb(n1max)
+      real*8 ck(n2max),pc(n2max),qc(n2max)
+      real*8 dk(n3max),rd(n3max),ud(n3max),wd(n3max)
+c
+      integer inp,iout
+      common/io/inp,iout
+c
+c     --- set the quadrature weights depending on order ---
+      if (l.eq.3) then
+         a1=one/6.0d0
+         a2=zero
+         a3=zero
+         n1=0
+         n2=0
+         n3=0
+      else if(l.eq.9) then
+         a1=one/105.0d+00
+         a2=zero
+         a3=9.0d+00/280.0d+00
+         n1=0
+         n2=1
+         ck(1)=one/35.0d+00
+         pc(1)=0.888073833977d+00
+         qc(1)=sqrt(one-pc(1)*pc(1))
+         n3=0
+      else if(l.eq.11) then
+         a1=4.0d+00/315.0d+00
+         a2=64.0d+00/2835.0d+00
+         a3=27.0d+00/1280.0d+00
+         n1=1
+         bk(1)=121.0d+00*121.0d+00/725760.0d+00 
+         mb(1)=three/sqrt(11.0d+00)
+         lb(1)=sqrt(half*(one-mb(1)*mb(1)))
+         n2=0
+         n3=0
+      else if(l.eq.13) then
+         a1=16.0d+00/31185.0d+00
+         a2=128.0d+00*43.0d+00/331485.0d+00
+c        note that quadrature has negative weight.
+         a3=-729.0d+00/24640.0d+00
+         n1=1
+         bk(1)=(13.0d+00**5)/13970880.0d+00 
+         mb(1)=sqrt(7.0d+00/13.0d+00)
+         lb(1)=sqrt(half*(one-mb(1)*mb(1)))
+         n2=1
+         ck(1)=65.0d+00*65.0d+00/255717.0d+00
+         pc(1)=sqrt((one+sqrt(41.0d+00/65.0d+00))/2.0d+00)
+         qc(1)=sqrt(one-pc(1)*pc(1))
+         n3=0
+      else if(l.eq.15) then
+         a1=0.0115440115441d+00
+         a2=zero
+         a3=0.0119439090859d+00
+         n1=2
+         bk(1)=0.0111105557106d+00
+         mb(1)=0.852518311701d+00
+         lb(1)=sqrt(half*(one-mb(1)*mb(1)))
+         bk(2)=0.0118765012945d+00
+         mb(2)=0.189063552885d+00
+         lb(2)=sqrt(half*(one-mb(2)*mb(2)))
+         n2=1
+         ck(1)=0.0118123037469d+00
+         pc(1)=0.927330657151d+00
+         qc(1)=sqrt(one-pc(1)*pc(1))
+         n3=0
+      else if(l.eq.17) then
+c        these differ from those in original paper.
+c        see notes in zh. vychisl. mat.mat.fiz. 16, 293(1976).
+         a1=0.00382827049494d+00
+         a2=zero
+         a3=0.009793737651249d+00
+         n1=3
+         bk(1)=0.00821173728319d+00
+         mb(1)=0.965124035087d+00
+         lb(1)=sqrt(half*(one-mb(1)*mb(1)))
+         bk(2)=0.00959547133607d+00
+         mb(2)=0.828769981253d+00
+         lb(2)=sqrt(half*(one-mb(2)*mb(2)))
+         bk(3)=0.00994281489118d+00
+         mb(3)=0.215957291846d+00
+         lb(3)=sqrt(half*(one-mb(3)*mb(3)))
+         n2=1
+         ck(1)=0.00969499636166d+00
+         pc(1)=0.878158910604d+00
+         qc(1)=sqrt(one-pc(1)*pc(1))
+         n3=0
+      else if(l.eq.19) then
+         a1=1856.0d+00/3095235.0d+00
+         a2=606208.0d+00/82219995.0d+00
+         a3=6490935.0d+00/900204032.0d+00
+         n1=3
+         bk(1)=7.57439415905d-03
+         mb(1)=0.974888643677d+00
+         lb(1)=sqrt(half*(one-mb(1)*mb(1)))
+         bk(2)=6.75382948631d-03
+         mb(2)=0.807089818360d+00
+         lb(2)=sqrt(half*(one-mb(2)*mb(2)))
+         bk(3)=7.11635549312d-03
+         mb(3)=0.291298882210d+00
+         lb(3)=sqrt(half*(one-mb(3)*mb(3)))
+         n2=0
+         n3=1
+         dk(1)=1773593.0d+00/253693440.0d+00
+         rd(1)=0.882270011260d+00 
+         ud(1)=0.140355381171d+00
+         wd(1)=0.449332832327d+00
+      else if(l.eq.23) then
+         a1=(two**7)*73.0d+00/5242545.0d+00
+         a2=(two**14)*1663.0d+00/(27.0d+00*121.0d+00*1458821.0d+00)
+         a3=(three**10)*1599797.0d+00
+     $      /((two**9)*(173.0d+00*173.0d+00)*(13.0d+00*13.0d+00)
+     $        *6545.0d+00)
+         n1=4
+         bk(1)=5.51877146727d-03
+         mb(1)=0.777493219315d+00
+         lb(1)=sqrt(half*(one-mb(1)*mb(1)))
+         bk(2)=5.15823771181d-03
+         mb(2)=0.912509096867d+00
+         lb(2)=sqrt(half*(one-mb(2)*mb(2)))
+         bk(3)=5.60870408259d-03
+         mb(3)=0.314196994183d+00
+         lb(3)=sqrt(half*(one-mb(3)*mb(3)))
+         bk(4)=4.10677702817d-03
+         mb(4)=0.982972302707d+00
+         lb(4)=sqrt(half*(one-mb(4)*mb(4)))
+         n2=1
+         ck(1)=(38.0d+00**4)/
+     $         ((33.0d+00**2)*(7.0d+00**3)*(1105.0d+00))
+         pc(1)=0.938319218138d+00
+         qc(1)=sqrt(one-pc(1)*pc(1))
+         n3=1
+c        note that there is a typo in lebedev's paper. he has the
+c        following expression utilizing 2**6, instead of 2**9.
+c        his explicit constant is ok.
+         dk(1)=(19.0d+00**2)*(23.0d+00**6)/
+     $         ((7.0d+00**3)*(two**9)*(9.0d+00)*(6113965.0d+00))
+         rd(1)=0.836036015482d+00
+         ud(1)=0.159041710538d+00
+         wd(1)=0.525118572443d+00
+      else
+         call lnkerr(' order requested not yet available')
+      endif
+c
+c     --- generate the points ---
+      call rzero(p,3*npts)
+      call rzero(w,npts)
+      pts=1
+c     --- a1 terms ---
+      if(a1.ne.zero) then
+         do 10 i=1,6
+            w(i)=a1
+   10    continue
+         do 20 xyz=1,3
+            p(xyz,pts)  = one
+            p(xyz,pts+1)=-one
+            pts=pts+2
+   20    continue 
+      endif
+c
+c     --- a2 terms ---
+      root2i=one/sqrt(two)
+      if(a2.ne.zero) then
+         do 30 i=1,12
+            w(pts+i-1)=a2
+   30    continue   
+         do 50 a=1,2
+            signa=(-one)**(a+1)
+            do 40 b=1,2
+               signb=(-one)**(b+1)
+               p(1,pts)  = signa*root2i
+               p(2,pts)  = signb*root2i
+c
+               p(1,pts+1)= signa*root2i
+               p(3,pts+1)= signb*root2i
+c
+               p(2,pts+2)= signa*root2i
+               p(3,pts+2)= signb*root2i
+c
+               pts=pts+3
+   40       continue
+   50    continue
+      endif
+c
+c     --- a3 terms ---
+      root3i=one/sqrt(three)
+      if(a3.ne.zero) then
+         do 60 i=1,8
+            w(pts+i-1)=a3
+   60    continue
+         do 90 a=1,2
+            signa=(-one)**(a+1) 
+            do 80 b=1,2
+               signb=(-one)**(b+1)
+               do 70 c=1,2
+                  signc=(-one)**(c+1)
+                  p(1,pts) = signa*root3i
+                  p(2,pts) = signb*root3i
+                  p(3,pts) = signc*root3i
+                  pts=pts+1
+   70          continue
+   80       continue
+   90    continue
+      endif
+c
+c     --- bk terms ---
+      do 140 k=1,n1
+         do 100 i=1,24
+            w(pts+i-1)=bk(k)
+  100    continue
+         do 130 a=1,2
+            signa=(-one)**(a+1)
+            do 120 b=1,2
+               signb=(-one)**(b+1)
+               do 110 c=1,2
+                  signc=(-one)**(c+1)
+                  p(1,pts)  =signa*lb(k)
+                  p(2,pts)  =signb*lb(k)
+                  p(3,pts)  =signc*mb(k)
+c
+                  p(1,pts+1)=signa*lb(k)
+                  p(2,pts+1)=signb*mb(k)
+                  p(3,pts+1)=signc*lb(k)
+c
+                  p(1,pts+2)=signa*mb(k)
+                  p(2,pts+2)=signb*lb(k)
+                  p(3,pts+2)=signc*lb(k)
+c
+                  pts=pts+3
+  110          continue
+  120       continue
+c
+c
+  130    continue
+  140 continue
+c
+c     --- c(k) terms ---
+      do 180 k=1,n2
+         do 150 i=1,24
+            w(pts+i-1)=ck(k)
+  150    continue
+         do 170 a=1,2
+            signa=(-one)**(a+1)
+            do 160 b=1,2
+               signb=(-one)**(b+1)
+               p(1,pts)  =signa*pc(k)
+               p(2,pts)  =signb*qc(k)
+c
+               p(1,pts+1)=signa*pc(k)
+               p(3,pts+1)=signb*qc(k)
+c
+               p(2,pts+2)=signa*pc(k)
+               p(3,pts+2)=signb*qc(k)
+c
+               p(1,pts+3)=signa*qc(k)
+               p(2,pts+3)=signb*pc(k)
+c
+               p(1,pts+4)=signa*qc(k)
+               p(3,pts+4)=signb*pc(k)
+c
+               p(2,pts+5)=signa*qc(k)
+               p(3,pts+5)=signb*pc(k)
+c
+               pts=pts+6
+  160       continue
+  170    continue
+  180 continue
+c
+c     --- d(k) terms ---
+      do 230 k=1,n3
+         do 190 i=1,48
+            w(pts+i-1)=dk(k)
+  190    continue
+         do 220 a=1,2
+            signa=(-one)**(a+1)
+            do 210 b=1,2
+               signb=(-one)**(b+1)
+               do 200 c=1,2
+                  signc=(-one)**(c+1)
+                  p(1,pts)  =signa*rd(k)
+                  p(2,pts)  =signb*ud(k)
+                  p(3,pts)  =signc*wd(k)
+c
+                  p(1,pts+1)=signa*rd(k)
+                  p(2,pts+1)=signb*wd(k)
+                  p(3,pts+1)=signc*ud(k)
+c
+                  p(1,pts+2)=signa*ud(k)
+                  p(2,pts+2)=signb*rd(k)
+                  p(3,pts+2)=signc*wd(k)
+c
+                  p(1,pts+3)=signa*ud(k)
+                  p(2,pts+3)=signb*wd(k)
+                  p(3,pts+3)=signc*rd(k)
+c
+                  p(1,pts+4)=signa*wd(k)
+                  p(2,pts+4)=signb*ud(k)
+                  p(3,pts+4)=signc*rd(k)
+c
+                  p(1,pts+5)=signa*wd(k)
+                  p(2,pts+5)=signb*rd(k)
+                  p(3,pts+5)=signc*ud(k)
+c
+                  pts=pts+6
+  200          continue
+  210       continue
+  220    continue
+  230 continue
+c
+c     --- check that number of points processed is same as expected ---
+      pts=pts-1
+      if(npts.ne.pts) then
+         write(iout,1000) npts,pts
+         call lnkerr('wrong number of points passed to lebedev')
+      endif
+c
+c     --- scale weights by 4pi ---
+      pi=4.0d+00*atan(1.0d+00)
+      do 250 i=1,npts
+         w(i)=four*pi*w(i)
+  250 continue
+c
+c
+ 1000 format(1x,'expected',i4,' generated',i4)
+c
+c
+      return
+      end

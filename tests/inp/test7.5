@@ -1,0 +1,24 @@
+$route
+ 2s+1=1,maxsiz=1250000,m812=check-energy,guess=(chk=mcscf),basis=dz,sym=off,
+ mrciopt print=gradient=total,transformation=keep-ints,
+ mcscf=(cas,cycles=15,number-of-core-orbitals=3)
+ drtmc=(rdsym,nsym=1,nbf=4,vexcite=99)
+ ci drt=(rdsym,nsym=1,vexcite=2)
+ frequencies,force-constants=(numerical=(two-point,cartesian))
+ geom=(rdchk)
+$end
+
+drt for cas
+$drtmc
+ 2doc1 2uoc1
+$end
+
+drt  for ci
+$drt
+ 1cor1 2doc1 2%doc1 2%uoc1 6uoc1 1vir1 
+$end
+
+$title
+ h2o test case:  mrci 
+                 forceconstantscartesian/two-point difference formula
+$end

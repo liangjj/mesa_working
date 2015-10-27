@@ -1,0 +1,174 @@
+Dear Cliff,
+Here are some questions.
+
+
+
+pal is a combined MPI/OpenMP version of xiaoxu's multiphoton code.
+
+There are extensive changes compared with the previous OpenMP code al.
+I hope that the following explanation will clearly show the reasons for
+the changes and identify the main features.
+
+The code compiles and links on an IBM AIX operating system. I have not
+carried out the tests needed to demonstrate that I have the logic correct.
+However, giving you the source at this stage will I hope allow you to
+follow the direction of the changes. If this does not suit than we should
+alter the code to be more similar to al. Errors aside, pal should allow
+an arbitrary number of al style calculations to be carried simultaneously
+for different photon energies. It is very simple to alter this to
+systematically change other input variables.
+
+Why the changes?
+
+Xiaoxu had written his code in the classic procedural style: the main program
+calls a subroutine to read the data (readin) putting it in common
+(here globalmod_array) and then calls further
+subroutines to perform the calculation. The tried and tested physicists
+standard scheme.
+
+It has been shown that in two circumstances this approach bogs down and
+becomes extremely hard to debug and to elaborate (1) if the code is very
+large or (2) the code is parallel. In our case (1) is not relevant and
+even (2) is not crucial. However, already, there are some small advantages to
+adopting an object-oriented style for parallelization reasons.
+The main reason, however, is to facilitate
+us going to much larger two-electron continuum problems.
+********************************************************************
+I do what you say below already with the exception that I put allocatable
+arrays that are shared into a module that is in a USE statement.  Does that
+matter.
+********************************************************************
+In practice, the essential change is to place data and subroutines
+that are closely related into modules. This helps to localize the
+calculation and therefore helps with optimization and particularly
+minimizing cache problems (cache and TLB misses).
+I have done this as well as I can on a first pass and believe that this
+does reveal the natural structure of the calculation.
+I have not worried too much about data-hiding and some of the
+associations may prove misguided. However, the focus is now on the
+data structures rather than on the procedural aspects of the calculation.
+
+If you dont like this, we can retrace!!!
+
+The problems
+
+The biggest problem adding MPI to al is the extensive use of files,
+and particularly of formatted files.
+I have made some arbitrary decisions:
+********************************************************************
+Instead of using namelist, I use the mesa I/O routines which as you
+know are designed to parse character strings beginning with a $keyword
+and ending with a $end.  Looking at most typical codes the mesa input
+is far clearer.  I see no conflict with reading the data on the main node
+and parsing it out.  As to the big files such as the hamiltonian
+and dipole matrices, what I have done in my code, since its really
+required, is to reformat them and put them in IOsys type format.  I
+understand the issue with record markers and IOsys was designed to make
+that transparent to the user.  So, yes, there are record marks but
+the IOsys keeps track of all of this internally.  Since IOsys treats
+all of these as random files, is this a problem with MPI and if so, 
+why.  I just do not understand the difference between stream io 
+and what is in mesa to know what is better.  I do know that these
+are not sequential filesa and I suspect thats the real key.  I
+think the major advantage of my code is that I have exploited all
+possible sparsity and have coded special routine to do the matrix
+vector operations and other things without any zeros.  I do not
+think that is in Xiaoxu's code and it does make a big difference.
+It would be stupid to throw that way.
+********************************************************************
+(a) The namelist input is easily handled by a standard technique: they
+are read on node 0 and then distributed to each of the other MPI nodes.
+We assume one MPI process for each cluster of SMP processors.
+Parallelism between the SMP processors is handled by OpenMP.
+
+(b) The really critical files are those containing BSR data - Hamiltonians
+and Dipoles. These are read globally (i.e. simultaneously) by each
+MPI process using MPI-IO. This will give us the best possible transfer
+rates to the nodes.
+A complication is that the files to be read are unformatted fortran files.
+MPI-IO uses a C-type file that is a simple byte string (this is done by
+stream-io in fortran2003). The standard fortran files contain record markers.
+An integer corresponding to the number of bytes in the record is both
+prepended and appended to each record. This scheme is used by all current
+versions of unix (watch out for old unicos systems that in addition add block
+markers!). To read these fortran files with MPI-IO the record markers must
+be skipped.
+
+(c) The code al reads formatted files to obtain the initial wavefunction
+and the absorption coefficients. These are not used if we truncate the
+Hamiltonians, but for completeness this input has been provided.
+Here it is necessary to read each record of the file as a string of bytes
+and to convert these single-character arrays into the relevant reals and
+integers. Routine ch2rl and ch2int in mpi_files.f90 provode this facility.
+
+(d) output of the field free data is also to a formatted file. Again there
+are no performance issues so I have provided this in the same way as (c).
+This is output only by node 0 as we assume the results for other nodes
+will be identical if we are cycling over photon energy.
+
+(e) The main output is the results_summary file. Here each node writes its
+own file using MPI-IO. The filenames are constructed using the base
+results_summary files name with the sequence of the photon energy appended.
+e.g. results_summary05 for the 5th entry in the list of photon energies
+given by phoene.
+
+(f) I have deleted the separate files for rnorm_abs and surv_prob. These
+results are in the summary. Do we need to save the final wave function vector?
+
+I would prefer unformatted files, but it seemed easiest to accomodate to the
+current scheme rather than change this.
+
+(e) Backup and restart files are internal to pal and so are handled using
+standard MPI-IO read-write.
+
+
+MPI parallelization
+
+The parallelization is over the photon energy. The variable phoene is
+changed to an array of length 50.
+The number of energies to calculate is indicated by a new namelist
+variable, nphoene. Clearly nphoene >0 and <=50 unless we change array
+sizes.
+
+In the main program, you can see that the code cycles over the
+index of the photon energy. This is done by means of a global counter.
+Each MPI process obtains an index n from the counter and proceeds to
+perform the calculation for the corresponding photon energy phoene(n)
+
+There is no assumption that the calculations will all take the same
+time - though this might be a good approximation - as soon as a calculation
+is complete the processor will obtain the next unassigned index and
+proceed with that calculation. Once the nphoene cases are complete the
+processors are barriered and will shut down as soon as the remaining
+nodes complete.
+
+Input Data
+Same as the al code except that nphoene is added and phoene becomes
+an array.
+There will also be differences to the control file.
+Make the SMP cluster as large as possible (say 8 for the current argon
+case).
+Any number of MPI nodes. Each node 1 MPI process and up to 8 SMP
+processors. There might be some advantage in taking slightly more as long
+as the blas and lapack libraries are threaded.
+
+The Global Counter.
+This is provided by file rma_counter.f90
+This is well tested and works on a range of machines. I worked on a method
+that should scale better but that hardly matters for the present code.
+The approach is to use passive single-sided remote memory access ("passive
+RMA")
+Locking the remote memory is a problem: the order of the MPI operations
+is not guaranteed - hence convoluted programming.
+
+
+Portabiltiy.
+I will test this. Certainly I expect the fortran to be standard f95.
+There can be MPI differences. Mainly MPICH2 wants to use 'include "mpif.h"'
+and does not provide a mpi module (as it should!).
+Some of the f90 MPI routines also tend to be missing. These are commented
+in files comm_mpi.f90.
+
+Take a look and let me know what you think.
+I will test on 4-5 machines in the next couple of days.
+Cliff

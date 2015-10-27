@@ -1,0 +1,66 @@
+
+# to use this script, run template new_home_dir , where the new home
+# directory is the one in which the template will reside.
+# this script is used to set up a mesa directory structure with
+# symbolic links to the Makefiles and source codes back in the main directory.
+ NEWDIR=$1
+ HOMEDIR=$MESA_HOME
+ LIBDIR=$HOMEDIR'/library'
+ SOURCEDIR=$HOMEDIR'/source'
+ PARTS='chr clams dft dpintgrl intgrl io math sym util'
+ MACHINEDEPENDENT='aix hp sgi'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' stardent sun'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' ultrix unicos'
+ VERSION='version sent to bhl ~7/22/92'
+#for file in library chr clams dpintgrl intgrl io math sym util mdutil/sun
+# do main directory, then library, then parts, then main links
+# first make the directory structure
+ cd $NEWDIR
+    mkdir library; cd library; owd=$NEWDIR/library
+#now do library
+    ln -s $LIBDIR/Makefile $owd
+    for f in $PARTS
+    do
+       mkdir  $f; cd $f; cwd=$owd/$f
+       for q in $LIBDIR/$f/Makefile $LIBDIR/$f/*.f
+       do
+          ln -s $q $cwd
+       done
+       cd ..
+    done
+#now do mdutil
+    mkdir mdutil;cd mdutil;owd=$owd/mdutil;
+    ln -s $LIBDIR/mdutil/Makefile $owd
+    for f in $MACHINEDEPENDENT
+    do
+       mkdir $f;cd $f; cwd=$owd/$f
+       for q in $LIBDIR/mdutil/$f/Makefile $LIBDIR/mdutil/$f/*.f
+       do
+          ln -s $q $cwd
+       done
+       cd ..
+    done
+#now do the main links
+    cd $NEWDIR;
+    ln -s $HOMEDIR/Makefile $NEWDIR
+    ln -s $HOMEDIR/mesa.dat $NEWDIR
+    ln -s $HOMEDIR/mesa.sh $NEWDIR
+    ln -s $HOMEDIR/tools $NEWDIR
+#   mkdir $NEWDIR/tools
+#   cd $HOMEDIR/tools
+#   for f in *
+#   do
+#      ln -s $HOMEDIR/tools/$f $NEWDIR/tools
+#   done
+    mkdir source
+    cd $HOMEDIR;
+    for f in m[0-9]*
+    do
+      mkdir $NEWDIR/$f; cd $NEWDIR/$f; cwd=$NEWDIR/$f
+      for q in $HOMEDIR/$f/Makefile $HOMEDIR/$f/*.f
+      do
+        ln -s $q $cwd
+      done
+      cd ..
+    done
+ 

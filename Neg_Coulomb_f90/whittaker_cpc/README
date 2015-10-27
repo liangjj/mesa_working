@@ -1,0 +1,20 @@
+README
+
+  Files in this directory are listed in MANIFEST.
+
+
+To compile:
+
+    Edit Makefile to reflect target computer.
+    Type make
+
+To test:
+
+    type
+        ./whittaker <test_run.dat >test.out
+        diff test_run.out test.out
+
+
+    type
+       ./simos <test_run2.dat >test2.out
+       diff test_run2.out >test2.out

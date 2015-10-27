@@ -1,0 +1,315 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      3-Nov-1994 01:46:05    
+     los alamos national laboratory;sun 4/280s(t12);                                 
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test6.4                                                                                                    
+     out:    /usr2/mesa/tests/out/sun/test6.4                                                                                                
+     chk:    /usr2/rlm/mesa/mchk.sun                                                                                                         
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf_19791                                                                                                          
+     rint:   /vivaldi/tmp/rint_19791                                                                                                         
+     int:    /vivaldi/tmp/int_19791                                                                                                          
+     tint:   /vivaldi/tmp/tint_19791                                                                                                         
+     gint:   /vivaldi/tmp/gint_19791                                                                                                         
+     rdint:  /vivaldi/tmp/rdint_19791                                                                                                        
+     dint:   /vivaldi/tmp/dint_19791                                                                                                         
+     zint:   /vivaldi/tmp/zint_19791                                                                                                         
+     ham:    /vivaldi/tmp/ham_19791                                                                                                          
+     moden:  /vivaldi/tmp/moden_19791                                                                                                        
+     aoden:  /vivaldi/tmp/aoden_19791                                                                                                        
+     saoden: /vivaldi/tmp/saoden_19791                                                                                                       
+     gden:   /vivaldi/tmp/gden_19791                                                                                                         
+     fci:    /vivaldi/tmp/fci_19791                                                                                                          
+     machine size:         16000000
+     user defined maxsiz:   6000000
+ title:
+      h2o test case:  casscf(903) analytic second derivatives
+ route:
+     1//1,2;
+     8//5;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//53;
+     3//3,23;
+     8//24,12,40;
+     7//1,2,12;
+     10//3;
+     7//31,32;
+     2//4;
+     19//51;
+     20//01;
+ options:
+     maxsiz=125000,basis=dz,sym=off mcscf=(cas,cycles=10,number-of-core-orbitals=3,co
+     nvergence=12) drtmc=(rdsym,nsym=1,nbf=4,vexcite=99), guess=(chk=mcscf) geom=rdch
+     k print=(gradient=total) frequencies force-constants
+
+ m101:  process geometry input.
+    z-matrix read from checkpoint file 
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   0.953358 r1      
+      3   3   h  dz          1   0.977056 r2        2  110.863 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     $ primitive cartesians    32
+     $ contracted cartesians   14
+     $ basis functions         14
+ m805:mcscf drt generation
+     number of symmetries:         1
+     number of basis functions:    4
+     number of references:         1
+     number of groups:             0
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  2   2        doubly occupied    0
+             3-  4   2        unoccupied         0
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+     integral information:
+         number of integrals:      113
+         number of groups:           1
+         group size:               113
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+         number of intermediate walks:        20
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     0.95336   0.00000
+                 h2     0.97706   1.58966   0.00000
+ interatomic angles:
+          h2-o1-h3 =110.8634
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    0.953358
+      3   3   h              0.912993    0.000000   -0.347970
+ rotational constants (ghz):    942.1636360    396.6765093    279.1477262
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     $primitive integrals possible     274866
+     $primitive integrals computed     262665( 95.6%)
+     $contracted integrals possible      5565
+     $contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055898851      1.406E-15
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    2
+
+ active  one-electron energy       -10.317742676756
+         h(1)         energy       -27.533294127517
+         2j-k         energy        17.215551450761
+ active  two-electron energy         3.812214358290
+ active  electronic   energy        -6.505528318466
+ core    electronic   energy       -78.656619552586
+         h(1)         energy       -95.239011160824
+         2j-k         energy        16.582391608238
+ total   electronic   energy       -85.162147871052
+         h(1)         energy      -122.772305288341
+         g(2)         energy        37.610157417289
+ nuclear repulsion    energy         9.106249019649
+ *total* mcscf        energy       -76.055898851403
+ m323:
+     gradient integral pre-exponential cutoff: 1.0E-13
+     gradient integral retention       cutoff: 1.0E-09
+     # integrals kept                            17552
+     # integrals possible                       144272
+     # integrals computed                       130412( 90.4%)
+ m824: derivative lagrangians 
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.89E-15
+     memory use                            75007
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                      2195942(798.9%)
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1     0.0000286  -0.0000037  -0.0000250
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0000194   0.0000137   0.0000057
+
+     the force-constants less cphf contributions
+             1           2           3           4           5           6
+  ------------------------------------------------------------------------------
+   1     0.2929305
+   2     0.0000000  -0.0316119
+   3    -0.0225688   0.0000000   0.3750582
+   4    -0.0312914   0.0000000   0.0156003   0.0256193
+   5     0.0000000   0.0132543   0.0000000   0.0000000  -0.0325663
+   6    -0.0868367   0.0000000  -0.3473904  -0.0073490   0.0000000   0.3773574
+   7    -0.2616392   0.0000000   0.0069685   0.0056721   0.0000000   0.0941858
+   8     0.0000000   0.0183577   0.0000000   0.0000000   0.0193120   0.0000000
+   9     0.1094055   0.0000000  -0.0276678  -0.0082513   0.0000000  -0.0299670
+
+
+             7           8           9
+  ------------------------------------------
+   7     0.2559671
+   8     0.0000000  -0.0376697
+   9    -0.1011542   0.0000000   0.0576348
+ m1003:state-averaged coupled-perturbed mcscf
+     byron lengsfield  llnl may 1991
+     maximum # of cycles :      30
+     convergence criteria: 0.1E-05
+     force constant calculation
+     cpmcscf solutions stored on rwf 
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8       -0.000029    0.000000    0.000019
+       2          1        0.000004    0.000000   -0.000014
+       3          1        0.000025    0.000000   -0.000006
+     max     0.000029     rms     0.000015
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1  -0.000014 (  1)
+           3   h     1   0.000025 (  2)   2  -0.000007 (  3)
+ m732:transform force constants from cartesian to internal coordinates
+ m204:calculation of vibrational frequencies
+     cartesian force constant matrix
+             1           2           3           4           5
+  ------------------------------------------------------------------
+   1     0.4796795   0.0000000  -0.1474337  -0.0506076   0.0000000
+   2     0.0000000  -0.0000119   0.0000000   0.0000000  -0.0000047
+   3    -0.1474337   0.0000000   0.6980211  -0.0379477   0.0000000
+   4    -0.0506076   0.0000000  -0.0379477   0.0537111   0.0000000
+   5     0.0000000  -0.0000047   0.0000000   0.0000000   0.0000068
+   6     0.0367346   0.0000000  -0.5877575  -0.0193129   0.0000000
+   7    -0.4290719   0.0000000   0.1853814  -0.0031035   0.0000000
+   8     0.0000000   0.0000166   0.0000000   0.0000000  -0.0000021
+   9     0.1106991   0.0000000  -0.1102636   0.0572606   0.0000000
+
+
+             6           7           8           9
+  ------------------------------------------------------
+   1     0.0367346  -0.4290719   0.0000000   0.1106991
+   2     0.0000000   0.0000000   0.0000166   0.0000000
+   3    -0.5877575   0.1853814   0.0000000  -0.1102636
+   4    -0.0193129  -0.0031035   0.0000000   0.0572606
+   5     0.0000000   0.0000000  -0.0000021   0.0000000
+   6     0.6012864  -0.0174217   0.0000000  -0.0135290
+   7    -0.0174217   0.4321754   0.0000000  -0.1679597
+   8     0.0000000   0.0000000  -0.0000145   0.0000000
+   9    -0.0135290  -0.1679597   0.0000000   0.1237926
+     zero point vibrational energy:    13.64 kcal/mole
+     ***** normal modes of vibration ***** 
+     cartesian normal modes 
+                              1         2         3         4         5
+     frequencies --         0.0       0.0       0.0       0.0       0.0
+         1              0.00000   0.57104   0.04218  -0.00011  -0.72640
+         2             -0.34079  -0.74097   0.03867   0.00014  -0.57725
+         3             -0.36347   0.20346   0.09803  -0.00004  -0.05554
+         4             -0.62611   0.25349   0.13983  -0.00005   0.05758
+         5              0.20189  -0.05494   0.97764   0.00001   0.01703
+         6             -0.09124   0.05107   0.02461  -0.00001  -0.01394
+         7              0.22853   0.10313  -0.03659  -0.00002  -0.26991
+         8              0.00000  -0.00019   0.00000  -1.00000   0.00000
+         9              0.50836  -0.05442  -0.09917   0.00001  -0.24370
+                              6         7         8         9
+     frequencies --         0.0    1698.4    3730.2    4110.7
+         1             -0.20666  -0.23962  -0.20282   0.05678
+         2             -0.01052   0.00000   0.00000   0.00000
+         3              0.85143  -0.15659   0.03947  -0.25055
+         4             -0.21785   0.68533  -0.05717  -0.02154
+         5             -0.01213   0.00000   0.00000   0.00000
+         6              0.21372   0.01084   0.23218   0.94264
+         7              0.00871   0.26927   0.86515  -0.20467
+         8              0.00000   0.00000   0.00000   0.00000
+         9              0.37267   0.61300  -0.38943   0.05551
+     internal coordinate normal modes
+                              1         2         3
+     frequencies --      1698.4    3730.2    4110.7
+                 r1     0.02980   0.23798   0.97578
+                 r2     0.09153   0.97078  -0.21844
+                 a1    -0.99536   0.03097   0.01179
+ m1951:
+
+     wavefunction analysis for mcscf natural orbitals
+
+     root number:  1
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.21392   0.28283   0.26649
+                 h1     0.28283   0.34986  -0.03190
+                 h2     0.26649  -0.03190   0.40139
+     total mulliken charges:
+          o             8.76324
+          h1            0.60078
+          h2            0.63597
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       1.1       0.2       0.0         0
+      101         1       0.6       0.3       0.0    156001
+      102         1       6.3       0.2       0.0    120010
+      805         1       0.8       0.2       0.0         0
+      202         1       0.7       0.2       0.0       145
+      302         1       0.8       0.2       0.0      9816
+      312         1       6.6       0.5       0.0    530834
+      330         1       0.5       0.4       0.0     79139
+      401         1       0.9       0.2       0.0         0
+      553         1       6.4       1.6       0.0    253219
+      303         1       1.1       0.3       0.0     16530
+      323         1      15.0       2.2       0.0   1000841
+      824         1       6.3       2.6       0.0    410929
+      812         1       0.6       0.4       0.0     75107
+      840         1       0.3       0.4       0.0     41509
+      701         1       0.3       0.1       0.0      4001
+      702         1       2.7       0.2       0.0     22397
+      712         1      38.2       0.8       0.0    263348
+     1003         1      66.2      13.4       0.0    393127
+      731         1       0.3       0.1       0.0       255
+      732         1       0.2       0.2       0.0      2429
+      204         1       0.3       0.1       0.0     40307
+     1951         1       0.7       0.1       0.0      3327
+             total:     157.0      24.7       0.0   1000841

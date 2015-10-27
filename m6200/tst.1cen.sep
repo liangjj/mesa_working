@@ -1,0 +1,21 @@
+$route
+ m6200=(scattering-grid-cutoff=10.d0,no-scattering-center,yukawa=on)
+ xprint=(m6200=grid) 
+$end
+$nonstd
+     62//00;
+     20//01;
+$end
+$title
+ Test Of Grid Codes
+$end
+$centers
+ no-atomic-centers=1
+ position-center-1=(0.,0.,0.) charge-center-1=1.0 exponent-center-1=1.5
+$end
+$quadrature-atom-1
+ xangular-quadrature=lebedev lebedev-quadrature-order=11
+ maximum-radial-point=20.0  interval-size=1.0  default-quadrature-size=7
+ maximum-l-value=2 maximum-m-value=2 phi-quadrature-order=5
+ theta-quadrature-order=10 type-radial-quadrature=newton-cotes
+$end

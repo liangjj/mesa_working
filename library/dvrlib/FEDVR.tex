@@ -1,0 +1,122 @@
+\documentstyle[preprint,aps]{revtex}
+
+\def \<{\langle}
+
+\def \>{\rangle}
+
+\begin{document}
+
+\title{Finite Element DVR}
+\author{B. I. Schneider}
+
+\address{ Physics Division, National Science Foundation, Arlington,
+Virginia 22230 and Electron and Optical Physics Division, National
+Institute of Standards and Technology, Gaithersburg, MD 20899}
+
+\date{\today}
+
+\maketitle
+
+%
+
+% ****** End of file template.aps ******
+
+\section{DEFINITIONS}
+The finite elements are constructed by breaking space up into pieces.  The
+boundaries of element $i$ are defined as $R^{i}_{l}$ and $R^{i}_{r}$  Within each
+element we define a set of $n_{i}$ DVR functions.  The number of functions in each
+element is arbitrary except that we require that there be one DVR function at the
+boundaries.  This is equivalent to requiring the Gauss quadrature to be of the
+Lobatto variety; two fixed points.  The global basis is constructed from the 
+set of all functions {\em internal } to all the elements plus the bridge functions.  While it completely arbitrary, I will define the bridge function 
+associated with the $i^{th}$ region as,
+\begin{equation}
+  \psi^{i}_{q}(x)  = \big ( f^{i}_{N}(x) + f^{i+1}_{1}(x) \big ) 
+\end{equation}
+where $f^{i}$ are the last(first) DVR functions of the $i^{th}$ ( $(i+1)^{th}$ )
+intervals.  So, by definition, the only connection between regions is via the
+bridge functions.  The matrix elements are formed by integrating over $x$ and summing
+over the regions.  The contributions to matrix elements of the internal DVR 
+functions are confined to a single element.  A non-bridge function in region $i$
+connects to bridge functions at the two ends of the interval.  Matrix elements between
+bridge functions are connected to themselves and to adjacent bridge functions.  The
+values of the matrix elements will be computed in the next section.  An important
+point to note about the bridge functions is that they have a discontinuous
+
+first derivative.  This requires care in computing any matrix elements involving
+second derivatives, which do not exist.  Also, for too small a value of $n_{i}$ 
+a discontinuous derivative may lead to poor behavior of the piecewise approximation.
+Clearly, there is a relationship between the size of the interval and the basis set 
+which needs to be explored for specific problems.  In practice I have observed 
+that once one gets beyond 8 or 10 basis functions per interval, the issue of a 
+discontinuous first derivative is no longer of practical consequence.  Importantly, 
+a judicious use of a large number of intervals and a small basis set per interval, 
+can be quite effective in substantially reducing the number of non-zero matrix 
+elements in a given problem.  This has great import for computational techniques 
+which rely heavily on sparse matrix manipulations.
+
+\section{Matrix Elements}
+In order to avoid the problem of the non-existence of the second derivative of the
+bridge functions, one may formulate the problem variationally and then use Green's
+theorem (integration by parts) to get a variationally weak condition which avoids
+second derivatives.  Alternatively, one may simply use an interval by interval
+Bloch operator approach in which the second derivative operaotr is replaced by
+\begin{equation}
+ L = \frac{d^2}{dx^{2}} - \delta(x-R_{r}) \frac{d}{dx} - \delta(x-R_{l}) \frac{d}{dx}
+\end{equation}
+We now compute the required integrals.  First the overlaps.  For non-bridge functions,
+\begin{equation}
+    O^{i}_{n,m} = \int_{R_{l}}^{R_{r}} dx f^{i}_{n}(x) f^{i}_{m}(x)
+                = w^{i}_{n} \delta_{n,m}
+\end{equation}
+and for the bridge functions, 
+\begin{equation}
+        O^{i} = \int_{R_{l}}^{R_{r}} dx ( f^{i}_{N}(x) + f^{i+1}_{1}(x) )
+                                        ( f^{i}_{N}(x) + f^{i+1}_{1}(x) )
+              = O^{i}_{N,N} + O^{i+1}_{1,1}
+              = w^{i}_{N} + w^{i+1}_{1}
+\end{equation}
+So, all the overlaps are diagonal, as expected.
+Now, turn to the $L$ matrix elements. The non-bridge matrix elements are,
+\begin{equation}
+    L^{i}_{n,m} = \int_{R_{l}}^{R_{r}} dx f^{i}_{n}(x)L f^{i}_{m}(x)
+                = w^{i}_{n} f^{ \prime \prime i }_{m}(x^{i}_{n})
+\end{equation}
+The matrix elements between a non-bridge and bridge function are,
+\begin{eqnarray}
+    L^{i,i}_{n,m} &=& \int_{R_{l}}^{R_{r}} dx f^{i}_{n}(x) L 
+                      ( f^{i}_{N}(x) + f^{i+1}_{1}(x) ) \\ \nonumber
+                &=& L^{i}_{n,N} \\ \nonumber
+    L^{i,i-1}_{n,m} &=& \int_{R_{l}}^{R_{r}} dx f^{i}_{n}(x) L 
+                      ( f^{i}_{1}(x) + f^{i-1}_{N}(x) ) \\ \nonumber
+                &=& L^{i}_{n,1} 
+\end{eqnarray}
+Finally, the bridge-bridge matrix elements are,
+\begin{eqnarray}
+    L^{i,i} &=& \int_{R_{l}}^{R_{r}} dx ( f^{i}_{N}(x) + f^{i+1}_{1}(x) ) L 
+                      ( f^{i}_{N}(x) + f^{i+1}_{1}(x) ) \\ \nonumber
+            &=& L^{i}_{N,N} + L^{i+1}_{1,1} \\ \nonumber
+    L^{i-1,i} &=& \int_{R_{l}}^{R_{r}} dx ( f^{i-1}_{N}(x) + f^{i}_{1}(x) ) L 
+                      ( f^{i}_{N}(x) + f^{i+1}_{1}(x) ) \\ \nonumber
+            &=& L^{i}_{1,N} \\ \nonumber
+    L^{i+1,i} &=& \int_{R_{l}}^{R_{r}} dx ( f^{i+1}_{N}(x) + f^{i+2}_{1}(x) )
+                    L ( f^{i}_{N}(x) + f^{i+1}_{1}(x) ) \\ \nonumber
+            &=& L^{i+1}_{N,1} 
+\end{eqnarray}
+
+\section{PRACTICALITIES}
+Let us work out the basic integral.  We transform to the standard (-1,1) for
+finite intervals.
+\begin{eqnarray}
+   L^{i}_{n,m} &=& \int_{R_{l}}^{R_{r}} dx f^{i}_{n}(x) L f^{i}_{m}(x) 
+                                   \\ \nonumber
+                &=& \frac{2}{(R^{i}_{r} - R^{i}_{l})} \int_{-1}^{1} dx
+                   f^{i}_{n}(x) \frac{d^2 f^{i}_{m}(x)}{dx^2}
+                  - f^{i}_{n}(1) f^{\prime i}_{m}(x) \mid_{x=1}  
+                  + f^{i}_{n}(-1) f^{\prime i}_{m}(x) \mid_{x=-1}  
+\end{eqnarray}
+Clearly the surface terms vanish unless one of the functions is at the ends
+of the interval
+
+\end{document}
+

@@ -1,0 +1,64 @@
+\documentclass[preprint,showpacs,preprintnumbers,amsmath,amssymb]{revtex4}
+
+\def \<{\langle}
+
+\def \>{\rangle}
+
+\begin{document}
+
+\title{Finite Element DVR}
+\author{B. I. Schneider}
+
+\address{ Physics Division, National Science Foundation, Arlington,
+Virginia 22230 and Electron and Optical Physics Division, National
+Institute of Standards and Technology, Gaithersburg, MD 20899}
+
+\date{\today}
+
+\maketitle
+
+%
+
+% ****** End of file template.aps ******
+
+\section{Input Data}
+Data is read by searching a free format input file for a \$keyword and then
+reading all the data between the \$keyword and the next \$end line.  
+\subsection{\$dvr\_input}
+The variables are;
+\begin{eqnarray}
+             number-of-space-dimensions=N  \nonumber \\
+             dimension-n=coordinate   \nonumber
+\end{eqnarray}
+where N is the integer specifying the number of spatial dimensions, n is 
+an integer for the specified dimension and coordinate name labels the 
+name of the dimension or coordinate. Values may be (t,x,y,z,r,rho).
+\subsection{\$h0(coordinate)}
+For each of the variables, the input routine looks for a 
+\$h0(coordinate name) line and reads the data needed to set up the DVR 
+for that coordinate.
+The variables are;
+\begin{enumerate}
+\item
+Print Variables
+\newline
+print=(sector-points, sector-polynomials, sector-matrix, global-points,
+global-polynomials, potential, global-matrix-elements, hamiltonian,
+eigenvalues, eigenvectors, amplitudes, all)
+\newline
+If the keyword appears in the list, the variable gets printed.  
+Specifying nothing but all prints all of the variables.
+\newline
+If the coordinate is t then the input looks for the variables,
+\item  
+region-boundaries, polynomial-order and reuse.  
+\newline
+If the coordinate is not t, the input looks for the variables, 
+\item
+mass, units, parity, angular-momentum, the phrase do-not-diagonalize, 
+number-of-regions, region-boundaries, polynomial-order-per-region, 
+weight-type, number-of-reference-quadrature-points-per-region, 
+number-of-fixed-points, the phrase left-fixed-point, right-fixed-point, 
+drop-first-function, and drop-last-function
+\end{enumerate}
+\end{document}

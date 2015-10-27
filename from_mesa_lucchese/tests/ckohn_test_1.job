@@ -1,0 +1,325 @@
+#!/bin/bash
+
+# Needed environment variables
+# TMPDIR - directory for work directory
+# MESA - main mesa directory
+# ver - which compiler version (beginning with a period or blank)
+
+date
+
+echo ckohn test 1 - 1 channel FCHF CO2 ionization
+echo using version $ver
+
+PATH=$PATH:$MESA/bin$ver
+rundir=run_ckohn_test_1$ver
+
+cd $TMPDIR
+rm -r $rundir
+mkdir $rundir
+cd $rundir
+cp $MESA/mesa.dat .
+mkdir tmp
+
+nsmall=11  # number of orbitals used to describe the target states
+nchan=1    # a single channel calculation
+symmetry=1 # number of different continuum symmetries
+
+cat <<EOF | sed -e "s/#.*//" > mesacmn.inp 
+\$title
+CO2 Sg1 Photoionization
+\$end
+
+\$geom
+c1(basis=augccvtzp) 0.0 0.0  0.0
+o1(basis=augccvtzp) 0.0 0.0 -2.196050571
+o2(basis=augccvtzp) 0.0 0.0  2.196050571
+\$end
+
+\$augccvtzp C
+\$include ccvtz
+type=s
+.044 1.0
+type=p
+.0357 1.0
+type=d
+.10 1.0
+\$end
+
+
+\$augccvtzp O
+\$include ccvtz
+type=s
+.0738 1.0
+type=p
+.0597 1.0
+type=d
+.214 1.0
+\$end
+EOF
+
+################ scf ######################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+2s+1=1
+hf scf=(pulay)
+ksym=(symmetry=1,nsmall=$nsmall)
+guess=core
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2;
+2//6;        # m206 does ???
+3//2,12,30;  # computes integrals
+4//1;        # Inital orbital guess
+5//1;        # SCF
+6//44;       # ?????
+20//1;       # clean up files
+\$end
+
+EOF
+optmesa
+cp mesa.out out.scf
+cp mesa.inp inp.scf
+
+
+cat <<EOF | sed -e "s/#.*//" >inp.opt.refs.b1u
+\$sgroups
+numel=(20,1,1,0)
+numel=(20,2,0,0) symtp=(1,1,1,1)
+\$end
+EOF
+cp inp.opt.refs.b1u inp.opt.refs.b2u
+cp inp.opt.refs.b1u inp.opt.refs.b3u
+
+
+function runkohn {
+
+cp out.scf mesa.out
+ExtractData
+cat outExtractData
+source ExtractData.sh
+
+################# config ##################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+2s+1=2
+q=1        #ncsfs should be 2362
+sdrt=(nsym=8,ngroups=$ngroupss,nrefs=2)
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2;
+8//7;
+\$end
+EOF
+cat inp.opt.refs.$SymScat >> mesa.inp
+cat optsdrt >> mesa.inp
+optmesa
+cp mesa.inp inp.config
+cp mesa.out out.config
+cat <<EOF >inExtractConfig
+   $symmetry
+   1 1   # nrefs, the number of numel lines
+   $symnl2
+EOF
+ExtractConfig
+cat outExtractConfig
+source ExtractConfig.sh
+
+##################### set #################
+cat mesacmn.inp > mesa.inp
+cat <<EOF |sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+phase=save
+properties=(e1)
+2s+1=1
+guess=chk    # ncsfs should be 2362
+kohn=(nsmall=$nsmall,m822=zint,ncsfs=$ncsfs,symmetry=$symmetry,
+symncsfs=$symncsfs,symnl2=$symnl2,symroot=$symroot)
+drt=(nsym=8,ngroups=$ngroupss,nrefs=1)
+sdrt=(nsym=8,ngroups=$ngroupsn,nrefs=1)
+ci=(nroots=$nchan)
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2;
+19//2;
+3//2,12,30;
+4//1;
+8//6,7,8,11,19,22;
+9//2,8,211,26,90,221;
+8//6,22;
+9//2,8,222,27,90;
+20//1;
+\$end
+
+\$sgroups
+numel=(20,1,1,0)
+\$end
+
+\$groups
+numel=(20,1,1,0)
+\$end
+
+
+EOF
+cat setdrt >> mesa.inp
+cat setsdrt >> mesa.inp
+optmesa
+
+cp mesa.out out.set.$SymScat
+cp mesa.inp inp.set.$SymScat
+
+ExtractIP
+cat outExtractIP
+mv outExtractIP outExtractIP.$SymScat
+
+########## opt #############################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+2s+1=2
+q=1
+kohn=(bsolve,nsmall=$nsmall,ncsfs=$ncsfs,hqq,freeze,
+energy=(0.0134,0.0502,0.0869,0.1237))
+sdrt=(nsym=8,ngroups=$ngroupss,nrefs=2)
+ci=(nroots=$nchan)
+geom=(inau,coord)
+\$end
+
+# energy=(.016,.017,.018,.019,.021,.022,.023,.024,
+# .056,.057,.058,.059))
+
+\$nonstd
+1//1,2,3,4;
+8//7,22;
+9//2,30,35,50;
+20//1;
+\$end
+EOF
+cat inp.opt.refs.$SymScat >> mesa.inp
+cat optsdrt >> mesa.inp
+optmesa
+cp mesa.out out.opt.$SymScat
+cp mesa.inp inp.opt.$SymScat
+
+# mesa.nip needed in csolve that is run by kohnsolve
+
+kohnsolve
+
+################## phot #######################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+
+\$route
+sym=norotate
+phase=save
+properties=(e1)
+2s+1=1
+guess=chk
+kohn=(overlap,nsmall=$nsmall,m822=zint,ncsfs=$ncsfs,symmetry=$symmetry,
+symncsfs=$symncsfs,symnl2=$symnl2,symroot=$symroot)
+sdrt=(nsym=8,ngroups=$ngroupss,nrefs=2)
+ci=(nroots=$nchan)
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2,3,4;
+3//2;
+8//7,22;
+9//2,8;
+92//78,90;
+20//1;
+\$end
+
+EOF
+cat inp.opt.refs.$SymScat >>mesa.inp
+cat photsdrt >> mesa.inp
+optmesa
+cp mesa.out out.phot.$SymScat
+cp mesa.inp inp.phot.$SymScat
+
+kohnphot
+echo From pltphot.$SymScat
+cat pltphot.$SymScat
+
+}
+
+####################### Setup for ExtractData #######
+cat <<EOF |sed -e "s/#.*//" >inExtractDataCmn
+   $nsmall   # nsmall
+   11 0      # na nb
+  1          # CenterExpand put the origin of the grid on this atom
+  'nocontq'  # flag for contractq - anything besides 'contractq' will not contract the q space
+  6          # LMaxK
+  2 2        # CenterSym, CnOrder
+  $nchan $symmetry  # number of channels and symmetry types
+  1          # symmetry type for each channel
+  -2          # NOccGroup
+  10 1 'ag' 2 'ag' 3 'ag' 1 'b2g' 1 'b3g' 1 'b1u' 2 'b1u' 3 'b1u' 1 'b2u' 1 'b3u'   # orbitals in group 1
+  1 4 'ag'       # orbitals in group 2
+  'ag'       # SymInit
+EOF
+
+####################### Setup for ExtractIP #######
+cat <<EOF |sed -e "s/#.*//" >inExtractIP
+  $nchan     # nchan
+  21.6374       # IP for first state
+EOF
+
+############### b1u ################################
+cat <inExtractDataCmn >inExtractData
+cat <<EOF |sed -e "s/#.*//" >>inExtractData
+ 'b1u'        # SymScat
+ 'b1u'  'ag'  # SymCont and SymTarg (SymTarg * SymCont = SymScat)
+  1  0  0    # PWLStart, PWmMOD, iCS
+EOF
+runkohn
+
+
+############### b2u ################################
+cat <inExtractDataCmn >inExtractData
+cat <<EOF |sed -e "s/#.*//" >>inExtractData
+ 'b2u'       # SymScat
+ 'b2u' 'ag'  #  SymCont and SymTarg (SymTarg * SymCont = SymScat)
+  1  1  1    # PWLStart, PWmMOD, iCS
+EOF
+runkohn
+
+############### b3u ################################
+cat <inExtractDataCmn >inExtractData
+cat <<EOF |sed -e "s/#.*//" >>inExtractData
+ 'b3u'       # SymScat  
+ 'b3u' 'ag'  # SymCont, and SymTarg (SymTarg * SymCont = SymScat)
+  1  1  0   # PWLStart, PWmMOD, iCS
+EOF
+runkohn
+
+chans=(01)
+rm DipMatAll??.dat
+for SYM in b1u b2u b3u ; do
+cp dipbf.$SYM dipbf
+cp punphot.$SYM punphot
+cp inphot.$SYM inphot
+cp inExtractDipMat.$SYM inExtractDipMat
+ExtractDipMat
+cat outExtractDipMat
+for CHAN in ${chans[*]} ; do
+cat DipMat$CHAN.dat >> DipMatAll$CHAN.dat
+done
+done
+
+date
+
+exit
+

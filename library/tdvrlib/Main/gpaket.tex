@@ -1,0 +1,127 @@
+ \documentclass{article}
+ \usepackage{graphicx}
+ \setkeys{Gin}{width=\linewidth}
+ \title{Subroutine for Gaussian Wavepacket}
+ \author{Barry I. Schneider}
+ \date{}
+ \def \<{\langle}
+ \def \>{\rangle}
+ \begin{document}
+ \maketitle
+\begin{verbatim}
+*deck gpaket.f
+c***begin prologue     gpaket
+c***date written       960723   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           time development
+c***author             schneider, barry (nsf)
+c***source             
+c***purpose            calculate zero time gaussian wavepacket 
+c***                   
+c***references         
+c
+c***routines called    
+c***end prologue       gpaket
+      subroutine gpaket(q1,q2,q3,psi0,t0,alpha,beta,gamma,vel,
+     2                  n,nc,nd,dim,coord,prn)
+      implicit integer (a-z)
+      real*8 q1, q2, q3, psi0, t0
+      real*8 z, alpha, beta, gamma, vel
+      character*(*) coord
+      character*80 title
+      logical prn
+      dimension nd(3)
+      dimension q1(nd(1)), q2(nd(2)), q3(nd(3))
+      dimension psi0(n,nc,2), alpha(3), beta(3), gamma(3), vel(3)
+      common/io/inp, iout
+      pointer (p,z(1))
+\end{verbatim}
+ \center Gaussian Wave Packet
+ \par
+\begin{eqnarray}
+ & \Psi({\bf r}|t=t_0) = N exp( -\alpha ( {\bf r} - {\bf v} t_0 )^2
+                                -i \beta ( {\bf r} - {\bf v}t_0 ) - \gamma )
+ \end{eqnarray}
+\begin{verbatim}
+      nbig=0
+      do 10 i=1,dim
+         nbig=max(nbig,nd(i))
+ 10   continue   
+      if(dim.ge.1) then
+         i1=1
+         need=i1+2*nbig
+      endif
+      if(dim.ge.2) then
+         i2=need
+         need= i2 + 2*nbig
+      endif
+      if(dim.eq.3) then
+         i3=need
+         need= i3 + 2*nbig
+      endif  
+      need=wpadti(need)
+      call memory(need,p,ngot,'gpaket',0)
+      write(iout,1)
+c     
+c     first do projection of time independent packet on basis states.
+c     then calculate projection onto unperturbed states by matrix
+c     multiplication.
+c
+      call rzero(psi0,n*nc*2)
+      if(coord.eq.'cartesian') then
+         write(iout,2)
+         write(iout,3) alpha, beta, gamma, vel
+          if(dim.eq.1) then
+            call zproj(q1,alpha(1),beta(1),gamma(1),vel(1),z(i1),
+     1                 t0,nd(1),coord,prn)
+            call zfill1(psi0,z(i1),n,nc)
+         elseif(dim.eq.2) then
+            call zproj(q1,alpha(1),beta(1),gamma(1),vel(1),z(i1),
+     1                 t0,nd(1),coord,prn)
+            call zproj(q2,alpha(2),beta(2),gamma(2),vel(2),z(i2),
+     1                 t0,nd(2),coord,prn)
+            call zfill2(psi0,z(i1),z(i2),nd,n,nc)
+         elseif(dim.eq.3) then
+            call zproj(q1,alpha(1),beta(1),gamma(1),vel(1),z(i1),
+     1                 t0,nd(1),coord,prn)
+            call zproj(q2,alpha(2),beta(2),gamma(2),vel(2),z(i2),
+     1                 t0,nd(2),coord,prn)
+            call zproj(q3,alpha(3),beta(3),gamma(3),vel(3),z(i3),
+     1                 t0,nd(3),coord,prn)
+            call zfill3(psi0,z(i1),z(i2),z(i3),nd,n,nc)
+         endif
+      else
+         write(iout,4)
+         write(iout,5) alpha(1), gamma(1)
+         call zproj(q1,alpha(1),beta(1),gamma(1),vel(1),z(i1),
+     1              t0,nd(1),coord,prn)
+         call zfill1(psi0,z(i1),n,nc)
+      endif
+      call memory(-ngot,p,idum,'gpaket',idum) 
+      return
+ 1    format(/,5x,'initial wavepacket at t=0')
+ 2    format(/,5x,'the form of the cartesian packet is:',///,15x,
+     1            'psi = exp(- a_x*(x - v_x*t_0)**2'
+     2                      '- i*b_x*(x - v_x*t_0)'
+     3                      '- c_x ) *'    
+     4                  'exp(- a_y*(y - v_y*t_0)**2'
+     5                      '- i*b_y*(y - v_y*t_0)'
+     6                      '- c_y ) *'    
+     7                  'exp(- a_z*(z - v_z*t_0)**2'
+     8                      '- i*b_z*(z - v_z*t_0)'
+     9                      '- c_z )')    
+ 3    format(/,1x,'gaussian wave packet parameters'
+     1        ,/,1x,'alpha = ',3(e15.8,1x),
+     2         /,1x,'beta = ',3(e15.8,1x),
+     3         /,1x,'gamma =',3(e15.8,1x),
+     4         /,1x,'velocity = ',3(e15.8,1x))
+ 4    format(/,5x,'the form of the radial packet is:',///,15x,
+     1            'psi = r*exp(- a*(r - v*t_0)**2'
+     2                        '- i*b*(r - v*t_0)'
+     3                        '- c )')
+ 5    format(/,1x,'gaussian wave packet parameters'
+     1        ,/,1x,'alpha = ',e15.8,/,1x,'beta = ',e15.8,
+     2         /,1x,'gamma = ',e15.8,/,1x,'velocity = ',e15.8)
+      end       
+\end{verbatim}
+\end{document}

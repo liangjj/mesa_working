@@ -1,0 +1,16 @@
+#!/bin/bash               
+#$ -V                     # Inherit the submission environment
+#$ -cwd                   # Start job in  submission directory
+#$ -N pal                 # Job Name
+#$ -A TG-PHY080033N       # project code
+#$ -j y                   # combine stderr & stdout into stdout    
+#$ -o $JOB_NAME.o$JOB_ID  # Name of the output file (eg. myMPI.oJobID)
+#$ -pe 8way 16            # Requests 16 cores/node, 32 cores total
+#$ -q normal              # Queue name
+#$ -l h_rt=00:59:00       # Run time (hh:mm:ss) - 1.5 hours
+# -M c.j.noble@dl.ac.uk   # Email notification address (UNCOMMENT)
+# -m e                    # Email at Begin/End of job  (UNCOMMENT)
+   set -x                 #{echo cmds, use "set echo" in csh}
+   ibrun ./pal <par1.inp  # Run the MPI executable named "a.out"
+
+

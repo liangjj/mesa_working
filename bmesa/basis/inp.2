@@ -1,0 +1,22 @@
+$route
+ print=(m1205=(xpotential,solution,xgrid,xhamiltonian))
+ potential-type=zero angular-momentum=0 boundary-condition=zero-derivative
+ xeigenvectors diagonalize=some number-of-roots=20 xextrapolate
+ difference-approximation=finite-difference 
+$end
+$nonstd
+ 12//05;  
+ 20//01;
+$end
+$title 
+ R-matrix Eigenvalues
+$end
+$finite-difference
+ standard-mesh
+ number-of-integration-regions=20
+ starting-r=1.d-20  final-r=1.0d0
+$end
+ starting-r-region-1=1.d-20  final-r-region-1=.5d0
+ number-of-grid-points-region-1=5
+ starting-r-region-2=.5d0  final-r-region-2=1.0d0
+ number-of-grid-points-region-2=5

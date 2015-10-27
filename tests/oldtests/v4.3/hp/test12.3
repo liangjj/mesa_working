@@ -1,0 +1,146 @@
+ mesa(4.3);7/7/93;hp-ux 9.01 unix.                                              
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      8-jul-1993 21:27:07    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.3                                                                                                   
+     out:    /usr2/mesa/tests/out/hp/test12.3                                                                                                
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium1/rlm/tmp/rwf                                                                                                            
+     rint:   /cesium1/rlm/tmp/rint                                                                                                           
+     int:    /cesium1/rlm/tmp/int                                                                                                            
+     tint:   /cesium1/rlm/tmp/tint                                                                                                           
+     gint:   /cesium1/rlm/tmp/gint                                                                                                           
+     rdint:  /cesium1/rlm/tmp/rdint                                                                                                          
+     dint:   /cesium1/rlm/tmp/dint                                                                                                           
+     zint:   /cesium1/rlm/tmp/zint                                                                                                           
+     ham:    /cesium1/rlm/tmp/ham                                                                                                            
+     moden:  /cesium1/rlm/tmp/moden                                                                                                          
+     aoden:  /cesium1/rlm/tmp/aoden                                                                                                          
+     saoden: /cesium1/rlm/tmp/saoden                                                                                                         
+     gden:   /cesium1/rlm/tmp/gden                                                                                                           
+     fci:    /cesium1/rlm/tmp/fci                                                                                                            
+     machine size:          8000000
+     user defined maxsiz:   1000000
+ title:
+     H2 Two State Calculation
+ route:
+     1//1,2,3,4;
+     8//6,22;
+     9//2,30,35;
+     20//1;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk) drop=42 ksym=(symmetry=1,psalc) 
+     print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(ngroups=
+     3,nrefs=3) ci=(nroots=2,cycles=60) sym=norotate kohn=(nsmall=2,ncsfs=91,nl2=45,f
+     reeze,hqq,energy=(.4410,.55125,.66152,.735))
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000     .000000     .000000     .370424
+       2    2   h  small      1.000     .000000     .000000    -.370424
+       3        zq scat        .000     .000000     .000000     .000000
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     # primitive cartesians    20
+     # contracted cartesians   20
+     # basis functions         20
+ new options in force:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk) drop=42 ksym=(symmetry=1,psalc) 
+     print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(ngroups=
+     3,nrefs=3) ci=(nroots=2,cycles=60) sym=norotate kohn=(nsmall=2,ncsfs=91,nl2=45,f
+     reeze,hqq,energy=(.4410,.55125,.66152,.735))
+  m104: 
+  m806:kohn drt generation
+     number of symmetries:         1
+     number of basis functions:   14
+     number of references:         3
+     number of groups:             3
+
+
+                           **** orbital information ****
+
+                    basis fcts  # key    type of orbital  sym
+                    ----------  - ---    ---------------  ---
+                       1-  1   1          orbital type  1   0
+                       2-  2   1          orbital type  2   0
+                       3- 14  12          orbital type  3   0
+   kohn-drt orbital order in use
+
+ kohn run: iout 
+    1    2   14   13   12   11   10    9    8    7
+    6    5    4    3 
+
+ kohn run: orbsym 
+    1    1    1    1    1    1    1    1    1    1
+    1    1    1    1 
+
+ kohn run: orbtbf 
+    1    2   14   13   12   11   10    9    8    7
+    6    5    4    3 
+
+         symmetry 1
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             12            12        12       F
+             2             12            12        24       F
+             3              1             1        25       F
+     there are     6867 integrals to be stored in  1 groups of   6867 each
+ m822: sort to guga order
+     memory use                       47143
+ m902: hamiltonian construction
+     forming the entire hamiltonian of    25 configurations
+     total number of matrix elements:         325
+     effective zero cutoff          :      .1E-08
+     number exceeding cutoff        :         265( 81.5%)
+       incore diagonalization
+
+      root   reference  guess energy    ci energy    c(0)
+       1         2   -1.02602034       -1.11167014       .9641
+       2         4   -1.09339005       -1.10988641      -.9955
+       ci energies have been stored on rwf file
+ m930: hamiltonian sort for the optical potential
+      sort parameters 
+      lsize lnblk nblks  blksiz mxblk       128   16384       4   65536       1
+      tblks tsize nbins  binsiz lnfile        1   16384       1   65536  724297
+      nbpb  need  formqq npdim  twalks        1  138308       1       1      24
+      hamiltonian test completed;energy =        -1.1116701368
+  m935:kohn optical potential
+      optical potential input parameters 
+        npmax   =       10
+        npvec   =       24
+        lsize   =      128
+        numpts  =        4
+        freeze  =        1
+        hqq     =        1
+        stopj   =      .00010000
+        reference  energy       -1.13226681
+        rel. scattering energies (au) 
+             .44100000             .55125000             .66152000             .73500000        
+      abs. scattering energies (au) 
+            -.69126681            -.58101681            -.47074681            -.39726681        
+      incore inversion
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .1        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1        .1        .0        .0         0
+      103         1        .0        .0        .0         0
+      104         1        .0        .0        .0         0
+      806         1        .2        .0        .0         0
+      822         1        .1        .0        .0         0
+      902         1        .3        .0        .0         0
+      930         1        .2        .0        .0         0
+      935         1        .3        .0        .0         0
+             total:       1.5        .0        .0         0

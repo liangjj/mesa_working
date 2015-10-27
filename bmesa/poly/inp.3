@@ -1,0 +1,44 @@
+$route
+ print=(m6245=(polynomial-coefficients,polynomials,points/weights,
+       hamiltonian),davidson=(xguess,xfinal-vectors,xresiduals))
+ xcheck-orthogonality decompose to-x-representation 
+ xtask=matrix-generation-only solve-differential-equation
+ xtask=diagonalize
+ iterative-diagonalization=davidson
+ davidson=(number-of-roots=20,tolerance=1.d-10,convergence=1.d-04,
+           xsolver=gauss-seidel,gauss-seidel-iterations=10,
+           number-of-roots-at-a-time=10,maximum-number-of-vectors=200,
+           maximum-number-of-iterations=200,size-of-guess-matrix=2,
+           number-of-guess-vectors=2,
+           two-schmidt-orthogonalizations,xrestart)
+$end
+ 
+$nonstd
+62//45;
+20//01;
+$end
+$title
+coulomb potential
+$end
+$poly
+ type-polynomials=standard order-of-polynomials=20
+ left-boundary=0.0d0 right-boundary=1.0d0 number-of-angular-momenta=1
+ angular-momenta=0
+ order-of-leading-left-polynomials=0 order-of-leading-right-polynomials=0
+ xfix-end-points number-of-points=20 xpotential=one
+ number-of-fixed-points=2 end-points=(0.0d0,1.0d0) xweight-function=laguerre
+ alpha=0.d0 beta=0.d0 
+$end
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

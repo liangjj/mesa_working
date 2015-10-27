@@ -1,0 +1,8 @@
+ 
+for f in $*
+  do
+    cat $f | tr "[A-Z]" "[a-z]" | sed 's/%w%/%W%/g
+    s/%g%/%G%/g' >$f.nu
+    rm $f
+    mv $f.nu $f
+  done

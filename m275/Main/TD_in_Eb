@@ -1,0 +1,8 @@
+$time_dependent
+ method_of_solution=cn_length  step_size=.07  
+ right_end=100.d0 left_end=-100.d0 get_eigenvectors 
+ number_of_eigenvectors=10 lower_index=1 upper_index=10 
+ number_of_time_steps=1000 time_step=.08
+ electric_field=0.0d0 omega=.148d0 type_potential=eberlonium
+$end
+electric_field=0.05d0 omega=.148d0 type_potential=eberlonium

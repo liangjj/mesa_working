@@ -1,0 +1,24 @@
+PROG =	DC_DIAG
+MODSDIR = 
+ZCOM = Read_ipar.f90 Read_apar.f90 Read_rpar.f90 Check_file.f90 
+
+SRCS =	mod_io_units.f90 mod_precisn.f90 mod_blacs.f90  mod_dc_matrix.f90  \
+	pgd_main.f90 pgd_drive.f90   pdsygvd1.f90 error_prt.f90 read_dcmat.f90 write_evec.f90
+
+OBJS =	$(SRCS:.f90=.o) $(ZCOM:.f90=.o)
+
+#MD_LIB=$(MD_LIB_INTELMPI_DYNAM_MT)
+all: $(PROG)
+
+F90FLAGS=-O3 -C -traceback -g -debug all
+#MKL_FLAGS=-L$(MKLROOT)/lib/intel64 -lmkl_scalapack_lp64  -Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -Wl,--end-group -openmp -lpthread
+MKL_FLAGS=$(MKLROOT)/lib/intel64/libmkl_scalapack_lp64.a  -Wl,--start-group $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKLROOT)/lib/intel64/libmkl_intel_thread.a $(MKLROOT)/lib/intel64/libmkl_core.a $(MKLROOT)/lib/intel64/libmkl_blacs_openmpi_lp64.a -Wl,--end-group -openmp -lpthread
+
+$(PROG): $(OBJS)
+	$(F90) $(F90FLAGS) $(OBJS) $(UTILITY_LIB) $(MKL_FLAGS) -i_dynamic -o $@
+
+clean:
+	rm -f $(OBJS)  *.mod *~
+
+%.o: %.f90
+	$(F90) -c $(F90FLAGS) $<

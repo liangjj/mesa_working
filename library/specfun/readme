@@ -1,0 +1,516 @@
+		****************************************
+		*           disk to accompany          *
+		*   computation of special functions   *
+		*                                      *
+		*   shanjie zhang and jianming jin     *
+		*                                      *
+		*   copyright 1996 by john wiley &     *
+		*              sons, inc.              *
+		*                                      *
+		****************************************
+
+i. introduction
+
+     as stated in the preface of our book "computation of special 
+functions,"  the purpose of this book is to share with the reader  
+a set of computer programs (130 in total) which we have developed 
+during the past several years for computing a variety of  special  
+mathematical functions.  for your convenience, we attach to the
+book this diskette that contains all the computer programs  
+listed or mentioned in the book. 
+
+     in this diskette,  we place all the programs under directory 
+smf\programs. in order to illustrate the use of these programs 
+and facilitate your testing of the programs, we wrote a short 
+simple main program for each program so that you can readily test 
+them.    
+
+     all the programs are written in fortran-77 and tested on pcs
+and workstations. therefore, they should run on any computer with 
+implementation of the fortran-77 standard.  
+
+     although we have made a great effort to test these programs,  
+we would not be surprised  to find some errors in them.  we would 
+appreciate it if you can bring to our attention any errors you find.
+you can do this by either writing us directly at the location
+(e-mail: j-jin1@uiuc.edu) or writing to the publisher, whose address 
+appears on the back cover of the book.  however, we must note that
+all these programs are sold "as is," and we cannot guarantee to 
+correct the errors reported by readers on any fixed schedule.
+
+     all the programs and subroutines  contained in this diskette 
+are copyrighted.   however,  we give permission to the reader who
+purchases this book to incorporate any of these programs into his
+or her programs provided that the copyright is acknowledged. 
+
+     regarding the specifics of the programs, we want to make the
+following two points.
+
+  1) all the programs are written in double precision.   although
+     the use of double precision is  necessary for some programs,
+     especially for those based on series expansions,  it is not 
+     necessary for all programs.  for example, the computation of
+     of special functions based on polynomial approximations does
+     not have to use double precision.  we chose to write all the
+     programs using double precision in order to  avoid  possible 
+     confusion  which  may  occur in using  these  programs.  if 
+     necessary,  you can  convert  the programs into the single
+     precision format easily.  however,  doing so for some 
+     programs may lead to a lower accuracy.
+
+  2) in the main programs that calculate a  sequence  of  special 
+     functions, we usually set the maximum order or degree to 100
+     or 250.  however, this is not a limit.  to compute functions  
+     with a higher order or degree, all you need to do is simply 
+     set the dimension of proper arrays higher.  
+
+
+ii. disclaimer of warranty
+
+     although we have made a great effort to test and validate the 
+computer programs, we make no warranties, express or implied, that 
+these  programs  are  free  of  error,  or are consistent with any 
+particular  standard  of  merchantability,  or that they will meet 
+your requirements for any particular application.  they should not 
+be relied on for  solving problems  whose incorrect solution could 
+result in  injury to  a person or loss of property.  if you do use 
+the programs in such a manner, it is at your own risk. the authors 
+and publisher  disclaim all liability for  direct or consequential 
+damages resulting from your use of the programs.
+
+
+iii. list of programs
+
+(please note that all file names of programs installed from the disk 
+begin with an m, for example, mbernoa.for)
+
+bernoa  evaluate a sequence of bernoulli numbers (method 1).
+
+bernob  evaluate a sequence of bernoulli numbers (method 2).
+
+eulera  evaluate a sequence of euler numbers (method 1).
+
+eulerb  evaluate a sequence of euler numbers (method 2). 
+
+*****
+
+othpl   evaluate a sequence of orthogonal polynomials and their 
+derivatives, including chebyshev, laguerre, and hermite 
+polynomials. 
+
+legzo   evaluate the nodes and weights for gauss-legendre quadrature.
+
+lagzo   evaluate the nodes and weights for gauss-laguerre quadrature.
+
+herzo   evaluate the nodes and weights for gauss-hermite quadrature.              
+
+*****
+
+gamma   evaluate the gamma function.
+
+lgama   evaluate the gamma function or the logarithm of the gamma 
+function.
+
+cgama   evaluate the gamma function with a complex argument.
+
+beta    evaluate the beta function.
+
+psi     evaluate the psi function.
+
+cpsi    evaluate the psi function with a complex argument.
+
+incog   evaluate the incomplete gamma function.
+
+incob   evaluate the incomplete beta function.
+
+*****
+
+lpn     evaluate a sequence of legendre polynomials and their 
+derivatives with real arguments.
+
+clpn    evaluate a sequence of legendre polynomials and their 
+derivatives with complex arguments.
+
+lpni    evaluate a sequence of legendre polynomials, their 
+derivatives, and their integrals.
+
+lqna    evaluate a sequence of legendre functions of the second 
+kind and their derivatives with restricted real arguments.
+
+lqnb    evaluate a sequence of legendre functions of the second 
+kind and their derivatives with nonrestricted real arguments.
+
+clqn    evaluate a sequence of legendre functions of the second 
+kind and their derivatives with complex arguments.
+
+lpmn    evaluate a sequence of associated legendre polynomials and 
+their derivatives with real arguments.
+
+clpmn   evaluate a sequence of associated legendre polynomials and 
+their derivatives with complex arguments.
+
+lqmn    evaluate a sequence of associated legendre functions of the 
+second kind and their derivatives with real arguments.
+
+clqmn   evaluate a sequence of associated legendre functions of the 
+second kind and their derivatives with complex arguments.
+
+lpmv    evaluate associated legendre functions of the first kind 
+with an integer order and arbitrary non-negative degree.
+ 
+*****
+
+jy01a   evaluate the zeroth- and first-order bessel functions of the 
+first and second kinds with real arguments using series and 
+asymptotic expansions.
+
+jy01b   evaluate the zeroth- and first-order bessel functions of the 
+first and second kinds with real arguments using polynomial 
+approximations.
+
+jyna    evaluate a sequence of bessel functions of the first and 
+second kinds and their derivatives with integer orders and 
+real arguments (method 1).
+
+jynb    evaluate a sequence of bessel functions of the first and 
+second kinds and their derivatives with integer orders and 
+real arguments (method 2).
+
+cjy01   evaluate the zeroth- and first-order bessel functions of the 
+first and second kinds and their derivatives with complex 
+arguments.
+
+cjyna   evaluate a sequence of bessel functions of the first and 
+second kinds and their derivatives with integer orders and 
+complex arguments (method 1).
+
+cjynb   evaluate a sequence of bessel functions of the first and 
+second kinds and their derivatives with integer orders and 
+complex arguments (method 2).
+
+jyv     evaluate a sequence of bessel functions of the first and 
+second kinds and their derivatives with arbitrary real orders 
+and real arguments.
+
+cjyva   evaluate a sequence of bessel functions of the first and 
+second kinds and their derivatives with arbitrary real orders 
+and complex arguments (method 1).
+
+cjyvb   evaluate a sequence of bessel functions of the first and 
+second kinds and their derivatives with arbitrary real orders 
+and complex arguments (method 2).
+
+cjk     evaluate the coefficients for the asymptotic expansion of 
+bessel functions for large orders.
+
+cjylv   evaluate bessel functions of the first and second kinds and 
+their derivatives with a large arbitrary real order and complex 
+arguments.
+
+jyzo    evaluate the zeros of the bessel functions of the first and 
+second kinds and their derivatives.
+
+jdzo    evaluate the zeros of the bessel functions of the first kind 
+and their derivatives.
+
+cyzo    evaluate the complex zeros of the bessel functions of the 
+second kind of order zero and one.
+
+lamn    evaluate a sequence of lambda functions with integer orders 
+and their derivatives.
+
+lamv    evaluate a sequence of lambda functions with arbitrary orders 
+and their derivatives.
+
+*****
+
+ik01a   evaluate the zeroth- and first-order modified bessel 
+functions of the first and second kinds with real arguments.
+
+ik01b   evaluate the zeroth- and first-order modified bessel 
+functions of the first and second kinds with real arguments.
+
+ikna    evaluate a sequence of modified bessel functions of the 
+first and second kinds and their derivatives with integer 
+orders and real arguments (method 1).
+
+iknb    evaluate a sequence of modified bessel functions of the 
+first and second kinds and their derivatives with integer 
+orders and real arguments (method 2).
+
+cik01   evaluate the zeroth- and first-order modified bessel 
+functions of the first and second kinds and their derivatives 
+with complex arguments.
+
+cikna   evaluate a sequence of modified bessel functions of the 
+first and second kinds and their derivatives with integer 
+orders and complex arguments (method 1).
+
+ciknb   evaluate a sequence of modified bessel functions of the 
+first and second kinds and their derivatives with integer 
+orders and complex arguments (method 2).
+
+ikv     evaluate a sequence of modified bessel functions of the 
+first and second kinds and their derivatives with arbitrary 
+real orders and real arguments.
+
+cikva   evaluate a sequence of modified bessel functions of the 
+first and second kinds and their derivatives with arbitrary 
+real orders and complex arguments. 
+
+cikvb   evaluate a sequence of modified bessel functions of the 
+first and second kinds and their derivatives with arbitrary 
+real orders and complex arguments. 
+
+ciklv   evaluate modified bessel functions of the first and second 
+kinds and their derivatives with a large arbitrary real order 
+and complex arguments. 
+
+ch12n   evaluate a sequence of hankel functions of the first and 
+second kinds and their derivatives with integer orders and 
+complex arguments.
+
+*****
+
+itjya   evaluate the integral of bessel functions j0(t) and y0(t) 
+from 0 to x using series and asymptotic expansions.
+
+itjyb   evaluate the integral of bessel functions j0(t) and y0(t) 
+from 0 to x using polynomial approximations.
+
+ittjya  evaluate the integral of [1-j0(t)]/t from 0 to x and y0(t)/t   
+from x to infinity using series and asymptotic expansions.
+
+ittjyb  evaluate the integral of [1-j0(t)]/t from 0 to x and y0(t)/t   
+from x to infinity using polynomial approximations.
+
+itika   evaluate the integral of modified bessel functions i0(t) and   
+k0(t) from 0 to x using series and asymptotic expansions.
+
+itikb   evaluate the integral of modified bessel functions i0(t) and   
+k0(t) from 0 to x using polynomial approximations.
+
+ittika  evaluate the integral of [1-i0(t)]/t from 0 to x and k0(t) 
+from x to infinity using series and asymptotic expansions.
+
+ittikb  evaluate the integral of [1-i0(t)]/t from 0 to x and k0(t) 
+from x to infinity using polynomial approximations.
+
+****
+
+sphj    evaluate a sequence of spherical bessel functions of the 
+first kind and their derivatives with integer orders and 
+real arguments.
+
+sphy    evaluate a sequence of spherical bessel functions of the 
+second kind and their derivatives with integer orders and 
+real arguments.
+
+csphjy  evaluate a sequence of spherical bessel functions of the 
+first and second kinds and their derivatives with integer 
+orders and complex arguments.
+
+rctj    evaluate a sequence of riccati-bessel functions and their 
+derivatives of the first kind.
+
+rcty    evaluate a sequence of riccati-bessel functions and their 
+derivatives of the second kind.
+
+sphi    evaluate a sequence of modified spherical bessel functions 
+of the first kind and their derivatives with integer orders 
+and real arguments.
+
+sphk    evaluate a sequence of modified spherical bessel functions 
+of the second kind and their derivatives with integer orders 
+and real arguments.
+
+csphik  evaluate a sequence of modified spherical bessel functions 
+of the first and second kinds and their derivatives with 
+integer orders and complex arguments.
+
+*****
+
+
+klvna   evaluate the kelvin functions and their derivatives using 
+series and asymptotic expansions.
+
+klvnb   evaluate the kelvin functions and their derivatives using 
+polynomial approximations.
+
+klvnzo  evaluate the zeros of the kelvin functions and their 
+derivatives.
+
+***** 
+
+airya   evaluate the airy functions and their derivatives by means 
+of bessel functions.
+
+airyb   evaluate the airy functions and their derivatives using the 
+series and asymptotic expansions.
+
+itairy  evaluate the integral of the airy functions. 
+
+airyzo  evaluate the zeros of airy functions and their derivatives.
+
+***** 
+
+stvh0   evaluate the zeroth-order struve function.
+
+stvh1   evaluate the first-order struve function.
+
+stvhv   evaluate the struve functions with an arbitrary order.
+
+itsh0   evaluate the integral of struve function h0(t) from 0 to x.
+
+itth0   evaluate the integral of h0(t)/t from x to infinity.
+
+stvl0   evaluate the zeroth-order modified struve function.
+
+stvl1   evaluate the first-order modified struve function.
+
+stvlv   evaluate the modified struve function with an arbitrary 
+order.
+
+itsl0   evaluate the integral of modified struve function l0(t) 
+from 0 to x.
+
+*****
+
+hygfx   evaluate the hypergeometric function with real arguments.
+
+hygfz   evaluate the hypergeometric function with complex arguments.
+
+*****
+
+chgm    evaluate the confluent hypergeometric function m(a,b,x) with 
+real arguments.
+
+cchg    evaluate the confluent hypergeometric function m(a,b,z) with 
+complex arguments.
+
+chgu    evaluate the confluent hypergeometric function u(a,b,x) with 
+real arguments.
+
+*****
+
+pbdv    evaluate a sequence of parabolic cylinder functions dv(x) and 
+their derivatives.
+
+pbvv    evaluate a sequence of parabolic cylinder functions vv(x) and 
+their derivatives.
+
+pbwa    evaluate parabolic cylinder functions w(a,+/-x) and their 
+derivatives.
+
+cpbdn   evaluate a sequence of parabolic cylinder functions dn(z) and 
+their derivatives for complex arguments.
+
+***** 
+
+cva1    evaluate a sequence of characteristic values for the mathieu 
+and modified mathieu functions.
+
+cva2    evaluate a specific characteristic value for the mathieu 
+and modified mathieu functions.
+
+fcoef   evaluate the expansion coefficients for the mathieu and
+modified mathieu functions.
+
+mtu0    evaluate the mathieu functions and their derivatives.
+
+mtu12   evaluate the modified mathieu functions of the first and 
+second kinds and their derivatives.
+
+*****        
+
+segv    evaluate a sequence of characteristic values for spheroidal 
+wave functions.
+
+sdmn    evaluate the expansion coefficients d_k^mn for spheroidal 
+wave functions.
+
+scka    evaluate the expansion coefficients c_2k^mn for spheroidal 
+wave functions (method 1).
+
+sckb    evaluate the expansion coefficients c_2k^mn for spheroidal 
+wave functions (method 2).
+
+aswfa   evaluate the angular spheroidal wave functions of the first 
+kind (method 1).
+
+aswfb   evaluate the angular spheroidal wave functions of the first 
+kind (method 2).
+
+rswfp   evaluate the radial prolate spheroidal wave functions of the 
+first and second kinds.
+
+rswfo   evaluate the radial oblate spheroidal wave functions of the 
+first and second kinds.
+
+lpmns   evaluate a sequence of the associated legendre functions of 
+the first kind and their derivatives with real arguments  
+for a given order.
+
+lqmns   evaluate a sequence of the associated legendre functions of 
+the second kind and their derivatives with real arguments  
+for a given order.
+
+*****
+
+error   evaluate the error function.
+
+cerror  evaluate the error function with a complex argument.
+
+*****
+
+fcs     evaluate the fresnel integrals.
+
+ffk     evaluate the modified fresnel integrals.
+
+cerzo   evaluate the complex zeros of the error function.
+
+fcszo   evaluate the complex zeros of the fresnel integrals.
+
+***** 
+
+cisia   evaluate the cosine and sine integrals using their series 
+and asymptotic expansions.
+
+cisib   evaluate the cosine and sine integrals using their rational 
+approximations.
+
+***** 
+
+comelp  evaluate the complete elliptic integrals of the first and 
+second kinds.
+
+elit    evaluate the incomplete elliptic integrals of the first and 
+second kinds.
+
+elit3   evaluate the complete and incomplete elliptic integrals of 
+the third kind.
+
+jelp    evaluate the jacobian elliptic functions.
+
+*****
+
+e1xa    evaluate the exponential integral e1(x) using its polynomial 
+approximations.
+
+e1xb    evaluate the exponential integral e1(x) using its series and
+continued fraction expressions.
+
+e1z     evaluate the exponential integral e1(z) for complex arguments.
+
+enxa    evaluate a sequence of exponential integrals en(x) (method 1).
+
+enxb    evaluate a sequence of exponential integrals en(x) (method 2).
+
+eix     evaluate the exponential integral ei(x).
+
+
+
+
+
+ 
+ 

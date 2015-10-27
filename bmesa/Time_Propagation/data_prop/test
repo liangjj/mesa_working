@@ -1,0 +1,23 @@
+$route
+      
+$end
+$nonstd
+$end
+$title
+t                       
+$end
+$dvrprop_basis
+ number-of-space-variables=2 propagation-order=4
+ coordinate-system=cartesian
+ space-variable-1=x
+ space-variable-2=y
+ units=trap kinetic-energy-type=packed
+ automate-points non-linear-equations plot plot_step=1
+  keep-diagonals get-eigenpairs
+ print=all
+$end
+$nlse
+oscillator-frequencies-in-hertz=(0.000000,0.000000)                             
+mass= 0.10000000D-24 number-of-atoms= 0.10000000D+07 scattering-length= 0.10000000D-18
+$end          
+$h0(x)                  

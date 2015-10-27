@@ -1,0 +1,82 @@
+#comments
+# This runs the scf in a reduced basis.  An IVO follows and then
+# the two lowest energy orbitals are put at the front and the rest
+# of the orbitals are symmetry ordered.
+
+$route
+angular_grid=yes radial_grid=yes
+$end
+ 
+$nonstd
+62//3;
+20//1;
+$end
+ 
+$title
+Testing Grid Code
+$end
+ 
+$Xangular_quadrature
+  type_quadrature=gauss Xprint=XYZ_and_Weights test_all
+  print=Angles
+  number_of_theta_points=10 number_of_phi_points=10
+$end
+
+$atomic_grids
+ number_of_atomic_centers=1 
+$end
+
+$center_1
+ atomic_center number_of_shells=2 angular_quadrature=gauss
+ fixed_angular_quadrature
+$end
+
+$lebedev_shell_1
+lebedev_rule_number=12
+$end
+
+$theta_boundary_conditions
+number_of_fixed_points=0 xright_fixed_point xdrop_right_function
+xleft_fixed_point xdrop_left_function
+$end
+
+$phi_boundary_conditions
+number_of_fixed_points=0 xright_fixed_point xdrop_right_function
+xleft_fixed_point xdrop_left_function
+$end
+
+$theta_shell_1
+number_of_major_blocks=1 automate reuse_sector_information
+Xdefaults
+$end
+
+$theta_shell_1_block_1
+order=5 number_of_subregions=3 left_boundary=-1.0
+right_boundary=1.0
+$end
+
+$phi_shell_1
+number_of_major_blocks=1 automate reuse_sector_information
+number_of_fixed_points=0 xright_fixed_point xdrop_right_function
+xleft_fixed_point xdrop_left_function
+Xdefaults
+$end
+ 
+$phi_shell_1_block_1
+order=5 number_of_subregions=3 left_boundary=0.0
+xright_boundary=1.0
+$end
+
+$radial_boundary_conditions
+number_of_fixed_points=0 xright_fixed_point xdrop_right_function
+xleft_fixed_point xdrop_left_function
+$end
+
+$radial_shell_1
+order=5 left_boundary=5.0 right_boundary=7.0
+$end
+
+$radial_shell_2
+order=3 left_boundary=0. right_boundary=7.0
+$end
+

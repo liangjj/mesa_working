@@ -1,0 +1,63 @@
+ 
+
+                    Solve CC_Prop Time-Dependent Schrodinger Equation in
+                              imaginary_time  
+
+     Coordinate System          = cartesian            Hamiltonian Source         = external
+     Type Calculation           = imaginary_time       Hamiltonian Type           = real    
+
+     Pack Matrices              = T                   Overlap Drop Tolerance     =  0.10000000E-06
+     Cholesky Drop Tolerance    =  0.10000000E-05     Hamiltonian Drop Tolerance =  0.10000000E-05
+     Buffer Length              =          0          Type Packing               = by_column       
+
+     Preconditioner             = cholesky                        
+
+     Number of Time Intervals   =  100     Time Step =      0.10000000
+************************************************************************
+
+          Time to Input Basic Data               =      0.00390625
+************************************************************************
+ Opening File eigenstates to hold data
+ Hamiltonian File Name = He/He_Mat_20
+ Non Orthogonal Basis =  T
+ Hamiltonian File from Disk
+
+          Input Matrix Size =      684
+ Hamiltonian Type    = real     
+ Input/Output Vector = input   
+
+                    Using Packed Forms for all Matrices
+************************************************************************
+
+          Time to Read in Data =      0.00000000
+ Reformatting Packed Matrices to IOsys Format
+ Opening and Processing Input Matrix File
+ Reformatting Packed Matrices to IOsys Format
+ Opening File to Write Packed Matrices
+ Opening File to Write Full Cholesky Decomposition
+ Matrices packed_in_standard_iosys_format                                       
+           
+ Pack the Overlap Matrix
+ Number Non_Zero Overlap In =        35964
+ Smallest Overlap Element =   0.000000000000000E+000
+ Largest Overlap Element  =    8.91317693713187     
+ Number Non_Zero Overlap Out =        22908
+ Write the Overlap Matrix to Disk
+ 
+ Form Cholesky Decomposition
+ Write Full Cholesky Decomposition to Disk
+ Closing File Holding Full Cholesky Decomposition
+ Pack the Cholesky Factors
+ Number Non_Zero Cholesky Out =        17828
+ Write Packed Cholesky Factors to Disk
+ 
+ Pack the Hamiltonian Matrix
+ Number Non_Zero Hamiltonian In =       142830
+ Smallest Hamiltonian Element =   -2.81888269252456     
+ Largest  Hamiltonian Element =    477.935151847043     
+ Number Non_Zero Hamiltonian Out =        59877
+ Write Packed Hamiltonian to Disk
+ 
+ Closing Input Matrix File
+ Ending Writing of Packed Matrices
+ Quitting After Reformat

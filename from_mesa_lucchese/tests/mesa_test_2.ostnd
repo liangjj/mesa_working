@@ -1,0 +1,757 @@
+
+Prologue Args:
+Job ID: 51895.medusa.chem.tamu.edu
+User ID: r-lucchese
+Group ID: user
+Job Name: mesa_test
+Requested Resources: mem=6gb,neednodes=1:ppn=1,nodes=1:ppn=1,walltime=02:00:00
+Queue: xs_p8
+Job account: 
+--------------------------
+Job started on: Mon Nov 26 23:05:04 CST 2012
+--------------------------
+Mon Nov 26 23:05:04 CST 2012
+using version .i4
+rm: cannot remove `runtestnew2.i4': No such file or directory
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.058s
+user	0m0.000s
+sys	0m0.004s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.101s
+user	0m0.016s
+sys	0m0.000s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.100s
+user	0m0.020s
+sys	0m0.000s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.184s
+user	0m0.088s
+sys	0m0.004s
+m202 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.083s
+user	0m0.028s
+sys	0m0.000s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+OMP warning: KMP_AFFINITY: parameter invalid, ignoring 'disabled'
+
+real	0m0.121s
+user	0m0.032s
+sys	0m0.016s
+m312 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.872s
+user	0m0.736s
+sys	0m0.008s
+m330 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.146s
+user	0m0.048s
+sys	0m0.008s
+m401
+m401 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+OMP warning: KMP_AFFINITY: parameter invalid, ignoring 'disabled'
+
+real	0m0.141s
+user	0m0.048s
+sys	0m0.004s
+m501 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+OMP warning: KMP_AFFINITY: parameter invalid, ignoring 'disabled'
+
+real	0m0.789s
+user	0m0.708s
+sys	0m0.028s
+m1951 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.111s
+user	0m0.020s
+sys	0m0.008s
+m2001
+rm: cannot remove `tmp/mesa.dint': No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.087s
+user	0m0.012s
+sys	0m0.004s
+m998
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.004s
+user	0m0.000s
+sys	0m0.004s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.020s
+user	0m0.016s
+sys	0m0.004s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.014s
+user	0m0.012s
+sys	0m0.004s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.093s
+user	0m0.092s
+sys	0m0.000s
+m202 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.028s
+user	0m0.016s
+sys	0m0.012s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+OMP warning: KMP_AFFINITY: parameter invalid, ignoring 'disabled'
+
+real	0m0.043s
+user	0m0.036s
+sys	0m0.004s
+m312 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.737s
+user	0m0.728s
+sys	0m0.008s
+m330 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.061s
+user	0m0.040s
+sys	0m0.016s
+m401
+m401 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+OMP warning: KMP_AFFINITY: parameter invalid, ignoring 'disabled'
+
+real	0m0.040s
+user	0m0.032s
+sys	0m0.008s
+m805 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.095s
+user	0m0.016s
+sys	0m0.004s
+m553 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+OMP warning: KMP_AFFINITY: parameter invalid, ignoring 'disabled'
+
+real	0m2.305s
+user	0m2.084s
+sys	0m0.100s
+m921 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+OMP warning: KMP_AFFINITY: parameter invalid, ignoring 'disabled'
+
+real	0m0.122s
+user	0m0.016s
+sys	0m0.016s
+m1951 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.028s
+user	0m0.024s
+sys	0m0.004s
+m2001
+rm: cannot remove `tmp/mesa.dint': No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=4000000
+
+real	0m0.016s
+user	0m0.012s
+sys	0m0.004s
+m998
+ mesa(%I%);%G%;bsd 4.2 unix.                                                    
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+
+     26-Nov-2012 23:05:08    
+     los alamos national laboratory;unknown(euryale);                                
+ files/memory:
+     inp:   mesa.inp                      out:    mesa.out                 
+     chk:   mesa.chk                      dat:    mesa.dat                 
+     rwf:   tmp/mesa.rwf                  rint:   tmp/mesa.rint            
+     int:   tmp/mesa.int                  tint:   tmp/mesa.tint            
+     gint:  tmp/mesa.gint                 rdint:  tmp/mesa.rdint           
+     dint:  tmp/mesa.dint                 zint:   tmp/mesa.zint            
+     ham:   tmp/mesa.ham                  moden:  tmp/mesa.moden           
+     aoden: tmp/mesa.aoden                saoden: tmp/mesa.saoden          
+     gden:  tmp/mesa.gden                 fci:    tmp/mesa.fci             
+     machine size:          4000000
+     user defined maxsiz:   1300000
+ title:
+        dzp h2o casscf       
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     8//5;
+     5//53;
+     9//21;
+     19//51;
+     20//01;
+ options:
+     maxsiz=1300000 2s+1=1 print=(basis,fficscf=vector) mcscf=(cas,ci=(cycles=15),num
+     ber-of-core-orbitals=3) drtmc=(nbf=4,vexcite=99,rdsym) guess=(chk) basis=dzp,sym
+     =off
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dzp     
+      2   2   h  dzp         1   1.249000 r1      
+      3   3   h  dzp         1   2.949000 r2        2  112.300 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    44
+     # contracted cartesians   26
+     # basis functions         26
+
+
+ basis set information.
+
+ atom  1  o 
+ charge:  8.00
+ basis: dzp             
+ type:s          exponent    coefficient     9 primitives,    4 contracted functions.
+              7816.540000       0.002031  0.000000  0.000000  0.000000
+              1175.820000       0.015436  0.000000  0.000000  0.000000
+               273.188000       0.073771  0.000000  0.000000  0.000000
+                81.169600       0.247606  0.000000  0.000000  0.000000
+                27.183600       0.611831  0.000000  0.000000  0.000000
+                 3.413600       0.241205  0.000000  0.000000  0.000000
+                 9.532200       0.000000  1.000000  0.000000  0.000000
+                 0.939800       0.000000  0.000000  1.000000  0.000000
+                 0.284600       0.000000  0.000000  0.000000  1.000000
+ type:p          exponent    coefficient     5 primitives,    2 contracted functions.
+                35.183200       0.019580  0.000000
+                 7.904000       0.124189  0.000000
+                 2.305100       0.394727  0.000000
+                 0.717100       0.627374  0.000000
+                 0.213700       0.000000  1.000000
+ type:d          exponent    coefficient     1 primitives,    1 contracted functions.
+                 0.850000       1.000000
+
+ atom  2  h 
+ charge:  1.00
+ basis: dzp             
+ type:s          exponent    coefficient     4 primitives,    2 contracted functions.
+                19.240600       0.032828  0.000000
+                 2.899200       0.231209  0.000000
+                 0.653400       0.817240  0.000000
+                 0.177600       0.000000  1.000000
+ type:p          exponent    coefficient     1 primitives,    1 contracted functions.
+                 0.750000       1.000000
+
+ atom  3  h 
+ charge:  1.00
+ basis: dzp             
+ basis same as on atom   2
+  ready to read zian
+  zian           0
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     1.24900   0.00000
+                 h2     2.94900   3.61274   0.00000
+ interatomic angles:
+          h2-o1-h3 =112.3000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    1.249000
+      3   3   h              2.728443    0.000000   -1.119016
+     cd cent  el                   coordinates(Bohr)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    2.360269
+      3   3   h              5.156012    0.000000   -2.114635
+ rotational constants (ghz):    420.3880748     57.9968470     50.9656173
+ isotopes:
+     o-16    h-1     h-1     
+ nuclear repulsion energy=   4.97146298687684     
+  scale factor for 1-electron integrals:   1.00000000000000     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     730653
+     #primitive integrals computed     664847( 91.0%)
+     #contracted integrals possible     61776
+     #contracted integrals kept         30786( 49.8%)
+ m330:
+  scale factor for 2-electron integrals:   1.00000000000000     
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ vectors before schmdt
+                              1         2         3         4         5
+     eigenvalues --   -20.65167  -1.18710  -0.49875  -0.42211  -0.41728
+          o       s    -0.58136  -0.14416   0.00000  -0.01584   0.00000
+                  s    -0.46171  -0.20039   0.00000  -0.02221   0.00000
+                  s     0.00146   0.57993   0.00000   0.08848   0.00000
+                  s     0.00046   0.54159   0.00000   0.04074   0.00000
+                  x    -0.00052  -0.00656   0.00000  -0.47227  -0.26547
+                  y     0.00000   0.00000  -0.76433   0.00000   0.00000
+                  z    -0.00035  -0.00440   0.00000  -0.31675   0.39581
+                  x     0.00025   0.00308   0.00000  -0.27128  -0.15998
+                  y     0.00000   0.00000  -0.36475   0.00000   0.00000
+                  z     0.00017   0.00207   0.00000  -0.18195   0.23853
+                 xx    -0.00053  -0.00369   0.00000  -0.00029  -0.00836
+                 yy    -0.00079  -0.00357   0.00000   0.00831   0.00000
+                 zz    -0.00049  -0.00348   0.00000  -0.00011   0.00836
+                 xy     0.00000   0.00000  -0.00442   0.00000   0.00000
+                 xz    -0.00009  -0.00051   0.00000  -0.00045   0.00686
+                 yz     0.00000   0.00000  -0.00296   0.00000   0.00000
+          h1      s    -0.00003   0.01935   0.00000  -0.12946   0.15799
+                  s    -0.00013   0.02514   0.00000  -0.25215   0.29847
+                  x    -0.00002   0.00018   0.00000  -0.00394  -0.00194
+                  y     0.00000   0.00000  -0.00486   0.00000   0.00000
+                  z     0.00007  -0.00460   0.00000   0.00870  -0.01104
+          h2      s    -0.00003   0.01935   0.00000  -0.12946  -0.15799
+                  s    -0.00013   0.02514   0.00000  -0.25215  -0.29847
+                  x     0.00006  -0.00419   0.00000   0.00656   0.01095
+                  y     0.00000   0.00000  -0.00486   0.00000   0.00000
+                  z    -0.00004   0.00191   0.00000  -0.00694  -0.00240
+                              6         7         8         9        10
+     eigenvalues --    -0.03683   0.02108   0.86388   0.88483   0.94747
+          o       s     0.02223   0.00000   0.00000   0.05558  -0.06922
+                  s     0.03191   0.00000   0.00000   0.06356  -0.07925
+                  s    -0.08353   0.00000   0.00000  -0.80491   1.07297
+                  s    -0.17599   0.00000   0.00000   1.27379  -1.83100
+                  x    -0.35218  -0.28019   0.00000   0.56699   0.45424
+                  y     0.00000   0.00000  -0.85806   0.00000   0.00000
+                  z    -0.23621   0.41776   0.00000   0.38028   0.30466
+                  x    -0.26380  -0.23176   0.00000  -0.70395  -0.54771
+                  y     0.00000   0.00000   1.07455   0.00000   0.00000
+                  z    -0.17693   0.34554   0.00000  -0.47214  -0.36735
+                 xx     0.00442   0.00100   0.00000  -0.15394   0.19872
+                 yy     0.00313   0.00000   0.00000  -0.15470   0.20931
+                 zz     0.00640  -0.00100   0.00000  -0.15175   0.19752
+                 xy     0.00000   0.00000   0.00373   0.00000   0.00000
+                 xz    -0.00481  -0.00082   0.00000  -0.00535   0.00294
+                 yz     0.00000   0.00000   0.00250   0.00000   0.00000
+          h1      s     0.18223  -0.17096   0.00000  -0.24459  -0.00637
+                  s     0.50215  -0.49751   0.00000   0.22990   0.27338
+                  x    -0.00417  -0.00371   0.00000  -0.06194  -0.05653
+                  y     0.00000   0.00000   0.09285   0.00000   0.00000
+                  z     0.01496  -0.02086   0.00000  -0.02979   0.19219
+          h2      s     0.18223   0.17096   0.00000  -0.24459  -0.00637
+                  s     0.50215   0.49751   0.00000   0.22990   0.27338
+                  x     0.01226   0.02071   0.00000  -0.05107   0.15636
+                  y     0.00000   0.00000   0.09285   0.00000   0.00000
+                  z    -0.00954  -0.00448   0.00000  -0.04600  -0.12523
+                             11        12        13        14        15
+     eigenvalues --     0.95368   1.05424   1.09457   1.48710   1.49274
+          o       s     0.00000   0.00668   0.00000   0.00000   0.00000
+                  s     0.00000   0.00371   0.00000   0.00000   0.00000
+                  s     0.00000  -0.24865   0.00000   0.00000   0.00000
+                  s     0.00000   0.66844   0.00000   0.00000   0.00000
+                  x    -0.47685   0.18095   0.17077   0.00049   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000   0.00000
+                  z     0.71097   0.12137  -0.25461  -0.00073   0.00000
+                  x     0.61630  -0.12371  -0.10357   0.04271   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000   0.00000
+                  z    -0.91888  -0.08297   0.15442  -0.06368   0.00000
+                 xx     0.00532  -0.05649   0.01142  -0.06573   0.00000
+                 yy     0.00000  -0.07215   0.00000   0.00000   0.00000
+                 zz    -0.00532  -0.05031  -0.01142   0.06573   0.00000
+                 xy     0.00000   0.00000   0.00000   0.00000  -0.04553
+                 xz    -0.00436  -0.01506  -0.00936   0.05392   0.00000
+                 yz     0.00000   0.00000   0.00000   0.00000   0.06789
+          h1      s    -0.27587   0.91476  -0.91596  -0.05955   0.00000
+                  s     0.52298  -0.82438   0.77806   0.07309   0.00000
+                  x     0.06190  -0.03202  -0.03039   0.64362   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000   0.70377
+                  z     0.14698  -0.08311   0.02143  -0.26606   0.00000
+          h2      s     0.27587   0.91476   0.91596   0.05955   0.00000
+                  s    -0.52298  -0.82438  -0.77806  -0.07309   0.00000
+                  x    -0.15948  -0.08905  -0.00830   0.00194   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000  -0.70377
+                  z    -0.00150   0.00191   0.03625  -0.69644   0.00000
+                             16        17        18        19        20
+     eigenvalues --     1.50423   1.53369   1.65591   1.75765   2.23739
+          o       s    -0.00743   0.00000   0.00000  -0.03245   0.00059
+                  s    -0.00710   0.00000   0.00000  -0.03732   0.00069
+                  s     0.16182   0.00000   0.00000   0.65638  -0.01457
+                  s    -0.32560   0.00000   0.00000  -1.24693   0.02936
+                  x    -0.08747   0.00000  -0.16713   0.17343   0.00675
+                  y     0.00000  -0.16312   0.00000   0.00000   0.00000
+                  z    -0.05867   0.00000   0.24919   0.11632   0.00453
+                  x     0.10796   0.00000   0.37340  -0.39668  -0.00147
+                  y     0.00000   0.26673   0.00000   0.00000   0.00000
+                  z     0.07241   0.00000  -0.55672  -0.26605  -0.00099
+                 xx     0.02576   0.00000  -0.16359   0.17430  -0.31074
+                 yy     0.01052   0.00000   0.00000  -0.05387   0.28454
+                 zz     0.07086   0.00000   0.16359   0.23719   0.01686
+                 xy     0.00000  -0.04824   0.00000   0.00000   0.00000
+                 xz    -0.10997   0.00000   0.13419  -0.15333  -0.79876
+                 yz     0.00000  -0.03235   0.00000   0.00000   0.00000
+          h1      s    -0.05634   0.00000  -0.10828  -0.14160   0.00416
+                  s     0.05550   0.00000   0.27428   0.32063  -0.00820
+                  x    -0.67194   0.00000  -0.28874   0.20101   0.06795
+                  y     0.00000  -0.70321   0.00000   0.00000   0.00000
+                  z    -0.17764   0.00000  -0.59576  -0.62757   0.01502
+          h2      s    -0.05634   0.00000   0.10828  -0.14160   0.00416
+                  s     0.05550   0.00000  -0.27428   0.32063  -0.00820
+                  x    -0.41932   0.00000   0.66077  -0.50436   0.03968
+                  y     0.00000  -0.70321   0.00000   0.00000   0.00000
+                  z    -0.55428   0.00000   0.04108   0.42411   0.05717
+                             21        22        23        24        25
+     eigenvalues --     2.24042   2.24219   2.35386   2.42168   4.00010
+          o       s     0.00000   0.00000   0.02220   0.00000  -0.19382
+                  s     0.00000   0.00000   0.03448   0.00000  -0.40438
+                  s     0.00000   0.00000  -0.33664   0.00000   0.79267
+                  s     0.00000   0.00000   0.48294   0.00000   2.42921
+                  x     0.00000   0.00000  -0.07258   0.09001  -0.04178
+                  y     0.00000   0.01033   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000  -0.04868  -0.13420  -0.02802
+                  x     0.00000   0.00000   0.17987  -0.21795   0.11796
+                  y     0.00000  -0.01012   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000   0.12064   0.32496   0.07912
+                 xx     0.00000   0.00000   0.12985  -0.43328  -0.80045
+                 yy     0.00000   0.00000  -0.48820   0.00000  -0.84434
+                 zz     0.00000   0.00000   0.30608   0.43328  -0.78726
+                 xy     0.55523  -0.82913   0.00000   0.00000   0.00000
+                 xz     0.00000   0.00000  -0.42969   0.35540  -0.03218
+                 yz    -0.82784  -0.55610   0.00000   0.00000   0.00000
+          h1      s     0.00000   0.00000   0.06766   0.07318   0.03014
+                  s     0.00000   0.00000  -0.19606  -0.24431  -0.17652
+                  x     0.00000   0.00000   0.00130   0.00994  -0.01000
+                  y     0.06958   0.04939   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000   0.31097   0.35750   0.12753
+          h2      s     0.00000   0.00000   0.06766  -0.07318   0.03014
+                  s     0.00000   0.00000  -0.19606   0.24431  -0.17652
+                  x     0.00000   0.00000   0.28821  -0.33453   0.11420
+                  y    -0.06958   0.04939   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000  -0.11679   0.12646  -0.05764
+                             26
+     eigenvalues --    45.10280
+          o       s    -1.73909
+                  s     1.99479
+                  s    -0.41008
+                  s    -0.49377
+                  x     0.00623
+                  y     0.00000
+                  z     0.00418
+                  x    -0.01925
+                  y     0.00000
+                  z    -0.01291
+                 xx     0.19215
+                 yy     0.19498
+                 zz     0.19120
+                 xy     0.00000
+                 xz     0.00231
+                 yz     0.00000
+          h1      s    -0.00594
+                  s     0.03403
+                  x     0.00112
+                  y     0.00000
+                  z    -0.01916
+          h2      s    -0.00594
+                  s     0.03403
+                  x    -0.01731
+                  y     0.00000
+                  z     0.00831
+ vectors after schmdt
+                              1         2         3         4         5
+     eigenvalues --   -20.65167  -1.18710  -0.49875  -0.42211  -0.41728
+          o       s    -0.58135  -0.14383   0.00000  -0.01822   0.01133
+                  s    -0.46171  -0.19960   0.00000  -0.02827   0.02122
+                  s     0.00146   0.57631   0.00000   0.11674  -0.07977
+                  s     0.00046   0.53821   0.00000   0.06695  -0.07936
+                  x    -0.00052  -0.00652   0.00000  -0.47467  -0.32202
+                  y     0.00000   0.00000  -0.76393   0.00000   0.00000
+                  z    -0.00035  -0.00437   0.00000  -0.31837   0.36429
+                  x     0.00025   0.00306   0.00000  -0.27234  -0.19360
+                  y     0.00000   0.00000  -0.36456   0.00000   0.00000
+                  z     0.00017   0.00205   0.00000  -0.18266   0.21984
+                 xx    -0.00053  -0.00367   0.00000  -0.00046  -0.00792
+                 yy    -0.00079  -0.00355   0.00000   0.00818   0.00150
+                 zz    -0.00049  -0.00346   0.00000  -0.00027   0.00897
+                 xy     0.00000   0.00000  -0.00442   0.00000   0.00000
+                 xz    -0.00009  -0.00051   0.00000  -0.00047   0.00696
+                 yz     0.00000   0.00000  -0.00296   0.00000   0.00000
+          h1      s    -0.00003   0.01923   0.00000  -0.12910   0.14179
+                  s    -0.00013   0.02499   0.00000  -0.25206   0.26876
+                  x    -0.00002   0.00018   0.00000  -0.00395  -0.00244
+                  y     0.00000   0.00000  -0.00486   0.00000   0.00000
+                  z     0.00007  -0.00457   0.00000   0.00852  -0.00945
+          h2      s    -0.00003   0.01923   0.00000  -0.12910  -0.17772
+                  s    -0.00013   0.02499   0.00000  -0.25206  -0.33486
+                  x     0.00006  -0.00416   0.00000   0.00639   0.01248
+                  y     0.00000   0.00000  -0.00486   0.00000   0.00000
+                  z    -0.00004   0.00190   0.00000  -0.00688  -0.00353
+                              6         7         8         9        10
+     eigenvalues --    -0.03683   0.02108   0.86388   0.88483   0.94747
+          o       s     0.02632  -0.02683   0.00000   0.05115  -0.07091
+                  s     0.04263  -0.04917   0.00000   0.05835  -0.07300
+                  s    -0.13446   0.18465   0.00000  -0.79301   1.18095
+                  s    -0.22487   0.20552   0.00000   1.28703  -2.22805
+                  x    -0.33986  -0.19282   0.00000   0.58666   0.50255
+                  y     0.00000   0.00000  -0.86148   0.00000   0.00000
+                  z    -0.23928   0.50830   0.00000   0.40190   0.21517
+                  x    -0.25884  -0.16294   0.00000  -0.68823  -0.54456
+                  y     0.00000   0.00000   1.06511   0.00000   0.00000
+                  z    -0.18043   0.42106   0.00000  -0.45315  -0.49100
+                 xx     0.00500  -0.00127   0.00000  -0.15381   0.23256
+                 yy     0.00320  -0.00163   0.00000  -0.15466   0.24638
+                 zz     0.00668  -0.00444   0.00000  -0.15199   0.23524
+                 xy     0.00000   0.00000   0.00366   0.00000   0.00000
+                 xz    -0.00503   0.00053   0.00000  -0.00513   0.00485
+                 yz     0.00000   0.00000   0.00246   0.00000   0.00000
+          h1      s     0.18726  -0.25333   0.00000  -0.26060   0.12047
+                  s     0.51726  -0.72578   0.00000   0.18392   0.59328
+                  x    -0.00413  -0.00259   0.00000  -0.06159  -0.05953
+                  y     0.00000   0.00000   0.09231   0.00000   0.00000
+                  z     0.01566  -0.02830   0.00000  -0.03115   0.22680
+          h2      s     0.19350   0.12122   0.00000  -0.24851  -0.07219
+                  s     0.52904   0.35681   0.00000   0.21540   0.09505
+                  x     0.01249   0.01684   0.00000  -0.05142   0.17556
+                  y     0.00000   0.00000   0.09231   0.00000   0.00000
+                  z    -0.00966  -0.00118   0.00000  -0.04533  -0.13862
+                             11        12        13        14        15
+     eigenvalues --     0.95368   1.05424   1.09457   1.48710   1.49274
+          o       s    -0.00647   0.01156   0.00003   0.00527   0.00000
+                  s     0.00677   0.00772   0.00889   0.01342   0.00000
+                  s     0.21113  -0.18259  -0.07163  -0.00563   0.00000
+                  s    -0.73100   0.52153  -0.02789  -0.19206   0.00000
+                  x    -0.43709   0.15804   0.14175   0.02614   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000   0.02435
+                  z     0.77632   0.08964  -0.24816  -0.07815   0.00000
+                  x     0.48795  -0.16285  -0.13469  -0.15747   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000  -0.18000
+                  z    -1.11643  -0.15390   0.37270  -0.07975   0.00000
+                 xx     0.07103  -0.04133   0.00813  -0.05475   0.00000
+                 yy     0.06734  -0.05625  -0.00192   0.01402   0.00000
+                 zz     0.06071  -0.03672  -0.01255   0.07908   0.00000
+                 xy     0.00000   0.00000   0.00000   0.00000  -0.04677
+                 xz    -0.00463  -0.01551  -0.00725   0.05455   0.00000
+                 yz     0.00000   0.00000   0.00000   0.00000   0.06762
+          h1      s    -0.19260   0.88378  -0.94021  -0.08779   0.00000
+                  s     0.86872  -0.82559   0.69085   0.19831   0.00000
+                  x     0.05134  -0.03398  -0.03118   0.63471   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000   0.69523
+                  z     0.21880  -0.06543  -0.00298  -0.25849   0.00000
+          h2      s     0.35303   0.92277   0.85756   0.03785   0.00000
+                  s    -0.34965  -0.78643  -0.73161  -0.01852   0.00000
+                  x    -0.11974  -0.08053   0.00906   0.03063   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000  -0.72031
+                  z    -0.03816  -0.00642   0.04434  -0.71780   0.00000
+                             16        17        18        19        20
+     eigenvalues --     1.50423   1.53369   1.65591   1.75765   2.23739
+          o       s    -0.00262   0.00000   0.00958  -0.01538  -0.00033
+                  s     0.00305   0.00000   0.03181   0.00516  -0.00153
+                  s     0.10496   0.00000   0.07572   0.51900  -0.01038
+                  s    -0.33820   0.00000  -0.69449  -1.56992   0.04902
+                  x    -0.08895   0.00000  -0.12277   0.10759   0.01743
+                  y     0.00000  -0.14020   0.00000   0.00000   0.00000
+                  z    -0.09216   0.00000   0.03091  -0.05745   0.00682
+                  x     0.25115   0.00000   0.25648  -0.20661  -0.07040
+                  y     0.00000   0.34624   0.00000   0.00000   0.00000
+                  z    -0.00173   0.00000  -0.52769  -0.57116   0.02234
+                 xx     0.02449   0.00000  -0.10292   0.16897  -0.31360
+                 yy     0.00731   0.00000   0.05526  -0.03945   0.28726
+                 zz     0.06780   0.00000   0.21387   0.27251   0.01112
+                 xy     0.00000  -0.04678   0.00000   0.00000   0.00000
+                 xz    -0.11105   0.00000   0.12202  -0.13662  -0.81660
+                 yz     0.00000  -0.03476   0.00000   0.00000   0.00000
+          h1      s    -0.07146   0.00000  -0.11717  -0.12018  -0.00983
+                  s     0.16452   0.00000   0.60522   0.86105  -0.02421
+                  x    -0.66503   0.00000  -0.36125   0.24546   0.25081
+                  y     0.00000  -0.73218   0.00000   0.00000   0.00000
+                  z    -0.17083   0.00000  -0.54892  -0.66921   0.02537
+          h2      s    -0.02758   0.00000   0.08954  -0.07270  -0.00536
+                  s     0.00735   0.00000  -0.10151   0.07600   0.01082
+                  x    -0.43944   0.00000   0.66813  -0.45852   0.02157
+                  y     0.00000  -0.68386   0.00000   0.00000   0.00000
+                  z    -0.54874   0.00000   0.00873   0.37663   0.05044
+                             21        22        23        24        25
+     eigenvalues --     2.24042   2.24219   2.35386   2.42168   4.00010
+          o       s     0.00000   0.00000   0.01176  -0.00361  -0.19411
+                  s     0.00000   0.00000   0.00483  -0.03495  -0.40416
+                  s     0.00000   0.00000  -0.33962  -0.37595   0.86556
+                  s     0.00000   0.00000   0.95268   1.58021   2.24251
+                  x     0.00000   0.00000  -0.03276   0.02671  -0.01125
+                  y     0.01076   0.01442   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000   0.06970   0.08091  -0.06784
+                  x     0.00000   0.00000   0.01773  -0.02249   0.02053
+                  y    -0.06900  -0.05105   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000   0.48191   0.90439   0.06689
+                 xx     0.00000   0.00000   0.14183  -0.57744  -0.77484
+                 yy     0.00000   0.00000  -0.53724  -0.25655  -0.80388
+                 zz     0.00000   0.00000   0.25142   0.48606  -0.80986
+                 xy     0.57199  -0.81757   0.00000   0.00000   0.00000
+                 xz     0.00000   0.00000  -0.51203   0.27589  -0.01956
+                 yz    -0.83834  -0.58837   0.00000   0.00000   0.00000
+          h1      s     0.00000   0.00000  -0.19485  -0.39176   0.04398
+                  s     0.00000   0.00000  -0.53538  -0.90804  -0.15495
+                  x     0.00000   0.00000   0.11605  -0.05649  -0.00319
+                  y     0.25570   0.18145   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000   0.54839   0.97057  -0.17131
+          h2      s     0.00000   0.00000   0.00868  -0.02012   0.04292
+                  s     0.00000   0.00000  -0.01942   0.04528  -0.06384
+                  x     0.00000   0.00000   0.25017  -0.17984   0.02464
+                  y    -0.05760   0.04050   0.00000   0.00000   0.00000
+                  z     0.00000   0.00000  -0.09776   0.06926  -0.01409
+                             26
+     eigenvalues --    45.10280
+          o       s    -1.73918
+                  s     1.99492
+                  s    -0.41422
+                  s    -0.49069
+                  x     0.00077
+                  y     0.00000
+                  z     0.01147
+                  x    -0.00165
+                  y     0.00000
+                  z    -0.02713
+                 xx     0.19114
+                 yy     0.19137
+                 zz     0.19407
+                 xy     0.00000
+                 xz     0.00013
+                 yz     0.00000
+          h1      s    -0.00973
+                  s     0.05358
+                  x     0.00033
+                  y     0.00000
+                  z     0.01949
+          h2      s    -0.00723
+                  s     0.01130
+                  x    -0.00139
+                  y     0.00000
+                  z     0.00067
+     1    4    1    0
+ symrwf= F
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  2   2        doubly occupied    0
+             3-  4   2        unoccupied         0
+ transformation vector symmetries
+           0           0           0           0
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+     integral information:
+         number of integrals:      113
+         number of groups:           1
+         group size:               113
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+         number of intermediate walks:        20
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+ root           1  =  -75.8249282054949     
+             1       -75.824928205      9.407E-02
+ root           1  =  -75.8930706804399     
+             2       -75.893070680      1.135E-02
+ root           1  =  -75.8946476454732     
+             3       -75.894647645      3.988E-05
+ root           1  =  -75.8946566085493     
+          second order option invoked .. 
+             4       -75.894656609      5.178E-06
+ root           1  =  -75.8946573737148     
+          second order option invoked .. 
+             5       -75.894657374      5.465E-11
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+ root           1  =  -75.8946573737148     
+
+
+ **** energy computed from the density in iteration    6
+
+ active  one-electron energy        -6.984295522887
+         h(1)         energy       -20.779033328253
+         2j-k         energy        13.794737805366
+ active  two-electron energy         2.245419909203
+ active  electronic   energy        -4.738875613684
+ core    electronic   energy       -76.127244746907
+         h(1)         energy       -93.713322682561
+         2j-k         energy        17.586077935654
+ total   electronic   energy       -80.866120360592
+         h(1)         energy      -114.492356010814
+         g(2)         energy        33.626235650222
+ nuclear repulsion    energy         4.971462986877
+ *total* mcscf        energy       -75.894657373715
+ opnscf=           0
+  m921:wfn and density codes
+ AVERAGE NONE
+ denwrite=        
+
+    most important configurations for root  1
+
+    1  -0.7368   0.7368      1
+          1-   2a     
+          3-   4a  x  
+    2   0.6462   0.9801     12
+         3a  \-->  1a  \ 
+         4a  \-->  2a  \ 
+    3   0.1365   0.9895      8
+         4a  \-->  1a  \ 
+    4  -0.1222   0.9970     20
+         3a  x-->  1a  x
+         4a  x-->  2a  x
+    5   0.0713   0.9996     10
+         3a  /-->  2a  /
+         4a  \-->  1a  \ 
+    6  -0.0291   1.0000     15
+         3a  x-->  1a  x
+     number of electrons:    4.000000000000
+ m1951:
+
+     wavefunction analysis for mcscf natural orbitals
+
+     root number:  1
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.03386   0.20510   0.00414
+                 h1     0.20510   0.55453   0.00011
+                 h2     0.00414   0.00011   0.99292
+     total atomic charges:
+          o             8.24310
+          h1            0.75974
+          h2            0.99716
+ summary:
+     link   entries               charges          core use      
+                          cpu       sys      io         
+        1         1       0.0       0.0       0.0         0
+      101         1       0.0       0.0       0.0         0
+      102         1       0.1       0.0       0.0         0
+      202         1       0.0       0.0       0.0         0
+      302         1       0.0       0.0       0.0         0
+      312         1       0.7       0.0       0.0         0
+      330         1       0.0       0.0       0.0         0
+      401         1       0.0       0.0       0.0         0
+      805         1       0.0       0.0       0.0         0
+      553         1       2.1       0.1       0.0         0
+      921         1       0.0       0.0       0.0         0
+     1951         1       0.0       0.0       0.0         0
+             total:       3.0       0.1       0.0         0
+-----------------------------
+Job end time: Mon Nov 26 23:05:12 CST 2012
+-----------------------------
+Epilogue Args:
+Job ID: 51895.medusa.chem.tamu.edu
+User ID: r-lucchese
+Group ID: user
+Job Name: mesa_test
+Session ID: 30087
+Resource List: mem=6gb,neednodes=1:ppn=1,nodes=1:ppn=1,walltime=02:00:00
+Resources Used: cput=00:00:00,mem=0kb,vmem=0kb,walltime=00:00:08
+Queue Name: xs_p8
+Job Account: 
+Job exit code: 51895.medusa.chem.tamu.edu0
+

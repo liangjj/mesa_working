@@ -1,0 +1,116 @@
+#   %W%   %G%
+#
+#  Makefile for the CLAMS (common Los Alamos mathematical subroutines)
+#  portion of MesaLib
+#
+MESALIB = ../mesalib.a
+AR = -ar
+ARFLAGS = rvu
+RANLIB = ranlib
+
+FC = f77
+FFLAGS = -c
+GET = sccs get
+REL = 
+CPP = /usr/lib/cpp 
+
+.SUFFIXES: .F
+
+SRCS = \
+	../clams/icopy.f \
+	../clams/epslon.f \
+	../clams/mxma.f \
+	../clams/pythag.f \
+	../clams/rsp.f \
+	../clams/scatter.f \
+	../clams/tql2.f \
+	../clams/tqlrat.f \
+	../clams/trbak3.f \
+	../clams/tred3.f 
+
+CPPSRCS = \
+	../clams/isamax.F \
+	../clams/ismin.F \
+	../clams/sasum.F \
+	../clams/saxpy.F \
+	../clams/scopy.F \
+	../clams/sdot.F \
+	../clams/sgeco.F \
+	../clams/sgedi.F \
+	../clams/sgefa.F \
+	../clams/sgefs.F \
+	../clams/sgemm.F \
+	../clams/sgemv.F \
+	../clams/sgesl.F \
+	../clams/sscal.F \
+	../clams/sspfa.F \
+	../clams/sspsl.F \
+	../clams/sswap.F
+
+FSRCS = \
+	../clams/isamax.f \
+	../clams/ismin.f \
+	../clams/sasum.f \
+	../clams/saxpy.f \
+	../clams/scopy.f \
+	../clams/sdot.f \
+	../clams/sgeco.f \
+	../clams/sgedi.f \
+	../clams/sgefa.f \
+	../clams/sgefs.f \
+	../clams/sgemm.f \
+	../clams/sgemv.f \
+	../clams/sgesl.f \
+	../clams/sscal.f \
+	../clams/sspfa.f \
+	../clams/sspsl.f \
+	../clams/sswap.f
+
+FOBJ = $(FSRCS:.f=.o)
+
+.F.f:
+	$(CPP) $(CPPFLAGS) < $< | grep -v '^#' > $@
+
+.f.o:
+	$(FC) $(FFLAGS) $<
+
+all: $(MESALIB)
+
+# $(FOBJ): $(FSRCS)
+
+$(MESALIB): $(SRCS:.f=.o) $(FOBJ)
+	$(AR) $(ARFLAGS) $(MESALIB) $(?:.f=.o)
+	$(RANLIB) $(MESALIB)
+
+sources: $(SRCS)
+$(SRCS):
+	$(GET) $(RELEASE) $@
+
+link: sources
+	rm -f ../../source/clams.f
+	cat $(SRCS) > ../../source/clams.f
+
+print: link
+	lpr ../../source/clams.f
+
+clean:
+	rm -f *.o
+	rm -f core
+
+../clams/isamax.o: ../clams/isamax.f
+../clams/ismin.o:../clams/ismin.f
+../clams/sasum.o:../clams/sasum.f
+../clams/saxpy.o:../clams/saxpy.f
+../clams/scopy.o:../clams/scopy.f
+../clams/sdot.o:../clams/sdot.f
+../clams/sgeco.o:../clams/sgeco.f
+../clams/sgedi.o:../clams/sgedi.f
+../clams/sgefa.o:../clams/sgefa.f
+../clams/sgefs.o:../clams/sgefs.f
+../clams/sgemm.o:../clams/sgemm.f
+../clams/sgemv.o:../clams/sgemv.f
+../clams/sgesl.o:../clams/sgesl.f
+../clams/sscal.o:../clams/sscal.f
+../clams/sspfa.o:../clams/sspfa.f
+../clams/sspsl.o:../clams/sspsl.f
+../clams/sswap.o:../clams/sswap.f

@@ -1,0 +1,27 @@
+$route
+  use-atomic-units dimension-1=r coordinate-system=radial
+  number-of-lanczos-iterations=28
+$end
+          
+$nonstd
+80//09;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$h0(r)
+ number-of-grids=1 quadrature-type=legendre
+ right-boundary-condition=0 print=sector=eigenvalues
+$end
+
+$h0(r,grid(1))
+ number-of-regions=1 region-boundaries=(0.d0,1.d0)
+ number-of-points-per-region=(30) 
+$end
+
+$v0(r)
+ use-atomic-units potential=none
+$end

@@ -1,0 +1,145 @@
+   The first group of tests exercises single point scf capabilities.
+test1.1   ---  single point, closed shell scf
+test1.2   ---  single point, open shell scf
+test1.3   ---  single point, general open-shell scf
+test1.4   ---  single point, closed shell scf/properties
+               (the multipole moments ,field integrals, and fermi
+                contact terms have been tested vs. gaussian92.
+                the momentum integrals, and the cowan-griffin operator
+                have yet to be checked against results known to be
+                correct).
+test1.5   ---  single point, rohf for cuh+. 
+               tests electric field gradients, fermi contact, becke population
+               analysis. note that if this test is run with symmetry on the
+               hp, it fails for some presently unknown reason although
+               it runs fine on the sun.
+
+   The second group tests scf optimization and second derivative
+   links.
+test2.1   ---  fletcher-powell optimization, closed shell scf
+test2.2   ---  murtaugh-sargent optimization, closed shell scf
+test2.3   ---  berny optimization, closed shell scf
+test2.4   ---  analytic second derivatives, closed shell scf
+                 gets scf guess vectors and geometry from previous run.
+test2.5   ---  numerical force constants, closed shell scf
+                 gets scf guess vectors and geometry from previous run.
+                 internal coordinates/two-point difference formula
+test2.6   ---  numerical force constants, closed shell scf
+                 gets scf guess vectors and geometry from previous run.
+                 cartesian coordinates/two-point difference formula
+test2.7   ---  numerical force constants, closed shell scf
+                 gets scf guess vectors and geometry from previous run.
+                 internal coordinates/single point difference formula
+test2.8   ---  berny optimization, open shell scf
+test2.9   ---  analytic second derivatives, open shell scf
+                 gets scf guess vectors and geometry from previous run.
+test2.10  ---  numerical force constants, open shell scf
+                 gets scf guess vectors and geometry from previous run.
+test2.11  ---  closed shell transition state optimization(berny)
+test2.12  ---  closed shell optimization with analytic second derivatives
+               (berny).
+c*************** should add reaction path hamiltonian tests
+
+   This group checks single point ci capabilities.
+test3.1   ---  single point, single reference ci(901,no symmetry)
+test3.2   ---  single point, single reference ci(901,symmetry)
+               note that this test takes a longer number of iterations
+               hp than on the sun.  this is related to differences 
+               in the virtual space which come out of m401.  projected
+               guess have virtual space which may be rotated differently
+               on different machines.
+test3.3   ---  single point, single reference ci(802/901)
+test3.4   ---  single point, closed shell scf/triplet ivo's/ci(902)
+test3.5   ---  single point, closed shell scf/singlet ivo's/ci(902)
+test3.6   ---  single point, closed shell scf/full ci(903)
+
+   Test single reference ci optimization and numerical second
+   derivative capability.
+test4.1   ---  berny optimization, single reference ci
+test4.2   ---  numerical force constants, single reference ci
+                 gets geometry from previous run
+                 internal coordinates/single-point difference formula
+
+   Test various aspects of single point MCSCF calculations.
+test5.1   ---  single point, quadratically convergent open shell scf
+test5.2   ---  single point, closed shell scf
+                 generates guess for general MCSCF tests
+test5.3   ---  single point, general MCSCF(902:product space;2in2 x 2in2)
+                 gets mcscf guess vectors from previous run.
+test5.4   ---  single point, general MCSCF(902:single reference+doubles)
+                 gets mcscf guess vectors from previous run.
+
+   Test MCSCF optimization and second derivative capabilities.
+test6.1   ---  single point, quadratically convergent closed shell SCF
+test6.2   ---  single point, CAS(903)
+                 gets mcscf guess vectors from previous run
+test6.3   ---  berny optimization, CAS(903)
+                 gets mcscf guess vectors from previous run.
+test6.4   ---  analytic second derivatives, CAS(903)
+                 gets mcscf guess vectors and geometry from previous run.
+test6.5   ---  analytic second derivatives, MCSCF(902)
+                 gets mcscf guess vectors and geometry from previous run.
+test6.6   ---  numerical force constants, CAS(903)
+                 gets mcscf guess vectors and geometry from previous run.
+                 internal coordinates/two-point difference formula
+
+   Test combined MCSCF/CI single point and optimization capabilities.
+test7.2   ---  single point, mcscf/ci
+test7.3   ---  berny optimization, mcscf/ci
+test7.4   ---  numerical force constants, mcscf/ci
+                 gets mcscf guess vectors and geometry from previous run.
+                 internal coordinates/two-point difference formula
+test7.5   ---  numerical force constants, mcscf/ci
+                 gets mcscf guess vectors and geometry from previous run.
+                 cartesian coordinates/two-point difference formula
+
+   Test effective core potential/gradient/second derivative codes.
+test8.1   ---  optimization, scf with effective core potentials
+test8.2   ---  numerical force constants, scf
+                 gets scf guess and geometry from previous run
+                 cartesian coordinates/two-point difference formula
+test8.3   ---  analytical force constants, scf
+                 gets scf guess and geometry from previous run
+
+   Test non-adiabatic coupling codes.
+test9.1   ---  (h3) non-adiabatic coupling
+               note that this test currently dies on the hp in m911,
+               haven't tried to fix it. there is also a strange 
+               bug in m1402 in the sun version(v5.1) i haven't tracked down.
+
+   Test miscellaneous options
+test10.1  ---  closed shell scf/point charge field
+test10.2  ---  pariser-parr-pople/ci
+test10.3  ---  spin-orbit ci (o atom)
+               note that 10.3 requires a couple of other input files
+               be hanging around which i haven't got around 
+               to installing.  ignore this test for now.
+test10.4  ---  ci transition dipoles
+
+   Test closed/restricted open shell dft codes.
+test11.1  ---  singlet ch2, slater exchange.
+test11.2  ---  triplet ch2, slater exchange
+test11.3  ---  singlet ch2, becke exchange/lee,yang,parr correlation
+test11.4  ---  triplet ch2, becke exchange/lee,yang,parr correlation
+test11.5  ---  h2o, BLYP correlation, "standard grids"
+test11.6  ---  h2o, "direct calculation", BLYP correlation.
+test11.7  ---  h2o, BLYP, closed-shell analytic optimization.
+test11.8  ---  h2o, BLYP, fletcher-powell numerical optimization.
+test11.9  ---  ch2, SVWN 
+test11.10 ---  ch2, SVWN, poisson
+
+   Test Kohn variational scattering capabilities.  This also excercises
+   optical potentials and then capability to drop functions 
+   from the basis set.  These worked on the sun in v4.3.  When symmetry
+   was put into m401(v5.1), they stopped working and haven't been fixed.
+test12.1  ---  tests ability to drop functions from basis set.
+test12.2  ---  forms direct kohn operator, tests expand option in m401.
+test12.3  ---  forms optical potential
+                  uses tints file generated in test12.2. note that this
+                  causes a problem because mesa.sh automatically removes
+                  tints at the end of a run. in order to make this test 
+                  work mesa.sh should be modified.
+
+   Test solvent dielectric continuum SCRF capabilities.
+test13.1  --- ch3oh in h2o 
+

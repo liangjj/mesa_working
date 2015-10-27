@@ -1,0 +1,25 @@
+$route
+print=(m6234)
+$end
+ 
+$nonstd
+62//34;
+20//01;
+$end
+$bsroot
+left-boundary=1.e-10 right-boundary=100.d0 number-of-steps=1000
+maximum-l-value=0
+$end
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

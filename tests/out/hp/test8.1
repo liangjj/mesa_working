@@ -1,0 +1,278 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 16:13:15    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test8.1                                                                                                    
+     out:    /usr2/mesa/tests/out/hp/test8.1                                                                                                 
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_18633                                                                                                       
+     rint:   /cesium/rlm/tmp/rint_18633                                                                                                      
+     int:    /cesium/rlm/tmp/int_18633                                                                                                       
+     tint:   /cesium/rlm/tmp/tint_18633                                                                                                      
+     gint:   /cesium/rlm/tmp/gint_18633                                                                                                      
+     rdint:  /cesium/rlm/tmp/rdint_18633                                                                                                     
+     dint:   /cesium/rlm/tmp/dint_18633                                                                                                      
+     zint:   /cesium/rlm/tmp/zint_18633                                                                                                      
+     ham:    /cesium/rlm/tmp/ham_18633                                                                                                       
+     moden:  /cesium/rlm/tmp/moden_18633                                                                                                     
+     aoden:  /cesium/rlm/tmp/aoden_18633                                                                                                     
+     saoden: /cesium/rlm/tmp/saoden_18633                                                                                                    
+     gden:   /cesium/rlm/tmp/gden_18633                                                                                                      
+     fci:    /cesium/rlm/tmp/fci_18633                                                                                                       
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+       reh3 dz scf/ effective core potential 
+ route:
+     1//1,2;
+     :opt;
+     2//1(:endopt);
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     7//1,2,12,31(:opt);
+     :endopt;
+     19//51;
+     20//01;
+ options:
+     q=0,hf,2s+1=1, basis=(dz) guess=huckel scf=(pulay,cycles=64) opt=(berny) print=(
+     gradient=ecp),sym=off
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   re dz-ecp2 
+      2   2   h  dz          1   1.670000 r1       
+      3   3   h  dz          1   1.670000 r1        2  120.000 a1       
+      4   4   h  dz          1   1.670000 r1        2  120.000 a1        3  180.000           0
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    9
+     number beta electrons:     9
+ basis dimensions:
+     $ primitive cartesians    53
+     $ contracted cartesians   30
+     $ basis functions         30
+ berny optimization:
+     initial parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.670000   d2e/dx2=     2.000000                         
+                a1    120.0000     d2e/dx2=     2.000000                         
+ distance matrix (angstroms):
+                             re        h1        h2        h3                    
+                 re      .00000
+                 h1     1.67000    .00000
+                 h2     1.67000   2.89252    .00000
+                 h3     1.67000   2.89252   2.89252    .00000
+ interatomic angles:
+         h2-re1-h3 =120.0000     h2-re1-h4 =120.0000     h3-re1-h4 =120.0000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   re              .000000     .000000     .000000
+      2   2   h               .000000     .000000    1.670000
+      3   3   h              1.446262     .000000    -.835000
+      4   4   h             -1.446262     .000000    -.835000
+ rotational constants (ghz):    119.8692835    119.8692835     59.9346417
+ isotopes:
+     re-187  h-1     h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     75214
+     maximum usable field length       518221
+     $primitive integrals possible    1740409
+     $primitive integrals computed    1718047( 98.7%)
+     $contracted integrals possible    108345
+     $contracted integrals kept         58464( 54.0%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                   12000000
+     all integrals held in core.
+     nuclear repulsion energy:   14.808107
+     iter              energy    diis convergence
+       18       -79.887349259          .000000002
+     rotating scf orbitals under core fock operator
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+
+
+     the effective core potential contribution to the scf gradients:
+
+
+             1           2           3           4       
+  ------------------------------------------------------
+   1      .0000000    .0000000    .0587784   -.0587784
+   2      .0000000    .0000000    .0000000    .0000000
+   3      .0000000    .0678714   -.0339357   -.0339357
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                      1740409
+     # integrals computed                      5035681(289.3%)
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1         75         .000000     .000000     .000000
+       2          1         .000000     .000000     .004676
+       3          1         .004049     .000000    -.002338
+       4          1        -.004049     .000000    -.002338
+     max      .004676     rms      .002338
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   re
+           2   h     1    .004676 (  1)
+           3   h     1    .004676 (  2)   2    .000000 (  4)
+           4   h     1    .004676 (  3)   2    .000000 (  5)  3    .000000 (  6)  0
+ berny optimization:
+     search for a local minimum.
+     cycle number   1 out of a maximum of  12
+     all quantities printed in hartrees-bohr-radians.
+     second derivative matrix not updated -- first cycle.
+     the second derivative matrix:
+                             r1        a1                                        
+                 r1     2.00000
+                 a1      .00000   2.00000
+     eigenvalues --     2.00000   2.00000
+     linear search not attempted -- first point.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     3.15584    .01403    .00000    .00701    .00701   3.16286
+                 a1     2.09440    .00000    .00000    .00000    .00000   2.09440
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .014027      .000450     no 
+                     rms force      .009919      .000300     no 
+          maximum displacement      .007014      .001800     no 
+              rms displacement      .004959      .001200     no 
+     energy                      -79.887349
+     predicted change              -.000049
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.673711   -de/dx=     0.014027                          
+                a1    120.0000     -de/dx=     0.000000                          
+
+
+     the effective core potential contribution to the scf gradients:
+
+
+             1           2           3           4       
+  ------------------------------------------------------
+   1      .0000000    .0000000    .0582987   -.0582987
+   2      .0000000    .0000000    .0000000    .0000000
+   3      .0000000    .0673175   -.0336588   -.0336588
+ berny optimization:
+     search for a local minimum.
+     cycle number   2 out of a maximum of  12
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  1  2
+     the second derivative matrix:
+                             r1        a1                                        
+                 r1      .47230
+                 a1      .00000   2.00000
+     eigenvalues --      .47230   2.00000
+     the linear search produced a scale factor of 3.33945.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     3.16286    .01071    .02342    .00000    .02342   3.18628
+                 a1     2.09440    .00000    .00000    .00000    .00000   2.09440
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .010715      .000450     no 
+                     rms force      .007577      .000300     no 
+          maximum displacement      .023422      .001800     no 
+              rms displacement      .016562      .001200     no 
+     energy                      -79.887436
+     predicted change              -.000130
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.686106   -de/dx=     0.010715                          
+                a1    120.0000     -de/dx=    -0.000000                          
+
+
+     the effective core potential contribution to the scf gradients:
+
+
+             1           2           3           4       
+  ------------------------------------------------------
+   1      .0000000    .0000000    .0567233   -.0567233
+   2      .0000000    .0000000    .0000000    .0000000
+   3      .0000000    .0654984   -.0327492   -.0327492
+ berny optimization:
+     search for a local minimum.
+     cycle number   3 out of a maximum of  12
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  2  3
+     the second derivative matrix:
+                             r1        a1                                        
+                 r1      .45764
+                 a1      .00000   2.00000
+     eigenvalues --      .45764   2.00000
+     the linear search produced a scale factor of -.00039.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     3.18628    .00000   -.00001    .00000   -.00001   3.18627
+                 a1     2.09440    .00000    .00000    .00000    .00000   2.09440
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .000004      .000450     yes
+                     rms force      .000003      .000300     yes
+          maximum displacement      .000009      .001800     yes
+              rms displacement      .000006      .001200     yes
+     energy                      -79.887560
+     predicted change               .000000
+     optimization completed.
+     -- stationary point found.
+     optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.686106   -de/dx=    -0.000004                          
+                a1    120.0000     -de/dx=     0.000000                          
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     bond-order matrix:
+                             re        h1        h2        h3                    
+                 re    13.73042    .34186    .34186    .34186
+                 h1      .34186    .73865    .00041    .00041
+                 h2      .34186    .00041    .73865    .00041
+                 h3      .34186    .00041    .00041    .73865
+     total mulliken charges:
+          re           14.75599
+          h1            1.08134
+          h2            1.08134
+          h3            1.08134
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0    156001
+      102         1       4.2        .0        .0    120013
+      201         4        .9        .0        .0       655
+      202         3        .5        .0        .0       197
+      302         3       6.3        .0        .0     69442
+      312         3      14.7        .0        .0   1076532
+      330         3       1.5        .0        .0    284347
+      401         3        .8        .0        .0         0
+      501         3      16.4        .0        .0    473873
+      701         3        .2        .0        .0     11979
+      702         3      17.6        .0        .0    115245
+      712         3      36.1        .0        .0    204290
+      731         3        .2        .0        .0       459
+     1951         1        .1        .0        .0      8573
+             total:     100.0        .0        .0   1076532

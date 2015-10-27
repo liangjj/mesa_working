@@ -1,0 +1,38 @@
+#   @(#)Makefile	1.4   8/2/91
+#
+#  Makefile for the propagator input
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+MAIN = $(MESA_HOME)
+LIB = $(MAIN)/library
+MODDIR = $(LIB)/Modules
+MESABIN =  $(MESA_BIN)
+TIMPRP = $(MAIN)/bmesa/Time_Propagation
+FEDVR_Prop_RT = $(TIMPRP)/FEDVR_Prop_RT
+MESALIB = $(LIB)/mesalib.a
+
+FC = fort
+FFLAGS = -c -O5 
+
+LD = $(FC)
+LDFLAGS =
+
+RCS = RCS
+CO = co -l
+
+SRCS = \
+	data_input
+.f90.o:
+	$(FC) $(FFLAGS) $<
+
+all: $(MESABIN)/data_input
+
+$(MESABIN)/data_input: $(SRCS:.f90=.o) $(MESALIB)
+	$(LD) $(LDFLAGS) $(SRCS:.f90=.o)  \
+	$(MESALIB) -o $(MESABIN)/data_input     
+
+sources: $(SRCS) $(LIBSRCS)
+	$(CO) $(RCS)/*.f90
+
+clean:
+	rm *.o *.mod *~

@@ -1,0 +1,385 @@
+ 
+
+                    solve CC_Prop time-dependent schrodinger equation in
+                              imaginary_time  
+     algorithm                 = 
+
+     number of time intervals =    1
+     time step                =           0.01000000
+************************************************************************
+
+          Time to Input Basic Data               =      0.00390625
+************************************************************************
+ Hamiltonian File Name = from_input
+ Non Orthogonal Basis =  T
+
+          Matrix Size =        5
+ Hamiltonian Type = real      
+ Input Overlap Matrix                                                            
+                             1              2              3              4              5
+         1            0.10000000E+01
+         2            0.50000000E+00 0.10000000E+01
+         3            0.30000000E+00 0.50000000E+00 0.10000000E+01
+         4            0.30000000E+00 0.30000000E+00 0.50000000E+00 0.10000000E+01
+         5            0.20000000E+00 0.30000000E+00 0.30000000E+00 0.50000000E+00 0.10000000E+01
+ Input Hamiltonian Matrix                                                        
+                             1              2              3              4              5
+         1            0.71235000E+00
+         2            0.33973000E+00 0.11858500E+01
+         3            0.28615000E+00-0.21846000E+00 0.18159000E+00
+         4            0.30388000E+00-0.66850000E-01 0.27955000E+00 0.23195000E+00
+         5            0.29401000E+00-0.37360000E+00 0.38898000E+00 0.20496000E+00 0.46004000E+00
+
+                    Cholesky Decomposition of Overlap Matrix
+
+     Column =    1
+                  1.00000
+
+     Column =    2
+                  0.50000   0.86603
+
+     Column =    3
+                  0.30000   0.40415   0.86410
+
+     Column =    4
+                  0.30000   0.17321   0.39347   0.85157
+
+     Column =    5
+                  0.20000   0.23094   0.16973   0.39129   0.85132
+ Exact Eigenvalues                                                               
+                             1
+         1           -0.22826472E+00
+         2            0.50582109E-01
+         3            0.17836077E+00
+         4            0.72628781E+00
+         5            0.28463909E+01
+ Exact Eigenvectors                                                              
+                             1              2              3              4              5
+         1           -0.62072826E-02-0.65241475E+00-0.59698156E-01 0.88164335E+00 0.41623106E+00
+         2            0.15789897E-01 0.40173444E+00 0.26433174E+00 0.15755965E+00-0.11890983E+01
+         3           -0.10500889E+01 0.34484949E+00 0.61833172E-02-0.31381483E-01 0.63467381E+00
+         4            0.60770927E+00 0.39388566E+00-0.10512331E+01 0.35512663E-01-0.19870109E+00
+         5            0.42624125E+00 0.34612816E+00 0.88028356E+00 0.10127976E+00 0.54143113E+00
+************************************************************************
+
+          Time to Read Hamiltonian Matrix =      0.00000000
+************************************************************************
+
+               iterative diagonalization information
+
+     overlap tolerance                  =  0.10000000E-09
+     convergence criterion              =  0.99999999E-08
+     maximum number of iterations       =      5
+     maximum number of vectors          =      5
+     type of Hamiltonian                = general         
+     non_orthogonal basis               = T
+     orthogonalization procedure        = none            
+
+ initial state data
+ type initial state = unit_vector             
+
+     the initial state = unit_vector
+
+     Normalization Integral =  0.50000000E+01
+************************************************************************
+
+                    Begin Preconditioned Lanczos Propagation
+************************************************************************
+************************************************************************
+
+                    Beginning Lanczos Iterations At Zero
+************************************************************************
+
+                    Lanczos Iteration =    0
+Lanczos Vector iteration = 0                                                    
+ col          1
+     0.28398092E+00
+     0.28398092E+00
+     0.28398092E+00
+     0.28398092E+00
+     0.28398092E+00
+
+H_on_Lanczos_Vector iteration = 0                                               
+
+ col          1
+      0.549821133261E+00
+      0.246117741443E+00
+      0.260640525545E+00
+      0.270772964668E+00
+      0.276708165836E+00
+Lanczos Alpha iteration = 0                                                     
+ col          1
+     0.45552258E+00
+Lanczos H iteration = 0                                                         
+ col          1
+     0.45552258E+00
+Lanczos eigenvalues iteration = 0                                               
+ col          1
+     0.45552258E+00
+Eigenvectors in lanczos basis iteration = 0                                     
+ col          1
+     0.10000000E+01
+Projection of Initial Vector on Eigenbasis iteration = 0                        
+ col          1
+     0.10000000E+01
+Projection Multiplied by Exponential iteration = 0                              
+ col          1
+     0.99545513E+00
+v_tri iteration = 0                                                             
+ col          1
+     0.99545513E+00
+
+          RMS = sqrt(< ( v_{i} - v_{i-1}) |( v_{i} - v_{i-1}) >) =  0.99545513E+00
+Lanczos Beta iteration = 0                                                      
+ col          1
+     0.37221439E+00
+
+                    Lanczos Iteration =    1
+Lanczos Vector iteration = 1                                                    
+ col          1
+     0.11273709E+01
+    -0.71450926E+00
+    -0.53370203E-01
+    -0.33039042E+00
+     0.11415153E+00
+
+H_on_Lanczos_Vector iteration = 1                                               
+
+ col          1
+      0.478233227450E+00
+     -0.473200229285E+00
+      0.421039412302E+00
+      0.322193225255E+00
+      0.562436496181E+00
+Lanczos Alpha iteration = 1                                                     
+ col          1
+     0.81253466E+00
+Lanczos H iteration = 1                                                         
+ col          1              2
+     0.45552258E+00 0.37221439E+00
+     0.37221439E+00 0.81253466E+00
+Lanczos eigenvalues iteration = 1                                               
+ col          1
+     0.22122363E+00
+     0.10468336E+01
+Eigenvectors in lanczos basis iteration = 1                                     
+ col          1              2
+    -0.84629256E+00 0.53271841E+00
+     0.53271841E+00 0.84629256E+00
+Projection of Initial Vector on Eigenbasis iteration = 1                        
+ col          1
+    -0.84629256E+00
+     0.53271841E+00
+Projection Multiplied by Exponential iteration = 1                              
+ col          1
+    -0.84442243E+00
+     0.52717082E+00
+v_tri iteration = 1                                                             
+ col          1
+     0.99545513E+00
+     0.00000000E+00
+work iteration = 1                                                              
+ col          1
+     0.99546202E+00
+    -0.36986296E-02
+v_tri iteration = 1                                                             
+ col          1
+    -0.68875038E-05
+     0.36986296E-02
+
+          RMS = sqrt(< ( v_{i} - v_{i-1}) |( v_{i} - v_{i-1}) >) =  0.36986361E-02
+
+before reorthogonalization                                                      
+
+ col          1
+     -0.315631847525E+00
+     -0.551082268205E+00
+      0.311454500912E+00
+      0.190489454075E+00
+      0.364770160744E+00
+
+after reorthogonalization                                                       
+
+ col          1
+     -0.315631847525E+00
+     -0.551082268205E+00
+      0.311454500912E+00
+      0.190489454075E+00
+      0.364770160744E+00
+Lanczos Beta iteration = 1                                                      
+ col          1
+     0.98800748E+00
+
+                    Lanczos Iteration =    2
+Lanczos Vector iteration = 2                                                    
+ col          1
+    -0.11725726E+00
+    -0.99625917E+00
+     0.74541098E+00
+    -0.10640103E+00
+     0.52110420E+00
+
+H_on_Lanczos_Vector iteration = 2                                               
+
+ col          1
+     -0.878112815361E-01
+     -0.157166383991E+01
+      0.492403495219E+00
+      0.321473226467E+00
+      0.845598399758E+00
+Lanczos Alpha iteration = 2                                                     
+ col          1
+     0.23495638E+01
+Lanczos H iteration = 2                                                         
+ col          1              2              3
+     0.45552258E+00 0.37221439E+00 0.00000000E+00
+     0.37221439E+00 0.81253466E+00 0.98800748E+00
+     0.00000000E+00 0.98800748E+00 0.23495638E+01
+Lanczos eigenvalues iteration = 2                                               
+ col          1
+     0.48218341E-01
+     0.72523797E+00
+     0.28441647E+01
+Eigenvectors in lanczos basis iteration = 2                                     
+ col          1              2              3
+     0.64307193E+00-0.76263770E+00 0.69586132E-01
+    -0.70369639E+00-0.55262539E+00 0.44656082E+00
+     0.30210905E+00 0.33613824E+00 0.89204327E+00
+Projection of Initial Vector on Eigenbasis iteration = 2                        
+ col          1
+     0.64307193E+00
+    -0.76263770E+00
+     0.69586132E-01
+Projection Multiplied by Exponential iteration = 2                              
+ col          1
+     0.64276193E+00
+    -0.75712677E+00
+     0.67634868E-01
+v_tri iteration = 2                                                             
+ col          1
+     0.99546202E+00
+    -0.36986296E-02
+     0.00000000E+00
+work iteration = 2                                                              
+ col          1
+     0.99546202E+00
+    -0.36986895E-02
+     0.18167453E-04
+v_tri iteration = 2                                                             
+ col          1
+    -0.55803140E-10
+     0.59890431E-07
+    -0.18167453E-04
+
+          RMS = sqrt(< ( v_{i} - v_{i-1}) |( v_{i} - v_{i-1}) >) =  0.18167552E-04
+
+before reorthogonalization                                                      
+
+ col          1
+     -0.690223174924E-02
+     -0.216706694910E-01
+     -0.473366967763E-01
+      0.425023655020E-01
+      0.334072325144E-01
+
+after reorthogonalization                                                       
+
+ col          1
+     -0.690223174924E-02
+     -0.216706694910E-01
+     -0.473366967763E-01
+      0.425023655020E-01
+      0.334072325144E-01
+Lanczos Beta iteration = 2                                                      
+ col          1
+     0.92296308E-01
+
+                    Lanczos Iteration =    3
+Lanczos Vector iteration = 3                                                    
+ col          1
+    -0.66054312E-01
+    -0.48110841E-01
+    -0.97213636E+00
+     0.85359485E+00
+     0.25444392E+00
+
+H_on_Lanczos_Vector iteration = 3                                               
+
+ col          1
+     -0.737584318676E-02
+     -0.192430293496E-01
+      0.152674649300E+00
+     -0.384749413576E-01
+     -0.875808354056E-01
+Lanczos Alpha iteration = 3                                                     
+ col          1
+    -0.20213400E+00
+Lanczos H iteration = 3                                                         
+ col          1              2              3              4
+     0.45552258E+00 0.37221439E+00 0.00000000E+00 0.00000000E+00
+     0.37221439E+00 0.81253466E+00 0.98800748E+00 0.00000000E+00
+     0.00000000E+00 0.98800748E+00 0.23495638E+01 0.92296308E-01
+     0.00000000E+00 0.00000000E+00 0.92296308E-01-0.20213400E+00
+Lanczos eigenvalues iteration = 3                                               
+ col          1
+    -0.20841510E+00
+     0.51240898E-01
+     0.72627241E+00
+     0.28463888E+01
+Eigenvectors in lanczos basis iteration = 3                                     
+ col          1              2              3              4
+    -0.46092551E-01 0.64287765E+00 0.76142165E+00-0.69432579E-01
+     0.82217620E-01-0.69826332E+00 0.55386032E+00-0.44599030E+00
+    -0.67594376E-01 0.29584310E+00-0.33520934E+00-0.89193193E+00
+     0.99325059E+00 0.10776611E+00-0.33324397E-01-0.27003906E-01
+Projection of Initial Vector on Eigenbasis iteration = 3                        
+ col          1
+    -0.46092551E-01
+     0.64287765E+00
+     0.76142165E+00
+    -0.69432579E-01
+Projection Multiplied by Exponential iteration = 3                              
+ col          1
+    -0.46188715E-01
+     0.64254831E+00
+     0.75591168E+00
+    -0.67484120E-01
+v_tri iteration = 3                                                             
+ col          1
+     0.99546202E+00
+    -0.36986895E-02
+     0.18167453E-04
+     0.00000000E+00
+work iteration = 3                                                              
+ col          1
+     0.99546202E+00
+    -0.36986895E-02
+     0.18167454E-04
+    -0.56089866E-08
+v_tri iteration = 3                                                             
+ col          1
+     0.11102230E-14
+     0.25465741E-14
+    -0.12904677E-11
+     0.56089866E-08
+
+          RMS = sqrt(< ( v_{i} - v_{i-1}) |( v_{i} - v_{i-1}) >) =  0.56089867E-08
+Converged Value of Lowest Eigenvalue                                            
+ col          1
+    -0.20841510E+00
+Final Solution                                                                  
+ col          1
+     0.21917797E-01
+    -0.52279261E-01
+    -0.10334380E+01
+     0.81477238E+00
+     0.21379873E+00
+
+                    Convergence After     3 Iterations
+
+     Time Step =      1
+          Normalization =  0.10000000E+01 Energy    = -0.20841510E+00
+************************************************************************
+
+          Time for the Iterative Propagation       =      0.00390625
+************************************************************************

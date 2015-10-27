@@ -1,0 +1,44 @@
+$route
+ print=(m6285=(xradial-polynomial-coefficients,xtime-polynomial-coefficients,
+               xradial-polynomials,xtime-polynomials,xradial-points/weights,
+               xtime-points/weights,xr-hamiltonian,xt-hamiltonian,
+               xhamiltonian,xharmonic-oscillator,xtime-dependent-results,
+               complex-hamiltonian))
+ xcheck-radial-orthogonality,xcheck-time-orthogonality
+ diagonalize-harmonic-oscillator solve-time-dependent-equation
+ time-potential=t xpotential-type=harmonic-oscillator xiterative-solution
+ linslv=(number-of-right-hand-sides=1,number-of-solutions-at-a-time=1)
+$end
+          
+$nonstd
+62//85;
+20//01;
+$end
+$title
+time-propagation code
+$end
+$trap
+ trap-size=1.d0
+$end
+$radial-polynomials
+ order-of-polynomials=5,number-of-points=7,fix-end-points
+ number-of-fixed-points=2, expand
+ order-of-leading-left-polynomials=1 order-of-leading-right-polynomials=1
+$end
+$time-polynomials
+ order-of-polynomials=5,number-of-points=7,fix-end-points
+ number-of-fixed-points=2, xexpand maximum-propagation-time=1.d0
+ order-of-leading-left-polynomials=1 order-of-leading-right-polynomials=0
+$end
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,20 @@
+$nonstd
+     1//1,2;
+     2//2;
+     3//2,12,30;  4//1; 8//2,11; 9//2,21;
+     19//2,51;
+     20//01;
+$route
+2s+1=1,basis=3s2p1d,print=(basis),geom=rdchk
+guess=(chk=mcscf),sym=off
+ci=(nroots=3,tolerance=4,tvector="guess vector")
+drt=(vexcite=3),int=reuse
+properties=(transition=(1,*),e1)
+$title
+o3 :test ci transition dipole
+$drt
+6fzc1 1doc1 2doc1 3doc1 3uoc1 30fzv1
+$end
+$drtmc
+3doc1 3uoc1
+$end

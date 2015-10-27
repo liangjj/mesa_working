@@ -1,0 +1,186 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: BS - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\000383~1\LOCALS~1\Temp\RSP1053.tmp" with contents
+[
+/compile_only /include:"Release/" /nologo /warn:argument_checking /warn:declarations /warn:nofileopt /module:"Release/" /object:"Release/" 
+"C:\oleg\T\LIBS\BSPLINE\spline_densities.f90"
+"C:\oleg\T\LIBS\BSPLINE\spline_Rk_integrals.f90"
+"C:\oleg\T\LIBS\BSPLINE\zeta_y.f90"
+"C:\oleg\T\LIBS\BSPLINE\yval.f90"
+"C:\oleg\T\LIBS\BSPLINE\ykf.f90"
+"C:\oleg\T\LIBS\BSPLINE\wk_moments.f90"
+"C:\oleg\T\LIBS\BSPLINE\wk.f90"
+"C:\oleg\T\LIBS\BSPLINE\vky.f90"
+"C:\oleg\T\LIBS\BSPLINE\vkc.f90"
+"C:\oleg\T\LIBS\BSPLINE\vk_moments.f90"
+"C:\oleg\T\LIBS\BSPLINE\vk.f90"
+"C:\oleg\T\LIBS\BSPLINE\vinty.f90"
+"C:\oleg\T\LIBS\BSPLINE\vbsplvd.f90"
+"C:\oleg\T\LIBS\BSPLINE\tky.f90"
+"C:\oleg\T\LIBS\BSPLINE\tkc.f90"
+"C:\oleg\T\LIBS\BSPLINE\tk_moments.f90"
+"C:\oleg\T\LIBS\BSPLINE\tk.f90"
+"C:\oleg\T\LIBS\BSPLINE\spline_slater.f90"
+]
+Creating temporary file "C:\DOCUME~1\000383~1\LOCALS~1\Temp\RSP1054.tmp" with contents
+[
+/nologo /out:"C:\oleg\LIB\BS.lib" 
+.\Release\azl.obj
+.\Release\bav.obj
+.\Release\bcore.obj
+.\Release\bhl.obj
+.\Release\bhwf.obj
+.\Release\bvalue2.obj
+.\Release\bvmv.obj
+.\Release\bxv.obj
+.\Release\bzk.obj
+.\Release\convol.obj
+.\Release\coulom.obj
+.\Release\define_grid.obj
+.\Release\define_spline.obj
+.\Release\density.obj
+.\Release\dinty.obj
+.\Release\dvx.obj
+.\Release\facdyk.obj
+.\Release\facdzk.obj
+.\Release\facsb.obj
+.\Release\facsbl.obj
+.\Release\gauss.obj
+.\Release\grad.obj
+.\Release\hlc.obj
+.\Release\hlm.obj
+.\Release\int_de.obj
+.\Release\int_v.obj
+.\Release\minty.obj
+.\Release\mk.obj
+.\Release\mk_moments.obj
+.\Release\mkc.obj
+.\Release\mky.obj
+.\Release\mmk_cell.obj
+.\Release\mmk_diff.obj
+.\Release\mnk_cell.obj
+.\Release\mnk_diff.obj
+.\Release\moments.obj
+.\Release\mqk_cell.obj
+.\Release\mrk_cell.obj
+.\Release\mrk_diff.obj
+.\Release\mrm.obj
+.\Release\mtk_cell.obj
+.\Release\mtk_diff.obj
+.\Release\mvc.obj
+.\Release\mvcv.obj
+.\Release\mvk_cell.obj
+.\Release\mvk_diff.obj
+.\Release\mwk_cell.obj
+.\Release\nk.obj
+.\Release\nk_moments.obj
+.\Release\nkc.obj
+.\Release\nky.obj
+.\Release\qk.obj
+.\Release\qk_moments.obj
+.\Release\qkc.obj
+.\Release\qky.obj
+.\Release\quadr.obj
+.\Release\r_bwfn.obj
+.\Release\rk.obj
+.\Release\rk_moments.obj
+.\Release\rkc.obj
+.\Release\rky.obj
+.\Release\splin3.obj
+.\Release\spline_atomic.obj
+.\Release\spline_galerkin.obj
+.\Release\spline_grid.obj
+.\Release\spline_hl.obj
+.\Release\spline_integrals.obj
+.\Release\spline_moments.obj
+.\Release\spline_orbitals.obj
+.\Release\spline_param.obj
+.\Release\spline_slater.obj
+.\Release\sum_amb.obj
+.\Release\tk.obj
+.\Release\tk_moments.obj
+.\Release\tkc.obj
+.\Release\tky.obj
+.\Release\vbsplvd.obj
+.\Release\vinty.obj
+.\Release\vk.obj
+.\Release\vk_moments.obj
+.\Release\vkc.obj
+.\Release\vky.obj
+.\Release\wk.obj
+.\Release\wk_moments.obj
+.\Release\wky.obj
+.\Release\ykf.obj
+.\Release\yval.obj
+.\Release\zeta_y.obj
+.\Release\spline_densities.obj
+.\Release\spline_Rk_integrals.obj
+]
+Creating command line "link.exe -lib @C:\DOCUME~1\000383~1\LOCALS~1\Temp\RSP1054.tmp"
+<h3>Output Window</h3>
+Compiling Fortran...
+C:\oleg\T\LIBS\BSPLINE\spline_densities.f90
+C:\oleg\T\LIBS\BSPLINE\spline_Rk_integrals.f90
+C:\oleg\T\LIBS\BSPLINE\zeta_y.f90
+C:\oleg\T\LIBS\BSPLINE\yval.f90
+C:\oleg\T\LIBS\BSPLINE\ykf.f90
+C:\oleg\T\LIBS\BSPLINE\wk_moments.f90
+C:\oleg\T\LIBS\BSPLINE\wk.f90
+C:\oleg\T\LIBS\BSPLINE\vky.f90
+C:\oleg\T\LIBS\BSPLINE\vkc.f90
+C:\oleg\T\LIBS\BSPLINE\vk_moments.f90
+C:\oleg\T\LIBS\BSPLINE\vk.f90
+C:\oleg\T\LIBS\BSPLINE\vinty.f90
+C:\oleg\T\LIBS\BSPLINE\vbsplvd.f90
+C:\oleg\T\LIBS\BSPLINE\tky.f90
+C:\oleg\T\LIBS\BSPLINE\tkc.f90
+C:\oleg\T\LIBS\BSPLINE\tk_moments.f90
+C:\oleg\T\LIBS\BSPLINE\tk.f90
+C:\oleg\T\LIBS\BSPLINE\spline_slater.f90
+Creating library...
+Creating temporary file "C:\DOCUME~1\000383~1\LOCALS~1\Temp\RSP1055.bat" with contents
+[
+@echo off
+copy release\*.mod C:\oleg\INCLUDE
+copy release\*.mod .
+]
+Creating command line "C:\DOCUME~1\000383~1\LOCALS~1\Temp\RSP1055.bat"
+
+release\spline_atomic.mod
+release\spline_densities.mod
+release\spline_galerkin.mod
+release\spline_grid.mod
+release\spline_hl.mod
+release\spline_integrals.mod
+release\spline_moments.mod
+release\spline_orbitals.mod
+release\spline_param.mod
+release\spline_rk_integrals.mod
+release\spline_slater.mod
+       11 file(s) copied.
+release\spline_atomic.mod
+release\spline_densities.mod
+release\spline_galerkin.mod
+release\spline_grid.mod
+release\spline_hl.mod
+release\spline_integrals.mod
+release\spline_moments.mod
+release\spline_orbitals.mod
+release\spline_param.mod
+release\spline_rk_integrals.mod
+release\spline_slater.mod
+       11 file(s) copied.
+
+
+
+<h3>Results</h3>
+BS.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

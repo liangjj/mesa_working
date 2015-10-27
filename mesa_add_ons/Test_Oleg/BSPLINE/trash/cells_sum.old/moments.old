@@ -1,0 +1,71 @@
+!=====================================================================
+    SUBROUTINE moments (k,rkm)
+!=====================================================================
+!
+!   Computes moments <B_i|r^k|B_j> in intervals (symmetric case)
+!
+!---------------------------------------------------------------------
+!
+!   on entry
+!   --------
+!       k       the power of moments
+!
+!   on exit
+!   -------
+!       rkm     the moments defining as <B_i|r^k|B_j> over an interval
+!               (only for j > i )
+!---------------------------------------------------------------------
+
+    USE spline_param
+    USE spline_grid
+
+    IMPLICIT NONE
+
+    INTEGER, INTENT(in) :: k
+    REAL(KIND=8), DIMENSION(ks*ks,nv), INTENT(out) :: rkm
+
+    ! .. local variables
+
+    INTEGER :: iv, i, j, ii, ik
+    REAL(KIND=8) :: hp1
+    REAL(KIND=8), DIMENSION(nv,ks) :: gw
+    REAL(KIND=8), DIMENSION(ks) :: bi
+    
+      gw = grw
+      if( k > 0 ) gw = gw * gr**k
+      if( k < 0 ) gw = gw * grm**(-k)
+ 
+      DO iv=1,ml+ks-1
+        ii = 0
+        DO i=1,ks
+          bi(:) = bsp(iv,:,i)*gw(iv,:)
+          DO j=i,ks
+            ii = ii + 1
+            rkm(ii,iv) = SUM(bi(:)*bsp(iv,:,j))
+          END DO
+        END DO
+      END DO
+
+      ! .. the log region --- using scaling law
+
+      hp1= (h+1.d0)**(1+k)
+      ik = ks*(ks+1)/2
+      DO iv=ml+ks,ml+me-ks+2
+         rkm(1:ik,iv) = rkm(1:ik,iv-1)*hp1
+      END DO
+
+      ! .. the last equal step region
+
+      DO iv=ml+me-ks+3,nv
+        ii = 0
+        DO i=1,ks
+          bi(:) = bsp(iv,:,i)*gw(iv,:)
+          DO j=i,ks
+            ii = ii + 1
+            rkm(ii,iv) = SUM(bi(:)*bsp(iv,:,j))
+          END DO
+        END DO
+      END DO
+
+  END SUBROUTINE moments
+

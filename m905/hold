@@ -1,0 +1,92 @@
+!deck lanczos.f
+!***begin prologue     lanczos
+!***date written       951229   (yymmdd)
+!***revision date      yymmdd   (yymmdd)
+!***keywords           eigenvalues, eigenvectors
+!***author             schneider, barry (nsf)
+!***source
+!***purpose            lanczos diagonalization.
+!***
+!***description        b v  = (mat - a ) v   - b    v
+!***                    j j           j   j-1   j-1  j-2
+!***
+!***
+!***                   v   = matrix of dimension iter*n
+!***                         on entry first vector must be filled with
+!***                         the starting vector to prime the Lanczos
+!***                         recursion.
+!***                   mat = the matrix you are trying to tridiagonalize
+!***                   a,b = the recursion coefficients
+!***                   scr = scratch vector of length n
+!**                    vec = eigenvectors of tridiagonal matrix iter*iter
+!***                   n   = vector length
+!***                   iter = number of iterations
+!***                   note as with all simple Lanczos methods, one can
+!***                   get linear dependence problems and multiple copies
+!***                   of eigenvalues if iter is large.
+!***references
+
+!***routines called
+!***end prologue       lanczos
+
+  SUBROUTINE lanczos
+  USE lanczos_global
+  IMPLICIT NONE 
+  COMPLEX*16                             :: cdotc
+  INTEGER                                :: i, ierr
+!
+  b(1)=SQRT(cdotc( n,v(1,0),1,v(1,0),1) )
+  CALL cvscal(v(1,0),v(1,0),1.d0/b(1),n)
+!
+!     Compute the operation of the matrix on the vector
+!
+  CALL lanczos_mult(v(1,0),hvec,n)
+!
+!
+!     Compute a(1)
+!
+  a(1)=cdotc(n,v(1,0),1,hvec,1)
+!
+!     Form matrix times the first function - a(1) times the first function
+!     and store it in the next polynomial
+!
+  v(:,1) = hvec(:) - a(1) * v(:,0)
+!
+!     Calculate b(1)
+!  
+  b(2)=SQRT( cdotc(n,v(1,1),1,v(1,1),1) )
+!
+  DO i=2,iter
+!
+!    Compute the next normalized polynomial
+!    
+     CALL cvscal(v(1,i-1),v(1,i-1),1.d0/b(i),n)
+!
+!    Perform matrix multiply
+!
+     CALL lanczos_mult(v(1,i-1),hvec,n)
+!    
+!    Calculate a(i)
+!    
+     a(i)=cdotc(n,v(1,i-1),1,hvec,1)
+!
+!    Calculate the right hand side of the recursion
+!
+     v(:,i) = hvec(:) - a(i)*v(:,i-1) - b(i)*v(:,i-2)
+!    
+!    Calculate b(i)
+     IF(i <= iter) THEN    
+        b(i+1) = SQRT( cdotc(n,v(1,i),1,v(1,i),1) )
+     END IF
+  END DO
+!
+!     diagonalize the tridiagonal matrix for the eigenvalues
+!
+  vec = 0.d0
+  DO  i=1,iter
+    vec(i,i)=1.d0
+  END DO
+  CALL imtql2(iter,iter,a,b,vec,ierr)
+  title='eigenvalues of lanczos polynomial'
+  CALL prntrm(title,a,iter,1,iter,1,iout)
+END SUBROUTINE lanczos

@@ -1,0 +1,163 @@
+*deck set3x.f
+c***begin prologue     set3x
+c***date written       951229   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           two-dim
+c***author             schneider, barry (nsf)
+c***source             3-dim
+c***purpose            form three-dimensional hamiltonian in dvr representation
+c***                   explicitly.  
+c***                   
+c***                   
+c***references         
+c
+c***routines called    
+c***end prologue       set3x
+      subroutine set3x(eig1,eig2,eig3,ham,eig,vec,t1,t2,t3,work,ipvt,
+     1                 nply,npts,dim,nroots,pottyp,prnt)
+      implicit integer (a-z)
+      real*8 eig1, eig2, eig3
+      real*8 ham, t1, t2, t3, work, eig, vec, tmp1, tmp2, tmp3
+      character*80 title
+      character*(*) pottyp
+      logical prnt
+      dimension eig1(nply), eig2(nply), eig3(nply), work(dim,*)
+      dimension ham(dim,dim), eig(dim), t1(nply,nply), t2(nply,nply)
+      dimension t3(nply,nply), ipvt(dim), vec(dim,nroots)
+      common/io/inp, iout 
+c     zero the hamiltonian matrix
+      call rzero(ham,dim*dim)
+c     put in the q1-coordinate part of the kinetic energy.
+c     its diagonal in (q2,q3)
+      nsq=nply*nply
+      ii1=0
+      do 10 i1=1,nply
+         ii2=0
+         do 20 i2=1,nply
+            jj1=0
+            do 30 j1=1,nply
+               do 40 k1=1,nply
+                  indi=ii1 + jj1 +k1
+                  indj=ii2 + jj1 +k1
+                  ham(indi,indj) = ham(indi,indj) + t1(i1,i2)
+ 40            continue   
+               jj1=jj1+nply
+ 30         continue
+            ii2=ii2+nsq
+ 20      continue
+         ii1=ii1+nsq
+ 10   continue
+c     put in the q2-coordinate part of the kinetic energy.
+c     its diagonal in (q1,q3)
+      jj1=0
+      do 50 j1=1,nply
+         jj2=0
+         do 60 j2=1,nply
+            ii1=0
+            do 70 i1=1,nply
+               do 80 k1=1,nply
+                  indi=ii1 + jj1 + k1
+                  indj=ii1 + jj2 + k1
+                  ham(indi,indj)=ham(indi,indj) + t2(j1,j2)
+ 80            continue   
+               ii1=ii1+nsq
+ 70         continue
+         jj2=jj2+nply
+ 60      continue
+         jj1=jj1+nply
+ 50   continue
+c     now put in the q3 part of the kinetic energy
+c     its diagonal in (q1,q2)
+      do 100 k1=1,nply
+         do 110 k2=1,nply
+            ii1=0
+            do 120 i1=1,nply
+               jj1=0
+               do 130 j1=1,nply
+                  indi=ii1 + jj1 +k1
+                  indj=ii1 + jj1+ k2
+                  ham(indi,indj) =ham(indi,indj) + t3(k1,k2)
+                  jj1=jj1+nply
+ 130           continue
+               ii1=ii1+nsq
+ 120        continue
+ 110     continue
+ 100  continue
+c     now add in the potential energy contribution.
+      if(pottyp.eq.'exponential') then
+         ii1=0
+         do 200 i1=1,nply
+            tmp1=eig1(i1)*eig1(i1)
+            jj1=0 
+            do 210 j1=1,nply
+               tmp2 =  tmp1 + eig2(j1)*eig2(j1)
+               do 220 k1=1,nply
+                  tmp3 = sqrt( tmp2 +eig3(k1)*eig3(k1) )
+                  ind=ii1 + jj1 + k1
+                  ham(ind,ind)=ham(ind,ind) + exp(-tmp3)
+ 220           continue   
+               jj1=jj1+nply
+ 210        continue
+            ii1=ii1+nsq
+ 200     continue
+      elseif(pottyp.eq.'one') then   
+         ii1=0
+         do 300 i1=1,nply
+            jj1=0
+            do 310 j1=1,nply
+               do 320 k1=1,nply
+                  ind=ii1 + jj1 + k1
+                  ham(ind,ind) = ham(ind,ind) - 1.d0
+ 320           continue   
+               jj1=jj1+nply
+ 310        continue
+            ii1=ii1+nsq
+ 300     continue
+      elseif(pottyp.eq.'coulomb') then
+         ii1=0
+         do 400 i1=1,nply
+            jj1=0
+            tmp1=eig1(i1)*eig1(i1)
+            do 410 j1=1,nply
+               tmp2 = tmp1 + eig2(j1)*eig2(j1)
+               do 420 k1=1,nply
+                  tmp3 = tmp2 + eig3(j1)*eig3(j1)
+                  ind=ii1 + jj1 + k1
+                  ham(ind,ind) = ham(ind,ind) - 1.d0/sqrt(tmp3)
+ 420           continue   
+               jj1=jj1+nply
+ 410        continue
+            ii1=ii1+nsq
+ 400     continue
+      endif
+      if(prnt) then
+         title='3d-hamiltonian:dvr representation'   
+         call prntrm(title,ham,dim,dim,dim,dim,iout)
+      endif
+      nn=nroots
+      if(nroots.gt.dim) then
+         nn=dim
+      endif
+      if(nn.eq.dim) then
+         call tred2(dim,dim,ham,eig,work,ham)
+         call tql2(dim,dim,eig,work,ham,ierr)
+      else
+          call tred1(dim,dim,ham,work(1,1),work(1,2),work(1,3))
+          call imtqlv(dim,work(1,1),work(1,2),work(1,3),eig,
+     1                ipvt,ierr,work(1,4))
+          if(ierr.ne.0) then
+             call lnkerr('error in diagonalization routine')
+          endif
+          call tinvit(dim,dim,work(1,1),work(1,2),work(1,3),nn,
+     1                eig,ipvt,vec,ierr,work(1,4),work(1,5),
+     2                work(1,6),work(1,7),work(1,8))             
+          if(ierr.ne.0) then
+             call lnkerr('error in diagonalization routine')
+          endif
+          call trbak1(dim,dim,ham,work(1,2),nn,vec)
+      endif                   
+      title='3d-eigenvalues:dvr representation'
+      call prntrm(title,eig,nn,1,nn,1,iout)
+      return
+      end       
+

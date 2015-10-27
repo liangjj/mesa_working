@@ -1,0 +1,276 @@
+*deck @(#)qmat.f	4.1  7/7/93
+      subroutine qmat(jmat,kmat,h,nnp,ncoul,nexch,q,pulay,calc,shlmin,
+     $     shlmax,nshell,nbf,energy,extrap,diagnl,
+     $     level,level1,gamma,c,fcoef,alpha,beta,damp)
+c
+c
+c***begin prologue     qmat
+c***date written       850601   (yymmdd)
+c***revision date      870513   (yymmdd)
+c
+c     13 may 1987       pws at lanl
+c     adding tcscf capabilities.
+c
+c     20 april 1987     pws at lanl
+c     adding level-shifts in the form of level and level1. the first
+c     form sets an increment for the hessian divisor; the second, an
+c     absolute minumum for it.
+c
+c***keywords            pseudocanonical scf, newton-raphson
+c***author              saxe, paul (lanl)
+c***source              @(#)qmat.f	4.1   7/7/93
+c
+c***purpose             to form the 'q', eqs. 66, 84, or 111 and
+c     capital 'q', eqs 3,4 and 24 of
+
+c     m. page and j. w. mciver, jr., jcp 79, 4985 (1983).
+c
+c***description
+c
+c***references          m. page and j. w. mciver, jr., jcp 79, 4985 (1983).
+c
+c***routines called     (none)
+c
+c***end prologue        qmat
+c
+c
+      implicit integer (a-z)
+c
+      real*8 jmat(nnp,ncoul),kmat(nnp,nexch),h(nnp)
+      real*8 q(nnp),energy,elast,lambda,llast,dedl
+      real*8 denom,small,big,level,level1,gamma,c(*)
+      real*8 fcoef(nshell),alpha(nshell,nshell),beta(nshell,nshell)
+      real*8 two,half,zero,fact,damp(*)
+      real*8 f,fc,fo,fpo,ko,fa,fb,ka,kb,f2a,f2b,f2c,aa,bb
+      integer shlmin(nshell),shlmax(nshell)
+      character*(*) calc
+      logical pulay
+c
+      parameter (two=2.0d+00, half=0.5d+00, zero=0.0d+00)
+c
+      common /io/     inp,iout
+c
+      data call /0/
+      data lambda /1.0d+00/
+      save call,lambda
+c
+      save elast,dedl,llast
+c
+c     ----- statement functions -----
+c
+c
+c     ----- closed shell fock matrices -----
+c
+      f(ij)=h(ij)+two*jmat(ij,1)-kmat(ij,1)
+c
+c
+c     ----- pulay's open-shell -----
+c
+      fpo(ij)=f(ij)+half*(two*jmat(ij,2)-kmat(ij,2))
+      ko(ij)=kmat(ij,2)
+c
+c     ----- pulay's tcscf -----
+c
+      fa(ij)=c(1)**2*(f(ij)+two*jmat(ij,2)-kmat(ij,2))
+      fb(ij)=c(2)**2*(f(ij)+two*jmat(ij,3)-kmat(ij,3))
+      ka(ij)=c(1)*c(2)*kmat(ij,2)
+      kb(ij)=c(1)*c(2)*kmat(ij,3)
+c
+      big=0.0d+00
+      small=1.0d+30
+      call=call+1
+      call rzero(q,nnp)
+c
+c
+      if (calc.eq.'gvb') then
+c
+c     ----- pulay's tcscf fock matrix -----
+c
+         call rzero(q,nnp)
+         do 130 ishell=1,nshell
+            do 120 i=shlmin(ishell),shlmax(ishell)
+               ia=i*(i-1)/2
+               do 110 j=shlmin(ishell),i
+                  ij=ia+j
+                  q(ij)=fa(ij)+fb(ij)
+ 110           continue
+ 120        continue
+ 130     continue
+c
+c     ----- core-active1 -----
+c
+         do 150 i=shlmin(2),shlmax(2)
+            ia=i*(i-1)/2
+            do 140 j=shlmin(1),shlmax(1)
+               ij=ia+j
+               q(ij)=fb(ij)-kb(ij)
+ 140        continue
+ 150     continue
+c
+c     ----- core-active2 -----
+c
+         do 170 i=shlmin(3),shlmax(3)
+            ia=i*(i-1)/2
+            do 160 j=shlmin(1),shlmax(1)
+               ij=ia+j
+               q(ij)=fa(ij)-ka(ij)
+ 160        continue
+ 170     continue
+c
+c     ----- core-virtual -----
+c
+         do 190 i=shlmin(4),shlmax(4)
+            ia=i*(i-1)/2
+            do 180 j=shlmin(1),shlmax(1)
+               ij=ia+j
+               q(ij)=fa(ij)+fb(ij)
+ 180        continue
+ 190     continue
+c
+c     ----- active1-active2 -----
+c
+         i=shlmin(3)
+         j=shlmin(2)
+         ij=i*(i-1)/2+j
+         q(ij)=fa(ij)-fb(ij)-ka(ij)+kb(ij)
+c
+c     ----- active1-virtual -----
+c
+         j=shlmin(2)
+         do 200 i=shlmin(4),shlmax(4)
+            ij=i*(i-1)/2+j
+            q(ij)=fa(ij)+kb(ij)
+ 200     continue
+c
+c     ----- active2-virtual -----
+c
+         j=shlmin(3)
+         do 210 i=shlmin(4),shlmax(4)
+            ij=i*(i-1)/2+j
+            q(ij)=fb(ij)+ka(ij)
+ 210     continue
+c
+      else if (calc.eq.'open') then
+c
+c     ----- pulay's high-spin open-shell -----
+c
+         call rzero(q,nnp)
+c
+         do 250 ishell=1,nshell
+            do 240 i=shlmin(ishell),shlmax(ishell)
+               ia=i*(i-1)/2
+               do 230 j=shlmin(ishell),i
+                  ij=ia+j
+                  q(ij)=fpo(ij)
+ 230           continue
+ 240        continue
+ 250     continue
+c
+c     ----- closed-open block -----
+c
+         do 270 i=shlmin(2),shlmax(2)
+            ia=i*(i-1)/2
+            do 260 j=shlmin(1),shlmax(1)
+               ij=ia+j
+               q(ij)=fpo(ij)+half*ko(ij)
+ 260        continue
+ 270     continue
+c
+c     ----- closed-virtual block -----
+c
+         do 290 i=shlmin(3),shlmax(3)
+            ia=i*(i-1)/2
+            do 280 j=shlmin(1),shlmax(1)
+               ij=ia+j
+               q(ij)=fpo(ij)
+ 280        continue
+ 290     continue
+c
+c     ----- open-virtual block -----
+c
+         do 310 i=shlmin(3),shlmax(3)
+            ia=i*(i-1)/2
+            do 300 j=shlmin(2),shlmax(2)
+               ij=ia+j
+               q(ij)=fpo(ij)-half*ko(ij)
+ 300        continue
+ 310     continue
+c
+      else if (calc.eq.'closed') then
+c
+c     ----- fock matrix is what we want, so make it -----
+c
+         do 333 i=1,nnp
+            q(i)=f(i)
+ 333     continue
+c
+      else if (calc.eq.'general') then
+c
+c     ----- general case using f's, a's and b's -----
+c
+         call rzero(q,nnp)
+         write (iout,2000)
+ 2000 format (1x, 'message from general diis')
+c
+c ---- diagonal block
+c
+c..bhl
+c.. virtual-virtual block
+c
+               do 421 i=shlmin(nshell),shlmax(nshell)
+                  ia=i*(i-1)/2
+                  do 411 j=shlmin(nshell),i
+                     ij=ia+j
+                           q(ij)=0.5d+00*h(ij)
+                     do 401 lshell=1,nshell-1
+                        aa=fcoef(lshell)
+                        bb=-fcoef(lshell)*0.5d+00
+                        q(ij)=q(ij)+
+     $                        aa*jmat(ij,lshell)+
+     $                        bb*kmat(ij,lshell)
+ 401                 continue
+ 411              continue
+ 421           continue
+c
+         do 931 ishell=1,nshell-1
+c              fact=damp(ishell)*fcoef(1)/fcoef(ishell)
+               do 921 i=shlmin(ishell),shlmax(ishell)
+                  ia=i*(i-1)/2
+                  do 911 j=shlmin(ishell),i
+                     ij=ia+j
+                     q(ij)=fcoef(ishell)*h(ij)
+                     do 901 lshell=1,nshell-1
+                        q(ij)=q(ij)+
+     $                   alpha(ishell,lshell)*jmat(ij,lshell)+
+     $                    beta(ishell,lshell)*kmat(ij,lshell)
+ 901                 continue
+c                    q(ij)=q(ij)*fact
+ 911              continue
+ 921           continue
+ 931        continue
+c..bhl
+         do 440 ishell=2,nshell
+            do 430 jshell=1,ishell-1
+               jatyp=jshell*(jshell-1)/2
+               do 420 i=shlmin(ishell),shlmax(ishell)
+                  ia=i*(i-1)/2
+                  do 410 j=shlmin(jshell),shlmax(jshell)
+                     ij=ia+j
+                     q(ij)=(fcoef(jshell)-fcoef(ishell))*h(ij)
+                     do 400 lshell=1,nshell-1
+                        q(ij)=q(ij)+
+     $                       (alpha(jshell,lshell)-alpha(ishell,lshell))
+     $                       *jmat(ij,lshell)+
+     $                       (beta(jshell,lshell)-beta(ishell,lshell))*
+     $                       kmat(ij,lshell)
+ 400                 continue
+ 410              continue
+ 420           continue
+ 430        continue
+ 440     continue
+c
+      end if
+c
+c
+      return
+      end

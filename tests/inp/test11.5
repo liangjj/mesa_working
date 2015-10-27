@@ -1,0 +1,14 @@
+$route
+dft,2s+1=1,scf=(exchf=becke,corrf=lyp,pulay,
+density-cutoff=1.0d-20)
+guess=(huckel),print=(guess,m511=vector),grid=sg1
+$title
+ h2o singlet  becke/lyp
+$geom
+o(basis=6-31g*)
+h1(basis=6-31g) o r
+h2(basis=6-31g) o r h1 theta
+
+r=1.000
+theta=104.5
+$end

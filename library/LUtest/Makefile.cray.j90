@@ -1,0 +1,39 @@
+#
+# Makefile for SuperLU demo with SuperLU calls through my_hack.c
+#
+FC = f90
+FFLAGS = -c -dp 
+
+LD = f90
+LDFLAGS =
+
+BINDIR = ./
+#BLASLIB = /usr/local/lib/libblas.a
+#SLATLIB = /usr/local/lib/libslatec.a
+#LAPACK = /usr/local/lib/liblapack.a
+GET = sccs get
+REL = 
+
+SRCS = \
+	  main.f matxvec.f matrix.f
+
+.f.o:
+	$(FC) $(FFLAGS) $<
+
+.c.o:
+	$(CC) $(CFLAGS) -I../SuperLU_2.0/SRC $(CDEFS) $(BLASDEF) -c $< $(VERBOSE)
+
+all: $(BINDIR)/xtest
+
+$(BINDIR)/xtest: $(SRCS:.f=.o)
+	$(LD) $(LDFLAGS) $(SRCS:.f=.o) -o $(BINDIR)xtest \
+         ~u11325/SuperLU_2.0/superlu_cray.a \
+         ~u11325/SuperLU_2.0/FORTRAN/SLUBridgelib.a
+
+sources: $(SRCS)
+$(SRCS):
+	$(GET) $(REL) $@
+
+clean:
+	rm -f *.o core xtest
+

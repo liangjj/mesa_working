@@ -1,0 +1,73 @@
+$route
+2s+1=1,hf,scf=(pulay,convergence=5)
+drop=42
+guess=core
+print=(drop,guess=all,scf=(vector=all),ivo,nodis,noang)
+geom=(coord,inau,nocrowd)
+ksym=(symmetry=1) kohn=(nsmall=2)
+sym=norotate
+$end
+ 
+$nonstd
+1//1,2;
+2//2;
+3//1,2,12,30;
+4//1;
+5//1,2;
+6//4;
+20//01;
+$end
+ 
+$title
+H2 Two State Test
+$end
+ 
+$geom
+h1(basis=small) 0.0 0.0  .7
+h2(basis=small) 0.0 0.0 -.7
+$end
+ 
+$small h
+/ old H2
+  type=s
+ 48.4479    1.00
+  type=s
+ 7.28346    1.00
+  type=s
+ 1.65139    1.00
+  type=s
+ .462447    1.00
+  type=s
+ .145885    1.00  
+  type=p
+  1.5000    1.00
+$end
+$scat zq
+zq(basis=scat) 0.0 0.0 0.0
+/Added Scattering Functions
+  type=s
+  .009        1.00
+  type=p
+  .0078       1.00
+$end 
+ 
+$drop
+ atom=1 type=p keep=(z)
+ atom=2 type=p keep=(z)
+ atom=3 type=p keep=(z)
+$end
+     escf=-1.133282782
+     epssigg=-.59457
+     epssigu=-.227914117
+     excited state energy=-.766624326
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

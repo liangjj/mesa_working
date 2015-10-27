@@ -1,0 +1,27 @@
+NOTE:  
+
+To allow for the use of locally provided optimized BLAS and LINPACK softare,
+we've got some IFDEFS in the clams routines, and some routines are passed 
+through the C preprocessor.
+
+In your .cshrc or .bashrc or whatever you should have something like:
+
+setenv CPP /usr/lib/cpp  (on HP it's /lib/cpp)
+setenv CPPFLAGS '-D__$(OPSYS)__'
+
+If your system provides a local BLAS library, you do instead:
+setenv CPPFLAGS '-D__$(OPSYS)__ -DLOCALBLAS'
+
+For local linpack:
+
+setenv CPPFLAGS '-D__$(OPSYS)__ -DLOCALLINPACK'
+
+Combine in the obvious way if you have both a local linpack and blas.
+
+Remember to add your local library to the MDLIB variable (-lblas -llinpack) if
+you add these options.
+
+If you fail to set CPPFLAGS they you get the default, portable CLAMS.
+
+    --tvr, 17 May 1995
+

@@ -1,0 +1,25 @@
+$route
+2s+1=1,hf
+sym=off,guess=huckel
+ci=(full) drt=(rdsym,nsym=1,ngroups=3,nrefs=1)
+print=(scf=(vector=all),ci=no)
+$end
+ 
+$drt
+1typ1;1 8typ2;1 5typ3;1
+na=5 nb=0 ns=1
+$groups
+numel=(2,8,0)
+ 
+$title
+h2o test case: single point full ci
+ 
+$geom
+o1(basis=dz)
+h2(basis=dz) o1 r1
+h3(basis=dz) o1 r2  h2 a1
+ 
+r1=0.959447
+r2=0.959447
+a1=104.8318
+$end

@@ -1,0 +1,82 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 18:15:28    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.2                                                                                                   
+     out:    /usr2/mesa/tests/out/hp/test12.2                                                                                                
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_2707                                                                                                        
+     rint:   /cesium/rlm/tmp/rint_2707                                                                                                       
+     int:    /cesium/rlm/tmp/int_2707                                                                                                        
+     tint:   /cesium/rlm/tmp/tint_2707                                                                                                       
+     gint:   /cesium/rlm/tmp/gint_2707                                                                                                       
+     rdint:  /cesium/rlm/tmp/rdint_2707                                                                                                      
+     dint:   /cesium/rlm/tmp/dint_2707                                                                                                       
+     zint:   /cesium/rlm/tmp/zint_2707                                                                                                       
+     ham:    /cesium/rlm/tmp/ham_2707                                                                                                        
+     moden:  /cesium/rlm/tmp/moden_2707                                                                                                      
+     aoden:  /cesium/rlm/tmp/aoden_2707                                                                                                      
+     saoden: /cesium/rlm/tmp/saoden_2707                                                                                                     
+     gden:   /cesium/rlm/tmp/gden_2707                                                                                                       
+     fci:    /cesium/rlm/tmp/fci_2707                                                                                                        
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+     H2 Two State Calculation
+ route:
+     1//1,2;
+     3//1,2,12,30;
+     4//1;
+     8//6,11;
+     8//19,22;
+     9//2,21,29;
+     20//1;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk,expand) drop=42 ksym=(symmetry=1,
+     psalc) print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(n
+     groups=4,nrefs=2) ci=(nroots=2,cycles=60) sym=norotate kohn=(m822=zint,nsmall=2,
+     ncsfs=25,nl2=12,freeze,hqq, energy=(.4410,.55125,.66152,.735))
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000     .000000     .000000     .370424
+       2    2   h  small      1.000     .000000     .000000    -.370424
+       3        zq scat        .000     .000000     .000000     .000000
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     $ primitive cartesians    20
+     $ contracted cartesians   20
+     $ basis functions         20
+  m301:dropping functions
+       atom=1 type=p keep=(z)                 
+      ncart ncont  3 1
+       atom=2 type=p keep=(z)                 
+      ncart ncont  3 1
+       atom=3 type=p keep=(z)                 
+      ncart ncont  3 1
+       newnbf: 14
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length      1887
+     maximum usable field length        10551
+     $primitive integrals possible      30455
+     $primitive integrals computed      30192( 99.1%)
+     $contracted integrals possible     22155
+     $contracted integrals kept          8435( 38.1%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     expanding vectors from chk
+  reading   scf vectors from chk

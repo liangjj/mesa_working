@@ -1,0 +1,95 @@
+====================================================
+Quick Reference Guide for the Installation of LAPACK
+====================================================
+
+VERSION 1.0  :  February 29, 1992
+VERSION 1.0a :  June 30, 1992
+VERSION 1.0b :  October 31, 1992
+VERSION 1.1  :  March 31, 1993
+
+DATE:  March 31, 1993 
+
+This Quick Reference Guide to the installation of LAPACK has been
+extracted from the Installation Guide contained in LAPACK/INSTALL.
+It is only intended as a quick reference.  The Installation Guide should
+be consulted for full details.
+
+To install, test, and time LAPACK:
+
+1. Read the tape or uncompress and tar the file.
+
+   tar  xvf  /dev/rst0  (cartridge tape),  or
+
+   tar  xvf  /dev/rmt8  (9-track tape)
+  
+   uncompress lapack.tar.z (from a file), and
+
+   tar xvf lapack.tar      (from a file)
+
+2. Test and Install the Machine-Dependent Routines
+   (WARNING:  You may need to supply a correct version of second.f and
+              dsecnd.f for your machine)
+
+   cd LAPACK/INSTALL
+   make
+   testlsame
+   testslamch
+   testdlamch
+   testsecond
+   testdsecnd
+
+3. Create the BLAS Library, if necessary
+   (NOTE:  For best performance, it is recommended you use the
+           manufacturers' BLAS)
+
+   cp LAPACK/INSTALL/lsame.f LAPACK/BLAS/SRC/
+   cd LAPACK/BLAS/SRC
+   make
+
+4. Run the Level 2 and 3 BLAS Test Programs
+
+   cd LAPACK/BLAS/TESTING
+   make -f makeblat2
+   cd LAPACK/BLAS
+   xblat2s < sblat2.in
+   xblat2d < dblat2.in
+   xblat2c < cblat2.in
+   xblat2z < zblat2.in
+   cd LAPACK/BLAS/TESTING
+   make -f makeblat3
+   cd LAPACK/BLAS 
+   xblat3s < sblat3.in
+   xblat3d < dblat3.in
+   xblat3c < cblat3.in
+   xblat3z < zblat3.in
+
+5. Create the LAPACK Library
+
+   cp LAPACK/INSTALL/lsame.f LAPACK/SRC/
+   cp LAPACK/INSTALL/slamch.f LAPACK/SRC/
+   cp LAPACK/INSTALL/dlamch.f LAPACK/SRC/
+   cp LAPACK/INSTALL/second.f LAPACK/SRC/
+   cp LAPACK/INSTALL/dsecnd.f LAPACK/SRC/
+   cd LAPACK/SRC
+   make
+
+6. Create the Library of Test Matrix Generators
+
+   cd LAPACK/TESTING/MATGEN
+   make
+
+7. Run the LAPACK Test Programs
+
+   cd LAPACK/TESTING
+   make
+
+8. Run the LAPACK Timing Programs
+
+   cd LAPACK/TIMING
+   make
+   xlintims < sblasa.in > sblasa.out
+   xlintims < sblasb.in > sblasb.out
+   xlintims < sblasc.in > sblasc.out
+
+   repeat timing of blas for c, d, and z
+

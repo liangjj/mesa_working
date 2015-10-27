@@ -1,0 +1,10 @@
+This link prepares an ASCII file with information used to perform plots of
+orbital amplitudes and density.  The checkpoint file for the wavefunction of
+interest is the only input.  A sample data deck follows:
+************
+$route
+  graphics=(stepsize=0.15)
+$nonstd
+  19//90;
+$end
+************

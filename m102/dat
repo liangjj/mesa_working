@@ -1,0 +1,18 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M102
+#
+SOURCE=m102
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/baspr1.f \
+	$(MESA_HOME)/$(SOURCE)/basprt.f \
+	$(MESA_HOME)/$(SOURCE)/ecpprt.f \
+	$(MESA_HOME)/$(SOURCE)/genbas.f \
+	$(MESA_HOME)/$(SOURCE)/getbas.f \
+	$(MESA_HOME)/$(SOURCE)/grppt.f \
+	$(MESA_HOME)/$(SOURCE)/grppt1.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+	$(MESA_HOME)/$(SOURCE)/maket.f \
+	$(MESA_HOME)/$(SOURCE)/maket1.f \
+	$(MESA_HOME)/$(SOURCE)/moment.f 

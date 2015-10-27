@@ -1,0 +1,159 @@
+r1mach  r*4
+
+Robert-Lucchese-2:other lucchese$ ./a.out
+i    1  r1mach(i)   0.1175494350822288E-37
+i    2  r1mach(i)   0.3402823466385289E+39
+i    3  r1mach(i)   0.5960464477539062E-07
+i    4  r1mach(i)   0.1192092895507812E-06
+i    5  r1mach(i)   0.3010300099849701E+00
+i    0  r1mach(i)   0.3010300099849701E+00
+
+
+From Getr1mach
+
+r4
+
+0.2350989E-37               2**(-125)  or 2**(-(2**7-3))
+0.1192093E-06               2**(-23)
+
+0.1701412E+39               2**(127)   or 2**(2**7-1)
+0.1192093E-06               2**(-23)
+
+0.3010300E+00
+
+8 digits for exponent
+24 digits for mantissa
+
+r8
+
+
+
+0.445014771701440500-307    2**(-1021) or 2**(-(2**10 -3))
+0.222044604925031300E-15    2**(-52)
+
+0.898846567431157500+308    2**(1023)     2**(2**10 -1)
+0.222044604925031300E-15    2**(-52)
+
+
+0.301029995663981200E+00
+
+
+
+Users/lucchese/Applications/lapacki8/lapack-3.1.1 -llapack -lblas -o ../bin/xcknew
+Undefined symbols for architecture x86_64:
+  "_rmachr4_", referenced from:
+      _r1mach_ in r1mach.o
+
+3.1.1 -llapack -lblas -o ../bin/xcsolve
+Undefined symbols for architecture x86_64:
+  "_rmachr4_", referenced from:
+      _r1mach_ in r1mach.o
+
+
+
+11 digits for exponent
+53 digits for mantissa
+
+r16
+
+11 digits for exponent
+117 digits for mantissa
+
+
+
+./dir_mylib/r1mach.f:       FUNCTION R1MACH (I)
+./kcknew/r1mach.f:       FUNCTION R1MACH (I)
+./kcsolve/r1mach.f:       FUNCTION R1MACH (I)
+./library/math/lob.f:      DOUBLE PRECISION FUNCTION R1MACH (I)
+./library/math/lobatto.f:      DOUBLE PRECISION FUNCTION R1MACH (I)
+./library/math/lobattod.f:      DOUBLE PRECISION FUNCTION R1MACH (I)
+./library/math/lobnew.f:      DOUBLE PRECISION FUNCTION R1MACH (I)
+./library/math/norm.f:      DOUBLE PRECISION FUNCTION R1MACH (I)
+./library/mdutil/sun/r1mach.f:      function r1mach(i)   
+
+./dir_mylib/d1mach.f:      DOUBLE PRECISION FUNCTION D1MACH (I)
+
+
+./library/dpintgrl/dfunc.f:      if (wptoin(1).eq.2) tol=1.0d-14
+./library/dpintgrl/dnode.f:      integer wptoin
+./library/dpintgrl/dnode.f:c **      if(wptoin(1).eq.2) tol=1.0d-13
+
+f8-1e-df-da-45-1d:ckohn.new lucchese$ egrep -i "nbfmax =|nbfmax=" $(find . -name *.f -print | grep -v "\.v")
+./kcdipc/cdipc.f:      parameter (nbfmax=140)
+./kcffbfcg/cffbfcg.f:      parameter (nbfmax=140)
+./kcffbfg/bfints.f:      parameter (nbfmax=130)
+./kcffbfg/cffbfg.f:      parameter (nbfmax=130)
+./kcffbfg/ffints.f:      parameter (nbfmax=130)
+./kcknew/cknew.f:       parameter (nbfmax=140)
+./kcphot/cphot.f:      parameter (nbfmax=140)
+./kpsff/psff.f:      parameter (nbfmax =130)
+.
+
+
+f8-1e-df-da-45-1d:ckohn.new lucchese$ egrep -i "nbfmax =|nbfmax=" $(find . -name *.f -print | grep -v "\.v")
+./kcdipc/cdipc.f:      parameter (nbfmax=500)
+./kcffbfcg/cffbfcg.f:      parameter (nbfmax=500)
+./kcffbfg/bfints.f:      parameter (nbfmax=500)
+./kcffbfg/cffbfg.f:      parameter (nbfmax=500)
+./kcffbfg/ffints.f:      parameter (nbfmax=500)
+./kcknew/cknew.f:       parameter (nbfmax=500)
+./kcphot/cphot.f:      parameter (nbfmax=500)
+./kpsff/psff.f:      parameter (nbfmax=500)
+
+
+ m811:transformation
+     canonical order
+     orbital set:"guess vector"  
+     number of basis functions:         165
+     orthonormality deviation      0.11E-10
+     memory use                   119998899
+ lnkerr: io system: writing bins                             on unit sort             with bad offset
+
+
+
+start xcsolve
+Mon Nov 26 21:42:21 PST 2012
+ExtractData.sh: line 8: 60639 Segmentation fault: 11  xcsolve
+
+
+Robert-Lucchese-2:runSg1s lucchese$ more pltphot.b1u
+
+ Channel      1
+     0.80857    22.00203     0.00000     0.00000     0.66030
+     0.84537    23.00339     0.00000     0.00000     0.96880
+     0.88207    24.00204     0.00000     0.00000     1.42814
+     0.91887    25.00340     0.00000     0.00000     1.90586
+
+Undefined symbols for architecture i386:
+  "_dzasum_", referenced from:
+      _cgeco_ in cgeco.o
+  "_cgefa_", referenced from:
+      _cgeco_ in cgeco.o
+  "_zdscal_", referenced from:
+      _cgeco_ in cgeco.o
+  "_zdotc_", referenced from:
+      _cgeco_ in cgeco.o
+  "_zaxpy_", referenced from:
+      _cgeco_ in cgeco.o
+  "_MAIN__", referenced from:
+      _main in libabsoftmain.a(startup.o)
+
+
+ elapsed time for setup is   0.0000E+00
+ K,L,N  1  32  38  1
+ K,L,N  2  33  38  1
+ K,L,N  3  32  38  1
+ K,L,N  4  4  38  1
+ K,L,N  5  34  38  1
+ K,L,N  6  6  38  1
+ K,L,N  7  35  38  1
+ K,L,N  8  8  38  1
+ K,L,N  9  9  38  1
+ K,L,N  10  10  38  1
+ K,L,N  11  11  38  1
+Segmentation fault: 11
+Robert-Lucchese-2:runCO2_OneChanSg1 lucchese$ 
+
+
+co2hfdzeq.dat
+put molden,co2hfdzeq.dat;

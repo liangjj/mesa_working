@@ -1,0 +1,77 @@
+
+ HOMEDIR='/usr2/mesa'
+ LIBDIR='/usr2/mesa/library'
+ SOURCEDIR='/usr2/mesa/source'
+ PARTS='chr clams dpintgrl intgrl io math sym util mdutil/sun'
+#for file in library chr clams dpintgrl intgrl io math sym util mdutil/sun
+# do main directory, then library, then parts, then main links
+ cd $HOMEDIR
+#      sccs check returns a nonzero exit status if something is being edited
+    if sccs check >/dev/null
+    then
+#       echo 'do nothing'
+       :
+    else
+       for f in  `sccs tell` 
+          do
+             cat $f >$SOURCEDIR/$f
+          done 
+    fi
+#now do library
+ cd $LIBDIR
+    if sccs check >/dev/null
+    then
+#      echo 'do nothing'
+       :
+    else
+       mkdir SOURCEDIR/'library'
+       for f in  `sccs tell` 
+          do
+             cat $f >$SOURCEDIR/'library'/$f
+          done 
+    fi
+#now do components of library
+ for file in $PARTS
+    do
+       cd $file
+#      sccs check returns a nonzero exit status if something is being edited
+       if sccs check >/dev/null
+       then
+#         echo 'do nothing'
+         :
+       else
+          if test -d $SOURCEDIR/'library'
+          then
+#           echo 'do nothing' >/dev/null
+            :
+          else
+             mkdir $SOURCEDIR/'library'
+          fi   
+          mkdir $SOURCEDIR/'library'/$file
+          for f in  `sccs tell` 
+             do
+                cat $f >$SOURCEDIR/'library'/$file/$f
+             done 
+       fi
+       cd ..
+    done
+#now do main routines
+ cd $HOMEDIR
+ for file in m[0-9]*
+    do
+       cd $file
+#      sccs check returns a nonzero exit status if something is being edited
+       if sccs check >/dev/null
+       then
+#         echo 'do nothing'
+          :
+       else
+          mkdir $SOURCEDIR/$file
+          for f in  `sccs tell` 
+             do
+                cat $f >$SOURCEDIR/$file/$f
+             done 
+       fi
+       cd ..
+    done
+ 

@@ -1,0 +1,462 @@
+# Microsoft Developer Studio Generated Dependency File, included by BS.mak
+
+.\bcore.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_orbitals.mod"\
+	
+
+.\bhl.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_hl.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\bhwf.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\bzk.f90 : \
+	".\spline_grid.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	".\spline_slater.mod"\
+	
+
+.\convol.f90 : \
+	".\spline_integrals.mod"\
+	
+
+.\coulom.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_hl.mod"\
+	".\spline_param.mod"\
+	
+
+.\define_grid.f90 : \
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\define_spline.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\dinty.f90 : \
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\facdyk.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\facdzk.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_param.mod"\
+	
+
+.\facsb.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\facsbl.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_param.mod"\
+	
+
+.\grad.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\hlc.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_orbitals.mod"\
+	
+
+.\hlm.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_hl.mod"\
+	".\spline_param.mod"\
+	
+
+.\int_de.f90 : \
+	".\spline_param.mod"\
+	
+
+.\int_v.f90 : \
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\minty.f90 : \
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\mk.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\mk_moments.f90 : \
+	".\spline_grid.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\mkc.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_moments.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\mmk_cell.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\mmk_diff.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_integrals.mod"\
+	".\spline_param.mod"\
+	
+
+.\mnk_cell.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\mnk_diff.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_integrals.mod"\
+	".\spline_param.mod"\
+	
+
+.\moments.f90 : \
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\mqk_cell.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\mrk_cell.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\mrk_diff.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_integrals.mod"\
+	".\spline_param.mod"\
+	
+
+.\mrm.f90 : \
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\mtk_cell.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\mtk_diff.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_integrals.mod"\
+	".\spline_param.mod"\
+	
+
+.\mvc.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_grid.mod"\
+	".\spline_hl.mod"\
+	".\spline_param.mod"\
+	
+
+.\mvcv.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\mvk_cell.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\mvk_diff.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_integrals.mod"\
+	".\spline_param.mod"\
+	
+
+.\mwk_cell.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\nk.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\nk_moments.f90 : \
+	".\spline_grid.mod"\
+	".\spline_integrals.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\nkc.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_moments.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\nky.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_grid.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_slater.mod"\
+	
+
+.\qk.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\qk_moments.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\qkc.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_moments.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\quadr.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\r_bwfn.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\rk.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\rk_moments.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_grid.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\rkc.f90 : \
+	".\spline_moments.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\rky.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_grid.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_slater.mod"\
+	
+
+.\spline_densities.f90 : \
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\spline_galerkin.f90 : \
+	".\spline_param.mod"\
+	
+
+.\spline_grid.f90 : \
+	".\spline_param.mod"\
+	
+
+.\spline_hl.f90 : \
+	".\spline_param.mod"\
+	
+
+.\spline_integrals.f90 : \
+	".\spline_param.mod"\
+	
+
+.\spline_moments.f90 : \
+	".\spline_param.mod"\
+	
+
+.\spline_orbitals.f90 : \
+	".\spline_param.mod"\
+	
+
+.\spline_Rk_integrals.f90 : \
+	".\spline_densities.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_moments.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\spline_slater.f90 : \
+	".\spline_param.mod"\
+	
+
+.\tk.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\tk_moments.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\tkc.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_moments.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\tky.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	".\spline_slater.mod"\
+	
+
+.\vbsplvd.f90 : \
+	".\spline_param.mod"\
+	
+
+.\vinty.f90 : \
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\vk.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\vk_moments.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\vkc.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_moments.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\vky.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	".\spline_slater.mod"\
+	
+
+.\wk.f90 : \
+	".\spline_integrals.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	
+
+.\wk_moments.f90 : \
+	".\spline_galerkin.mod"\
+	".\spline_grid.mod"\
+	".\spline_moments.mod"\
+	".\spline_param.mod"\
+	
+
+.\ykf.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_grid.mod"\
+	".\spline_orbitals.mod"\
+	".\spline_param.mod"\
+	".\spline_slater.mod"\
+	
+
+.\yval.f90 : \
+	".\spline_grid.mod"\
+	".\spline_param.mod"\
+	
+
+.\zeta_y.f90 : \
+	".\spline_atomic.mod"\
+	".\spline_orbitals.mod"\
+	

@@ -1,0 +1,17 @@
+$data_keyword
+  coordinate_system=spherical number_of_spatial_dimensions=1
+  coordinate_label_1=r sector_points sector_factors sector_polynomials
+  sector_matrices hamiltonian eigenvalues
+$end
+
+$spherical
+ maximum_l_value=0 maximum_m_value=0
+$end
+
+$r$
+ number_of_fixed_points=0 weighting_function=laguerre
+$end
+
+$r_v_reg_1
+ potential=coulomb charge=-1.d0
+$end

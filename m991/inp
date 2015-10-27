@@ -1,0 +1,13 @@
+$route
+io-routine=mesa number-of-data-elements=500000000 
+record-length=2048 bin-size=2048 file-type=scratch data-type=integer
+$end
+ 
+$nonstd
+9//91;
+20//1;
+$end
+ 
+$title
+I/O Test
+$end

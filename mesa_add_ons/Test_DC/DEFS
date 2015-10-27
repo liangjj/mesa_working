@@ -1,0 +1,12 @@
+SHELL = /bin/sh
+
+#LIBS = -L$(TACC_SCALAPACK_LIB) -lscalapack  \
+#	$(TACC_SCALAPACK_LIB)/blacsF77init_MPI-LINUX-0.a \
+#	$(TACC_SCALAPACK_LIB)/blacs_MPI-LINUX-0.a $(TACC_SCALAPACK_LIB)/blacsF77init_MPI-LINUX-0.a \
+#	$(TACC_SCALAPACK_LIB)/blacsCinit_MPI-LINUX-0.a \
+#	-llapack -lblas
+
+F90 = $(MPIF90)
+#CPPFLAGS =
+#LDFLAGS = $(F90FLAGS)
+

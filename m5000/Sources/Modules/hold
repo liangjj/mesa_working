@@ -1,0 +1,6 @@
+
+Propagation_Module.f90:                  write(iout,*) '*** Reopening File to Read State Matrices ***'
+Propagation_Module.f90:                  Call IOsys('open state_matrices as old',0,0,0,                               &
+Propagation_Module.f90:!                 Now we take the packed matrix file, reopen it and fill it with the required
+Propagation_Module.f90:                  write(iout,*) '*** Reopening File to Read Packed Matrices ***'
+Propagation_Module.f90:                  Call IOsys('open packed_matrices as old',0,0,0,File_Directory(1)(1:len)      &

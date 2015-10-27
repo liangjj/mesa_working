@@ -1,0 +1,5 @@
+ 
+for f in $*
+  do
+    lpr $f
+  done

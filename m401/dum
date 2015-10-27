@@ -1,0 +1,16 @@
+      if(logkey(ops,'print=guess',.false.,' ')) then
+         if(logkey(ops,'print=guess=all',.false.,' ')) then
+            write(iout,1100)
+            call iosys('read character "basis function labels" from'
+     $               //' rwf',len(bflabl(1))*nbasis,0,0,bflabl)
+            call wvec(z(c),z(eigval),nbasis,nbasis,bflabl,' ')
+         else
+            call iosys('read integer "number of alpha electrons" from'//
+     $                 ' rwf',1,nummo,0,' ')
+            nummo=min(nbasis,nummo+5)
+            write(iout,1100)
+            call iosys('read character "basis function labels" from'//
+     $                 ' rwf',len(bflabl(1))*nbasis,0,0,bflabl)
+            call wvec(z(c),z(eigval),nbasis,nummo,bflabl,' ')
+         endif
+      endif

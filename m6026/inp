@@ -1,0 +1,16 @@
+$route
+
+$end
+ 
+$nonstd
+60//26;
+20//1;
+$end
+ 
+$title
+Least Squares
+$end
+ 
+$tstlst
+ no-points=5
+$end

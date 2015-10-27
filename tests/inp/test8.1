@@ -1,0 +1,19 @@
+$title
+  reh3 dz scf/ effective core potential
+$end
+$route
+q=0,hf,2s+1=1,
+basis=(dz)
+guess=huckel
+scf=(pulay,cycles=64)
+opt=(berny)
+print=(gradient=ecp),sym=off
+$geom
+re (basis=dz-ecp2)
+h1 re r1
+h2 re r1 h1 a1
+h3 re r1 h1 a1 h2 180.
+
+r1=1.67 d2e=2.0
+a1=120.0 d2e=2.0
+$end

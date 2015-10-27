@@ -1,0 +1,882 @@
+      subroutine cblock(scfvec,cao,cso,bfsym,bfnum,orbsym,nbf,nblock,nso
+     $     ,nsym,ibuff,eigval)
+c
+c***begin prologue     cblock
+c***date written       871125   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c
+c***keywords           symmetry blocked scf vector
+c***author             saxe, paul (lanl)
+c***source             %W%   %G%
+c
+c***purpose            to symmetry block an ao scf vector where
+c                      no atoms are symmetry related.
+c
+c***description        
+c
+c***references         
+c
+c***routines called    (none)
+c
+c***end prologue       cblock
+c
+      implicit integer (a-z)
+c
+      integer ibuff(*)
+      real*8 cao(nbf,nbf)
+      real*8 eigval(nbf)
+      real*8 cso(nblock)
+      character *8 scfvec
+      integer bfsym(nbf)
+      integer orbsym(nbf)
+      integer bfnum(nbf)
+      integer nso(nsym)
+c
+      common /io/ inp,iout
+c
+      call qassign(2,scfvec,ibuff,10000b)
+      rewind 2
+      read(2)
+c
+c***** assumes the nmo=nao, first loop over nmo
+c
+      do 130 i=1,nbf
+         read(2) k,eigval(i)
+         read(2) (cao(j,i),j=1,nbf)
+ 130  continue
+c 
+      write (iout,153)
+ 153  format (/,' the ao scf vector')
+      call matout(cao,nbf,nbf,nbf,nbf,iout)
+c      
+      call putvec(cao,eigval,nbf)
+c
+c     ----- now to block -----
+c
+      pt=0
+      do 10 sym=1,nsym
+         do 9 orb=1,nbf
+            if (orbsym(orb).eq.sym) then
+               do 8 bf=1,nbf
+                  if (bfsym(bf).eq.sym) then
+                     pt=pt+1
+                     cso(pt)=cao(bf,orb)
+                  end if
+ 8             continue
+            end if
+ 9       continue
+ 10   continue
+c
+      call iosys('write real "so scf vector" to rwf',nblock,cso,0,' ')
+c
+      write (iout,11)
+ 11   format (/,' the so scf vector')
+      call matblk(cso,nso,nsym,iout)
+c
+c
+      return
+      end
+*deck count
+      subroutine count(label,int,lenbuf,values,ptr,lenbin,sort,
+     #                  asort,lnsort,n2int,ijklpt,nnqsym,nso,nsym,
+     #                  itape,bins,intfil)
+c
+      implicit integer (a-z)
+c
+      real*8 int(*),values(lenbin),sort(*)
+      integer label(lenbuf),ptr(lenbin),ijklpt(nnqsym),nso(nsym)
+      integer asort(lnsort),bins(lenbin)
+      character*(*) intfil
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+      ioff2(i,j,k,l)=ioff(ioff(i,j),ioff(k,l))
+c
+      n=0
+      nints=0
+      do 800 ism=1,nsym
+         do 700 jsm=1,ism
+            do 600 ksm=1,ism
+               do 500 lsm=1,ksm
+c
+c                 ----- check for totally symmetric integrals -----
+c
+                  if (symprd(symprd(ism,jsm),symprd(ksm,lsm)).ne.1)
+     #                go to 500
+c
+c           ----- check for non-canonical symmetry labels -----
+c
+            if (jsm.gt.ism.or.lsm.gt.ksm.or.(ism.eq.ksm.and.lsm.gt.jsm))
+     #                                                              then
+               go to 500
+            end if
+      do 400 ior=1,nso(ism)
+         do 300 jor=1,nso(jsm)
+            do 200 kor=1,nso(ksm)
+               do 100 lor=1,nso(lsm)
+c
+c           ----- and non-canonical orbital labels -----
+c
+            if ((ism.eq.jsm.and.jor.gt.ior).or.
+     #          (ksm.eq.lsm.and.lor.gt.kor).or.
+     #          (ism.eq.ksm.and.kor.gt.ior).or.
+     #          (ism.eq.ksm.and.jsm.eq.lsm.and.ior.eq.kor
+     #           .and.lor.gt.jor)) then
+               go to 100
+            end if
+c
+c           ----- some integrals must be placed two places -----
+c
+            if (ism.eq.ksm.and.jsm.eq.lsm) then
+c
+c              ----- ij;kl --> ij;kl & kl;ij
+c
+               if (ior.eq.kor.and.jor.eq.lor) then
+                  n=n+1
+               else
+                  n=n+2
+               end if
+            else
+c
+c              ----- ij;kl --> ij;kl
+c
+               n=n+1
+            end if
+   45    continue
+  100             continue
+  200          continue
+  300       continue
+  400    continue
+  500 continue
+  600 continue
+  700 continue
+  800 continue
+c
+      write (iout,60) n
+   60 format (/,' number of integrals possible: ',i10)
+c
+c
+      return
+      end
+*deck m390
+      program m390
+c
+      implicit integer (a-z)
+c
+      parameter (maxsym=8,maxao=500)
+c
+      real*8 z(1)
+      real*8 nucrep
+      integer blabel(20),nd(maxsym),ityp(maxsym),nso(maxsym)
+      integer mtype(2,maxsym),ms(142),mnl(142)
+      integer bfsym(maxao),bfnum(maxao)
+      character*496 ops
+      character*128 namint
+      character *8 chrkey,cpass, ints14, gvbvec
+      dimension ititle(18),ix(10)
+      integer orbsym(maxao)
+      character *800 card
+c
+      common /io/ inp,iout
+      common /lbf/ kbuff(20000b) , jbuff(2000b) , ibuff(10000b)
+      common a(1)
+c
+      equivalence (a,z)
+c
+c
+c
+c     ----- work out the symmetry pointer arrays -----
+c
+      call drum
+      call posinp('$symtrn',cpass)
+      call cardin(card)
+      ints14=chrkey(card,'ints14','ints14',' ')
+      gvbvec=chrkey(card,'gvbvec','gvbvec',' ')
+      nsym=intkey(card,'no-symmetries',1,' ')
+c
+      write (iout,11)
+   11 format(/,10x,'m810:symmetry sort and scf blocking-c2v symmetry')
+      write(iout,2) ints14,gvbvec
+    2 format(/,5x,'input integrals file:',1x,a8,1x,'transformation matri
+     1x:',1x,a8)
+c     ----- read header information from integral tape -----
+c*****   integral tape is from the canonical sorting of ijkl
+c*****
+c
+      call qassign(14,ints14,kbuff,20000b)
+      rewind 14
+      read(14) ititle
+      read(14) nao
+      read(14)
+      read(14)
+      read(14) nucrep
+      read(14) (ix(i),i=1,10),k
+      nvec=2*k
+      do 60 i=1,nvec
+         read(14)
+ 60   continue
+      write(iout,25) nao,nsym,nucrep
+   25 format(/,5x,'number atomic orbs',1x,i4,1x,'number symmetries',1x,
+     1  i2,1x,/,5x,'nuclear repulsion',1x,e13.6)
+c
+c     ----- how many basis functions are there? -----
+c
+      nbf=nao
+      do 65 i=1,nbf
+         orbsym(i)=1
+         bfsym(i)=1
+         bfnum(i)=i
+ 65   continue
+      call intarr(card,'orbital-sym',orbsym,nao,' ')
+      call intarr(card,'basis-fn-sym',bfsym,nao,' ')
+c
+c
+c 
+c ***** bfsym(i)=the symmetry number of the ith ao
+c ***** bfnum(i)= the number of the ith ao in it's symmetry group
+      write(iout,3) (i,bfsym(i),i=1,nao)
+    3 format(/,5x,'atomic symmetries',(/,5x,10('(',i2,','i2,')':)))
+      write(iout,4) (i,orbsym(i),i=1,nao)
+    4 format(/,5x,'molecular symmetries',(/,5x,10('(',i2,','i2,')':)))
+c 
+      call izero(nso,nsym)
+      do 66 i=1,nbf
+         j=bfsym(i)
+         nso(j)=nso(j)+1
+         bfnum(i)=nso(j)
+ 66   continue
+c 
+      write(iout,29) (bfnum(i),i=1,nao)
+   29 format(/,5x,'atomic orbital number',( /,10(1x,i4,1x)))
+c 
+      nnp=nbf*(nbf+1)/2
+c
+c     ----- divvy up core for symmetry pointer arrays -----
+c
+      nnpsym=nsym*(nsym+1)/2
+      nnqsym=nnpsym*(nnpsym+1)/2
+c
+      isym=1
+      jsym=isym+nnpsym
+      ijsym=jsym+nnpsym
+      ijpt=ijsym+nnpsym
+      ijklpt=ijpt+nnp
+      symoff=ijklpt+nnqsym
+      need=symoff+nsym
+c
+      call getscm(need,a,maxcor,' ',0)
+c
+      call sympt(nsym,nnpsym,nnqsym,a(isym),a(jsym),a(ijsym),a(ijpt),
+     #     a(ijklpt),a(symoff),nso,n1int,n2int,nnp,nbf)
+c
+c     ----- create an iosys integral file -----
+c
+      call iosys('read character "integral filename" from rwf',
+     #     -1,0,0,namint)
+      call iosys('open ints as new',0,0,0,namint)
+c
+c     ----- store these pointer and other useful arrays -----
+c
+      call iosys('write real "nuclear repulsion energy" to rwf',
+     $     1,nucrep,0,' ')
+      call iosys('write integer "number of basis functions" to rwf',1,
+     $     nbf,0,' ')
+      call iosys('write integer "number of so" to rwf',nsym,nso,0,' ')
+      call iosys('write integer "number of symmetries" to rwf',1,nsym,
+     #     0,' ')
+      call iosys('write integer "number 1 ints" to rwf',1,n1int,0,' ')
+      call iosys('write integer "number 2 ints" to rwf',1,n2int,0,' ')
+      call iosys('write integer "pair i symmetry" to rwf',nnpsym,
+     #     a(isym),0,' ')
+      call iosys('write integer "pair j symmetry" to rwf',nnpsym,
+     #     a(jsym),0,' ')
+      call iosys('write integer "pair symmetry" to rwf',nnpsym,
+     #     a(ijsym),0,' ')
+      call iosys('write integer "pair pointer" to rwf',nnp,a(ijpt),
+     #     0,' ')
+      call iosys('write integer "symmetry pointer" to rwf',nnqsym,
+     #     a(ijklpt),0,' ')
+      call iosys('write integer "symmetry offsets" to rwf',nsym,
+     #     a(symoff),0,' ')
+c
+c ***** change lenbuf to 500 since integrals are read in , in 500 blocks
+      lenbuf=500
+c *****
+c
+c     ----- core for one-electron part -----
+c
+      t1=iadtwp(need)
+      t2=t1+n1int
+      rbuf=t2+n1int
+      ibuf=wpadti(rbuf + lenbuf)
+      need=ibuf+lenbuf
+c
+      call getscm(need,a,maxcor,' ',0)
+c
+c     ----- overlap integrals -----
+c
+      call oneint(z(t1),n1int,a(ibuf),z(rbuf),lenbuf,nnp,a(ijpt),
+     #     a(symoff),nsym,itape,bfsym,bfnum)
+      call iosys('write real "so overlap integrals" to rwf',
+     $     nnp,z(t1),0,' ')
+c
+c      write (iout,200) 
+c 200  format (5x,'the overlap integrals:')
+c      call print(z(t1),nnp,nbf,iout)
+c
+c     ----- one-electron integrals -----
+c
+      call oneint(z(t1),n1int,a(ibuf),z(rbuf),lenbuf,nnp,a(ijpt),
+     #     a(symoff),nsym,itape,bfsym,bfnum)
+c
+      call iosys('write real "so one-electron integrals" to rwf',
+     $     n1int,z(t1),0,' ')
+c
+      call oneint(z(t2),n1int,a(ibuf),z(rbuf),lenbuf,nnp,a(ijpt),
+     #     a(symoff),nsym,itape,bfsym,bfnum)
+c
+      call iosys('write real "sokinetic integrals" to rwf',
+     $     n1int,z(t2),0,' ')
+c
+c      write (iout,202)
+c 202  format(/,5x,'the kinetic integrals:')
+c      call print(z(t2),nnp,nbf,iout)
+c
+c
+      do 1 i=1,n1int
+         z(t1+i-1)=z(t1+i-1)-z(t2+i-1)
+    1 continue
+c
+      call iosys('write real "so potential integrals" to rwf',
+     $     n1int,z(t1),0,' ')
+c
+c      write (iout,201)
+c 201  format(/,5x,'the potential integrals:')
+c      call print(z(t1),nnp,nbf,iout)
+c
+c     ----- core for two-electron part -----
+c
+      lenbin=1024
+c
+      rbuf=iadtwp(need)
+      ibuf=wpadti(rbuf+lenbuf)
+      values=iadtwp(ibuf+lenbuf)
+      ptr=wpadti(values+lenbin)
+      bins=ptr+lenbin
+      sort=iadtwp(bins+lenbin)
+      asort=wpadti(sort)
+c
+      call getscm(0,a,maxcor,' ',0)
+c
+      lnsort=min(maxcor-asort+1,n2int)
+      need=asort+lnsort
+c
+      call getscm(need,a,maxcor,' ',0)
+c
+      call twoint(a(ibuf),z(rbuf),lenbuf,z(values),a(ptr),lenbin,
+     #     z(sort),a(asort),lnsort,n2int,a(ijklpt),nnqsym,nso,
+     #     nsym,itape,a(bins),intfil,bfsym,bfnum)
+c
+      call count(a(ibuf),z(rbuf),lenbuf,z(values),a(ptr),lenbin,
+     #     z(sort),a(asort),lnsort,n2int,a(ijklpt),nnqsym,nso,
+     #     nsym,itape,a(bins),intfil)
+c
+c     ----- symmetry block the vector -----
+c
+      nblock=0
+      do 100 i=1,nsym
+         nblock=nblock+nso(i)**2
+ 100  continue
+c
+      cao=1
+      cso=cao+nbf**2
+      eigval=cso+nblock
+      need=wpadti(eigval+nbf)
+c
+      call getscm(need,a,maxcor,' ',0)
+c
+      call cblock(gvbvec,z(cao),z(cso),bfsym,bfnum,orbsym,nbf,nblock,nso
+     $     ,nsym,ibuff,z(eigval))
+c
+      call chainx(0)
+c
+c
+      stop
+      end
+      subroutine matblk(mat,blksiz,nblks,iout)
+c
+c***begin prologue     matblk
+c***date written       871125   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c
+c***keywords           blocked matrix printing
+c***author             saxe, paul (lanl)
+c***source             %W%   %G%
+c
+c***purpose            to print a blocked matrix, block by block.
+c
+c***description        
+c
+c***references         
+c
+c***routines called    (none)
+c
+c***end prologue       matblk
+c
+      implicit integer (a-z)
+c
+      real*8 mat(*)
+      integer blksiz(nblks)
+      integer iout
+c
+c     ----- print each block if it exists -----
+c
+      pt=1
+      do 2 blk=1,nblks
+         size=blksiz(blk)
+         if (size.gt.0) then
+            write (iout,1) blk
+ 1          format (/,t10,'block ',i3)
+            call matout(mat(pt),size,size,size,size,iout)
+            pt=pt+size**2
+         end if
+ 2    continue
+c
+c
+      return
+      end
+ 
+*deck oneint
+      subroutine oneint(x,n1int,lbli,stvi,lenbuf,nnp,ijpt,symoff,nsym,
+     #                  itape,bfsym,bfnum)
+c
+      implicit integer (a-z)
+c
+      real*8 x(n1int),stvi(lenbuf)
+      integer lbli(lenbuf),ijpt(nnp),symoff(nsym)
+      integer bfsym(lenbuf),bfnum(lenbuf)
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c
+      call rzero(x,n1int)
+ 
+       read(14) kk
+       write(iout,26)
+   26 format(/,10x,'next one-electron integral set')
+c
+  200 continue
+c **** comment out pauls reads
+c        call sread(itape,lbli,lenbuf)
+c        ilsti=lbli(1)
+c        nbuf=lbli(2)
+ 
+c **** read in from ijkl tape
+ 
+      read(14) nbuf,ilsti,lbli,stvi
+       if(nbuf.le.0) go to 110
+ 
+         do 101 ii=1,nbuf
+c ***** comment out pauls indexing and unpack ijkl
+ 
+c           jsm=rshift(lbli(ii+2),8)
+c           ior=rshift(jsm,3)
+c           ism=rshift(ior,8) + 1
+c           ior=and(ior,255)
+c           jsm=and(jsm,7) + 1
+c           jor=and(lbli(ii+2),255)
+            j1=shiftr(lbli(ii),40).a.(.n.mask(54))
+            i1=shiftr(lbli(ii),50)
+            ism=bfsym(i1)
+            jsm=bfsym(j1)
+            ior=bfnum(i1)
+            jor=bfnum(j1)
+            i=symoff(ism)+ior
+            j=symoff(jsm)+jor
+            ij=ioff(i,j)
+            x(ijpt(ij))=stvi(ii)
+cps          write(iout,25) i,j,ism,jsm,x(ijpt(ij))
+cps 25      format(5x,' i=',i3,' j=',i3,' isym=',i3,' jsym=',i3,/,5x,
+cps     #' the int value=',e13.6)
+  101    continue
+  110 if(ilsti.eq.0) go to 200
+c
+      return
+      end
+*deck putvec
+      subroutine putvec(c,eigval,nbf)
+c
+c***purpose: to put the scf vector on rwf. currently handles only
+c            no-sym vectors
+c
+c paul saxe                      20 august 1984                   lanl
+c
+      implicit integer (a-z)
+c
+      real*8 c(nbf,nbf),eigval(nbf)
+      character*16 xform
+c
+      common /io/ inp,iout
+c
+c     ----- store vector and eigenvalues on rwf -----
+c
+      call iosys('write real "scf vector" on rwf',nbf**2,c,0,' ')
+      call iosys('write real "orbital energies" on rwf',nbf,eigval,
+     $     0,' ')
+      xform='"scf vector"'
+      call iosys('write character "transformation vector" to rwf',
+     $     0,0,0,xform)
+c
+c
+      return
+      end
+*deck symprd
+      integer function symprd(i,j)
+       symprd=xor(i-1,j-1)+1
+      return
+      end
+*deck sympt
+      subroutine sympt(nsym,nnpsym,nnqsym,isym,jsym,ijsym,ijpt,ijklpt,
+     #                 symoff,nso,n1int,n2int,nnp,nbf)
+c
+      implicit integer (a-z)
+c
+      integer isym(nnpsym),jsym(nnpsym),ijsym(nnpsym),ijklpt(nnqsym)
+      integer nso(nsym),ijpt(nnp),symoff(nsym)
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- store the symmetry types for pairs -----
+c
+      symoff(1)=0
+      do 30 i=2,nsym
+         symoff(i)=symoff(i-1)+nso(i-1)
+   30 continue
+c
+      do 40 i=1,nnp
+         ijpt(i)=0
+   40 continue
+c
+      n1int=0
+      do 2 i=1,nsym
+         do 1 j=1,i
+            ij=ioff(i,j)
+            isym(ij)=i
+            jsym(ij)=j
+            ijsym(ij)=symprd(i,j)
+    1    continue
+         do 20 ii=1,nso(i)
+            ia=ioff(symoff(i)+ii,symoff(i))
+            do 19 jj=1,ii
+               n1int=n1int+1
+               ijpt(ia+jj)=n1int
+   19       continue
+   20    continue
+    2 continue
+c
+c     ----- now pointers to the first of a symmetry chunk -----
+c
+      n2int=0
+      do 4 ij=1,nnpsym
+         do 3 kl=1,ij
+            ijkl=ioff(ij,kl)
+            if (symprd(ijsym(ij),ijsym(kl)).eq.1) then
+               ijklpt(ijkl)=n2int
+               if (isym(ij).eq.jsym(ij).and.isym(kl).eq.jsym(kl)) then
+                  n2int=n2int+ioff(nso(isym(ij)),nso(isym(ij)))*
+     #                        ioff(nso(isym(kl)),nso(isym(kl)))
+               else if (isym(ij).eq.jsym(ij)) then
+                  call lnkerr('1')
+                  n2int=n2int+ioff(nso(isym(ij)),nso(jsym(ij)))*
+     #                        nso(isym(kl))*nso(jsym(kl))
+               else if (isym(kl).eq.jsym(kl)) then
+                  call lnkerr('2')
+                  n2int=n2int+nso(isym(ij))*nso(jsym(ij))*
+     #                        ioff(isym(kl),jsym(kl))
+               else
+                  n2int=n2int+nso(isym(ij))*nso(jsym(ij))*
+     #                        nso(isym(kl))*nso(jsym(kl))
+               end if
+            else
+               ijklpt(ijkl)=-999999999
+            end if
+    3    continue
+    4 continue
+c
+c     ----- print some pertinent arrays -----
+c
+      return
+c
+      write (iout,9)
+    9 format (/,'  symmetry pointer arrays:')
+      do 14 i=1,nsym
+         do 13 j=1,i
+            do 12 k=1,i
+               if (i.eq.k) then
+                  lmax=j
+               else
+                  lmax=k
+               end if
+               do 11 l=1,lmax
+                  ij=ioff(i,j)
+                  kl=ioff(k,l)
+                  ijkl=ioff(ij,kl)
+                  if (ij.eq.kl.and.isym(ij).eq.jsym(kl)) then
+                     n=ioff(nso(isym(ij)),nso(isym(ij)))**2
+                  else
+                     n=nso(isym(ij))*nso(jsym(ij))*
+     #                     nso(isym(kl))*nso(jsym(kl))
+                  end if
+                  write (iout,10) ijkl,i,j,k,l,ijsym(ij),ijsym(kl),
+     #                             ijklpt(ijkl),n
+   10             format (1x,i4,2x,4i1,3x,2i3,1x,i10,i5)
+   11           continue
+   12        continue
+   13     continue
+   14 continue
+c
+      write (iout,15) symoff
+   15 format (/,' symoff: ',8i4)
+      write (iout,16)
+   16 format (/,' ijpt:')
+      do 90 i=1,nbf
+         i1=i*(i-1)/2+1
+         i2=i*(i-1)/2+i
+         write (iout,80) (ijpt(j),j=i1,i2)
+   80    format (1x,20i4,(/,5x,20i4))
+   90 continue
+      write (iout,17) n1int,n2int
+   17 format (/,' number of one-electron integrals in symmetry: ',i8,
+     #        /,' number of two-electron integrals in symmetry: ',i8)
+c
+c
+      return
+      end
+*deck twoint
+      subroutine twoint(label,int,lenbuf,values,ptr,lenbin,sort,
+     #                  asort,lnsort,n2int,ijklpt,nnqsym,nso,nsym,
+     #                  itape,bins,intfil,bfsym,bfnum)
+c
+      implicit integer (a-z)
+c
+      real*8 int(lenbuf),values(lenbin),sort(*)
+      integer label(lenbuf),ptr(lenbin),ijklpt(nnqsym),nso(nsym)
+      integer asort(lnsort),bins(lenbin)
+      integer bfsym(lenbuf),bfnum(lenbuf)
+      character*(*) intfil
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+      ioff2(i,j,k,l)=ioff(ioff(i,j),ioff(k,l))
+c
+c     ----- initialise the sorting routines -----
+      write(iout,77)
+   77 format(/,10x,'two-electron integral set')
+c
+      call sorter('start',asort,sort,lnsort,n2int,0,0,0,0,
+     #             'sorted so integrals','ints',.true.)
+c
+      n=0
+      nints=0
+      read(14) kk
+    5 continue
+         read(14) nbuf,ilsti,label,int
+         if(nbuf.le.0) go to 50
+         do 45 i=1,nbuf
+            call unpack(label(i),io,jo,ko,lo,mo)
+            ism=bfsym(io)
+            jsm=bfsym(jo)
+            ksm=bfsym(ko)
+            lsm=bfsym(lo)
+            ior=bfnum(io)
+            jor=bfnum(jo)
+            kor=bfnum(ko)
+            lor=bfnum(lo)
+c
+c            write (iout,230) i,ism,jsm,ksm,lsm,ior,jor,kor,lor,int(i)
+c 230        format (i5,4i3,5x,4i3,f12.6)
+c
+c           ----- flip symmetries to be canonical -----
+c
+            if (jsm.gt.ism) then
+               junk=ism
+               ism=jsm
+               jsm=junk
+               junk=ior
+               ior=jor
+               jor=junk
+            end if
+            if (lsm.gt.ksm) then
+               junk=ksm
+               ksm=lsm
+               lsm=junk
+               junk=kor
+               kor=lor
+               lor=junk
+            end if
+            if (ksm.gt.ism.or.(ksm.eq.ism.and.lsm.gt.jsm)) then
+               junk=ism
+               ism=ksm
+               ksm=junk
+               junk=ior
+               ior=kor
+               kor=junk
+               junk=jsm
+               jsm=lsm
+               lsm=junk
+               junk=jor
+               jor=lor
+               lor=junk
+            end if
+c
+c           ----- check for non-canonical symmetry labels -----
+c
+            if (jsm.gt.ism.or.lsm.gt.ksm.or.(ism.eq.ksm.and.lsm.gt.jsm))
+     #                                                              then
+               call lnkerr('non-canonical symmetry types')
+            end if
+c
+c           ----- and non-canonical orbital labels -----
+c
+            if ((ism.eq.jsm.and.jor.gt.ior).or.
+     #          (ksm.eq.lsm.and.lor.gt.kor).or.
+     #          (ism.eq.ksm.and.jsm.eq.lsm.and.ior.eq.kor
+     #           .and.lor.gt.jor)) then
+               call lnkerr('non-canonical orbital types')
+            end if
+c
+            if (n+2.gt.lenbin) then
+c
+c              ----- dump this bin to the sort routines -----
+c
+               call sorter('with bin',asort,sort,0,n,ptr,bins,values,
+     #                      0,0,0,0)
+               nints=nints+n
+               n=0
+            end if
+c
+c           ----- some integrals must be placed two places -----
+c
+            if (ism.eq.ksm.and.jsm.eq.lsm) then
+c
+c              ----- ij;kl --> ij;kl & kl;ij
+c
+               ijkl=ijklpt(ioff2(ism,jsm,ksm,lsm))
+               values(n+1)=int(i)
+               values(n+2)=int(i)
+c
+               if (ism.eq.jsm) then
+c
+c                 ----- [ii;ii] -----
+c
+                  ptr(n+1)=ijkl+
+     #                     (ioff(kor,lor)-1)*ioff(nso(ism),nso(jsm))+
+     #                     ioff(ior,jor)
+                  ptr(n+2)=ijkl+
+     #                     (ioff(ior,jor)-1)*ioff(nso(ksm),nso(lsm))+
+     #                     ioff(kor,lor)
+c
+                  if (ptr(n+1).gt.n2int.or.ptr(n+2).gt.n2int) then
+                     write (iout,1020) n,ptr(n+1),ptr(n+2),n2int,
+     $                    ism,jsm,ksm,lsm,ior,jor,kor,lor,ijkl,
+     $                    nso(ism),nso(jsm),nso(ksm),nso(lsm),
+     $                    ioff(kor,lor)-1,
+     $                    ioff(nso(ism),nso(jsm)),ioff(ior,jor),
+     $                    ioff(nso(ksm),nso(lsm))
+ 1020                format ('iiii',i5,3i9,/,1x,4i3,5x,4i3,/,1x,i19,
+     $                    4x,4i4,4x,4i9)
+                     call lnkerr('iiii')
+                  end if
+               else 
+c
+c                 ----- [ij;ij] -----
+c
+                  ptr(n+1)=ijkl+ior+nso(ism)*(jor-1+nso(jsm)*(kor-1+
+     #                     nso(ksm)*(lor-1)))
+                  ptr(n+2)=ijkl+kor+nso(ksm)*(lor-1+nso(lsm)*(ior-1+
+     #                     nso(ism)*(jor-1)))
+                  if (ptr(n+1).gt.n2int.or.ptr(n+2).gt.n2int) then
+                     write (iout,1021) n,ptr(n+1),ptr(n+2),n2int,
+     $                    ism,jsm,ksm,lsm,ior,jor,kor,lor,ijkl,
+     $                    nso(ism),nso(jsm),nso(ksm),nso(lsm)
+ 1021                format ('ijij',i5,3i9,/,1x,4i3,5x,4i3,/,1x,i19,
+     $                    4x,4i4,4x,4i9)
+                     call lnkerr('ijij')
+                  end if
+               end if
+c
+               n=n+2
+            else
+c
+c              ----- ij;kl --> ij;kl
+c
+               ijkl=ijklpt(ioff2(ism,jsm,ksm,lsm))
+               values(n+1)=int(i)
+               if (ism.eq.jsm.and.ksm.eq.lsm) then
+c
+c                 ----- [ii;jj] -----
+c
+                  ptr(n+1)=ijkl+ioff(ior,jor)+ioff(nso(ism),nso(ism))*
+     #                          (ioff(kor,lor)-1)
+                  if (ptr(n+1).gt.n2int) then
+                     write (iout,1022) n,ptr(n+1),ptr(n+2),n2int,
+     $                    ism,jsm,ksm,lsm,ior,jor,kor,lor,ijkl,
+     $                    nso(ism),nso(jsm),nso(ksm),nso(lsm),
+     $                    ioff(kor,lor)-1,
+     $                    ioff(nso(ism),nso(jsm)),ioff(ior,jor),
+     $                    ioff(nso(ksm),nso(lsm))
+ 1022                format ('iijj',i5,3i9,/,1x,4i3,5x,4i3,/,1x,i19,
+     $                    4x,4i4,4x,4i9)
+                     call lnkerr('iijj')
+                  end if
+               else
+c                  
+c                 ----- [ij;kl] -----
+c
+                  ptr(n+1)=ijkl+ior+nso(ism)*(jor-1+nso(jsm)*(kor-1+
+     #                     nso(ksm)*(lor-1)))
+                  if (ptr(n+1).gt.n2int) then
+                     write (iout,1023) n,ptr(n+1),ptr(n+2),n2int,
+     $                    ism,jsm,ksm,lsm,ior,jor,kor,lor,ijkl,
+     $                    nso(ism),nso(jsm),nso(ksm),nso(lsm)
+ 1023                format ('ijkl',i5,3i9,/,1x,4i3,5x,4i3,/,1x,i19,
+     $                    4x,4i4,4x,4i9)
+                     call lnkerr('ijkl')
+                  end if
+               end if
+               n=n+1
+            end if
+ 45      continue
+ 50   if(ilsti.eq.0) go to 5
+c
+c     ----- finish up the sort -----
+c
+      call sorter('with bin',asort,sort,0,n,ptr,bins,values,0,0,0,0)
+      call sorter('end',asort,sort,0,0,0,0,0,0,0,0,0)
+c
+      nints=nints+n
+      write (iout,60) nints
+   60 format (/,' number of integrals processed out: ',i10)
+c
+c
+      return
+      end
+*deck unpack
+      subroutine unpack (pword,i,j,k,l,m)
+c     compile ftn with trace off and opt=1 or opt=2
+c     pword is not altered
+      kfn(i)=i+4
+      i=and(compl(mask(kfn(50))),shift(pword,kfn(10)))
+      j=and(compl(mask(kfn(50))),shift(pword,kfn(20)))
+      k=and(compl(mask(kfn(50))),shift(pword,kfn(30)))
+      l=and(compl(mask(kfn(50))),shift(pword,kfn(40)))
+      m=and(compl(mask(kfn(55))),shift(pword,kfn(45)))
+      return
+      end
+ 

@@ -1,0 +1,11 @@
+*deck @(#)README	5.1 11/6/94
+this machine dependent library for the HP cals several subroutines which
+derive from BSD routines on the SUN. They include:
+comand.f : getarg
+lnkerr.f : abort
+lxopen.f : hostnm
+timing.f : etime
+usrnam.f : getlog
+versn.f  : hostnm
+these routines are available at load time if the parameter +U77 is included
+in the LDFLAGS variable.

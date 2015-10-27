@@ -1,0 +1,752 @@
+*deck iniijj
+      subroutine iniijj(ci,ni,cj,nj,t1,t2,maxblk,so,half1,half2,mo1,
+     #                  mo2,nii,njj,pt,ops)
+c
+      implicit integer (a-z)
+c
+      real*8 ci(ni,ni),cj(nj,nj),t1(maxblk,maxblk),t2(maxblk,maxblk)
+      real*8 so(nii,njj),half1(nii,njj)
+      real*8 half2(njj,nii),mo1(njj,nii),mo2(nii,njj)
+      character*(*) ops
+      logical logkey
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- read in this block of integrals -----
+c
+      call iosys('read real "sorted so integrals" from ints',
+     $     nii*njj,so,pt,' ')
+c
+      if (logkey(ops,'print=so-integrals',.false.,' ')) then
+         do 80 k=1,nj
+            do 70 l=1,k
+               kl=ioff(k,l)
+               write (iout,65) kl,k,l
+   65          format (/,1x,i5,20x,'so orbitals ',i3,' and ',i3)
+               call print(so(1,kl),nii,ni,iout)
+   70       continue
+   80    continue
+      end if
+c
+c     ----- transform the first pair of indices -----
+c
+      do 10 kl=1,njj
+         call trtosq(t1,so(1,kl),ni,nii)
+         call ebc(t2,t1,ci,ni,ni,ni)
+         call ebtc(t1,ci,t2,ni,ni,ni)
+         call sqtotr(half1(1,kl),t1,ni,nii)
+   10 continue
+c
+c     ----- transpose the half-transformed integrals -----
+c
+      call trpose(half2,half1,nii,njj)
+c
+c     ----- and transform the second pair of indices -----
+c
+      do 20 ij=1,nii
+         call trtosq(t1,half2(1,ij),nj,njj)
+         call ebc(t2,t1,cj,nj,nj,nj)
+         call ebtc(t1,cj,t2,nj,nj,nj)
+         call sqtotr(mo1(1,ij),t1,nj,njj)
+   20 continue
+c
+c     ----- and transpose back to original order -----
+c
+      call trpose(mo2,mo1,njj,nii)
+c
+c     ----- and write the mo integrals back out -----
+c
+      call iosys('write real "mo two-electron integrals" to ints',
+     $     nii*njj,mo2,pt,' ')
+c
+      if (logkey(ops,'print=mo-integrals',.false.,' ')) then
+         do 40 k=1,nj
+            do 30 l=1,k
+               kl=ioff(k,l)
+               write (iout,25) kl,k,l
+   25          format (/,1x,i5,20x,'mo orbitals ',i3,' and ',i3)
+               call print(mo2(1,kl),nii,ni,iout)
+   30       continue
+   40    continue
+      end if
+c
+c
+      return
+      end
+*deck inijkl
+      subroutine inijkl(ci,ni,cj,nj,ck,nk,cl,nl,t1,t2,maxblk,so,half1,
+     #                  half2,mo1,mo2,nij,nkl,pt,ops)
+c
+      implicit integer (a-z)
+c
+      real*8 ci(ni,ni),cj(nj,nj),ck(nk,nk),cl(nl,nl)
+      real*8 t1(maxblk,maxblk),t2(maxblk,maxblk)
+      real*8 so(nij,nkl),half1(nij,nkl)
+      real*8 half2(nkl,nij),mo1(nkl,nij),mo2(nij,nkl)
+      character*(*) ops
+      logical logkey
+c
+      common /io/ inp,iout
+c
+c     ----- read in this block of integrals -----
+c
+      call iosys('read real "sorted so integrals" from ints',
+     $     nij*nkl,so,pt,' ')
+c
+      if (logkey(ops,'print=so-integrals',.false.,' ')) then
+         do 80 k=1,nk
+            do 70 l=1,nl
+               kl=k+(l-1)*nk
+               write (iout,65) kl,k,l
+   65          format (/,1x,i5,20x,'so orbitals ',i3,' and ',i3)
+               call matout(so(1,kl),ni,nj,ni,nj,iout)
+   70       continue
+   80    continue
+      end if
+c
+c     ----- transform the first pair of indices -----
+c
+      do 10 kl=1,nkl
+         call ebc(t2,so(1,kl),cj,ni,nj,nj)
+         call ebtc(half1(1,kl),ci,t2,ni,ni,nj)
+   10 continue
+c
+c     ----- transpose the half-transformed integrals -----
+c
+      call trpose(half2,half1,nij,nkl)
+c
+c     ----- and transform the second pair of indices -----
+c
+      do 20 ij=1,nij
+         call ebc(t2,half2(1,ij),cl,nk,nl,nl)
+         call ebtc(mo1(1,ij),ck,t2,nk,nk,nl)
+   20 continue
+c
+c     ----- and transpose back to original order -----
+c
+      call trpose(mo2,mo1,nkl,nij)
+c
+c     ----- and write the mo integrals back out -----
+c
+      call iosys('write real "mo two-electron integrals" to ints',
+     $     nij*nkl,mo2,pt,' ')
+c
+      if (logkey(ops,'print=mo-integrals',.false.,' ')) then
+         do 40 k=1,nk
+            do 30 l=1,nl
+               kl=k+(l-1)*nk
+               write (iout,25) kl,k,l
+   25          format (/,1x,i5,20x,'mo orbitals ',i3,' and ',i3)
+               call matout(mo2(1,kl),ni,nj,ni,nj,iout)
+   30       continue
+   40    continue
+      end if
+c
+c
+      return
+      end
+*deck m810
+      program m810
+c
+      implicit integer (a-z)
+c
+c
+      real*8 z(1)
+      real*8 fzcore
+      character*496 ops
+      character*128 namint
+c
+      common a(1)
+      common /io/ inp,iout
+c
+      equivalence (a,z)
+c
+c     ----- initialize this routine -----
+c
+      call drum
+c
+c     ----- open integral file -----
+c
+      call iosys('read character "integral filename" from rwf',
+     $     0,0,0,namint)
+      call iosys('open ints as old',0,0,0,namint)
+c
+c     ----- retrieve parameters we'll need -----
+c
+      call iosys('read integer "number of symmetries" from rwf',1,nsym,
+     #             0,' ')
+      call iosys('read integer "number 1 ints" from rwf',1,n1int,0,' ')
+      call iosys('read integer "number 2 ints" from rwf',1,n2int,0,' ')
+c
+      nnpsym=nsym*(nsym+1)/2
+      nnqsym=nnpsym*(nnpsym+1)/2
+c
+c     ----- divvy up some core for these basic pointers -----
+c
+      nso=1
+      ijklpt=nso+nsym
+      blkpt=ijklpt+nnqsym
+      trpt=blkpt+nsym
+      isym=trpt+nsym
+      jsym=isym+nnpsym
+      ijsym=jsym+nnpsym
+      need=ijsym+nnpsym
+c
+      call getscm(need,a,maxcor,' ',0)
+c
+      call iosys('read integer "number of so" from rwf',nsym,
+     #            a(nso),0,' ')
+      call iosys('read integer "symmetry pointer" from rwf',nnqsym,
+     #            a(ijklpt),0,' ')
+      call iosys('read integer "pair i symmetry" from rwf',nnpsym,
+     #            a(isym),0,' ')
+      call iosys('read integer "pair j symmetry" from rwf',nnpsym,
+     #            a(jsym),0,' ')
+      call iosys('read integer "pair symmetry" from rwf',nnpsym,
+     #            a(ijsym),0,' ')
+c
+c     ----- temporarily write out a zero frozen core energy -----
+c
+      fzcore=0.0d+00
+      call iosys('write real "frozen core energy" to rwf',1,fzcore,
+     #            0,' ')
+c
+c     ----- ready for one-electron integral transformation -----
+c
+      blkn=0
+      blkmax=0
+      do 1 i=nso+1,nso+nsym
+         blkn=blkn+a(i-1)**2
+         blkmax=max(blkmax,a(i-1))
+    1 continue
+c
+      call iosys('write integer "maximum symmetry block size" to rwf',
+     $     1,blkmax,0,' ')
+c
+      c=iadtwp(need)
+      oneint=c+blkn
+      t1=oneint+n1int
+      t2=t1+blkmax**2
+      need=wpadti(t2+blkmax**2)
+c
+      call getscm(need,a,maxcor,' ',0)
+c
+      call iosys('read real "so scf vector" from rwf',blkn,z(c),
+     #            0,' ')
+c
+      call trnone(n1int,z(c),blkn,z(oneint),z(t1),z(t2),blkmax,nsym,
+     #            a(nso),a(blkpt),a(trpt))
+c
+      call iosys('write integer "symmetry triangle pointer" to rwf',
+     #            nsym,a(trpt),0,' ')
+      call iosys('write integer "symmetry block pointer" to rwf',
+     #            nsym,a(blkpt),0,' ')
+c
+      rneed=c+blkn
+      need=wpadti(rneed)
+      left=maxcor-need
+      call trntwo(n2int,z(c),blkn,nsym,a(nso),a(blkpt),a(ijklpt),
+     #            nnqsym,a(need),z(rneed),left,a(isym),a(jsym),
+     #            a(ijsym),nnpsym,ops)
+c
+c
+      call chainx(0)
+c
+c
+      stop
+      end
+*deck ociijj
+      subroutine ociijj(ci,ni,cj,nj,t1,t2,maxblk,lab,bin,lenbin,
+     #                  isort,rsort,lnsort,nii,njj,pt,in1,nin1,
+     #                  in2,nin2,ops)
+c
+      implicit integer (a-z)
+c
+      real*8 ci(ni,ni),cj(nj,nj),t1(maxblk,maxblk),t2(maxblk,maxblk)
+      real*8 rsort(*),in1(nii,nin1),in2(njj,nin2)
+      integer lab(lenbin),bin(lenbin),isort(lnsort)
+      character*(*) ops
+      logical logkey
+      logical prso
+      logical prmo
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+      prso=logkey(ops,'print=so-integrals',.false.,' ')
+      prmo=logkey(ops,'print=mo-integrals',.false.,' ')
+c
+c     ----- open up a file for the half-transformed integrals -----
+c
+      call iosys('open half as scratch on ssd',nii*njj/30,0,0,' ')
+c
+c     ----- initalize the sorting routines -----
+c
+      call sorter('start',isort,rsort,lnsort,nii*njj,0,0,0,0,
+     #             'half','half',.false.)
+c
+c     ----- set up the pointers for sorting -----
+c
+      do 1 i=1,nii
+         lab(i)=(i-1)*njj
+    1 continue
+c
+c     ----- loop over buffer loads of so integrals -----
+c
+      maxkl=0
+ 1000 continue
+         minkl=maxkl+1
+         maxkl=min(njj,maxkl+nin1)
+         numkl=maxkl-minkl+1
+         call iosys('read real "sorted so integrals" from ints',
+     $        nii*numkl,in1,pt+(minkl-1)*nii,' ')
+c
+c        ----- transform the first pair of indices -----
+c
+         do 10 kl=1,numkl
+c
+            if (prso) then
+               write (iout,65) minkl+kl-1
+   65          format (/,1x,i5,20x,'so orbitals ')
+               call print(in1(1,kl),nii,ni,iout)
+            end if
+c
+            call trtosq(t1,in1(1,kl),ni,nii)
+            call ebc(t2,t1,ci,ni,ni,ni)
+            call ebtc(t1,ci,t2,ni,ni,ni)
+            call sqtotr(t2,t1,ni,nii)
+c
+c           ----- increment the sort pointers -----
+c
+            do 2 i=1,nii
+               lab(i)=lab(i)+1
+    2       continue
+c
+c           ----- and pass this bin to the sorting routines -----
+c
+            call sorter('with bin',isort,rsort,0,nii,lab,bin,t2,0,0,0,0)
+   10    continue
+      if (maxkl.lt.njj) go to 1000
+c
+c     ----- finish sorting the half-transformed integrals -----
+c
+      call sorter('end',isort,rsort,0,0,0,0,0,0,0,0,0)
+c
+c     ----- initalize the sorting routines -----
+c
+      call sorter('start',isort,rsort,lnsort,nii*njj,0,0,0,pt,
+     #             'mo two-electron integrals','ints',.false.)
+c
+c     ----- set up the sort labels for the final half-transformation -----
+c
+      do 11 i=1,njj
+         lab(i)=(i-1)*nii
+   11 continue
+c
+c     ----- and transform the second pair of indices -----
+c
+      maxij=0
+ 2000 continue
+         minij=maxij+1
+         maxij=min(maxij+nin2,nii)
+         numij=maxij-minij+1
+         call iosys('read real half from half',njj*numij,in2,
+     #               (minij-1)*njj,' ')
+c
+         do 20 ij=1,numij
+            call trtosq(t1,in2(1,ij),nj,njj)
+            call ebc(t2,t1,cj,nj,nj,nj)
+            call ebtc(t1,cj,t2,nj,nj,nj)
+            call sqtotr(t2,t1,nj,njj)
+c
+c           ----- increment the sort pointers -----
+c
+            do 12 i=1,njj
+               lab(i)=lab(i)+1
+   12       continue
+c
+c           ----- and pass this bin to the sorting routines -----
+c
+            call sorter('with bin',isort,rsort,0,njj,lab,bin,t2,0,0,0,0)
+c
+            if (prmo) then
+               write (iout,25) minij+ij-1
+   25          format (/,1x,i5,20x,'mo orbitals ')
+               call print(t2,njj,nj,iout)
+            end if
+c
+   20    continue
+      if (maxij.lt.nii) go to 2000
+c
+c     ----- destroy the half-transformed integral file -----
+c
+      call iosys('destroy half',0,0,0,' ')
+c
+c     ----- finish sorting the transformed integrals -----
+c
+      call sorter('end',isort,rsort,0,0,0,0,0,0,0,0,0)
+c
+c
+      return
+      end
+*deck ocijkl
+      subroutine ocijkl(ci,ni,cj,nj,ck,nk,cl,nl,t1,t2,maxblk,
+     #                  lab,bin,lenbin,isort,rsort,lnsort,nij,nkl,
+     #                  pt,in1,nin1,in2,nin2,ops)
+c
+      implicit integer (a-z)
+c
+      real*8 ci(ni,ni),cj(nj,nj),ck(nk,nk),cl(nl,nl)
+      real*8 t1(maxblk,maxblk),t2(maxblk,maxblk)
+      real*8 rsort(*),in1(nij,nin1),in2(nkl,nin2)
+      integer lab(lenbin),bin(lenbin),isort(lnsort)
+      character*(*) ops
+      logical prso
+      logical prmo
+      logical logkey
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+      prso=logkey(ops,'print=so-integrals',.false.,' ')
+      prmo=logkey(ops,'print=mo-integrals',.false.,' ')
+c
+c     ----- open up a file for the half-transformed integrals -----
+c
+      call iosys('open half as scratch on ssd',nij*nkl/30,0,0,' ')
+c
+c     ----- initalize the sorting routines -----
+c
+      call sorter('start',isort,rsort,lnsort,nij*nkl,0,0,0,0,
+     #             'half','half',.false.)
+c
+c     ----- set up the pointers for sorting -----
+c
+      do 1 i=1,nij
+         lab(i)=(i-1)*nkl
+    1 continue
+c
+c     ----- loop over buffer loads of so integrals -----
+c
+      maxkl=0
+ 1000 continue
+         minkl=maxkl+1
+         maxkl=min(nkl,maxkl+nin1)
+         numkl=maxkl-minkl+1
+         call iosys('read real "sorted so integrals" from ints',
+     $        nij*numkl,in1,pt+(minkl-1)*nij,' ')
+c
+c        ----- transform the first pair of indices -----
+c
+         do 10 kl=1,numkl
+c
+            if (prso) then
+               write (iout,65) minkl+kl-1
+   65          format (/,1x,i5,20x,'so orbitals ')
+               call matout(in1(1,kl),ni,nj,ni,nj,iout)
+            end if
+c
+            call ebc(t1,in1(1,kl),cj,ni,nj,nj)
+            call ebtc(t2,ci,t1,ni,ni,nj)
+c
+c           ----- increment the sort pointers -----
+c
+            do 2 i=1,nij
+               lab(i)=lab(i)+1
+    2       continue
+c
+c           ----- and pass this bin to the sorting routines -----
+c
+            call sorter('with bin',isort,rsort,0,nij,lab,bin,t2,0,0,0,0)
+   10    continue
+      if (maxkl.lt.nkl) go to 1000
+c
+c     ----- finish sorting the half-transformed integrals -----
+c
+      call sorter('end',isort,rsort,0,0,0,0,0,0,0,0,0)
+c
+c     ----- initalize the sorting routines -----
+c
+      call sorter('start',isort,rsort,lnsort,nij*nkl,0,0,0,pt,
+     #             'mo two-electron integrals','ints',.false.)
+c
+c     ----- set up the sort labels for the final half-transformation -----
+c
+      do 11 i=1,nkl
+         lab(i)=(i-1)*nij
+   11 continue
+c
+c     ----- and transform the second pair of indices -----
+c
+      maxij=0
+ 2000 continue
+         minij=maxij+1
+         maxij=min(maxij+nin2,nij)
+         numij=maxij-minij+1
+         call iosys('read real half from half',nkl*numij,in2,
+     #               (minij-1)*nkl,' ')
+c
+         do 20 ij=1,numij
+            call ebc(t1,in2(1,ij),cl,nk,nl,nl)
+            call ebtc(t2,ck,t1,nk,nk,nl)
+c
+c           ----- increment the sort pointers -----
+c
+            do 12 i=1,nkl
+               lab(i)=lab(i)+1
+   12       continue
+c
+c           ----- and pass this bin to the sorting routines -----
+c
+            call sorter('with bin',isort,rsort,0,nkl,lab,bin,t2,0,0,0,0)
+c
+            if (prmo) then
+               write (iout,25) minij+ij-1
+   25          format (/,1x,i5,20x,'mo orbitals ')
+               call matout(t2,nk,nl,nk,nl,iout)
+            end if
+c
+   20    continue
+      if (maxij.lt.nij) go to 2000
+c
+c     ----- destroy the half-transformed integral file -----
+c
+      call iosys('destroy half',0,0,0,' ')
+c
+c     ----- finish sorting the transformed integrals -----
+c
+      call sorter('end',isort,rsort,0,0,0,0,0,0,0,0,0)
+c
+c
+      return
+      end
+*deck trnone
+      subroutine trnone(n1int,c,blkn,oneint,t1,t2,blkmax,nsym,nso,blkpt,
+     #                  trpt)
+c
+      implicit integer (a-z)
+c
+      real*8 c(blkn),oneint(n1int),t1(blkmax,blkmax),t2(blkmax,blkmax)
+      integer nso(nsym),blkpt(nsym),trpt(nsym)
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- form the pointers to block in the vector and triangles of integrals
+c
+      blkpt(1)=1
+      trpt(1)=1
+      do 1 i=2,nsym
+         blkpt(i)=blkpt(i-1)+nso(i-1)**2
+         trpt(i)=trpt(i-1)+ioff(nso(i-1),nso(i-1))
+    1 continue
+c
+c     ----- transform one block at a time -----
+c
+      call iosys('read real "so one-electron integrals" from rwf',
+     $     n1int,oneint,0,' ')
+c
+      do 10 sym=1,nsym
+         n=nso(sym)
+         nnp=ioff(n,n)
+         cpt=blkpt(sym)
+         ipt=trpt(sym)
+c         write (6,89) sym
+c   89    format (/,' symmetry ',i1,' scf vector')
+c         call matout(c(cpt),n,n,n,n,6)
+c         write (6,90) 
+c   90    format (/,'                so one-electron integrals')
+c         call print(oneint(ipt),nnp,n,6)
+         call trtosq(t1,oneint(ipt),n,nnp)
+         call ebc(t2,t1,c(cpt),n,n,n)
+         call ebtc(t1,c(cpt),t2,n,n,n)
+         call sqtotr(oneint(ipt),t1,n,nnp)
+c         write (6,91) 
+c   91    format (/,'                 mo one-electron integrals')
+c         call print(oneint(ipt),nnp,n,6)
+   10 continue
+c
+      call iosys('write real "mo one-electron integrals" to ints',
+     $     n1int,oneint,0,' ')
+c
+c
+      return
+      end
+*deck trntwo
+      subroutine trntwo(n2int,c,blkn,nsym,nso,blkpt,ijklpt,nnqsym,
+     #                  a,z,maxcor,isym,jsym,ijsym,nnpsym,ops)
+c
+      implicit integer (a-z)
+c
+      real*8 c(blkn),z(*)
+      integer nso(nsym),ijklpt(nnqsym),a(maxcor),isym(nnpsym)
+      integer jsym(nnpsym),ijsym(nnpsym),blkpt(nsym)
+      character*3 answer
+      character*(*) ops
+c
+c     ----- 'minbin' is the minumum size for bins passed to the sort,
+c           'minbuf' is the minimum size of the input buffer for the
+c                    out-of-core transformations
+c
+      parameter (minbin=1024)
+      parameter (minbuf=30000)
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- how much memory is there? -----
+c
+      call getscm(0,a,maxcor,' ',0)
+c
+c     ----- loop over a canonical list of symmetries, transforming each -----
+c
+      call iosys('does "mo two-electron integrals" exist on ints',
+     $     0,0,0,answer)
+      if (answer.eq.'no') then
+         call iosys('create real "mo two-electron integrals" on ints',
+     $        n2int,0,0,' ')
+      end if
+c
+      do 200 ijs=1,nnpsym
+         is=isym(ijs)
+         ni=nso(is)
+         iblk=blkpt(is)
+         js=jsym(ijs)
+         nj=nso(js)
+         jblk=blkpt(js)
+         if (is.eq.js) then
+            nij=ioff(ni,nj)
+         else
+            nij=ni*nj
+         end if
+c
+         do 100 kls=1,ijs
+c
+c           ----- check for totally symmetric integrals -----
+c
+            if (ijsym(ijs).ne.ijsym(kls)) go to 100
+            ks=isym(kls)
+            nk=nso(ks)
+            kblk=blkpt(ks)
+            ls=jsym(kls)
+            nl=nso(ls)
+            lblk=blkpt(ls)
+            if (ks.eq.ls) then
+               nkl=ioff(nk,nl)
+            else
+               nkl=nk*nl
+            end if
+            if (nij*nkl.eq.0) go to 100
+            maxblk=max(ni,nj,nk,nl)
+            ijkl=ioff(ioff(is,js),ioff(ks,ls))
+            pt=ijklpt(ijkl)
+c
+c           ----- divide up core as if we can do this in-core -----
+c
+            so=1
+            half1=so+nij*nkl
+            half2=so
+            mo1=half1
+            mo2=so
+            t1=half1+nij*nkl
+            t2=t1+maxblk**2
+            need=wpadti(t2+maxblk**2)
+c
+            write (iout,10) ijkl,is,js,ks,ls,pt,ni,nj,nk,nl
+   10       format (//,' symmetry block ',i3,5x,4i1,i8,5x,4i3)
+c
+c           ----- if possible, do an incore transformation -----
+c
+            if (need.le.maxcor.and.index(ops,'out-of-core').le.0) then
+c
+               call getscm(need,a,junk,' ',0)
+c
+               write (iout,11)
+   11          format ('      in-core transformation')
+c
+               if (is.eq.js.and.ks.eq.ls) then
+                  call iniijj(c(iblk),ni,c(kblk),nk,z(t1),z(t2),maxblk,
+     #                        z(so),z(half1),z(half2),z(mo1),z(mo2),
+     #                        nij,nkl,pt,ops)
+               else if (is.eq.js) then
+                  call lnkerr('iijk')
+               else if (ks.eq.ls) then
+                  call lnkerr('ijkk')
+               else 
+                  call inijkl(c(iblk),ni,c(jblk),nj,c(kblk),nk,c(lblk),
+     #                        nl,z(t1),z(t2),maxblk,z(so),z(half1),
+     #                        z(half2),z(mo1),z(mo2),nij,nkl,pt,ops)
+               end if
+            else
+c
+c              ----- resign ourselves to an out-of-core transformation -----
+c
+               write (iout,12)
+   12          format ('      out-of-core transformation')
+c
+               t1=1
+               t2=t1+maxblk**2
+               if (is.eq.js.and.ks.eq.ls) then
+                  lenbin=ioff(maxblk,maxblk)
+               else
+                  lenbin=maxblk**2
+               end if
+               lab=wpadti(t2+maxblk**2)
+               bin=lab+lenbin
+               in=iadtwp(bin+lenbin)
+               nin1=min(minbuf/nij+1,nkl)
+               nin2=min(minbuf/nkl+1,nij)
+               rsort=in+nij*max(nin1,nin2)
+               isort=wpadti(rsort)
+               lnsort=maxcor-isort+1
+               need=isort+lnsort
+c
+               call getscm(need,a,junk,' ',0)
+c
+               if (lnsort.le.0) then
+                  call lnkerr('not enough memory for out-of-core sort')
+               end if
+c
+               if (is.eq.js.and.ks.eq.ls) then
+                  call ociijj(c(iblk),ni,c(kblk),nk,z(t1),z(t2),maxblk,
+     #                        a(lab),a(bin),lenbin,
+     #                        a(isort),z(rsort),lnsort,
+     #                        nij,nkl,pt,z(in),nin1,z(in),nin2,ops)
+               else if (is.eq.js) then
+                  call lnkerr('iijk out-of-core transformation')
+               else if (ks.eq.ls) then
+                  call lnkerr('ijkk out-of-core transformation')
+               else 
+                  call ocijkl(c(iblk),ni,c(jblk),nj,c(kblk),nk,c(lblk),
+     #                        nl,z(t1),z(t2),maxblk,a(lab),a(bin),
+     #                        lenbin,a(isort),z(rsort),lnsort,
+     #                        nij,nkl,pt,z(in),nin1,z(in),nin2,ops)
+               end if
+            end if
+  100    continue
+  200 continue
+c
+c
+      return
+      end
+      subroutine trpose(out,in,ni,nj)
+c
+      implicit integer (a-z)
+c
+      real*8 out(nj,ni)
+      real*8 in(ni,nj)
+c
+      do 2 i=1,ni
+         do 1 j=1,nj
+            out(j,i)=in(i,j)
+ 1       continue
+ 2    continue
+c
+c
+      return
+      end
+ 

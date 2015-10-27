@@ -1,0 +1,20 @@
+$route
+hf,
+q=0,
+cox-williams=(print=potential),
+print=(scf=energy,basis,m501=vector),
+scf=(pulay,convergence=6),
+solvent=(epsilon=80.0,npoints=20000,nfocus=128,convergence=1.0d-04),
+geom=(coord),
+guess=huckel,
+sym=off
+$title
+Methanol, solvation free energy, cox-williams charges used sto-3g basis used
+$geom
+C1(basis=6-31g**,r=1.8)     .04884      .67018      .00000
+O1(basis=6-31g**,r=1.65)     .04884     -.75982      .00000 
+H1(basis=6-31g**,r=1.0)    -.86453    -1.07432      .00000 
+H2(basis=6-31g**,r=1.375)    1.10612      .97734      .00000
+H3(basis=6-31g**,r=1.375)    -.46265     1.07727      .88592
+H4(basis=6-31g**,r=1.375)    -.46265     1.07727     -.88592
+$end

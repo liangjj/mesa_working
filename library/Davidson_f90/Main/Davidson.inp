@@ -1,0 +1,17 @@
+$davidson_parameters
+     matrix_size=8 davidson_convergence=1.d-07 drop_tolerance=1.d-10
+     maximum_number_of_iterations=5  maximum_number_of_davidson_vectors=8
+     matrix_type=real_symmetric print=all matrix_source=from_input guess_size=3
+     type_calculation=linear_system print=packed_matrix
+$end
+
+$matrix_input
+ matrix_row_1=(1.d0) matrix_row_2=(.5d0,1.d0) matrix_row_3=(.2d0,.3d0,1.d0)
+ matrix_row_4=(.2d0,.5d0,.5d0,2.d0) matrix_row_5=(.2d0,.2d0,.5d0,.8d0,3.d0) 
+ matrix_row_6=(.2d0,.8d0,.6d0,.2d0,1.d0)
+ matrix_row_7=(.4d0,.6d0,.2d0,.1d0,.6d0,.3d0,1.d0)
+ matrix_row_8=(.4d0,.6d0,.2d0,.1d0,.6d0,.3d0,.10,5.d0) 
+ right_hand_side=(1.d0,0.d0,1.d0,1.d0,1.d0,1.d0,0.d0,1.d0)
+$end
+
+

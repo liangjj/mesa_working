@@ -1,0 +1,30 @@
+test
+m0 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        0.5 real         0.0 user         0.1 sys  
+m1 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        6.4 real         1.9 user         0.5 sys  
+m101 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        6.2 real         1.1 user         0.5 sys  
+m102 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+       15.1 real         9.0 user         0.6 sys  
+m202 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        4.4 real         1.5 user         0.4 sys  
+m302 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        5.1 real         0.7 user         0.5 sys  
+m312 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        2.4 real         0.5 user         0.2 sys  
+m330 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        2.4 real         0.5 user         0.3 sys  
+m401 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+       13.6 real         9.3 user         0.6 sys  
+m802 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        6.6 real         1.9 user         0.6 sys  
+m551 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+     3612.3 real      2923.7 user       122.4 sys  
+m921 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        9.7 real         6.3 user         0.8 sys  
+m1951 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        4.8 real         2.0 user         0.5 sys  
+m2001 inp=o3mc out=o3mc.out chk=o3mc.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+       14.5 real         2.3 user         1.8 sys  
+m998

@@ -1,0 +1,14 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M301
+#
+SOURCE=m301
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/basout.f \
+	$(MESA_HOME)/$(SOURCE)/getdrp.f \
+	$(MESA_HOME)/$(SOURCE)/getkep.f \
+	$(MESA_HOME)/$(SOURCE)/m301.f \
+	$(MESA_HOME)/$(SOURCE)/makinx.f \
+	$(MESA_HOME)/$(SOURCE)/mn301.f \
+	$(MESA_HOME)/$(SOURCE)/setind.f

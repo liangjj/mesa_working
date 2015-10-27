@@ -1,0 +1,51 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      5-Jan-1994 09:02:39    
+     los alamos national laboratory;unknown(bogon);russo                             
+ files/memory:
+     inp:    junk                                                                                                                            
+     out:    junk.out                                                                                                                        
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/russo/rwf_19043                                                                                                    
+     rint:   /vivaldi/tmp/russo/rint_19043                                                                                                   
+     int:    /vivaldi/tmp/russo/int_19043                                                                                                    
+     tint:   /vivaldi/tmp/russo/tint_19043                                                                                                   
+     gint:   /vivaldi/tmp/russo/gint_19043                                                                                                   
+     rdint:  /vivaldi/tmp/russo/rdint_19043                                                                                                  
+     dint:   /vivaldi/tmp/russo/dint_19043                                                                                                   
+     zint:   /vivaldi/tmp/russo/zint_19043                                                                                                   
+     ham:    /vivaldi/tmp/russo/ham_19043                                                                                                    
+     moden:  /vivaldi/tmp/russo/moden_19043                                                                                                  
+     aoden:  /vivaldi/tmp/russo/aoden_19043                                                                                                  
+     saoden: /vivaldi/tmp/russo/saoden_19043                                                                                                 
+     gden:   /vivaldi/tmp/russo/gden_19043                                                                                                   
+     fci:    /vivaldi/tmp/russo/fci_19043                                                                                                    
+     machine size:          4000000
+     user defined maxsiz:   1000000
+ title:
+             
+ route:
+     6//66;
+ options:
+     polord=3
+ input data:
+    2.1500000000000   -2690.5064060980
+    2.1666700000000   -2690.5089275320
+    2.1833300000000   -2690.5106250370
+    2.2000000000000   -2690.5115576110
+    2.2166700000000   -2690.5117857570
+    2.2233300000000   -2690.5116914580
+    2.2500000000000   -2690.5103278810
+ The coefficients are:
+  0   -2663.2114195670
+  1   -34.349463774162
+  2    14.320789462650
+  3   -1.9763280650771
+First minimum of cubic=    2.2138656439622
+ Second derivative at minimum 1=    2.3896300984651
+second minimum of cubic=    2.6169077199366
+ Second derivative at minimum 2=   -2.3896300984651

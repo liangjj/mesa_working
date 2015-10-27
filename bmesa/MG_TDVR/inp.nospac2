@@ -1,0 +1,159 @@
+$route
+ number-of-space-dimensions=1 m6290=(time-dimension=yes,space-dimension=yes)
+ print=(xm6290=(points,polynomials),m6295=(xall),iterative-solve=(xall)) 
+ open-bec=new xuse-modified-functions xusing-chebyshev-points
+ xread-iosys use-atomic-units space-dimension-1=r
+ m6291=(time-dimension=yes,space-dimension=yes) 
+ spatial-grid-number=(1) mode=multigrid time-grid-number=(1)
+ xtest-h0 number-of-time-regions=3 top-grid=1
+ xdiagonalize-hamiltonian punch=on pure-time-perturbation=t
+ xmultigrid-procedure=on iterative-linear-system-solve
+$end
+          
+$nonstd
+62//90,91,95;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$grids-dimension-r
+ number-of-subgrids=1 coordinate-type=r quadrature-type=legendre
+ xl=0.0d0 xr=1.0d0 f-xl=0 f-xr=0 fix-end-points fix-left-end-point
+ fix-right-end-point number-of-points-per-subgrid=(3)
+$end
+ 
+$time=on
+ pure-time-perturbation=t driver=one initial-state=0
+ space-time-perturbation=none no-spatial-hamiltonian
+$end
+
+$grids-time-region-1
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=0.d0 tr=1.0d0 number-of-points-per-subgrid=(10) 
+$end
+
+$grids-time-region-2
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=1.d0 tr=2.0d0 number-of-points-per-subgrid=(10) 
+$end
+
+$grids-time-region-3
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=2.d0 tr=3.0d0 number-of-points-per-subgrid=(10) 
+$end
+
+$grids-time-region-4
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=3.d0 tr=4.0d0 number-of-points-per-subgrid=(15) 
+$end
+
+$grids-time-region-5
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=4.d0 tr=5.0d0 number-of-points-per-subgrid=(15) 
+$end
+
+$grids-time-region-6
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=5.d0 tr=6.0d0 number-of-points-per-subgrid=(15) 
+$end
+
+$grids-time-region-7
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=6.d0 tr=7.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-8
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=7.d0 tr=8.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-9
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=8.d0 tr=9.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-10
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=9.d0 tr=10.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-11
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=10.d0 tr=11.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-12
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=11.d0 tr=12.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-13
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=12.d0 tr=13.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-14
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=13.d0 tr=14.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-15
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=14.d0 tr=15.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-16
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=15.d0 tr=16.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-17
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=16.d0 tr=17.0d0 number-of-points-per-subgrid=(20) 
+$end
+
+$grids-time-region-18
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=17.d0 tr=18.0d0 number-of-points-per-subgrid=(30) 
+$end
+
+$grids-time-region-19
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=18.d0 tr=19.0d0 number-of-points-per-subgrid=(30) 
+$end
+
+$grids-time-region-20
+ number-of-subgrids=1 quadrature-type=legendre 
+ tl=19.d0 tr=20.0d0 number-of-points-per-subgrid=(30) 
+$end
+
+
+$gmres
+ overlap-tolerance=1.e-10 convergence=1.e-10
+ xpreconditioner=block maximum-size-of-preconditioning-block=100
+ xprint=(iterative-solve=all) maximum-number-of-iterations=400
+ maximum-number-of-vectors=400 xprint=iterative-solve=all
+$end
+
+$multigrid
+ overlap-tolerance=1.e-10 convergence=(1.e-06)
+ xpreconditioner=none maximum-number-of-iterations=(10,10,10)
+ maximum-number-of-vectors=(10,10,10) print=(iterative-solve=all,mgrid=all)
+ number-of-multigrid-cycles=1 number-of-smoothing-steps=0
+$end
+
+$trials
+ type-of-trial-vectors=unit number-of-trial-vectors=1
+$end
+
+$v0-r-1
+ potential-type=none v=-1.d0
+$end 
+ 
+$vt
+ units=atomic-units electric-field-frequency=.2d0 
+ electric-field-strength=.001d0
+$end 

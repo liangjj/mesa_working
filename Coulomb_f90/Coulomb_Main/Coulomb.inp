@@ -1,0 +1,6 @@
+$coulomb
+ charge=-1.d0 energy=1.d0 
+ smallest_angular_momentum=0 largest_angular_momentum=10  
+ smallest_r=1.0 largest_r=10. delta_r=.1
+ xquantities_returned=functions type=coulomb
+$end

@@ -1,0 +1,73 @@
+ 2.  There are some new utility routines in the 199- series. 
+      M1990 produces  wavefunction amplitude information for graphics on
+        the STARDENT.
+      M1991 does an orbital gross population analysis by interrogating
+        a check file. 
+      M889/M890 are temporary corruptions of M820 which produce a separate 
+        file of canonical transformed integrals in case you want to send 
+        them to your friends.
+
+ 3.  There are three new links that allow symmetry to be utilized to some
+extent in the calulations.  M402 is essentially identical to M601. Both
+of them project pure symmetry functions from their input (either guess
+vectors or SCF vectors). M503 is an SCF code which symmetry blocks the
+Fock matrix so that it should produce pure functions.  Look over the options
+in M503 -- particularly occsym which allows you to solve for an excited
+state as long as it is the lowest of its symmetry.  The 401/601 codes should be made subroutines to be called from 401/503 someday. The configuration 
+generation routines M801,M802, and M805 have been modified to automatically
+determine symmetry information.  The DRT lists now do not need the symmetry
+of each orbital to be specified. If you wish to run in the old mode, 
+override this stuff with DRT=(rdsym) in the route and the DRT looks just like
+before. Compare h2o_ci in the tests/input section with h2o_sym_ci.
+ 4.  The allocation of core via the pointers is done more consistently now than
+before, but this section is still a mess.  If we ever use up all the core
+allocated in GetSCM I doubt that we wil die gracefully.  Some implementations
+allow you to request the amount of core you wish to run in at the beginning
+of the job (e.g. Stardent), while this has not yet been implemented in other
+versions(see getscm in mdutil) and the available core is hardwired into the
+blank common in getscm.
+ 5.  I went to lower case everywhere in the code.  I happen to like the
+mixed format, but that isn't shared by everyone.  When it's not consistently
+done it leads to alot of potential headaches.
+ 6.  The calls to iosys have presumably been fixed so that the last argument is
+a character variable instead of an integer.
+ 7.  There are several test files in the directory tests/input.  There is also a
+script (mesaprod) in tests which will run several decks back to back. 
+It takes as standard input a file containing the names of the input decks.
+Look at mesaprod to see that the pathnames hardwired there are appropriate
+to your environment.   The results in output/sun4, etc. cannot be compared
+to the ibm-aix in all cases.  The order in which things were run is different
+so they picked up different geom=rdchk info, etc. We should have a sequence of
+tests which feed each other the appropriate information and is somewhat more
+automated.
+ 8.  One of the things I haven't addressed yet are the routines in 
+library/clams: i1mach.f and r1mach.f .
+These contain machine-specific data statements and should be made
+compatible with the IBM.  Right now I'm using the SUN versions.  Several of the
+codes in CLAMS should probably be moved to a machine dependent library so that
+features of each machine could be taken advantage of. Unit strides so things fit
+in the cache on the IBM, for example.
+ ************************NOTE**************************
+ Most of these have now been removed frome clams.  They
+were used primarily to get binomial coefficients, and a new routine has been
+written to do this.  Most of the routines in CLAMS are now from eispack or the
+blas.  The routines SGEMM and SGEMV are the BLAS routines. They have slightly
+different calling lists and some hings that out old versions did the new
+standards cannot.  For this reason, the old sgemm and sgemv have been renamed
+sgmm and sgmv and are found in .../math. Those routines in MATH and in main code
+which could call the new standard sgemv and sgemm have been replaced, so that
+platforms with optimized versions of the BLAS available can take advantage of it
+see note 12.
+9.  The codes put out some error messages about direct access READS, etc.
+on the IBM-AIX.
+This apparently doesn't affect the results and I have diverted
+the stream of standard error in the scripts which control the run.
+Whatever the problem is, it would be nice to have it fixed so we
+see a real error mesage when one actually happens.
+10.  We don't do much mrci optimization as of yet, and I haven't done thorough
+tests of all that stuff.  M1001 obviously still has problems.
+The h2o_mcscf_d2e, h2o_mrci_opt, h2o_mrci_fci, and h2o_mrci_fcc
+jobs all give nonsense. 
+11.  I have not fixed up the entry points or core allocation for m914,15,16.
+We never had a version that worked here so you should do some comparison.
+These codes have been moved to the directory .../ghosts

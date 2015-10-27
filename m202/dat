@@ -1,0 +1,16 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M202
+#
+SOURCE=m202
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/angle1.f \
+	$(MESA_HOME)/$(SOURCE)/angle2.f \
+	$(MESA_HOME)/$(SOURCE)/crowd.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+	$(MESA_HOME)/$(SOURCE)/mofi.f \
+	$(MESA_HOME)/$(SOURCE)/omega.f \
+	$(MESA_HOME)/$(SOURCE)/outrep.f \
+	$(MESA_HOME)/$(SOURCE)/putatm.f \
+	$(MESA_HOME)/$(SOURCE)/rotcon.f 

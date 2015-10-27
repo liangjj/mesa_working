@@ -1,0 +1,49 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M330
+#
+SOURCE=m330
+M330LIB = $(LIBRARY)/m330lib.a
+
+GET = sccs get
+REL = 
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f
+
+LIBSRCS = \
+	$(MESA_HOME)/$(SOURCE)/fix32.f \
+	$(MESA_HOME)/$(SOURCE)/fix64.f \
+	$(MESA_HOME)/$(SOURCE)/mn330.f \
+	$(MESA_HOME)/$(SOURCE)/sort32.f \
+	$(MESA_HOME)/$(SOURCE)/sort64.f
+
+include $(MESA_HOME)/Makefile.inc
+
+all: $(MESA_BIN)/$(SOURCE)
+lib: $(M330LIB)
+$(MESA_BIN)/$(SOURCE): $(SRCS:.f=.o) $(M330LIB) $(UTILITY_LIB)
+	$(F90) $(SRCS:.f=.o) $(M330LIB) $(LIBS) -o $(MESA_BIN)/$(SOURCE)
+
+$(M330LIB): $(LIBSRCS:.f=.o)
+	$(AR) $(ARFLAGS) $(M330LIB) $(?:.f=.o)
+	$(RANLIB) $(M330LIB)
+
+sources: $(SRCS) $(LIBSRCS)
+$(SRCS):
+	$(GET) $(REL) $@
+$(LIBSRCS):
+	$(GET) $(REL) $@
+
+link: sources	
+	rm -f ../source/$(SOURCE).f
+	cat $(SRCS) > ../source/$(SOURCE).f
+	rm -f ../source/src$(SOURCE).f
+	cat $(LIBSRCS) > ../source/src$(SOURCE).f
+
+print: link
+	lpr ../source/$(SOURCE).f
+	lpr ../source/src$(SOURCE).f
+
+clean:
+	rm -f *.o core

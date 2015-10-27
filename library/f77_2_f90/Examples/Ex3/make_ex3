@@ -1,0 +1,25 @@
+
+#   @(#)Makefile	1.9   8/7/91
+#
+#  Makefile for the dvr routines
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)# 
+FC = fort
+FFLAGS = -c -O4
+LD = fort
+LDFLAGS =
+BINDIR = ../Ex3
+
+SRCS = \
+	test_global.f90 \
+	ex3.f90 \
+	ex3_test.f90 \
+	mmat.f90 
+
+.f90.o:
+	$(FC) $(FFLAGS) $<
+
+all: $(BINDIR)/ex3
+$(BINDIR)/ex3: $(SRCS:.f90=.o)
+	$(LD) $(LDFLAGS) $(SRCS:.f90=.o) -o $(BINDIR)/ex3
+

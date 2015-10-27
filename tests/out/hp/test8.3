@@ -1,0 +1,364 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 16:36:28    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test8.3                                                                                                    
+     out:    /usr2/mesa/tests/out/hp/test8.3                                                                                                 
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_25387                                                                                                       
+     rint:   /cesium/rlm/tmp/rint_25387                                                                                                      
+     int:    /cesium/rlm/tmp/int_25387                                                                                                       
+     tint:   /cesium/rlm/tmp/tint_25387                                                                                                      
+     gint:   /cesium/rlm/tmp/gint_25387                                                                                                      
+     rdint:  /cesium/rlm/tmp/rdint_25387                                                                                                     
+     dint:   /cesium/rlm/tmp/dint_25387                                                                                                      
+     zint:   /cesium/rlm/tmp/zint_25387                                                                                                      
+     ham:    /cesium/rlm/tmp/ham_25387                                                                                                       
+     moden:  /cesium/rlm/tmp/moden_25387                                                                                                     
+     aoden:  /cesium/rlm/tmp/aoden_25387                                                                                                     
+     saoden: /cesium/rlm/tmp/saoden_25387                                                                                                    
+     gden:   /cesium/rlm/tmp/gden_25387                                                                                                      
+     fci:    /cesium/rlm/tmp/fci_25387                                                                                                       
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+       reh3 dz scf/ effective core potential / analytic second derivatives   
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     10//11;
+     7//1,2,12;
+     8//11;
+     3//3,23;
+     8//24;
+     10//12,13,14,20,22;
+     7//31,32;
+     2//4;
+     19//51;
+     20//01;
+ options:
+     q=0,hf,2s+1=1, basis=(dz) guess=chk,geom=rdchk scf=(pulay,cycles=64) frequencies
+      force-constants print=(gradient=(total,ecp)),sym=off
+
+ m101:  process geometry input.
+     z-matrix read from checkpoint file 
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   re dz-ecp2 
+      2   2   h  dz          1   1.686106 r1       
+      3   3   h  dz          1   1.686106 r1        2  120.000 a1       
+      4   4   h  dz          1   1.686106 r1        2  120.000 a1        3  180.000           0
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    9
+     number beta electrons:     9
+ basis dimensions:
+     $ primitive cartesians    53
+     $ contracted cartesians   30
+     $ basis functions         30
+ distance matrix (angstroms):
+                             re        h1        h2        h3                    
+                 re      .00000
+                 h1     1.68611    .00000
+                 h2     1.68611   2.92042    .00000
+                 h3     1.68611   2.92042   2.92042    .00000
+ interatomic angles:
+         h2-re1-h3 =120.0000     h2-re1-h4 =120.0000     h3-re1-h4 =120.0000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   re              .000000     .000000     .000000
+      2   2   h               .000000     .000000    1.686106
+      3   3   h              1.460210     .000000    -.843053
+      4   4   h             -1.460210     .000000    -.843053
+ rotational constants (ghz):    117.5902178    117.5902177     58.7951089
+ isotopes:
+     re-187  h-1     h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     75214
+     maximum usable field length       518221
+     $primitive integrals possible    1740409
+     $primitive integrals computed    1717885( 98.7%)
+     $contracted integrals possible    108345
+     $contracted integrals kept         58464( 54.0%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ m501:
+     memory use                   12000000
+     all integrals held in core.
+     nuclear repulsion energy:   14.666658
+     iter              energy    diis convergence
+       11       -79.887560416          .000000008
+     rotating scf orbitals under core fock operator
+ m1011:
+     memory use                   12000000
+     all integrals held in core.
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+
+
+     the effective core potential contribution to the scf gradients:
+
+
+             1           2           3           4       
+  ------------------------------------------------------
+   1      .0000000    .0000000    .0567233   -.0567233
+   2      .0000000    .0000000    .0000000    .0000000
+   3      .0000000    .0654984   -.0327492   -.0327492
+
+     the ecp contribution to the scf force constants
+             1           2           3           4           5           6       
+  ------------------------------------------------------------------------------
+   1     -.0057804
+   2      .0000000    .0617649
+   3      .0000000    .0000000   -.0057804
+   4     -.0202254    .0000000    .0000000    .0202366
+   5      .0000000   -.0205883    .0000000    .0000000    .0205820
+   6      .0000000    .0000000    .0240790    .0000000    .0000000   -.0233881
+   7      .0130029    .0000000   -.0191844   -.0000056    .0000000    .0005832
+   8      .0000000   -.0205883    .0000000    .0000000    .0000031    .0000000
+   9     -.0191844    .0000000   -.0091493    .0000056    .0000000   -.0003455
+  10      .0130029    .0000000    .0191844   -.0000056    .0000000   -.0005832
+  11      .0000000   -.0205883    .0000000    .0000000    .0000031    .0000000
+  12      .0191844    .0000000   -.0091493   -.0000056    .0000000   -.0003455
+
+
+             7           8           9          10          11          12       
+  ------------------------------------------------------------------------------
+   7     -.0124819
+   8      .0000000    .0205820
+   9      .0188900    .0000000    .0093304
+  10     -.0005155    .0000000    .0002888   -.0124819
+  11      .0000000    .0000031    .0000000    .0000000    .0205820
+  12     -.0002888    .0000000    .0001644   -.0188900    .0000000    .0093304
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                      1740409
+     # integrals computed                     14174164(814.4%)
+
+     the total scf first derivatives:
+             1           2           3           4       
+  ------------------------------------------------------
+   1      .0000000    .0000000    .0000012   -.0000012
+   2      .0000000    .0000000    .0000000    .0000000
+   3      .0000000    .0000013   -.0000007   -.0000007
+
+     the force-constants less cphf contributions
+             1           2           3           4           5           6       
+  ------------------------------------------------------------------------------
+   1      .0973609
+   2      .0000000   -.0561338
+   3      .0000000    .0000000    .0973609
+   4     -.0331634    .0000000    .0000000    .0345010
+   5      .0000000    .0187113    .0000000    .0000000   -.0194658
+   6      .0000000    .0000000   -.0317439    .0000000    .0000000    .0362231
+   7     -.0320987    .0000000   -.0006147   -.0006688    .0000000    .0016039
+   8      .0000000    .0187113    .0000000    .0000000    .0003773    .0000000
+   9     -.0006147    .0000000   -.0328085    .0011169    .0000000   -.0022396
+  10     -.0320987    .0000000    .0006147   -.0006688    .0000000   -.0016039
+  11      .0000000    .0187113    .0000000    .0000000    .0003773    .0000000
+  12      .0006147    .0000000   -.0328085   -.0011169    .0000000   -.0022396
+
+
+             7           8           9          10          11          12       
+  ------------------------------------------------------------------------------
+   7      .0357926
+   8      .0000000   -.0194658
+   9     -.0007457    .0000000    .0349315
+  10     -.0030251    .0000000    .0002435    .0357926
+  11      .0000000    .0003773    .0000000    .0000000   -.0194658
+  12     -.0002435    .0000000    .0001166    .0007457    .0000000    .0349315
+ m811:transformation
+     canonical order
+     orbital set:"scf vector"                    
+     number of basis functions:          30
+     orthonormality deviation       .77E-13
+     memory use                      301703
+ m323:
+     gradient integral pre-exponential cutoff: 1.0E-13
+     gradient integral retention       cutoff: 1.0E-09
+     # integrals kept                           253418
+     # integrals possible                       897868
+     # integrals computed                       860413( 95.8%)
+ m824: derivative lagrangians 
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+ m1020:cphf solution by direct method
+     digits accuracy of result: 10
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1         75         .000000     .000000     .000000
+       2          1         .000000     .000000    -.000001
+       3          1        -.000001     .000000     .000001
+       4          1         .000001     .000000     .000001
+     max      .000001     rms      .000001
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   re
+           2   h     1   -.000001 (  1)
+           3   h     1   -.000001 (  2)   2    .000000 (  4)
+           4   h     1   -.000001 (  3)   2    .000000 (  5)  3    .000000 (  6)  0
+ m732:transform force constants from cartesian to internal coordinates
+ m204:calculation of vibrational frequencies
+     cartesian force constant matrix
+             1           2           3           4           5       
+  ------------------------------------------------------------------
+   1      .2676714    .0000000    .0000000   -.0336532    .0000000
+   2      .0000000   -.0516451    .0000000    .0000000    .0172150
+   3      .0000000    .0000000    .2676714    .0000000    .0000000
+   4     -.0336532    .0000000    .0000000    .0186347    .0000000
+   5      .0000000    .0172150    .0000000    .0000000   -.0057381
+   6      .0000000    .0000000   -.1447944    .0000000    .0000000
+   7     -.1170091    .0000000    .0481255    .0075093    .0000000
+   8      .0000000    .0172150    .0000000    .0000000   -.0057385
+   9      .0481255    .0000000   -.0614385    .0064230    .0000000
+  10     -.1170091    .0000000   -.0481255    .0075093    .0000000
+  11      .0000000    .0172150    .0000000    .0000000   -.0057385
+  12     -.0481255    .0000000   -.0614385   -.0064230    .0000000
+
+
+             6           7           8           9          10       
+  ------------------------------------------------------------------
+   1      .0000000   -.1170091    .0000000    .0481255   -.1170091
+   2      .0000000    .0000000    .0172150    .0000000    .0000000
+   3     -.1447944    .0481255    .0000000   -.0614385   -.0481255
+   4      .0000000    .0075093    .0000000    .0064230    .0075093
+   5      .0000000    .0000000   -.0057385    .0000000    .0000000
+   6      .1423541    .0044701    .0000000    .0012202   -.0044701
+   7      .0044701    .1114242    .0000000   -.0535721   -.0019244
+   8      .0000000    .0000000   -.0057381    .0000000    .0000000
+   9      .0012202   -.0535721    .0000000    .0495645   -.0009765
+  10     -.0044701   -.0019244    .0000000   -.0009765    .1114242
+  11      .0000000    .0000000   -.0057385    .0000000    .0000000
+  12      .0012202    .0009765    .0000000    .0106538    .0535721
+
+
+            11          12       
+  ------------------------------
+   1      .0000000   -.0481255
+   2      .0172150    .0000000
+   3      .0000000   -.0614385
+   4      .0000000   -.0064230
+   5     -.0057385    .0000000
+   6      .0000000    .0012202
+   7      .0000000    .0009765
+   8     -.0057385    .0000000
+   9      .0000000    .0106538
+  10      .0000000    .0535721
+  11     -.0057381    .0000000
+  12      .0000000    .0495645
+     zero point vibrational energy:    10.76 kcal/mole
+     ***** normal modes of vibration ***** 
+     cartesian normal modes 
+                              1         2         3         4         5    
+     frequencies --      -677.3        .0        .0        .0        .0
+         1               .00000   -.08069    .25038    .56546   -.77120
+         2               .12615    .08704   -.27785    .00494   -.07209
+         3               .00000   -.67795   -.69102    .00847   -.15118
+         4               .00000    .40868   -.33122    .11297   -.16479
+         5              -.57274   -.00553   -.05890    .49624    .34404
+         6               .00000   -.04978   -.05074    .00062   -.01110
+         7               .00000   -.21322    .19318    .00579   -.00254
+         8              -.57274    .04939    .04204   -.62891   -.45288
+         9               .00000   -.40883    .25203   -.06126    .08258
+        10               .00000   -.21322    .19318    .00579   -.00254
+        11              -.57274   -.02469   -.04434    .13376    .09296
+        12               .00000    .30928   -.35350    .06251   -.10478
+                              6         7         8         9        10    
+     frequencies --          .0        .0     854.7     854.7    1920.2
+         1              -.00430   -.01935    .07316    .04122   -.07767
+         2               .02090   -.94533    .00000    .00000    .00000
+         3               .02605    .15283   -.04122    .07316    .05321
+         4              -.01114    .14789   -.70751   -.39865    .03559
+         5               .54662   -.07118    .00000    .00000    .00000
+         6               .00191    .01122   -.02437    .04326   -.45877
+         7               .00510   -.07608    .03874   -.40648    .69923
+         8               .25474   -.04736    .00000    .00000    .00000
+         9               .01129   -.11809   -.03219   -.70300   -.40753
+        10               .00510   -.07608   -.32761    .24371    .32303
+        11              -.79676   -.08968    .00000    .00000    .00000
+        12              -.00746    .14053    .61799   -.33664    .14158
+                             11        12    
+     frequencies --      1920.2    1975.7
+         1               .05321    .00000
+         2               .00000    .00000
+         3               .07767    .00000
+         4              -.02438    .00000
+         5               .00000    .00000
+         6              -.66965    .57735
+         7              -.07562    .50000
+         8               .00000    .00000
+         9              -.00600   -.28868
+        10              -.62473   -.50000
+        11               .00000    .00000
+        12              -.38220   -.28868
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     bond-order matrix:
+                             re        h1        h2        h3                    
+                 re    13.73042    .34186    .34186    .34186
+                 h1      .34186    .73865    .00041    .00041
+                 h2      .34186    .00041    .73865    .00041
+                 h3      .34186    .00041    .00041    .73865
+     total mulliken charges:
+          re           14.75599
+          h1            1.08134
+          h2            1.08134
+          h3            1.08134
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0    156001
+      102         1       4.2        .0        .0    120013
+      202         1        .2        .0        .0       197
+      302         1       2.1        .0        .0     69442
+      312         1       4.9        .0        .0   1076532
+      330         1        .5        .0        .0    284347
+      401         1        .3        .0        .0         0
+      501         1       5.1        .0        .0    473873
+     1011         1        .2        .0        .0         0
+      701         1        .1        .0        .0     11979
+      702         1      33.3        .0        .0    232197
+      712         1      22.8        .0        .0    204446
+      811         1       4.2        .0        .0    301803
+      303         1       5.7        .0        .0    108030
+      323         1       9.7        .0        .0   1001149
+      824         1       6.0        .0        .0    724113
+     1012         1        .3        .0        .0         0
+     1013         1        .4        .0        .0    117525
+     1014         1        .4        .0        .0    115059
+     1020         1        .3        .0        .0     76547
+     1022         1        .1        .0        .0     56945
+      731         1        .0        .0        .0       459
+      732         1        .0        .0        .0      1991
+      204         1        .0        .0        .0     40517
+     1951         1        .2        .0        .0      8573
+             total:     101.3        .0        .0   1076532

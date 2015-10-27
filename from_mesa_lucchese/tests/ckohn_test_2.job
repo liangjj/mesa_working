@@ -1,0 +1,466 @@
+#!/bin/bash
+# Needed environment variables
+# TMPDIR - directory for work directory
+# MESA - main mesa directory
+# ver - which compiler version (beginning with a period or blank)
+
+date
+
+echo ckohn test 2 - 2 channel MCFCHF CO2 ionization
+echo using version $ver
+
+PATH=$PATH:$MESA/bin$ver
+rundir=run_ckohn_test_2$ver
+
+cd $TMPDIR
+rm -r $rundir
+mkdir $rundir
+cd $rundir
+cp $MESA/mesa.dat .
+mkdir tmp
+
+nsmall=11  # number of orbitals used to describe the target states
+nchan=2 # ionization potential to use in eV
+symmetry=2 # number of different continuum symmetries
+NECenter=1 # expansion center
+
+cat <<EOF | sed -e "s/#.*//" > mesacmn.inp 
+\$title
+CO2 Su1 Sgu1 2 Channel Photoionization
+\$end
+
+\$geom
+C1(basis=ePolyScat2)    0.00000000E+00   0.00000000E+00   0.00000000E+00
+O1(basis=ePolyScat1)    0.00000000E+00   0.00000000E+00  -0.21960507E+01
+O2(basis=ePolyScat3)    0.00000000E+00   0.00000000E+00   0.21960507E+01
+\$end
+
+\$ePolyScat1 O
+type=s
+   0.11720000E+05   0.71000025E-03
+   0.17590000E+04   0.54700019E-02
+   0.40080000E+03   0.27837010E-01
+   0.11370000E+03   0.10480004E+00
+   0.37030000E+02   0.28306210E+00
+   0.13270000E+02   0.44871916E+00
+   0.50250000E+01   0.27095210E+00
+   0.10130000E+01   0.15458005E-01
+   0.30230000E+00  -0.25850009E-02
+type=s
+   0.11720000E+05  -0.16000002E-03
+   0.17590000E+04  -0.12630001E-02
+   0.40080000E+03  -0.62670006E-02
+   0.11370000E+03  -0.25716002E-01
+   0.37030000E+02  -0.70924007E-01
+   0.13270000E+02  -0.16541102E+00
+   0.50250000E+01  -0.11695501E+00
+   0.10130000E+01   0.55736805E+00
+   0.30230000E+00   0.57275906E+00
+type=s
+   0.11720000E+05   0.00000000E+00
+   0.17590000E+04   0.00000000E+00
+   0.40080000E+03   0.00000000E+00
+   0.11370000E+03   0.00000000E+00
+   0.37030000E+02   0.00000000E+00
+   0.13270000E+02   0.00000000E+00
+   0.50250000E+01   0.00000000E+00
+   0.10130000E+01   0.00000000E+00
+   0.30230000E+00   0.10000000E+01
+type=s
+   0.78960000E-01   0.10000000E+01
+type=p
+   0.17700000E+02   0.43017992E-01
+   0.38540000E+01   0.22891296E+00
+   0.10460000E+01   0.50872791E+00
+   0.27530000E+00   0.46053092E+00
+type=p
+   0.17700000E+02   0.00000000E+00
+   0.38540000E+01   0.00000000E+00
+   0.10460000E+01   0.00000000E+00
+   0.27530000E+00   0.10000000E+01
+type=p
+   0.68560000E-01   0.10000000E+01
+type=d
+   0.11850000E+01   0.10000000E+01
+type=d
+   0.33200000E+00   0.10000000E+01
+\$end
+
+\$ePolyScat2 C
+type=s
+   0.66650000E+04   0.69200018E-03
+   0.10000000E+04   0.53290014E-02
+   0.22800000E+03   0.27077007E-01
+   0.64710000E+02   0.10171803E+00
+   0.21060000E+02   0.27474007E+00
+   0.74950000E+01   0.44856412E+00
+   0.27970000E+01   0.28507407E+00
+   0.52150000E+00   0.15204004E-01
+   0.15960000E+00  -0.31910008E-02
+type=s
+   0.66650000E+04  -0.14600006E-03
+   0.10000000E+04  -0.11540005E-02
+   0.22800000E+03  -0.57250025E-02
+   0.64710000E+02  -0.23312010E-01
+   0.21060000E+02  -0.63955028E-01
+   0.74950000E+01  -0.14998107E+00
+   0.27970000E+01  -0.12726206E+00
+   0.52150000E+00   0.54452924E+00
+   0.15960000E+00   0.58049626E+00
+type=s
+   0.66650000E+04   0.00000000E+00
+   0.10000000E+04   0.00000000E+00
+   0.22800000E+03   0.00000000E+00
+   0.64710000E+02   0.00000000E+00
+   0.21060000E+02   0.00000000E+00
+   0.74950000E+01   0.00000000E+00
+   0.27970000E+01   0.00000000E+00
+   0.52150000E+00   0.00000000E+00
+   0.15960000E+00   0.10000000E+01
+type=s
+   0.46900000E-01   0.10000000E+01
+type=p
+   0.94390000E+01   0.38109021E-01
+   0.20020000E+01   0.20948012E+00
+   0.54560000E+00   0.50855728E+00
+   0.15170000E+00   0.46884226E+00
+type=p
+   0.94390000E+01   0.00000000E+00
+   0.20020000E+01   0.00000000E+00
+   0.54560000E+00   0.00000000E+00
+   0.15170000E+00   0.10000000E+01
+type=p
+   0.40410000E-01   0.10000000E+01
+type=d
+   0.55000000E+00   0.10000000E+01
+type=d
+   0.15100000E+00   0.10000000E+01
+\$end
+
+\$ePolyScat3 O
+type=s
+   0.11720000E+05   0.71000025E-03
+   0.17590000E+04   0.54700019E-02
+   0.40080000E+03   0.27837010E-01
+   0.11370000E+03   0.10480004E+00
+   0.37030000E+02   0.28306210E+00
+   0.13270000E+02   0.44871916E+00
+   0.50250000E+01   0.27095210E+00
+   0.10130000E+01   0.15458005E-01
+   0.30230000E+00  -0.25850009E-02
+type=s
+   0.11720000E+05  -0.16000002E-03
+   0.17590000E+04  -0.12630001E-02
+   0.40080000E+03  -0.62670006E-02
+   0.11370000E+03  -0.25716002E-01
+   0.37030000E+02  -0.70924007E-01
+   0.13270000E+02  -0.16541102E+00
+   0.50250000E+01  -0.11695501E+00
+   0.10130000E+01   0.55736805E+00
+   0.30230000E+00   0.57275906E+00
+type=s
+   0.11720000E+05   0.00000000E+00
+   0.17590000E+04   0.00000000E+00
+   0.40080000E+03   0.00000000E+00
+   0.11370000E+03   0.00000000E+00
+   0.37030000E+02   0.00000000E+00
+   0.13270000E+02   0.00000000E+00
+   0.50250000E+01   0.00000000E+00
+   0.10130000E+01   0.00000000E+00
+   0.30230000E+00   0.10000000E+01
+type=s
+   0.78960000E-01   0.10000000E+01
+type=p
+   0.17700000E+02   0.43017992E-01
+   0.38540000E+01   0.22891296E+00
+   0.10460000E+01   0.50872791E+00
+   0.27530000E+00   0.46053092E+00
+type=p
+   0.17700000E+02   0.00000000E+00
+   0.38540000E+01   0.00000000E+00
+   0.10460000E+01   0.00000000E+00
+   0.27530000E+00   0.10000000E+01
+type=p
+   0.68560000E-01   0.10000000E+01
+type=d
+   0.11850000E+01   0.10000000E+01
+type=d
+   0.33200000E+00   0.10000000E+01
+\$end
+EOF
+################ scf ######################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+2s+1=1
+hf scf=(pulay)
+ksym=(symmetry=1,nsmall=$nsmall)
+guess=core
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2;
+2//6;        # m206 does ???
+3//2,12,30;  # computes integrals
+4//1;        # Inital orbital guess
+5//1;        # SCF
+6//44;       # ?????
+20//1;       # clean up files
+\$end
+
+EOF
+optmesa
+cat mesa.out
+cp mesa.out out.scf
+cp mesa.inp inp.scf
+
+cat <<EOF | sed -e "s/#.*//" >inp.opt.refs.b1u
+\$sgroups
+numel=(18,3,1,0,0)
+numel=(18,3,0,1,0)
+numel=(18,4,0,0,0) symtp=(1,1,1,1,1)
+\$end
+EOF
+cp inp.opt.refs.b1u inp.opt.refs.b2u
+cp inp.opt.refs.b1u inp.opt.refs.b3u
+
+
+function runkohn {
+
+cp out.scf mesa.out
+ExtractData
+source ExtractData.sh
+cat outExtractData
+
+################# config ##################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+2s+1=2
+q=1        #ncsfs should be 2362
+sdrt=(nsym=8,ngroups=$ngroupss,nrefs=3)
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2;
+8//7;
+\$end
+EOF
+cat inp.opt.refs.$SymScat >> mesa.inp
+cat optsdrt >> mesa.inp
+optmesa
+cat mesa.out
+cp mesa.inp inp.config
+cp mesa.out out.config
+cat <<EOF >inExtractConfig
+   $symmetry
+   1 1 1   # nrefs, the number of numel lines
+   $symnl2
+EOF
+ExtractConfig
+cat outExtractConfig
+source ExtractConfig.sh
+
+##################### set #################
+cat mesacmn.inp > mesa.inp
+cat <<EOF |sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+phase=save
+properties=(e1)
+2s+1=1
+guess=chk    # ncsfs should be 2362
+kohn=(nsmall=$nsmall,m822=zint,ncsfs=$ncsfs,symmetry=$symmetry,
+symncsfs=$symncsfs,symnl2=$symnl2,symroot=$symroot)
+drt=(nsym=8,ngroups=$ngroupss,nrefs=2)
+sdrt=(nsym=8,ngroups=$ngroupsn,nrefs=2)
+ci=(nroots=$nchan)
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2;
+19//2;
+3//2,12,30;
+4//1;
+8//6,7,8,11,19,22;
+9//2,8,211,26,90,221;
+8//6,22;
+9//2,8,222,27,90;
+20//1;
+\$end
+
+\$sgroups
+numel=(18,3,1,0)
+numel=(18,3,1,0) symtp=(1,1,1,1)
+\$end
+
+\$groups
+numel=(18,3,1,0,0)
+numel=(18,3,0,1,0)
+\$end
+
+
+EOF
+cat setdrt >> mesa.inp
+cat setsdrt >> mesa.inp
+optmesa
+cat mesa.out
+
+ExtractIP
+cat outExtractIP
+mv outExtractIP outExtractIP.$SymScat
+
+cp mesa.out out.set.$SymScat
+cp mesa.inp inp.set.$SymScat
+
+########## opt #############################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+\$route
+sym=norotate
+2s+1=2
+q=1
+kohn=(bsolve,nsmall=$nsmall,ncsfs=$ncsfs,hqq,freeze,
+energy=(0.0684,0.1052,0.1419,0.1787))
+sdrt=(nsym=8,ngroups=$ngroupss,nrefs=3)
+ci=(nroots=$nchan,kohn)   # the kohn key word bypasses the actual eigenvalue evaluation
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2,3,4;
+8//7,22;
+9//2,30,35,50;
+20//1;
+\$end
+EOF
+cat inp.opt.refs.$SymScat >> mesa.inp
+cat optsdrt >> mesa.inp
+optmesa
+cat mesa.out
+cp mesa.out out.opt.$SymScat
+cp mesa.inp inp.opt.$SymScat
+
+# mesa.inp needed in csolve that is run by kohnsolve
+
+kohnsolve
+
+################## phot #######################
+cat mesacmn.inp > mesa.inp
+cat <<EOF | sed -e "s/#.*//" >>mesa.inp 
+
+\$route
+sym=norotate
+phase=save
+properties=(e1)
+2s+1=1
+guess=chk
+kohn=(overlap,nsmall=$nsmall,m822=zint,ncsfs=$ncsfs,symmetry=$symmetry,
+symncsfs=$symncsfs,symnl2=$symnl2,symroot=$symroot)
+sdrt=(nsym=8,ngroups=$ngroupss,nrefs=3)
+ci=(nroots=1)     # just need ot compute the roots for the initial state
+geom=(inau,coord)
+\$end
+
+\$nonstd
+1//1,2,3,4;
+3//2;
+8//7,22;
+9//2,8;
+92//78,90;
+20//1;
+\$end
+
+EOF
+cat inp.opt.refs.$SymScat >>mesa.inp
+cat photsdrt >> mesa.inp
+optmesa
+cat mesa.out
+cp mesa.out out.phot.$SymScat
+cp mesa.inp inp.phot.$SymScat
+
+kohnphot
+echo From pltphot.$SymScat
+cat pltphot.$SymScat
+
+}
+
+####################### Setup for ExtractData #######
+cat <<EOF |sed -e "s/#.*//" >inExtractDataCmn
+   $nsmall   # nsmall
+   11 0      # na nb
+  $NECenter  # CenterExpand put the origin of the grid on this atom
+  'nocontq'  # flag for contractq - anything besides 'contractq' will not contract the q space
+  6          # LMaxK
+  2 2        # CenterSym, CnOrder
+  $nchan $symmetry  # number of channels and number of continuum symmetry types
+  1 2        # symroot, symmetry type for each channel
+  -2          # NOccGroup
+  9 1 'ag' 2 'ag' 3 'ag' 1 'b2g' 1 'b3g' 1 'b1u' 2 'b1u' 1 'b2u' 1 'b3u'   # orbitals in group 1
+  2 4 'ag' 3 'b1u'      # orbitals in group 2
+  'ag'       # SymInit
+EOF
+
+####################### Setup for ExtractIP #######
+cat <<EOF |sed -e "s/#.*//" >inExtractIP
+  $nchan     # nchan
+  20.1382       # IP for first state
+EOF
+
+############### b1u ################################
+cat <inExtractDataCmn >inExtractData
+cat <<EOF |sed -e "s/#.*//" >>inExtractData
+ 'b1u'        # SymScat
+ 'ag'  'b1u'  # SymCont and SymTarg (SymTarg * SymCont = SymScat)
+  0  0  0    # PWLStart, PWmMOD, iCS
+ 'b1u'  'ag'  # SymCont and SymTarg (SymTarg * SymCont = SymScat)
+  1  0  0    # PWLStart, PWmMOD, iCS
+EOF
+runkohn
+
+
+############### b2u ################################
+cat <inExtractDataCmn >inExtractData
+cat <<EOF |sed -e "s/#.*//" >>inExtractData
+ 'b2u'       # SymScat
+ 'b3g' 'b1u'  #  SymCont and SymTarg (SymTarg * SymCont = SymScat)
+  2  1  1    # PWLStart, PWmMOD, iCS
+ 'b2u' 'ag'  #  SymCont and SymTarg (SymTarg * SymCont = SymScat)
+  1  1  1    # PWLStart, PWmMOD, iCS
+EOF
+runkohn
+
+############### b3u ################################
+cat <inExtractDataCmn >inExtractData
+cat <<EOF |sed -e "s/#.*//" >>inExtractData
+ 'b3u'       # SymScat  
+ 'b2g' 'b1u'  # SymCont, and SymTarg (SymTarg * SymCont = SymScat)
+  2  1  0   # PWLStart, PWmMOD, iCS
+ 'b3u' 'ag'  # SymCont, and SymTarg (SymTarg * SymCont = SymScat)
+  1  1  0   # PWLStart, PWmMOD, iCS
+EOF
+runkohn
+
+chans=(01 02)
+rm DipMatAll??.dat
+for SYM in b1u b2u b3u ; do
+cp dipbf.$SYM dipbf
+cp punphot.$SYM punphot
+cp inphot.$SYM inphot
+cp inExtractDipMat.$SYM inExtractDipMat
+ExtractDipMat
+cat outExtractDipMat
+for CHAN in ${chans[*]} ; do
+cat DipMat$CHAN.dat >> DipMatAll$CHAN.dat
+done
+done
+
+date
+
+exit
+

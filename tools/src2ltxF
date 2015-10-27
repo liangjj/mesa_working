@@ -1,0 +1,216 @@
+#!/usr/local/bin/perl
+#
+# $Id: src2ltx,v 1.2 1997/11/14 20:46:09 kleb Exp $
+#
+# SRC2LTX - ANNOTATING PROGRAMS VIA LATEX THROUGH A PERL FILTER
+#
+# OPTIONS:
+#
+#   -C change the regular expression for the comment line
+#   -S change the regular expression for the separator line
+#   -s processes source as a subset of a larger document, i.e,
+#      it does not check for a completely valid latex file or
+#      add an \end{document} automatically.
+#   -i inquire before overwriting files [not implemented]
+#   -r remove annotations completely, i.e., leave only the code
+#      with no comments as whatever_NoLaTeX.whatever. [not implemented]
+#
+# EXAMPLES:
+#
+#   to translate a stand-alone piece of code:
+#
+#      src2ltx code.f
+#
+#   to use the latex output as a subset of a larger latex document:
+#
+#      src2ltx -s code.f
+#
+#   to translate a small bit of code which uses '#' to denote
+#   a comment line and '=' to separate comments and code:
+#
+#      src2ltx -s -C'^#' -S'^=' code.f
+#
+#   entire sequence used to turn an annotated source code
+#   into a latex document (for a typical unix system):
+#
+#     src2ltx smpano.f        # turn source into tex file (smpano.tex)
+#     latex smpano            # turn tex file into dvi file
+#     xdvi smpano             # preview dvi file
+#     dvips smpano            # turn dvi file into postscript
+#     ghostview smpano.ps     # preview postscript file
+#     lpr smpano.ps           # print resulting postscript file
+#
+# APPROACH:
+#
+#   take a program that is commented with the following
+#   convention: SOME TYPE OF UNIQUE LINE SEPARATES COMMENTS FROM CODE
+#   in the case of fortran code a blank line is used to
+#   separate comments from code, viz;
+#
+#    >c This comment would be typeset by \LaTeX{}.
+#    >  
+#    >      do i = 1, nps
+#    >        write (*,*) i   ! this is typeset in verbatim mode
+#    >      enddo
+#
+#   the perl script then converts this commented program
+#   according to the following recipe:
+#
+#     0) assume we start in latex mode
+#     1) whenever in latex mode: eliminate comment cards with
+#        the substitution: s/$COMMENT//
+#     2) comments followed by the separator line: enter code mode
+#     3) comments preceeded by a separator line: leave code mode,
+#        enter latex mode
+#
+#   so, all comments (except those not preceeded by a separator line)
+#   will be in pure latex mode with separator lines between code lines
+#   which are set in verbatim environments.
+#
+#   thus, after this sequence of events, the user is left
+#   with a latex'able version of the original code.
+#
+#   note: to get paragraph separation in latex, use a comment
+#         line, i.e., a comment on a line by itself.
+#
+#         if the user forgets a '\end{document}' line at the
+#         end, src2ltx automatically adds one unless it is operating
+#         in subset mode via the -s option.
+#
+#         if you get and IMPROPER MODE CHANGE error, this means
+#         that you have somehow violated the above rules (or you've
+#         found a bug ;) ).  for example, if you switched from code
+#         mode to latex mode due to some syntax error; then later,
+#         when it encounters a legitamate code-mode-to-latex-mode
+#         switch (such as a separator line followed by a comment line)
+#         it lets you something went wrong.
+#
+# TODO:
+#
+#    o multiple file names on command line
+#    o telling you what caused the improper mode change
+#      and where.
+#    o mid-line comment syntax (e.g., exclaimation point comments in fortran)
+#    o strange comments (e.g., `c.....some comment')
+#    o automatically tabbed comments (i.e., mimicking program indentation)
+#    o add line numbers to code printout -> use listverb environment
+#
+# ACKNOWLEDGEMENTS:
+#
+#    many thanks to bill wood (w.a.wood@larc.nasa) and
+#    steve alter (s.j.alter@larc.nasa.gov) for suggestions,
+#    using, and testing the code.  also included should
+#    be bill von ofenheim (w.h.v.vonofenheim@larc.nasa.gov)
+#    who revealed some perl tricks and especially tad guy
+#    (e.e.guy@larc.nasa.gov) who serves as an inspiration.
+#
+# CODE:
+#
+# set default comment character and separator line (fortran):
+
+$comment   = "^c";     # comment regular expression to match/remove
+$separator = "^\s*\n"; # comment/code separator regex (blank line)
+$subroutine = "false"; # flag for use with subroutines
+
+# flags for making sure we have a minimally valid latex file:
+
+$docclass = "false";  # \documentclass{}
+$begindoc = "false";  # \begin{document}
+$enddoc = "false";    # \end{document}
+
+# process option list:
+
+while ($_ = $ARGV[0], /^-/) {
+    shift;
+    last if /^--$/;
+    /^-s/ && ($subroutine = "true");
+    /^-C(.*)/ && ($comment = $1);
+    /^-S(.*)/ && ($separator = $1);
+}
+
+# open tex file to write to:
+
+$tex = $ARGV[0];
+$tex =~ s/\.F/.tex/;   # fortran suffix specific - should just knock off any suffix and add .tex suffix.  also should prompt if -i, 'inquire', option is turned on and file already exists
+print "translating $ARGV[0] to $tex\n";
+open (TEX,"> $tex");
+
+# start off assuming latex mode:
+
+$incode = "false";
+
+while ( <> ) {                            # while there is input, do:
+
+    $line = $_;                           # store current line
+
+    if ($incode =~ /false/) {             # we're in latex mode
+
+	if ( /$separator/ ) {             # encountered separator between modes
+	    if ( $prev =~ /$comment/ ) {  # previous line was a comment
+		$incode = "true";         # switch to code mode
+                print TEX '\begin{verbatim}';
+	    } else {                      # unmatched mode
+                print STDERR "IMPROPER mode change: already in latex mode(?)\n";
+                exit 1;
+            }
+	} else {                          # remove comment string
+	    $line =~ s/$comment//;
+	    print TEX $line;
+	}
+
+    } else {                              # in code mode
+
+	if ( /$comment/ ) {               # encountered comment
+	    if ( $prev =~ /$separator/ ) {    # previous line is separator
+		$incode = "false";            # switch to latex mode
+		print TEX '\end{verbatim}'."\n";  # close verbatim
+		$line =~ s/$comment//;        # remove comment card
+	    }
+	    print TEX $line;                  # print line
+	} else {                          # still in latex mode
+	    if ( !/$separator/ ) {        # preserve blank lines
+		if ( $prev =~ /$separator/ ) {
+		    print TEX "\n";
+		}
+		print TEX $line;
+	    }
+	}
+    }
+
+    $prev = $_;                           # store previous line
+
+    if ( /\\documentclass/ ) {            # search for \documentclass
+      $docclass = "true";                 # found it
+    }
+    if ( /\\begin\{document\}/ ) {        # search for \begin{document}
+      $begindoc = "true";                 # found it
+    }
+    if ( /\\end\{document\}/ ) {          # search for end of document
+      $enddoc = "true";                   # found one
+    }
+
+}
+
+# make sure we get out of code mode:
+
+if ($incode =~ /true/) {
+    print TEX '\end{verbatim}'."\n";          # close verbatim
+}
+
+# if not in subroutine mode worry about having a valid latex file:
+
+if ($subroutine =~ /false/) {
+
+  if ($docclass =~ /false/) {               # didn't find \begin{document}
+      print STDERR 'WARNING: did not find a \documentclass{}}'."\n";
+  }
+  if ($begindoc =~ /false/) {               # didn't find \begin{document}
+      print STDERR 'WARNING: did not find a \begin{document}'."\n";
+  }
+  if ($enddoc =~ /false/) {                 # couldn't find end of document
+      print STDERR 'NOTE: added \end{document}'."\n";
+      print TEX '\end{document}'."\n";          # close latex document
+  }
+
+}
+

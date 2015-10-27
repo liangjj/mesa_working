@@ -1,0 +1,49 @@
+#  @(#)Makefile	5.1 11/6/94../Generic_Propagator
+#
+# Makefile for making the propagator codes
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables for the fortran compiler
+# and the varios flags and libraries needed.
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+MAKE = make
+MFLAGS = 
+#LD = $(FC)
+#LDFLAGS = 
+#AR = -ar
+#ARFLAGS = rvu
+#RANLIB = ranlib
+RCS = RCS
+#
+GENERIC_PROPAGATOR_DIR = \
+/home/mesa/mesa/bmesa/Time_Propagation/Time_Prop/Generic_Propagator
+PROP_TO_GO_DIR = $(GENERIC_PROPAGATOR_DIR)/Prop_To_Go
+PROP_MODULES_DIR = $(PROP_TO_GO_DIR)/Prop_Modules
+PROP_SOURCES_DIR = $(PROP_TO_GO_DIR)/Prop_Sources
+
+PROPAGATION_DIRECTORY = \
+	$(PROP_MODULES_DIR) \
+	$(PROP_SOURCES_DIR) \
+	$(PROP_TO_GO_DIR)
+
+
+all: $(PROPAGATION_DIRECTORY) 
+
+prop: $(PROPAGATION_DIRECTORY) 
+
+.RECURSIVE: $(PROPAGATION_DIRECTORY)
+$(PROPAGATION_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+directory: FORCE
+	cd $(PROP_MODULES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_SOURCES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_TO_GO_DIR) ; $(MAKE) $(MFLAGS) directory
+
+clean: FORCE
+	cd $(PROP_MODULES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_SOURCES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_TO_GO_DIR) ; $(MAKE) $(MFLAGS) clean
+
+FORCE:

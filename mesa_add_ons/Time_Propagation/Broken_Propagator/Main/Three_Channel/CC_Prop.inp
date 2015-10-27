@@ -1,0 +1,59 @@
+$cc_setup
+               type_calculation=imaginary_time
+       hamiltonian_source=external propagation_method=lanczos
+       preconditioner=cholesky use_channel_matrices in_core
+       packed_matrices  non_orthogonal_basis overlap_drop_tolerance=1.e-09
+       hamiltonian_drop_tolerance=1.e-09 cholesky_drop_tolerance=1.e-09
+       dipole_drop_tolerance=1.e-30 eigenvalue_convergence=1.d-09 
+       xprint_packed_matrix xprint=all_details
+       no_coupled_channels no_one_body_potential file_directory=Ar
+       input_matrices=using_angular_symmetry_drake_channel_format 
+       output_matrices=packed_in_triangular_iosys_format
+       use_atomic_symmetry=on
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$directives
+  matrix_directive=by_states  xprint_cc 
+  xreformat_input_matrix_only  diagonalize_only
+$end
+  
+$state_parameters
+ L_Max=1  number_of_splines=561 dipole_matrices
+ remove_last_spline remove_next_to_last_spline diagonalize_matrix
+ write_channel_labels xwrite_pointers
+$end
+
+$state_data_l_0
+ parity=even channel_l_values=(1,0,0)
+$end
+
+$state_data_l_1
+ parity=odd channel_l_values=(0,2,1,1)
+$end
+
+$time
+ automate number_of_time_regions=2 first_time=0.d0 time_interval=.1d0
+ peak_electric_field=1.d0 pulse_duration=20.d0 ramp_time=5.d0
+ xprint=(main=(xpointers,xpotential,xinitial_state,xnon_linear_potential,
+              xh_on_initial_state))
+$end
+
+$iterative_data
+ iterative_method=lanczos
+ non_orthogonal_basis
+ type_matrix=general compute_energy
+ overlap_tolerance=1.e-10 convergence=1.d-09
+ xorthogonalization_procedure=full        double_schmidt
+ xprint=(iterative=all) maximum_number_of_iterations=30
+ maximum_number_of_vectors=30 number_of_trials=1
+$end
+
+$initial_state
+ initial_state=random_vector
+$end
+       input_matrices=using_angular_symmetry_drake_channel_format 
+       input_matrices=using_angular_symmetry_packed_in_iosys_format 

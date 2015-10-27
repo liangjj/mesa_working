@@ -1,0 +1,194 @@
+#!/usr/bin/avs -network
+version 4.0 (25.137 hp)
+module "Mesa Checkfile Reader.user.0" -xy 250,65 -ex /usr2/mesa/tools/avs/mesareader2
+module "Generate Limits.user.1" -xy 142,128 -ex $Path/MSI/bin/MSI_mongo
+module "Generate MOs.user.2" -xy 304,209 -ex $Path/MSI/bin/MSI_mongo
+module "MO Surface.user.3" -xy 304,326 -ex $Path/MSI/bin/MO_surface
+module "geometry viewer.user.4" -xy 304,452
+module "arbitrary slicer.user.5" -xy 124,326 -ex $Path/avs_library/mongo
+module "color range.user.6" -xy 70,272 -ex $Path/avs_library/mongo
+module "generate colormap.user.7" -xy 16,182
+module "volume bounds.user.8" -xy 493,326 -ex $Path/avs_library/mongo
+port_connect "Mesa Checkfile Reader.user.0":0 "Generate Limits.user.1":0
+port_connect "Mesa Checkfile Reader.user.0":0 "Generate MOs.user.2":0
+port_connect "Generate Limits.user.1":1 "Generate MOs.user.2":1
+port_connect "Generate MOs.user.2":0 "volume bounds.user.8":0
+port_connect "Generate MOs.user.2":0 "arbitrary slicer.user.5":0
+port_connect "Generate MOs.user.2":0 "color range.user.6":0
+port_connect "Generate MOs.user.2":0 "MO Surface.user.3":0
+port_connect "MO Surface.user.3":0 "geometry viewer.user.4":0
+port_connect "arbitrary slicer.user.5":0 "geometry viewer.user.4":0
+port_connect "color range.user.6":0 "arbitrary slicer.user.5":1
+port_connect "generate colormap.user.7":0 "color range.user.6":1
+port_connect "volume bounds.user.8":0 "geometry viewer.user.4":0
+parm_set "Mesa Checkfile Reader.user.0":"Check file" /usr2/mesa/tools/avs/test.chk
+parm_set "Generate MOs.user.2":"Compute Type" HOMO -range HOMO!LUMO!M.O. !
+parm_set "Generate MOs.user.2":Calculate false
+parm_set "MO Surface.user.3":"Hide Surfaces" false
+parm_set "arbitrary slicer.user.5":choice Point
+geom_set_scene -scene "geometry viewer.user.4"
+geom_set_camera_name "Camera 1"
+geom_resize_camera -view "Camera 1" 512 511
+#
+# State for view: Camera 1
+#
+geom_set_position -view "Camera 1" 0 0 -12
+geom_set_view_modes -depth_cue 0 -view "Camera 1"
+geom_set_view_modes -z_buffer 1 -view "Camera 1"
+geom_set_view_modes -perspective 1 -view "Camera 1"
+geom_set_camera_params -view "Camera 1" -front 1 -back 112
+geom_set_depth_cue_params "Camera 1" -scale 0.1
+#
+# Light state
+#
+geom_set_light -light 1 -type directional -state 1
+geom_set_light -type ambient -state 1
+#
+# State for object: top
+#
+geom_set_cur_cli_obj top
+geom_set_matrix   -mat \
+                  0.0152129    -0.458888    -0.0430503    0 \
+                    -0.459087    -0.0189067    0.0393025    0 \
+                    -0.0408743    0.0415607    -0.457455    0 \
+                    0.0530364    0.544689    0.881536    1 
+geom_set_position   0.485407 -0.407742 0
+geom_set_obj_window -5.7 8.4 -7.8 7.8 -5.1 8.7
+#
+# State for object: "Pos Lobe"
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "MO Surface.user.3"
+geom_create_obj "Pos Lobe" -mod "MO Surface.user.3"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: "Neg Lobe"
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "MO Surface.user.3"
+geom_create_obj "Neg Lobe" -mod "MO Surface.user.3"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: slice
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "arbitrary slicer.user.5"
+geom_create_obj slice -mod "arbitrary slicer.user.5"
+geom_set_trans_mode redirect
+geom_set_matrix   -mat \
+                  -0.0770448    0.0343112    0.996437    0 \
+                    0.461716    0.887012    0.00515706    0 \
+                    -0.883675    0.460468    -0.0841816    0 \
+                    0    0    0    1 
+geom_set_position   -4.46326 5.50385 0.0753056
+geom_set_render_mode no_light
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: bounds
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "volume bounds.user.8"
+geom_create_obj bounds -mod "volume bounds.user.8"
+geom_set_trans_mode parent
+geom_set_obj_window -5.7 8.4 -7.8 7.8 -5.1 8.7
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,1024
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 255,761
+   panel "Mesa Checkfile Reader.user.0" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 254,213
+    manipulator "Mesa Checkfile Reader.user.0:Check file" -w browser -p "Mesa Checkfile Reader.user.0" \
+        -xy 10,10 -wh 234,194
+   panel "Generate Limits.user.1" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 254,520
+    manipulator "Generate Limits.user.1:NumGridPoints" -w text -p "Generate Limits.user.1" \
+        -xy 10,10 -wh 235,66
+    manipulator "Generate Limits.user.1:Grid Spacing" -w typein_real -p "Generate Limits.user.1" \
+        -xy 10,75 -wh 235,22
+    manipulator "Generate Limits.user.1:Dial Message" -w text -p "Generate Limits.user.1" \
+        -xy 10,97 -wh 235,22
+    manipulator "Generate Limits.user.1:MinX" -w dial -p "Generate Limits.user.1" \
+        -xy 40,120 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxX" -w dial -p "Generate Limits.user.1" \
+        -xy 130,120 -wh 90,130
+    manipulator "Generate Limits.user.1:MinY" -w dial -p "Generate Limits.user.1" \
+        -xy 40,250 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxY" -w dial -p "Generate Limits.user.1" \
+        -xy 130,250 -wh 90,130
+    manipulator "Generate Limits.user.1:MinZ" -w dial -p "Generate Limits.user.1" \
+        -xy 40,380 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxZ" -w dial -p "Generate Limits.user.1" \
+        -xy 130,380 -wh 90,130
+   panel "Generate MOs.user.2" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 254,304
+    manipulator "Generate MOs.user.2:CalcMessage" -w text -p "Generate MOs.user.2" \
+        -xy 10,10 -wh 235,66
+    manipulator "Generate MOs.user.2:AlphaBeta" -w radio_buttons -p "Generate MOs.user.2" -hide \
+        -xy 10,75 -wh 235,22
+    manipulator "Generate MOs.user.2:Orbital Message" -w text -p "Generate MOs.user.2" \
+        -xy 10,97 -wh 235,22
+    manipulator "Generate MOs.user.2:Compute Type" -w radio_buttons -p "Generate MOs.user.2" \
+        -xy 10,121 -wh 117,66
+    manipulator "Generate MOs.user.2:Orbital Number" -w idial -p "Generate MOs.user.2" \
+        -xy 126,121 -wh 90,130
+    manipulator "Generate MOs.user.2:MO Squared" -w toggle -p "Generate MOs.user.2" \
+        -xy 10,251 -wh 117,22
+    manipulator "Generate MOs.user.2:Calculate" -w toggle -p "Generate MOs.user.2" \
+        -xy 10,273 -wh 117,22
+   panel "MO Surface.user.3" -w panel -p "Top Level Stack" -xy 0,193 -wh 225,282
+    manipulator "MO Surface.user.3:Level" -w dial -p "MO Surface.user.3" \
+        -xy 84,32 -wh 90,130
+    manipulator "MO Surface.user.3:Hide Surfaces" -w toggle -p "MO Surface.user.3" \
+        -xy 40,183 -wh 176,22
+    manipulator "MO Surface.user.3:Color Label" -w text -p "MO Surface.user.3" \
+        -xy 40,204 -wh 176,22
+    manipulator "MO Surface.user.3:Color Choice" -w radio_buttons -p "MO Surface.user.3" \
+        -xy 40,226 -wh 176,44
+   panel "arbitrary slicer.user.5" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 200,346
+    manipulator "arbitrary slicer.user.5:X Rotation" -w dial -p "arbitrary slicer.user.5" \
+        -xy 10,10 -wh 90,130
+    manipulator "arbitrary slicer.user.5:Y Rotation" -w dial -p "arbitrary slicer.user.5" \
+        -xy 100,10 -wh 90,130
+    manipulator "arbitrary slicer.user.5:Distance" -w dial -p "arbitrary slicer.user.5" \
+        -xy 10,140 -wh 90,130
+    manipulator "arbitrary slicer.user.5:Mesh Res" -w idial -p "arbitrary slicer.user.5" \
+        -xy 100,140 -wh 90,130
+    manipulator "arbitrary slicer.user.5:Sampling Style" -w text -p "arbitrary slicer.user.5" \
+        -xy 10,270 -wh 117,22
+    manipulator "arbitrary slicer.user.5:choice" -w radio_buttons -p "arbitrary slicer.user.5" \
+        -xy 10,292 -wh 117,44
+   panel "generate colormap.user.7" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 255,568
+    manipulator "generate colormap.user.7:colormap" -w color_editor -p "generate colormap.user.7" \
+        -xy 10,10 -wh 235,418
+    manipulator "generate colormap.user.7:lo value" -w dial -p "generate colormap.user.7" \
+        -xy 10,428 -wh 90,130
+    manipulator "generate colormap.user.7:hi value" -w dial -p "generate colormap.user.7" \
+        -xy 100,428 -wh 90,130
+   panel "volume bounds.user.8" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 137,197
+    manipulator "volume bounds.user.8:Hull" -w toggle -p "volume bounds.user.8" \
+        -xy 10,10 -wh 117,22
+    manipulator "volume bounds.user.8:Min I" -w toggle -p "volume bounds.user.8" \
+        -xy 10,32 -wh 117,22
+    manipulator "volume bounds.user.8:Max I" -w toggle -p "volume bounds.user.8" \
+        -xy 10,54 -wh 117,22
+    manipulator "volume bounds.user.8:Min J" -w toggle -p "volume bounds.user.8" \
+        -xy 10,76 -wh 117,22
+    manipulator "volume bounds.user.8:Max J" -w toggle -p "volume bounds.user.8" \
+        -xy 10,98 -wh 117,22
+    manipulator "volume bounds.user.8:Min K" -w toggle -p "volume bounds.user.8" \
+        -xy 10,121 -wh 117,22
+    manipulator "volume bounds.user.8:Max K" -w toggle -p "volume bounds.user.8" \
+        -xy 10,143 -wh 117,22
+    manipulator "volume bounds.user.8:Colored Bounds" -w toggle -p "volume bounds.user.8" \
+        -xy 10,165 -wh 117,22
+ panel "geometry viewer.user.4!display" -w container -p ui -xy 300,22 -wh 611,642\
+   -P zoom_coords string "0 0 0 0 0 <$NULL> 0 0 0 0"
+manipulator "geometry viewer.user.4":object -w none
+# End of file

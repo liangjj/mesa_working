@@ -1,0 +1,24 @@
+$route
+maxsiz=900000
+2s+1=1
+print=(basis,scf=vector)
+hf scf=(pulay)
+guess=(core)
+basis=dz,sym=off
+properties=(e1)
+ 
+$title
+ h2o test case: closed shell scf/point charge field
+                charge of +4.6 at a distance of 50.0 angstroms along c2 axis
+                note that huckel guesses don't work with point charges
+
+$geom
+o(basis=dz)
+h1(basis=dz) o r1
+h2(basis=dz) o r2 h1 a1
+h3(basis=nobasis,z=4.6) o 50.0 h1 66.15 h2 180.0
+ 
+r1=1.949
+r2=1.949
+a1=112.3
+$end

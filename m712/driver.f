@@ -1,0 +1,961 @@
+*deck @(#)driver.f	5.2  2/5/95
+      subroutine driver(ptprim,noprim,nbtype,ex,c,
+     #     nx,ny,nz,lenxyz,nobf,nocart,mintyp,minmom,maxmom,
+     #     z,maxcor,nat,npf,nnprim,nprim,ops,cutexp,acore,
+     #     grad,nderiv,atptd,atnod,prnt,ndmat,alpha,beta,
+     #     nshell,pstart,dpr,d2e,nd2e,bftgrp,bftcmp,grpsiz,gptij,
+     $     gptkl,gklsiz,nbf,ngrp,nnpgrp,n2pdm,tdm,lentdm,ci,mcscf,mrci,
+     $     cont,ncont,ptcont,nocont,start)
+c
+c***begin prologue     driver
+c***date written       851113   (yymmdd)
+c***revision date      880201   (yymmdd)
+c
+c  01 february  1988    bhl at brl
+c     c..bhl.nv  denotes changes to skip subroutine calls
+c     if no integrals (nv=0) past the prefactor screening
+c
+c  16 december  1987    bhl at brl
+c     core allocation for tpaadm tpacdm & tpccdm
+c
+c  08 december  1987    bhl at brl
+c     splitting fd2int into two routines (fd2ant,fd2bnt)
+c     so cos can compile the routines
+c
+c  20 november 1987    pws at lanl
+c     adding arguments from 'bftgrp' to 'start' for reading in the
+c     ci or mcscf two-particle density matrices.
+c
+c  11 november 1987    pws at lanl
+c     adding arguments to call to 'dprim' in preparation for second
+c     derivatives.
+c
+c   3 july  1987    pws at lanl
+c     switching density matrix work to in-core to save on ridiculous
+c     i/o charges accumulating.
+c
+c  22 march 1987    pws at lanl
+c      creating a 'sizer' routine which figures out how much core
+c      we'll need.
+c
+c
+c***keywords
+c***author             saxe, paul    (lanl)
+c***source             @(#)driver.f	5.2   2/5/95
+c***purpose
+c***description
+c***references         (none)
+c
+c***routines called    (none)
+c
+c***end prologue       driver
+c
+      implicit integer(a-z)
+c
+      character*(*) ops
+      real*8 cont(ncont)
+      real*8 d2e(nd2e)
+      real*8 ex(nprim),c(3,nat),z(maxcor)
+      real*8 cutexp,pi252,energy,del,der(3,4),grad(3,nat)
+      real*8 ld2e(78),enaa,enac,encc,enaagy,enacgy,enccgy,etot
+      real*8 alpha(nshell,nshell),beta(nshell,nshell)
+      real*8 dpr(nnprim,ndmat)
+      real*8 tdm(lentdm)
+      real*8 e1,e2,e1702,eold
+      real*8 energt,small
+      integer ptcont(nat,nbtype)
+      integer nocont(nat,nbtype)
+      integer start(nat,nbtype)
+      integer bftgrp(nbf)
+      integer bftcmp(nbf)
+      integer grpsiz(ngrp)
+      integer gptij(nnpgrp)
+      integer gptkl(nnpgrp)
+      integer gklsiz(nnpgrp)
+      integer acore(*)
+      integer pstart(nat,nbtype)
+      integer ptprim(nat,nbtype),noprim(nat,nbtype)
+      integer nobf(nbtype)
+      integer nocart(nbtype),mintyp(nbtype)
+      integer minmom(nbtype),maxmom(nbtype)
+      integer nx(lenxyz),ny(lenxyz),nz(lenxyz)
+      integer symcen(4),angmom(4),dercen(4),dermom(4)
+      integer atptd(nat,nat),atnod(nat,nat)
+      logical prnt
+      logical logkey
+      logical ci
+      logical mcscf,mrci
+c
+      common /io/     inp,iout
+c
+c     ----- get the primitive density matrices for hf or mcscf -----
+c
+      if (mcscf) then
+         call iosys('read real "mcscf primitive core density" '//
+     $        'from rwf',nnprim,dpr,0,' ')
+         call iosys('read real "mcscf primitive active density" '//
+     $        'from rwf',nnprim,dpr(1,2),0,' ')
+      else if (.not.ci) then
+         call iosys('read real "hf primitive density" from rwf',
+     #        nnprim*ndmat,dpr,0,' ')
+      end if
+c
+c     ----- for the mcscf, patch up alpha's and beta's for core-core
+c           and core-active contributions
+c
+      etot=0.d0
+c
+      if (mcscf) then
+         call rzero(alpha,9)
+         call rzero(beta,9)
+c
+         alpha(1,1)=2.0d+00
+         alpha(2,1)=1.0d+00
+         alpha(1,2)=1.0d+00
+c
+         beta(1,1)=-1.0d+00
+         beta(2,1)=-0.5d+00
+         beta(1,2)=-0.5d+00
+      end if
+c
+c     ----- get 2*pi**(5/2) -----
+c
+      call iosys('read real pi from rwf',1,pi252,0,' ')
+      pi252=2.0d+00*pi252**2.5d+00
+c
+c     ----- zero energy, gradients, etc. -----
+c
+      energy=0.0d+00
+      enaary=0.0d+00
+      enacry=0.0d+00
+      enccry=0.0d+00
+c
+      if (nderiv.ge.1) call rzero(grad,3*nat)
+      if (nderiv.ge.2) call rzero(d2e,nd2e)
+c
+c     ----- initialize counters -----
+c
+      maxc=0
+      maxc1=0
+      maxc2=0
+      numbuf=1
+      ntotal=0
+      nonzer=0
+      nactul=0
+      dmoff=-lentdm
+c
+c     ----- check amount of core needed -----
+c
+      call sizer(noprim,nbtype,
+     #           nx,ny,nz,
+     #           lenxyz,nobf,nocart,mintyp,minmom,maxmom,
+     #           nat,npf,nnprim,nprim,ops,cutexp,
+     #           nderiv,atnod,prnt,ndmat,
+     #           nshell,mincor)
+c
+c     ----- get the memory -----
+c
+cps
+      mincor=200000
+cps
+      call getscm(mincor,z,maxcor,'m712:driver',0)
+      call getscm(0,z,maxtop,'m712:driver',0)
+c
+      igrp=0
+      do 8000 iatom=1,nat
+         symcen(1)=iatom
+         do 7000 itype=1,nbtype
+            if (noprim(iatom,itype).le.0) go to 7000
+            angmom(1)=itype
+            igrp=igrp+1
+            jgrp=0
+            do 6000 jatom=1,iatom
+               symcen(2)=jatom
+               if (jatom.eq.iatom) then
+                  jtmax=itype
+               else
+                  jtmax=nbtype
+               end if
+               do 5000 jtype=1,jtmax
+                  if (noprim(jatom,jtype).le.0) go to 5000
+                  angmom(2)=jtype
+                  jgrp=jgrp+1
+                  ijgrp=igrp*(igrp-1)/2+jgrp
+                  kgrp=0
+                  do 4000 katom=1,iatom
+                     symcen(3)=katom
+                     if (katom.eq.iatom) then
+                        ktmax=itype
+                     else
+                        ktmax=nbtype
+                     end if
+                     do 3000 ktype=1,ktmax
+                        if (noprim(katom,ktype).le.0) go to 3000
+                        angmom(3)=ktype
+                        if (katom.eq.iatom.and.ktype.eq.itype) then
+                           latmax=jatom
+                        else
+                           latmax=katom
+                        end if
+                        kgrp=kgrp+1
+                        lgrp=0
+                        do 2000 latom=1,latmax
+                           symcen(4)=latom
+                           if (katom.eq.iatom.and.ktype.eq.itype.and.
+     $                          latom.eq.jatom) then
+                              ltmax=jtype
+                           else if (latom.eq.katom) then
+                              ltmax=ktype
+                           else
+                              ltmax=nbtype
+                           end if
+                           do 1000 ltype=1,ltmax
+                              if (noprim(latom,ltype).le.0) go to 1000
+                              angmom(4)=ltype
+                              lgrp=lgrp+1
+                              klgrp=kgrp*(kgrp-1)/2+lgrp
+                              if (ci.or.mcscf) then
+                                 ptdm=gptij(ijgrp)+
+     $                                gptkl(klgrp)*gklsiz(ijgrp)
+                                 igrpsz=grpsiz(igrp)
+                                 jgrpsz=grpsiz(jgrp)
+                                 kgrpsz=grpsiz(kgrp)
+                                 lgrpsz=grpsiz(lgrp)
+                              end if
+c
+c23456
+c       write(iout,77001) iatom,jatom,katom,latom,
+c     $ angmom(1),angmom(2),angmom(3),angmom(4),
+c     $ igrp,jgrp,kgrp,lgrp, igrpsz,jgrpsz,kgrpsz,lgrpsz
+c77001 format(/,' iatm jatm katm latm iang   jang   kang   lang   ',8i8,/,
+c     $         ' igrp jgrp kgrp lgrp igrpsz jgrpsz kgrpsz lgrpsz ',8i8)
+c23456
+c
+c              ----- order centres and number of derivatives -----
+c
+               call redund(symcen,angmom,dercen,dermom,npass,flip)
+c
+               imax=maxmom(dermom(1))
+               jmax=maxmom(dermom(2))
+               kmax=maxmom(dermom(3))
+               lmax=maxmom(dermom(4))
+               nmax=imax+jmax
+               mmax=kmax+lmax
+               nroots=(nmax+mmax+nderiv)/2+1
+               nprimi=noprim(dercen(1),dermom(1))
+               nprimj=noprim(dercen(2),dermom(2))
+               nprimk=noprim(dercen(3),dermom(3))
+               npriml=noprim(dercen(4),dermom(4))
+               nconti=nocont(dercen(1),dermom(1))
+               ncontj=nocont(dercen(2),dermom(2))
+               ncontk=nocont(dercen(3),dermom(3))
+               ncontl=nocont(dercen(4),dermom(4))
+               icpt=ptcont(dercen(1),dermom(1))
+               jcpt=ptcont(dercen(2),dermom(2))
+               kcpt=ptcont(dercen(3),dermom(3))
+               lcpt=ptcont(dercen(4),dermom(4))
+               ipstrt=pstart(dercen(1),dermom(1))
+               jpstrt=pstart(dercen(2),dermom(2))
+               kpstrt=pstart(dercen(3),dermom(3))
+               lpstrt=pstart(dercen(4),dermom(4))
+               istart=start(dercen(1),dermom(1))
+               jstart=start(dercen(2),dermom(2))
+               kstart=start(dercen(3),dermom(3))
+               lstart=start(dercen(4),dermom(4))
+               nfi=nocart(dermom(1))
+               nfj=nocart(dermom(2))
+               nfk=nocart(dermom(3))
+               nfl=nocart(dermom(4))
+               nij=nprimi*nprimj
+               nkl=nprimk*npriml
+               npint=nij*nkl
+               lenblk=nfi*nfj*nfk*nfl
+               numint=npint*lenblk
+c
+c              ----- for derivatives, the number of centres to
+c                                           differentiate
+c
+               if (nderiv.eq.0.or.npass.eq.0) then
+                  ndcen=0
+                  nd2=0
+               else
+                  if (npass.eq.1) then
+                     ndcen=3
+                     nd2=6
+                  else if (npass.eq.4) then
+                     ndcen=1
+                     nd2=1
+                  else
+                     ndcen=2
+                     nd2=3
+                  end if
+               end if
+               ntotal=ntotal+numint
+c
+c     ----- core allocation. nb there is a great deal of overlapping --
+c
+               if (ci.or.mcscf) then
+c..bhl..test
+c                  aointz=1
+c                  printz=aointz+lentdm
+c                  aotpdm=printz+lenblk*npint
+c..bhl..test
+                  aotpdm=1
+                  prtpdm=aotpdm+igrpsz*jgrpsz*kgrpsz*lgrpsz
+                  p1=prtpdm+lenblk*npint
+                  p2=p1+npint
+                  dij=prtpdm+numint
+               else
+                  dij=1
+               end if
+c
+               dik=dij+nprimi*nprimj*nfi*nfj*ndmat
+               dil=dik+nprimi*nprimk*nfi*nfk*ndmat
+               djk=dil+nprimi*npriml*nfi*nfl*ndmat
+               djl=djk+nprimj*nprimk*nfj*nfk*ndmat
+               dkl=djl+nprimj*npriml*nfj*nfl*ndmat
+               ijindx=wpadti(dkl+nprimk*npriml*nfk*nfl*ndmat)
+               klindx=ijindx+nij*2
+               aij=iadtwp(klindx+nkl*2)
+               ar=aij+nij
+               xyza=ar+nij
+               xyzam1=xyza+nij*3
+               xyzam3=xyzam1+nij*3
+               bkl=xyzam3+nij*3
+               br=bkl+nkl
+               xyzb=br+nkl
+               xyzbm1=xyzb+nkl*3
+               xyzbm3=xyzbm1+nkl*3
+               tmptop=wpadti(xyzbm3+nkl*3)
+c
+c              ----- work out how long the vectors can be -----
+c
+               if (nmax+mmax.lt.0) then
+                  fac1=10+5*nroots
+                  fac2=3+3*nroots
+               else
+                  if (nderiv.eq.0.or.npass.eq.0) then
+                     fac1=6+wptoin(lenblk+10*nroots+
+     #                   max(3*(nmax+1)*(mmax+1)*nroots,
+     #                         12+5*nroots))
+                     fac2=6+wptoin(lenblk+
+     #                   nroots*3*(jmax+1)*(mmax+1)*((imax+1)*(lmax+1)+
+     #                                               (nmax+1)))
+                  else if (nderiv.eq.1) then
+                     fac1=6+wptoin(lenblk+nroots*(10+2*ndcen)+
+     #                   max(3*(nmax+1)*(mmax+1)*nroots*(1+ndcen),
+     #                         12+5*nroots))
+                     fac2=max(6+wptoin(lenblk+
+     #                   nroots*3*(imax+1)*(jmax+1)*(mmax+1)*(lmax+1)*
+     #                                             (ndcen+1)+
+     #                   nroots*3*(nmax+1)*(jmax+1)*(mmax+1)*(ndcen+1)),
+     #                   fac1)+wptoin(nroots*3*ndcen)
+                  else if (nderiv.eq.2) then
+                     fac1=6+wptoin(lenblk+nroots*(10+2*ndcen)+
+     #                   max(3*(nmax+1)*(mmax+1)*nroots*(1+ndcen+nd2),
+     #                         12+5*nroots))
+                     fac2=max(6+wptoin(lenblk+
+     #                   nroots*3*(imax+1)*(jmax+1)*(mmax+1)*(lmax+1)*
+     #                                             (nd2+ndcen+1)+
+     #                   nroots*3*(nmax+1)*(jmax+1)*(mmax+1)*
+     $                    (nd2+ndcen+1)),fac1)+
+     $                    wptoin(nroots*(3*ndcen+nd2))
+                  else
+                     call lnkerr('too many derivatives asked for')
+                  end if
+               end if
+c
+               space=maxcor-tmptop-100
+c
+c..bhl
+c
+               facmax=max(fac1,fac2)
+               lenmin=facmax*nij
+               if(space.lt.lenmin) then
+                  mincor=lenmin+tmptop+101
+                  if(mincor.gt.maxtop) then
+                     write(iout,*)' insufficient memory for m712: '
+                     write(iout,*)' ihave  ineed ',maxtop,mincor
+                     write(iout,22011) nij,nkl,fac1,fac2,npint,lenblk
+22011                format(' nij nkl fac1 fac2 npint lenblk',
+     $                      6(2x,i8))
+                  end if
+                  call getscm(mincor,z,maxcor,' m712:bhl ',0)
+                  space=maxcor-tmptop-100
+               endif
+c
+c..bhl
+c
+               len=min(nij*nkl,space/max(fac1,fac2))
+c
+               if (len.lt.nij) then
+                  write(iout,*)' len nij nkl ',len,nij,nkl
+                  write(iout,*)' lenmin  facmax ',
+     #                        lenmin,facmax
+                  write(iout,*)' fac1 fac2 space ',fac1,fac2,space
+                  call lnkerr('internal error in driver'//
+     #                        ' with len and nij')
+               end if
+               lenv=len*nroots
+c
+               index=tmptop
+c
+               twopdm=iadtwp(index+len*6)
+c
+c..bhl
+c               tpaadm=iadtwp(index+len*6)
+c               tpacdm=tpaadm+len*lenblk
+c               tpccdm=tpacdm+len*lenblk
+c               twopdm=tpccdm+len*lenblk
+c..bhl
+               if (nderiv.eq.0.or.npass.eq.0) then
+                  dg=twopdm+len*lenblk
+                  d2g=dg
+                  g=d2g
+               else if (nderiv.eq.1) then
+                  dg=twopdm+len*lenblk
+                  d2g=dg
+                  g=dg+lenv*3*(nmax+1)*(mmax+1)*ndcen
+               else if (nderiv.eq.2) then
+                  dg=twopdm+len*lenblk
+                  d2g=dg+lenv*3*(nmax+1)*(mmax+1)*ndcen
+                  g=d2g+lenv*3*(nmax+1)*(mmax+1)*nd2
+               end if
+c
+               ab=dg
+               aplusb=ab+len
+               urho=aplusb+len
+               wt=urho+lenv
+               denom=wt+lenv
+               expon=denom+lenv
+               a=expon+len
+               b=a+len
+               rho=b+len
+               t1=rho+len
+               t2=t1+len
+               t3=t2+len
+               t4=t3+len
+               t5=t4+lenv
+               t6=t5+lenv
+               t7=t6+len
+               t8=t7+len
+c
+               if (nderiv.eq.0.or.npass.eq.0) then
+                  rhotsq=1
+                  expnts=1
+               else
+                  rhotsq=t1
+                  camcb=rhotsq+len*nroots
+                  expnts=camcb+len*3
+               end if
+c
+               if (nmax+mmax.lt.0) then
+                  f00=denom
+                  b00=1
+                  b10=1
+                  bp01=1
+                  c00=1
+                  cp00=1
+                  top1=t8+len
+               else
+                  f00=max(g+3*(nmax+1)*(mmax+1)*lenv,t8+len)
+                  b00=f00+lenv
+                  b10=b00+lenv
+                  bp01=b10+lenv
+                  c00=bp01+lenv
+                  cp00=c00+lenv*3
+                  top1=wpadti(cp00+lenv*3)
+                  if (nderiv.ne.0.and.npass.ne.0) then
+                     dc00=iadtwp(top1)
+                     dcp00=dc00+nroots*len*ndcen
+                     top1=wpadti(dcp00+nroots*len*ndcen)
+                  end if
+               end if
+c
+cps               if (abs(top1-(tmptop+fac1*len)).gt.4) then
+cps                  call lnkerr('internal error in driver with top1')
+cps               end if
+c
+               if (nmax+mmax.lt.0) then
+                  temp1=ab
+                  i2=1
+                  h=1
+                  temp=1
+                  tp1=1
+                  top2=f00+lenv
+               else
+                  if (nderiv.eq.0.or.npass.eq.0) then
+                     i2=g
+                     h=i2+3*(imax+1)*(jmax+1)*(mmax+1)*(lmax+1)*lenv
+                     top2=wpadti(h+3*(nmax+1)*(jmax+1)*(mmax+1)*lenv)
+                  else if (nderiv.eq.1) then
+                     di=dg
+                     i2=di+nroots*len*3*(imax+1)*(jmax+1)*(mmax+1)*
+     #                                  (lmax+1)*ndcen
+                     dh=i2+nroots*len*3*(imax+1)*(jmax+1)*(mmax+1)*
+     *                                  (lmax+1)
+                     h=dh+nroots*len*3*(nmax+1)*(jmax+1)*(mmax+1)*ndcen
+                     d1exp=max(iadtwp(top1),
+     #                     h+nroots*len*3*(nmax+1)*(jmax+1)*(mmax+1))
+                     d2exp=d1exp
+                     top2=wpadti(d1exp+nroots*len*3*ndcen)
+                  else if (nderiv.eq.2) then
+                     di=dg
+                     d2i=di+nroots*len*3*(imax+1)*(jmax+1)*(mmax+1)*
+     $                    (lmax+1)*ndcen
+                     i2=d2i+nroots*len*3*(imax+1)*(jmax+1)*(mmax+1)*
+     $                    (lmax+1)*nd2
+                     d2h=i2+nroots*len*3*(imax+1)*(jmax+1)*(mmax+1)*
+     $                    (lmax+1)
+                     dh=d2h+nroots*len*3*(nmax+1)*(jmax+1)*(mmax+1)*nd2
+                     h=dh+nroots*len*3*(nmax+1)*(jmax+1)*(mmax+1)*ndcen
+                     d1exp=max(iadtwp(top1),
+     $                    h+nroots*len*3*(nmax+1)*(jmax+1)*(mmax+1))
+                     d2exp=d1exp+nroots*len*3*ndcen
+                     top2=wpadti(d2exp+nroots*len*nd2)
+                  end if
+               end if
+c
+cps               if (abs(top2-(tmptop+fac2*len)).gt.4) then
+cps                  call lnkerr('internal error in driver with top2')
+cps               end if
+c
+               top=max(top1,top2)
+               maxc=max(top,maxc)
+               maxc1=max(maxc1,top1)
+               maxc2=max(maxc2,top2)
+               if (top.gt.maxcor) then
+c
+                 call getscm(top+1000,z,maxcor,'m712:driver',0)
+                 write(iout,*)' m712:  top maxcor ',top,maxcor
+c..bhl                call lnkerr('driver core')
+               endif
+c
+c              ----- pick up and transform the ao two-particle density
+c                    matrix to the primitive basis
+c
+               if (ci.or.mcscf) then
+                  call trtpdm(z(prtpdm),z(prtpdm),igrpsz,jgrpsz,kgrpsz,
+     $                 lgrpsz,ptdm,igrp,jgrp,kgrp,lgrp,nfi,nfj,nfk,nfl,
+     $                 nconti,ncontj,ncontk,ncontl,nprimi,nprimj,
+     $                 nprimk,npriml,cont(icpt),cont(jcpt),cont(kcpt),
+     $                 cont(lcpt),lenblk,z(p1),z(p2),z(p1),z(p1),z(p2),
+     $                 z(p1),ncontk*ncontl,nprimi*nprimj,npint,
+     $                 z(aotpdm),nfi*nconti,nfj*ncontj,nfk*ncontk,
+     $                 nfl*ncontl,flip,tdm,lentdm,dmoff,n2pdm)
+c
+c..bhl..test     $                 z(printz),z(aointz),etot)
+c
+               end if
+c
+c              ----- get the local blocks of the density matrices -----
+c
+c..mrci
+               if(.not.ci) then
+                  call get1dm(dpr,nnprim,ndmat,z(dij),nprimi,nprimj,
+     $                 nfi,nfj,ipstrt,jpstrt)
+                  call get1dm(dpr,nnprim,ndmat,z(dik),nprimi,nprimk,
+     $                 nfi,nfk,ipstrt,kpstrt)
+                  call get1dm(dpr,nnprim,ndmat,z(dil),nprimi,npriml,
+     $                 nfi,nfl,ipstrt,lpstrt)
+                  call get1dm(dpr,nnprim,ndmat,z(djk),nprimj,nprimk,
+     $                 nfj,nfk,jpstrt,kpstrt)
+                  call get1dm(dpr,nnprim,ndmat,z(djl),nprimj,npriml,
+     $                 nfj,nfl,jpstrt,lpstrt)
+                  call get1dm(dpr,nnprim,ndmat,z(dkl),nprimk,npriml,
+     $                 nfk,nfl,kpstrt,lpstrt)
+c
+                  if (logkey(ops,'m712=print=local-density-matrices',
+     $                       .false.,' ')) then
+                     call prntld(symcen,angmom,nprimi,nprimj,nprimk,
+     $                    npriml,nfi,nfj,nfk,nfl,ipstrt,jpstrt,kpstrt,
+     $                    lpstrt,ndmat,z(dij),z(dik),z(dil),z(djk),
+     $                    z(djl),z(dkl))
+                  end if
+               end if
+c..mrci
+c
+c              ----- get primitive information -----
+c
+               call ldexp(z(aij),z(ar),ex,nprim,nij,
+     #                    ptprim(dercen(1),dermom(1)),
+     #                    ptprim(dercen(1),dermom(1))+nprimi-1,
+     #                    ptprim(dercen(2),dermom(2)),
+     #                    ptprim(dercen(2),dermom(2))+nprimj-1,
+     #                    dercen(1),dercen(3),dercen(1),dercen(2),c,
+     #                    z(t1),z(xyza),z(xyzam1),z(xyzam3),nat,nprimi,
+     #                    acore(ijindx))
+c
+               call ldexp(z(bkl),z(br),ex,nprim,nkl,
+     #                    ptprim(dercen(3),dermom(3)),
+     #                    ptprim(dercen(3),dermom(3))+nprimk-1,
+     #                    ptprim(dercen(4),dermom(4)),
+     #                    ptprim(dercen(4),dermom(4))+npriml-1,
+     #                    dercen(1),dercen(3),dercen(3),dercen(4),c,
+     #                    z(t1),z(xyzb),z(xyzbm1),z(xyzbm3),nat,nprimk,
+     #                    acore(klindx))
+c
+c              ----- loop over sets of kl primitives -----
+c
+               kl=0
+               del=0.0d+00
+               enaa=0.d0
+               enac=0.d0
+               encc=0.d0
+               call rzero(der,12)
+               if (nderiv.ge.2) call rzero(ld2e,78)
+c
+ 200           continue
+                  minkl=kl+1
+c
+c                 ----- form the exponential prefactor and toss out
+c                        small integrals
+c
+                  call prefac(z(ar),z(aij),nij,z(br),z(bkl),nkl,
+     #                        z(expon),acore(index),acore(ijindx),
+     #                        acore(klindx),kl,len,nv,cutexp,pi252,
+     #                        z(t1))
+c..bhl.nv
+       if(nv.eq.0) go to 99
+c..bhl.nv
+c
+c                 ----- form the two-particle density matrix from the
+c                        one-particle
+c
+                  if (.not.ci) then
+                   if(mcscf) then
+                     call ghf2dm(z(twopdm),
+     #                    z(dij),z(dkl),z(dik),
+     #                    z(djl),z(dil),z(djk),
+     #                    nprimi,nprimj,nprimk,npriml,
+     #                    nfi,nfj,nfk,nfl,ipstrt,jpstrt,kpstrt,
+     #                    lpstrt,len*lenblk,acore(index),nv,len,
+     #                    alpha,beta,nshell,ndmat)
+c..bhl
+c                     call tmc2dm(z(tpccdm),z(tpacdm),z(dij),z(dkl),
+c     #                    z(dik),z(djl),z(dil),z(djk),
+c     #                    nprimi,nprimj,nprimk,npriml,
+c     #                    nfi,nfj,nfk,nfl,ipstrt,jpstrt,kpstrt,
+c     #                    lpstrt,len*lenblk,acore(index),nv,len,
+c     #                    alpha,beta,nshell,ndmat)
+c..bhl
+                   else
+                     call ghf2dm(z(twopdm),
+     #                    z(dij),z(dkl),z(dik),
+     #                    z(djl),z(dil),z(djk),
+     #                    nprimi,nprimj,nprimk,npriml,
+     #                    nfi,nfj,nfk,nfl,ipstrt,jpstrt,kpstrt,
+     #                    lpstrt,len*lenblk,acore(index),nv,len,
+     #                    alpha,beta,nshell,ndmat)
+c..bhl
+c                     call thf2dm(z(tpccdm),z(tpacdm),z(tpaadm),
+c     #                    z(dij),z(dkl),z(dik),
+c     #                    z(djl),z(dil),z(djk),
+c     #                    nprimi,nprimj,nprimk,npriml,
+c     #                    nfi,nfj,nfk,nfl,ipstrt,jpstrt,kpstrt,
+c     #                    lpstrt,len*lenblk,acore(index),nv,len,
+c     #                    alpha,beta,nshell,ndmat)
+c..bhl
+                   end if
+                  end if
+c
+c
+c                 ----- use, or add, the ci or mcscf 2pdm -----
+c
+c..
+c..bhl                  if (ci.or.mcscf) then
+c                     if (ci) then
+c                      call rzero(z(twopdm),nv*lenblk)
+c                      call ci2dm(z(twopdm),len,nv,lenblk,nij,z(prtpdm),
+c     $                    acore(index),npint,igrp,jgrp,kgrp,lgrp)
+c                     else if (mcscf) then
+c                      call rzero(z(tpaadm),nv*lenblk)
+c                      call ci2dm(z(tpaadm),len,nv,lenblk,nij,z(prtpdm),
+c     $                    acore(index),npint,igrp,jgrp,kgrp,lgrp)
+c                      do 1111 i=1,nv*lenblk
+c                       z(twopdm-1+i)=z(tpccdm-1+i)+z(tpacdm-1+i)+
+c     $                               z(tpaadm-1+i)
+c 1111                 continue
+c
+c                     else
+c
+c                      do 1112 i=1,nv*lenblk
+c                       z(twopdm-1+i)=z(tpccdm-1+i)+z(tpacdm-1+i)+
+c     $                               z(tpaadm-1+i)
+c 1112                 continue
+c                     end if
+c..bhl                  end if
+c
+                  if (ci.or.mcscf) then
+                     if (ci) then
+                      call rzero(z(twopdm),nv*lenblk)
+                      call ci2dm(z(twopdm),len,nv,lenblk,nij,z(prtpdm),
+     $                    acore(index),npint,igrp,jgrp,kgrp,lgrp)
+
+                     else
+                      call ci2dm(z(twopdm),len,nv,lenblk,nij,z(prtpdm),
+     $                    acore(index),npint,igrp,jgrp,kgrp,lgrp)
+                     end if
+                   end if
+c
+c
+c                 ----- form auxiliary arrays from primitive info -----
+c
+                  call prims(z(aij),z(xyza),z(xyzam1),z(xyzam3),
+     #                       nij,z(bkl),z(xyzb),z(xyzbm1),
+     #                       z(xyzbm3),nkl,z(f00),z(b00),
+     #                       z(b10),z(bp01),z(c00),z(cp00),
+     #                       z(ab),z(aplusb),z(urho),z(wt),z(denom),
+     #                       z(a),z(b),z(rho),z(expon),
+     #                       z(t1),z(t2),z(t3),z(t4),z(t5),
+     #                       z(t6),z(t7),z(t8),nv,lenv,nmax,
+     #                       mmax,nroots,acore(index),len)
+c
+c
+c                 ----- for derivatives, form an array of exponents ---
+c
+                  if (nderiv.ne.0.and.npass.ne.0) then
+                     call getalp(ex(ptprim(dercen(1),dermom(1))),
+     #                           ex(ptprim(dercen(2),dermom(2))),
+     #                           ex(ptprim(dercen(3),dermom(3))),
+     #                           ex(ptprim(dercen(4),dermom(4))),
+     #                           acore(index),z(expnts),nv,len,
+     #                           z(camcb),z(xyza),z(xyzb),nij,nkl)
+                  end if
+                  if (nderiv.eq.0.or.npass.eq.0) then
+                     nonzer=nonzer+nv*lenblk
+                  else if (nderiv.eq.1) then
+                     nonzer=nonzer+nv*lenblk*(3*ndcen+1)
+                  else if (nderiv.eq.2) then
+                     if (npass.eq.1) then
+                        nonzer=nonzer+nv*lenblk*(45+9+1)
+                     else if (npass.eq.2.or.npass.eq.3) then
+                        nonzer=nonzer+nv*lenblk*(21+6+1)
+                     else if (npass.eq.4) then
+                        nonzer=nonzer+nv*lenblk*(6+3+1)
+                     else
+                        nonzer=nonzer+nv*lenblk
+                     end if
+                  end if
+c
+c                  ----- for derivative calculations, form needed
+c                        primitive derivative entities
+c
+                  if (nderiv.ne.0.and.npass.ne.0) then
+                     call dprim(nroots,nv,z(rhotsq),z(urho),z(rho),
+     #                    z(dc00),z(dcp00),z(expnts),z(a),z(b),
+     #                    z(d1exp),c,z(camcb),nat,dercen,
+     #                    ndcen,npass,nmax,mmax,z(d2exp),nd2,nderiv)
+
+                  end if
+                  if (nderiv.eq.0.or.npass.eq.0) then
+c
+c                    ----- form two-dimensional integrals -----
+c
+                     call vmkghi(z(g),z(h),z(i2),z(f00),z(b00),z(b10),
+     #                    z(bp01),z(c00),z(cp00),nmax,mmax,imax,jmax,
+     #                    kmax,lmax,c,nat,dercen,nv*nroots)
+c
+c                     ----- form energy contribution -----
+c
+c..bhl
+c                     call vfmint(z(i2),z(twopdm),z(tpccdm),
+c     #                    z(tpacdm),z(tpaadm),
+c     #                    lenblk,nv*nroots,
+c     #                    dermom,imax,jmax,mmax,lmax,nroots,
+c     #                    nx,ny,nz,lenxyz,mintyp,nocart,nbtype,
+c     #                    nv,del, encc,enac,enaa)
+c..bhl
+                     call vfmint(z(i2),z(twopdm),
+     #                    lenblk,nv*nroots,
+     #                    dermom,imax,jmax,mmax,lmax,nroots,
+     #                    nx,ny,nz,lenxyz,mintyp,nocart,nbtype,
+     #                    nv,del)
+c
+                  else if (nderiv.eq.1) then
+c
+c                    ----- form derivative two-dimensional integrals
+c
+                     call mkdghi(z(g),z(h),z(i2),z(f00),z(b00),z(b10),
+     #                    z(bp01),z(c00),z(cp00),nmax,mmax,
+     #                    imax,jmax,kmax,lmax,c,nat,dercen,
+     #                    nv*nroots,z(dg),z(dh),z(di),
+     #                    z(dc00),z(dcp00),ndcen,z(d1exp),npass)
+c
+c                    ----- form energy and derivative contribution ---
+c
+                     leni=nroots*nv*3*(imax+1)*(jmax+1)*(mmax+1)*
+     $                    (lmax+1)
+c
+c..bhl
+c                     call fmdint(z(i2),z(twopdm),
+c     #                    z(tpccdm),z(tpacdm),z(tpaadm),
+c     #                    lenblk,nv*nroots,
+c     #                    dermom,imax,jmax,mmax,lmax,nroots,
+c     #                    nx,ny,nz,lenxyz,mintyp,nocart,nbtype,
+c     #                    nv,del,z(di),ndcen,der,leni, encc,enac,enaa)
+c..bhl
+c
+                     call fmdint(z(i2),z(twopdm),
+     #                    lenblk,nv*nroots,
+     #                    dermom,imax,jmax,mmax,lmax,nroots,
+     #                    nx,ny,nz,lenxyz,mintyp,nocart,nbtype,
+     #                    nv,del,z(di),ndcen,der,leni)
+c
+                  else if (nderiv.eq.2) then
+c
+c                    ----- form derivative two-dimensional integrals
+c
+                     call md2ghi(z(g),z(h),z(i2),z(f00),z(b00),z(b10),
+     #                    z(bp01),z(c00),z(cp00),nmax,mmax,
+     #                    imax,jmax,kmax,lmax,c,nat,dercen,
+     #                    nv*nroots,z(dg),z(dh),z(di),
+     #                    z(dc00),z(dcp00),ndcen,nd2,z(d1exp),
+     $                    z(d2exp),npass,z(d2g),z(d2h),z(d2i))
+c
+c                     ----- form energy and derivative contribution -
+c
+                     leni=nroots*nv*3*(imax+1)*(jmax+1)*(mmax+1)*
+     $                    (lmax+1)
+ctemp
+c                     call rzero(z(d2i),leni*nd2)
+cend
+c..bhl
+                    if(nroots.gt.5) then
+                     call fd2ant(z(i2),z(twopdm),lenblk,nv*nroots,
+     #                    dermom,imax,jmax,mmax,lmax,nroots,
+     #                    nx,ny,nz,lenxyz,mintyp,nocart,nbtype,
+     #                    nv,del,z(di),ndcen,der,leni,z(d2i),nd2,ld2e,
+     $                    npass)
+                    else
+                     call fd2bnt(z(i2),z(twopdm),lenblk,nv*nroots,
+     #                    dermom,imax,jmax,mmax,lmax,nroots,
+     #                    nx,ny,nz,lenxyz,mintyp,nocart,nbtype,
+     #                    nv,del,z(di),ndcen,der,leni,z(d2i),nd2,ld2e,
+     $                    npass)
+                    endif
+c..bhl
+                  end if
+c..bhl.nv
+  99          continue
+c..bhl.nv
+c
+               if (kl.lt.nkl) go to 200
+c
+               energy=energy+del
+c
+cc        if(mcscf) then
+c
+               enccgy=enccgy+encc
+               enacgy=enacgy+enac
+               enaagy=enaagy+enaa
+c
+c               write(iout,11022)nroots,energy,del,enccgy,encc,
+c     $   enacgy,enac,enaagy,enaa
+c11022    format(/,' nroots  = ',i5,
+c     $  /,' energy  del    ',2(2x,f12.8),
+c     $  /,' enccgy  encc   ',2(2x,f12.8),
+c     $  /,' enacgy  enac   ',2(2x,f12.8),
+c     $  /,' enaagy  enaa   ',2(2x,f12.8))
+
+c..bhl        small=1.d-08
+c..bhl        if(abs(del-(encc+enac+enaa)).gt.small) call lnkerr(' bug ')
+c
+cc       end if
+c
+c               ----- move the momentum group-block gradients to the
+c                     total array ---
+c
+               if (nderiv.ge.1.and.npass.ne.0) then
+                  call movder(der,grad,nat,dercen,npass)
+               end if
+               if (nderiv.ge.2.and.npass.ne.0) then
+                  call movd2e(ld2e,d2e,nd2e,dercen,ndcen,npass)
+               end if
+ 1000                      continue
+ 2000                   continue
+ 3000                continue
+ 4000             continue
+ 5000          continue
+ 6000       continue
+ 7000    continue
+ 8000 continue
+c
+c
+      if(prnt) write (iout,93) ntotal,nonzer,
+     $                         float(nonzer)*100.0/float(ntotal)
+   93 format(5x,'# integrals possible',19x,i10,
+     $      /5x,'# integrals computed',19x,i10,'(',f5.1,'%)')
+c
+      if (logkey(ops,'hf=quadratic',.false.,' ')) then
+c
+c        ----- mcscf does not cleanly separate one- and two-electron
+c              energies (core fock business) so check total.
+c
+         call iosys('read real "mcscf m702 1e energy" from rwf',
+     $               1,e1702,0,' ')
+         energt=energy+e1702
+         call iosys('read real "hf 1e energy" from rwf',1,e1,0,' ')
+         call iosys('read real "hf 2e energy" from rwf',1,e2,0,' ')
+         eold=e1+e2
+c
+         if (abs((eold-energt)/eold).gt.1.0d-06.and.
+     $        abs(energt).gt.1.0d-06) then
+            write (iout,97) energt,eold
+ 97         format (5x,'calculated electronic energy is:',g20.12,
+     #            /,5x,'   energy from quadratic-scf is:',g20.12)
+            call lnkerr('electronic energies do not agree !!!')
+         end if
+      else if (ci) then
+c         call iosys('read real "hf 2e energy" from rwf',1,e2,0,' ')
+c.1
+c         if (abs((e2-energy)/e2).gt.1.0d-06.and.
+c.0     $        abs(energy).gt.1.0d-06) then
+c         write (iout,86) energy
+c86       format (5x,'two-electron energy:',10x,f14.8)
+c.0
+c         end if
+      else if (mcscf) then
+c
+c        ----- mcscf does not cleanly separate one- and two-electron
+c              energies (core fock business) so check total.
+         call iosys('read real "mcscf m702 1e energy" from rwf',
+     $               1,e1702,0,' ')
+         energt=energy+e1702
+         call iosys('read real "mcscf electronic energy" from rwf',
+     $              1,eold,0,' ')
+         if (abs((eold-energt)/eold).gt.1.0d-06.and.
+     $        abs(energt).gt.1.0d-06) then
+            write (iout,9997) energt,e1702,energy,enccgy,enacgy,
+     $                        enaagy,etot,eold
+9997        format (/5x,'calculated electronic energy is:',g20.12,
+     #             /,5x,'calculated        1-e energy is:',g20.12,
+     #             /,5x,'calculated        2-e energy is:',g20.12,
+     #             /,5x,'calculated core-core  energy is:',g20.12,
+     #             /,5x,'calculated acti-core  energy is:',g20.12,
+     #             /,5x,'calculated acti-acti  energy is:',g20.12,
+     #             /,5x,'ao         acti-acti  energy is:',g20.12,
+     #             /,5x,'           energy from mcscf is:',g20.12)
+            call lnkerr('electronic energies do not agree !!!')
+         endif
+      else
+         call iosys('read real "hf 1e energy" from rwf',1,e1,0,' ')
+         call iosys('read real "hf 2e energy" from rwf',1,e2,0,' ')
+         call iosys('read real "hf m702 1e energy" from rwf',
+     $               1,e1702,0,' ')
+         energt=e1702+energy
+         if (abs((e2-energy)/e2).gt.1.0d-06.and.
+     $       abs(energy).gt.1.0d-06) then
+            write (iout,87) energt,e1702,e1,energy,e2
+ 87         format (/5x,'calculated electronic   energy is:',g20.12,
+     #             /,5x,'calculated one-electron energy is:',g20.12,
+     #             /,5x,'  one-electron energy from scf is:',g20.12,
+     #             /,5x,'calculated two-electron energy is:',g20.12,
+     #             /,5x,'  two-electron energy from scf is:',g20.12)
+            call lnkerr('two-electron energies do not agree !!!')
+         end if
+      end if
+c
+c
+      return
+      end

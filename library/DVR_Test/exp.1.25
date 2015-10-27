@@ -1,0 +1,177 @@
+ mesa(1.2);5/30/91;unix.                                                        
+     (c) 1990, the university of california.                                    
+     P.W. Saxe, B.H. Lengsfield iii, R.L. Martin, M. Page and B. Schneider.     
+
+     23-jun-1900 16:15:19    
+     National Science Foundation;Dec Alpha 600MHz(bohr);B. Schneider                 
+ main files/memory:
+     inp:   inp.exp                       out:    mesa.out                 
+     chk:   mesa.chk                      dat:    ../mesa.dat              
+     rwf:   tmp/mesa.rwf                  rint:   tmp/mesa.rint            
+     int:   tmp/mesa.int                  tint:   tmp/mesa.tint            
+     gint:  tmp/mesa.gint                 rdint:  tmp/mesa.rdint           
+     dint:  tmp/mesa.dint                 zint:   tmp/mesa.zint            
+     ham:   tmp/mesa.ham                  moden:  tmp/mesa.moden           
+     aoden: tmp/mesa.aoden                saoden: tmp/mesa.saoden          
+     gden:  tmp/mesa.gden                 fci:    tmp/mesa.fci             
+
+     machine size:        100000000
+ kohn and bec files:
+     kohn:  tmp/mesa.kohn                 kohndt: tmp/mesa.kohndt          
+     grid:  tmp/mesa.grid                 orbs:   tmp/mesa.orbs            
+     vstat: tmp/mesa.vstat                ylms:   tmp/mesa.ylms            
+     bessel:tmp/mesa.bessel               knints: tmp/mesa.knints          
+     tmat:  tmp/mesa.tmat                 blktmat:tmp/mesa.blktmt          
+     optint:tmp/mesa.optint               atomci: tmp/mesa.atomci          
+     lamdat:tmp/mesa.lamdat               bec:    tmp/mesa.bec             
+
+     user defined maxsiz:  10000000
+ title:
+     DVR Code
+ route:
+     62//94;
+     20//01;
+ options:
+     xprint=(m6294=(points,polynomials,matrix-elements)) generate-matrix-elements tes
+     t-function=sine number-of-dimensions=1 xconvert=(left-endpoint=0.d0,right-endpoi
+     nt=5.d0) space-dimension-1=x
+
+
+                    grid and lobatto basis code
+
+ first call to memory in link =     ptwt
+
+ link            =     ptwt
+ words requested =        151
+ words available =   80000000
+ words gotten    =        151
+
+ link            =     poly
+ words requested =       3751
+ words available =   79999849
+ words gotten    =       3751
+
+ link            =  scratch
+ words requested =       1251
+ words available =   79996098
+ words gotten    =       1251
+
+ free memory link =  scratch
+ words released   =       1251
+
+ link            =      mat
+ words requested =       6251
+ words available =   79996098
+ words gotten    =       6251
+
+ number-of-regions =    1
+ left boundary condition = 0
+ right boundary condition = 1
+
+ edges =  0.00000000E+00  0.15000000E+02
+
+ link            =     hmat
+ words requested =       1153
+ words available =   79989847
+ words gotten    =       1153
+
+ link            =     norm
+ words requested =         97
+ words available =   79988694
+ words gotten    =         97
+
+ link            =        v
+ words requested =         49
+ words available =   79988597
+ words gotten    =         49
+
+ potential type = exponential                     
+    using atomic units
+
+     size of global basis set =   24
+
+     region =   1 number of functions =  24
+     starting function =   2 ending function =  25
+     global starting function =   1 global ending function =  24
+     bridge function = F
+
+ link            =     diag
+ words requested =       1201
+ words available =   79988548
+ words gotten    =       1201
+eigenvalues                                                                     
+ col          1
+        -0.01079422
+         0.01711546
+         0.09538826
+         0.22109487
+         0.39244709
+         0.60878229
+         0.86974277
+         1.17510236
+         1.52471035
+         1.91846382
+         2.35628948
+         2.83817032
+         3.36329264
+         3.93617168
+         4.50677978
+         5.24073529
+         6.00323150
+         7.66988279
+         9.63381903
+        13.93032077
+        20.56995197
+        36.93828515
+        81.06978244
+       325.11926053
+
+ link            =     ramp
+ words requested =         49
+ words available =   79987347
+ words gotten    =         49
+
+       energy         k value       r-matrix       tan phase       phase     
+  0.10000000E-04 0.44721360E-02 0.63107967E+01-0.38886371E-01-0.38866788E-01
+  0.10000000E-03 0.14142136E-01 0.63476491E+01-0.12322071E+00-0.12260270E+00
+  0.10000000E-01 0.14142136E+00 0.14354486E+02-0.15859904E+01-0.10082368E+01
+  0.50000000E-01 0.31622777E+00-0.12458520E-01 0.28586557E+02 0.15358291E+01
+  0.10000000E+00 0.44721360E+00-0.15874201E+02 0.34122723E+01 0.12857187E+01
+  0.20000000E+00 0.63245553E+00 0.32247445E+01 0.17549746E+01 0.10528721E+01
+  0.30000000E+00 0.77459667E+00-0.26476654E-01 0.13322769E+01 0.92691472E+00
+  0.50000000E+00 0.10000000E+01 0.72293199E-01 0.98952061E+00 0.78013092E+00
+  0.80000000E+00 0.12649111E+01 0.78451315E+00 0.77201599E+00 0.65744310E+00
+  0.10000000E+01 0.14142136E+01-0.12458432E+00 0.68935546E+00 0.60354620E+00
+  0.15000000E+01 0.17320508E+01 0.27129462E+01 0.56342332E+00 0.51309058E+00
+  0.20000000E+01 0.20000000E+01-0.71573086E+00 0.48912146E+00 0.45490696E+00
+  0.50000000E+01 0.31622777E+01 0.46997061E+00 0.78939068E+00 0.66823828E+00
+
+ free memory link =     diag
+ words released   =       1201
+
+ free memory link =     ramp
+ words released   =         49
+
+ free memory link =     hmat
+ words released   =       1153
+
+ free memory link =     norm
+ words released   =         97
+
+ free memory link =        v
+ words released   =         49
+
+ free memory link =      mat
+ words released   =       6251
+
+ free memory link =     ptwt
+ words released   =        151
+
+ free memory link =     poly
+ words released   =       3751
+ summary:
+     link   entries               charges          core use      
+                          cpu       sys      io         
+        1         1       0.1       0.0       0.0         0
+     6294         1       0.6       0.0       0.0  80000000
+             total:       0.6       0.0       0.0  80000000

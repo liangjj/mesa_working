@@ -1,0 +1,298 @@
+ mesa(%I%);%G%;hp-ux 8.07 unix.                                                 
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+
+      6-nov-1992 18:03:30    
+     los alamos national laboratory;hp730(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test3.5                                                                                                    
+     out:    /cesium/rlm/mesa/out/test3.5                                                                                                    
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf                                                                                                             
+     rint:   /cesium/rlm/tmp/rint                                                                                                            
+     int:    /cesium/rlm/tmp/int                                                                                                             
+     tint:   /cesium/rlm/tmp/tint                                                                                                            
+     gint:   /cesium/rlm/tmp/gint                                                                                                            
+     rdint:  /cesium/rlm/tmp/rdint                                                                                                           
+     dint:   /cesium/rlm/tmp/dint                                                                                                            
+     zint:   /cesium/rlm/tmp/zint                                                                                                            
+     ham:    /cesium/rlm/tmp/ham                                                                                                             
+     moden:  /cesium/rlm/tmp/moden                                                                                                           
+     aoden:  /cesium/rlm/tmp/aoden                                                                                                           
+     saoden: /cesium/rlm/tmp/saoden                                                                                                          
+     gden:   /cesium/rlm/tmp/gden                                                                                                            
+     fci:    /cesium/rlm/tmp/fci                                                                                                             
+     machine size:          4000000
+     user defined maxsiz:   1000000
+ title:
+     h2o test case:scf/singlet ivo/ci
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1,2;
+     8//2,11;
+     9//2;
+     19//51;
+     20//1;
+ options:
+     hf basis=dz 2s+1=1 scf=(core-fock,pulay) guess=huckel print=(scf=(vector=all),iv
+     o) drt=(nrefs=1,ngroups=3,rdsym,nsym=1) sym=off,ci=(nroots=5) ivo=singlet
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1    .959447 r1       
+      3   3   h  dz          1    .959447 r2        2  104.832 a1       
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ distance matrix (angstroms):
+                             o1        h2        h3                              
+                 o1      .00000
+                 h2      .95945    .00000
+                 h3      .95945   1.52064    .00000
+ interatomic angles:
+          h2-o1-h3 =104.8318
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o               .000000     .000000     .000000
+      2   2   h               .000000     .000000     .959447
+      3   3   h               .927480     .000000    -.245601
+ rotational constants (ghz):    824.4271390    433.7171609    284.2028519
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262670( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                    5999999
+     all integrals held in core.
+     nuclear repulsion energy:    9.172700
+     iter              energy    diis convergence
+       12       -76.009404973          .000000010
+     rotating scf orbitals under core fock operator
+ m502:improved virtual orbitals
+     singlet ivo calculation
+     f vector-coupling-constant     1.00000
+     shell    no. orbitals     alpha        beta 
+           1         4         2.00000     -1.00000
+           2         1         1.00000      1.00000
+           3         9          .00000       .00000
+     memory use                    5999999
+     all integrals held in core.
+     reading the rwf file
+     *** ivo energy evaluation ***
+     nuclear repulsion energy            9.172699543
+     closed  shell     energy          -83.415830164
+     open    shell     energy           -1.260231377
+     total   core      energy          -75.503361999
+
+        state        ivo eigenvalue        total energy   
+         1              -.146146352       -75.649508350
+         2              -.080694059       -75.584056058
+         3               .394568066       -75.108793933
+         4               .484894707       -75.018467292
+         5               .564638696       -74.938723303
+
+                              1         2         3         4         5    
+     eigenvalues --   -20.55939  -1.36034   -.71663   -.56595   -.50604
+          o1      s     -.58100   -.13031    .00000    .04717    .00000
+                  s     -.46124   -.18072    .00000    .06579    .00000
+                  s      .00013    .50935    .00000   -.19887    .00000
+                  s     -.00187    .45186    .00000   -.26750    .00000
+                  x     -.00132    .10147    .35010    .49637    .00000
+                  y      .00000    .00000    .00000    .00000    .72879
+                  z     -.00102    .07810   -.45487    .38204    .00000
+                  x      .00037    .02615    .10812    .25934    .00000
+                  y      .00000    .00000    .00000    .00000    .40895
+                  z      .00028    .02013   -.14047    .19960    .00000
+          h2      s     -.00002    .13737   -.25531    .13964    .00000
+                  s      .00017    .00665   -.13102    .05991    .00000
+          h3      s     -.00002    .13737    .25531    .13964    .00000
+                  s      .00017    .00665    .13102    .05991    .00000
+                              6         7         8         9        10    
+     eigenvalues --     -.14615   -.08069    .39457    .48489    .56464
+          o1      s      .05932    .00000    .02527    .00000    .00000
+                  s      .08239    .00000    .03527    .00000    .00000
+                  s     -.23030    .00000   -.10592    .00000    .00000
+                  s    -1.03808    .00000   -.45958    .00000    .00000
+                  x     -.30626   -.34548    .69121    .36748    .00000
+                  y      .00000    .00000    .00000    .00000   -.90167
+                  z     -.23571    .44887    .53200   -.47745    .00000
+                  x     -.28917   -.46175  -1.04773  -1.11906    .00000
+                  y      .00000    .00000    .00000    .00000   1.08485
+                  z     -.22257    .59994   -.80640   1.45396    .00000
+          h2      s      .10789   -.14090    .03416   -.45273    .00000
+                  s      .93004  -1.30362    .43535   -.66724    .00000
+          h3      s      .10789    .14090    .03416    .45273    .00000
+                  s      .93004   1.30362    .43535    .66724    .00000
+                             11        12        13        14    
+     eigenvalues --      .75110    .78997   1.17903  42.35313
+          o1      s      .00000   -.06490   -.13421  -1.73115
+                  s      .00000   -.10012   -.23389   1.87740
+                  s      .00000    .54965   1.91642   -.39605
+                  s      .00000   -.50544  -2.96910    .35887
+                  x      .42428    .21315    .01887   -.00761
+                  y      .00000    .00000    .00000    .00000
+                  z     -.55125    .16405    .01452   -.00586
+                  x     -.54550    .14490   -.63796    .05498
+                  y      .00000    .00000    .00000    .00000
+                  z      .70875    .11152   -.49101    .04232
+          h2      s      .86059   -.97154    .45342   -.00662
+                  s    -1.47796    .69420    .69120   -.08949
+          h3      s     -.86059   -.97154    .45342   -.00662
+                  s     1.47796    .69420    .69120   -.08949
+     overwriting scf vector with ivos
+ m802:drt generation
+     number of symmetries:         1
+     number of basis functions:   14
+     number of references:         1
+     number of groups:             3
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  4   4        type  1            1
+             5-  5   1        type  2            1
+             6- 14   9        type  3            1
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1              9             9         9       F
+     integral information:
+         number of integrals:     6867
+         number of groups:           1
+         group size:              6867
+ m811:transformation
+     guga order
+     orbital set:"scf vector"    
+     number of symmetries                 1
+     orbitals transformed                14
+     orbitals frozen                      0
+     orthonormality deviation       .32E-13
+     memory use                       55143
+ m902: hamiltonian construction
+     forming the entire hamiltonian of     9 configurations
+     total number of matrix elements:          45
+     effective zero cutoff          :      .1E-08
+     number exceeding cutoff        :          87(193.3%)
+       incore diagonalization
+
+      root   reference  guess energy    ci energy    c(0)
+       1         9   -75.6495084       -75.6495084      1.0000
+       2         8   -75.5840561       -75.5840561      1.0000
+       3         7   -75.1087939       -75.1087939     -1.0000
+       4         6   -75.0184673       -75.0184673      1.0000
+       5         5   -74.9387233       -74.9387233     -1.0000
+       ci energies have been stored on rwf file
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     scf vector:
+                              1         2         3         4         5    
+     eigenvalues --   -20.55939  -1.36034   -.71663   -.56595   -.50604
+          o1      s     -.58100   -.13031    .00000    .04717    .00000
+                  s     -.46124   -.18072    .00000    .06579    .00000
+                  s      .00013    .50935    .00000   -.19887    .00000
+                  s     -.00187    .45186    .00000   -.26750    .00000
+                  x     -.00132    .10147    .35010    .49637    .00000
+                  y      .00000    .00000    .00000    .00000    .72879
+                  z     -.00102    .07810   -.45487    .38204    .00000
+                  x      .00037    .02615    .10812    .25934    .00000
+                  y      .00000    .00000    .00000    .00000    .40895
+                  z      .00028    .02013   -.14047    .19960    .00000
+          h2      s     -.00002    .13737   -.25531    .13964    .00000
+                  s      .00017    .00665   -.13102    .05991    .00000
+          h3      s     -.00002    .13737    .25531    .13964    .00000
+                  s      .00017    .00665    .13102    .05991    .00000
+                              6         7         8         9        10    
+     eigenvalues --     -.14615   -.08069    .39457    .48489    .56464
+          o1      s      .05932    .00000    .02527    .00000    .00000
+                  s      .08239    .00000    .03527    .00000    .00000
+                  s     -.23030    .00000   -.10592    .00000    .00000
+                  s    -1.03808    .00000   -.45958    .00000    .00000
+                  x     -.30626   -.34548    .69121    .36748    .00000
+                  y      .00000    .00000    .00000    .00000   -.90167
+                  z     -.23571    .44887    .53200   -.47745    .00000
+                  x     -.28917   -.46175  -1.04773  -1.11906    .00000
+                  y      .00000    .00000    .00000    .00000   1.08485
+                  z     -.22257    .59994   -.80640   1.45396    .00000
+          h2      s      .10789   -.14090    .03416   -.45273    .00000
+                  s      .93004  -1.30362    .43535   -.66724    .00000
+          h3      s      .10789    .14090    .03416    .45273    .00000
+                  s      .93004   1.30362    .43535    .66724    .00000
+                             11        12        13        14    
+     eigenvalues --      .75110    .78997   1.17903  42.35313
+          o1      s      .00000   -.06490   -.13421  -1.73115
+                  s      .00000   -.10012   -.23389   1.87740
+                  s      .00000    .54965   1.91642   -.39605
+                  s      .00000   -.50544  -2.96910    .35887
+                  x      .42428    .21315    .01887   -.00761
+                  y      .00000    .00000    .00000    .00000
+                  z     -.55125    .16405    .01452   -.00586
+                  x     -.54550    .14490   -.63796    .05498
+                  y      .00000    .00000    .00000    .00000
+                  z      .70875    .11152   -.49101    .04232
+          h2      s      .86059   -.97154    .45342   -.00662
+                  s    -1.47796    .69420    .69120   -.08949
+          h3      s     -.86059   -.97154    .45342   -.00662
+                  s     1.47796    .69420    .69120   -.08949
+     bond-order matrix:
+                             o1        h2        h3                              
+                 o1     8.20854    .28311    .28311
+                 h2      .28311    .36546   -.03595
+                 h3      .28311   -.03595    .36546
+     total atomic charges:
+          o1            8.77476
+          h2             .61262
+          h3             .61262
+
+     wavefunction analysis for ci natural orbitals
+
+     root number:  1
+
+     root number:  2
+
+     root number:  3
+
+     root number:  4
+
+     root number:  5
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1       1.6        .0        .0         0
+      202         1        .3        .0        .0         0
+      302         1        .2        .0        .0         0
+      312         1       1.4        .0        .0         0
+      330         1        .2        .0        .0         0
+      401         1        .4        .0        .0         0
+      501         1       3.6        .0        .0         0
+      502         1        .2        .0        .0         0
+      802         1        .3        .0        .0         0
+      811         1        .4        .0        .0         0
+      902         1        .5        .0        .0         0
+     1951         1        .3        .0        .0         0
+             total:       9.5        .0        .0         0

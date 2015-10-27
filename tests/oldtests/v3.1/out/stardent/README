@@ -1,0 +1,3 @@
+There is a compiler bug which causes a problem with test9.1 in routine
+pm1402.f.  This non-adiabatic coupling matrix element test works ok on the
+Sun.

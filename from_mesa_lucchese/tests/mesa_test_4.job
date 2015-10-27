@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# Needed environment variables
+# TMPDIR - directory for work directory
+# MESA - main mesa directory
+# ver - which compiler version (beginning with a period or blank)
+
+date
+
+echo mesa test 4 - avtz H2O scf calculation 
+echo using version $ver
+
+PATH=$PATH:$MESA/bin$ver
+rundir=run_mesa_test_4$ver
+
+siz=4000000
+
+cd $TMPDIR
+rm -r $rundir
+mkdir $rundir
+cd $rundir
+cp $MESA/mesa.dat .
+mkdir tmp
+
+cat <<EOF | sed -e "s/#.*//" > mesa.inp 
+\$title
+atzp co2 closed shell scf
+\$end
+
+\$route
+sym=norotate
+maxsiz=900000 
+2s+1=1 
+print=(basis.scf=vector) 
+hf scf=(pulay) 
+guess=(core) 
+geom=(inau,coord)
+\$end
+
+\$geom
+c1(basis=augccvtzp) 0.0 0.0  0.0
+o1(basis=augccvtzp) 0.0 0.0 -2.196050571
+o2(basis=augccvtzp) 0.0 0.0  2.196050571
+\$end
+
+\$augccvtzp C
+\$include ccvtz
+type=s
+.044 1.0
+type=p
+.0357 1.0
+type=d
+.10 1.0
+type=f
+ 0.268 1.0
+\$end
+
+
+\$augccvtzp O
+\$include ccvtz
+type=s
+.0738 1.0
+type=p
+.0597 1.0
+type=d
+.214 1.0
+type=f
+ 0.5 1.0
+\$end
+
+EOF
+optmesa siz=$siz
+cat mesa.out
+
+date

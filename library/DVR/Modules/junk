@@ -1,0 +1,818 @@
+!***********************************************************************
+! Spheroidal_Fedvr_Module
+!**begin prologue     Spheroidal_Fedvr_Module
+!**date written       090119   (yymmdd)
+!**revision date               (yymmdd)
+!**keywords           time, dvr, Iterative, Lanczos, propagation
+!**
+!**author             schneider, b. i.(nsf)
+!**source             Time_Propagation
+!**purpose            Contains all of the major subroutines to propagate
+!***                  a wavefunction in time using the Lanczos
+!***                  algorithm.  The routine works for stnadard and generalized 
+!***                  symmetric problems.
+!***                  Explicit interfaces are used to allow a transparent use of 
+!***                  generic subroutines which work for both real and complex vectors.  
+!***                  This feature permits a single code to be used for both real and
+!***                  imaginary time propagation.
+!***description       Given a starting vector, a number of iterations
+!***                  are performed until the time propagated solution
+!***                  satisfies a fixed accuracy criterion.  The criterion
+!***                  used depends on whether one is propagating in real or
+!***                  imaginary time.  In imaginary time, the number of 
+!***                  iterations at a given step is controlled by the 
+!***                  convergence of the eigenvalue of interest.  The
+!***                  converged vector provides the starting vector for the
+!***                  next time step.  For real time, the number of iterations
+!***                  at a given step depends on the RMS deviation of the 
+!***                  wavefunction.  When that deviation is smaller than some
+!***                  preset value, the iterations are terminated.  The 
+!***                  converged wavefunction is used as the starting wavefunction
+!***                  at the next time step.
+!***       
+!***                                  Details
+!***
+!***                  Perform the Lanczos recursion at a given timestep.
+!***                  b_{i+1} S |V_{i+1}> = [ H - a_{i} S ] |V_{i}> 
+!                                               -   b_{i} S |V_{i-1}>
+!                                        T
+!                                   S = U U
+!                                    -1     -1  -T
+!                                   S  = ( U   U   )
+!***                  We rewite this as,
+!***                                         -T  -1
+!***                  b_{i+1} |X_{i+1}> = [ U H U - a_{i} ] |X_{i}> 
+!***                                               -   b_{i} |X_{i-1}>
+!***                          
+!***                                |X_{i}> = U |V_{i}>
+!***
+!***                  The Lanczos recursion for a generalized eigenvalue problem requires
+!***                  the factoization of the S matrix and the solution of two triangular
+!***                  linear systems at each iteration ans well as a matrix multiply.
+!***                  The multiply and linear system solves are all comparable in flop count.
+!***references
+!***modules needed    See USE statements below
+!***comments          In this portable version I have disabled all unnecessary
+!***                  writing to files.  The original Fortran is commented out.
+!***                  In addition, there is no option to compute the autocorrelation
+!***                  function as this would require reading and manipulating the
+!***                  initial state wavefunction from a file.
+!***end prologue      Generalized_Lanczos_Module
+!***********************************************************************
+!***********************************************************************
+                           MODULE Spheroidal_Fedvr_Module
+                           USE dvr_global
+  TYPE pt_wt
+       REAL*8, DIMENSION(:), ALLOCATABLE      :: qr
+       REAL*8, DIMENSION(:), ALLOCATABLE      :: wtr
+       REAL*8, DIMENSION(:), ALLOCATABLE      :: inv_sqrt_wtr
+       REAL*8, DIMENSION(:), ALLOCATABLE      :: inv_sqrt_ptr
+       REAL*8, DIMENSION(:), ALLOCATABLE      :: ptr_fac
+       REAL*8, DIMENSION(:), ALLOCATABLE      :: inv_ptr_fac
+  END TYPE pt_wt
+
+  TYPE poly
+       REAL*8, DIMENSION(:,:), ALLOCATABLE    :: pr
+       REAL*8, DIMENSION(:,:), ALLOCATABLE    :: dpr
+       REAL*8, DIMENSION(:,:), ALLOCATABLE    :: ddpr
+  END TYPE poly
+
+  TYPE mat
+       REAL*8, DIMENSION(:,:), ALLOCATABLE    :: tr
+       REAL*8, DIMENSION(:), ALLOCATABLE      :: vr
+       REAL*8, DIMENSION(:,:), ALLOCATABLE    :: ham
+  END TYPE mat
+
+  TYPE regional_grid
+       INTEGER                                :: num_reg
+       INTEGER, DIMENSION(:), ALLOCATABLE     :: num_pts_reg
+       TYPE(pt_wt), DIMENSION(:),                                     &
+                       ALLOCATABLE            :: reg_pt_wt
+       TYPE(poly), DIMENSION(:,:),                                    &
+                       ALLOCATABLE            :: reg_poly
+       TYPE(mat), DIMENSION(:,:),                                     &
+                       ALLOCATABLE            :: reg_mat
+  END TYPE regional_grid
+
+  TYPE(regional_grid), DIMENSION(:),                                  &
+                       ALLOCATABLE            :: reg_grid
+  INTEGER                                     :: max_val
+  REAL*8, DIMENSION(:), ALLOCATABLE           :: tmp
+!***********************************************************************
+!***********************************************************************
+!                          Explicit Interfaces
+!***********************************************************************
+!
+!
+!***********************************************************************
+                              CONTAINS
+!***********************************************************************
+!***********************************************************************
+!deck Ke_Fedvr_Even.f
+!***begin prologue     Ke_Fedvr_Even
+!***date written       960718   (yymmdd)
+!***revision date               (yymmdd)
+!***keywords           lobatto functions
+!***author             schneider, b. i.(nsf)
+!***source
+!***purpose            Calculate the parts of the regional matrices
+!***                   not depending on the m quantum number.  since a different
+!***                   form for DVR basis functions are needed for even and odd
+!***                   m, two different kinetic energy operators need to be constructed.
+!***                   Later, the even and odd m kinetic energy will be built from these.
+!***
+
+!***references
+
+!***routines called    iosys, util and mdutil
+!***end prologue       Ke_Fedvr_Even
+
+  SUBROUTINE Ke_Fedvr_Even(grid)
+  USE dvr_global
+  USE dvr_shared
+  IMPLICIT NONE
+  TYPE(regional_grid)                  :: grid  
+  INTEGER                              :: ireg
+  INTEGER                              :: i
+  INTEGER                              :: j
+  INTEGER                              :: k
+!
+!
+  DO ireg = 1, nreg
+     ALLOCATE( reg_grid%reg_mat(ireg,0)%tr( npt(ireg), npt(ireg) ) )
+     grid%reg_mat(ireg,0)%tr(:,:) = zero
+     DO i = 1, npt(ireg)
+        DO j = 1, i
+           DO k = 1, npt(ireg)
+              reg_grid%reg_mat(ireg,0)%tr(i,j)                               &
+                                =                                            &
+              reg_grid%reg_mat(ireg,0)%tr(i,j)                               &
+                                -                                            &
+              grid%reg_pt_wt(ireg)%ptr_fac(k)                                &
+                                *                                            &
+              grid%reg_pt_wt(ireg)%wtr(k)                                    & 
+                                *                                            &
+             grid%reg_poly(ireg,0)%dpr(k,i)                                  & 
+                                *                                            &
+             grid%reg_poly(ireg,0)%dpr(k,j) 
+        END DO
+        reg_grid%reg_mat(ireg,0)%tr(j,i) = reg_grid%reg_mat(ireg,0)%tr(i,j)  
+     END DO
+  END DO
+  Call Matrix_Renormalization_Even(grid)
+!
+END SUBROUTINE Ke_Fedvr_Even
+!***********************************************************************
+!***********************************************************************
+!deck Eta_KE_Even.f
+!***begin prologue     Eta_KE_Even
+!***date written       951229   (yymmdd)
+!***revision date      yymmdd   (yymmdd)
+!***keywords
+!***author             schneider, barry (nsf)
+!***source
+!***purpose            angular KE elements for prolate coordinates.
+!*** description       Here we consider the matrix elements
+!***                   < f_i | d/dx (1 - x*x ) d/dx | f_j>
+!                      = - <  | [ df_i/dx df_j/dx ] ( 1 - x*x ) >
+!                      where the last line comes from integrating by parts and dropping the
+!                      vanishing surface term.       
+!***references
+
+!***routines called
+!***end prologue       Eta_KE_Even
+
+  SUBROUTINE Eta_KE_Even(tr,q,wt,f,df,fac,n)
+  USE dvr_global ,  ONLY  : iout
+  USE dvr_prnt
+  IMPLICIT NONE
+  INTEGER                              :: n
+  REAL*8, DIMENSION(:)                 :: q
+  REAL*8, DIMENSION(:)                 :: wt
+  REAL*8, DIMENSION(:,:)               :: f
+  REAL*8, DIMENSION(:,:)               :: df
+  REAL*8, DIMENSION(:,:)               :: tr
+  REAL*8, DIMENSION(:)                 :: fac
+  INTEGER                              :: i
+  INTEGER                              :: j
+  INTEGER                              :: k
+  DO i = 1, nreg
+     ALLOCATE( reg_grid%reg_mat(i,0)%(tr( npt(i), npt(i) ) )
+     CALL KE_Fedvr_Even ( grid%reg_mat(i,0)%tr,                              &
+                          grid%reg_pt_wt(i)%qr,                              &
+                          grid%reg_pt_wt(i))%wtr,                            &
+                          grid%reg_poly(i,0)%pr,                             &
+                          grid%reg_poly(i,0)%dpr,                            &
+                          grid%reg_pt_wt(i)%ptr_fac,                         &
+                          npt(i) )
+  END DO
+  CALL rzero(tr,n*n)
+  END DO
+  DO i = 1, n
+     DO j = 1, i
+        DO k = 1, n
+           tr(i,j) = tr(i,j) - fac(k) * wt(k) * df(k,i) * df(k,j) 
+        END DO
+        tr(j,i) = tr(i,j)
+     END DO
+  END DO
+END SUBROUTINE Eta_KE_Even
+!***********************************************************************
+!***********************************************************************
+!deck Eta_Ke_Odd.f
+!***begin prologue     Eta_Ke_Odd
+!***date written       951229   (yymmdd)
+!***revision date      yymmdd   (yymmdd)
+!***keywords
+!***author             schneider, barry (nsf)
+!***source
+!***purpose            angular KE elements for prolate coordinates.
+!*** description       Here we consider the matrix elements
+!***                   < f_i | d/dx (1 - x*x ) d/dx | f_j>
+!                      = - <  | [ df_i/dx df_j/dx ] ( 1 - x*x ) >
+!                      where the last line comes from integrating by parts and dropping the
+!                      vanishing surface term.       
+!***references
+
+!***routines called
+!***end prologue       Eta_Ke_Odd
+
+  SUBROUTINE Eta_Ke_Odd(tr,q,wt,f,df,fac,n)
+  USE dvr_global ,  ONLY  : iout
+  USE dvr_prnt
+  IMPLICIT NONE
+  INTEGER                              :: n
+  REAL*8, DIMENSION(:)                 :: q
+  REAL*8, DIMENSION(:)                 :: wt
+  REAL*8, DIMENSION(:,:)               :: f
+  REAL*8, DIMENSION(:,:)               :: df
+  REAL*8, DIMENSION(:,:)               :: tr
+  REAL*8, DIMENSION(:)                 :: fac
+  INTEGER                              :: i
+  INTEGER                              :: j
+  INTEGER                              :: k
+  CALL rzero(tr,n*n)
+  DO  i = 1, n
+      DO j = 1, i
+         DO k = 1, n
+            tr(i,j) = tr(i,j) -  fac(k) * fac(k) * wt(k) * df(k,i) * df(k,j)
+         END DO
+         tr(i,j) = tr(i,j)  + q(i) * fac(i) * f(i,i) * df(i,j)    &
+                            + q(j) * fac(j) * f(j,j) * df(j,i) ) &
+         tr(j,i) = tr(i,j)
+      END DO
+      tr(i,i) = tr(i,i)  - q(i) * q(i) * f(i,i) * f(i,i)
+  END DO
+END SUBROUTINE Eta_Ke_Odd
+!***********************************************************************
+!***********************************************************************
+!deck Xi_KE_Even.f
+!***begin prologue     Xi_KE_Even
+!***date written       951229   (yymmdd)
+!***revision date      yymmdd   (yymmdd)
+!***keywords
+!***author             schneider, barry (nsf)
+!***source
+!***purpose            angular KE elements for prolate coordinates.
+!*** description       Here we consider the matrix elements
+!***                   < f_i | d/dx (x*x - 1. ) d/dx | f_j>
+!                      = - <  | [ df_i/dx df_j/dx ] ( 1 - x*x ) >
+!                      where the last line comes from integrating by parts and dropping the
+!                      vanishing surface term.       
+!***references
+
+!***routines called
+!***end prologue       Xi_KE_Even
+
+  SUBROUTINE Xi_KE_Even(tr,q,wt,f,df,fac,n)
+  USE dvr_global ,  ONLY  : iout
+  USE dvr_prnt
+  IMPLICIT NONE
+  INTEGER                              :: n
+  REAL*8, DIMENSION(:)                 :: q
+  REAL*8, DIMENSION(:)                 :: wt
+  REAL*8, DIMENSION(:,:)               :: f
+  REAL*8, DIMENSION(:,:)               :: df
+  REAL*8, DIMENSION(:,:)               :: tr
+  REAL*8, DIMENSION(:)                 :: fac
+  INTEGER                              :: i
+  INTEGER                              :: j
+  INTEGER                              :: k
+  CALL rzero(tr,n*n)
+  DO  i = 1, n     
+      DO j = 1, i
+         DO k = 1, n
+            tr(i,j) = tr(i,j) - fac(k) * wt(k) * df(k,i) * df(k,j) 
+         END DO
+         tr(j,i) = tr(i,j)
+      END DO
+  END DO
+END SUBROUTINE Xi_KE_Even
+!***********************************************************************
+!***********************************************************************
+!deck Xi_KE_Odd.f
+!***begin prologue     Xi_KE_Odd
+!***date written       951229   (yymmdd)
+!***revision date      yymmdd   (yymmdd)
+!***keywords
+!***author             schneider, barry (nsf)
+!***source
+!***purpose            angular KE elements for prolate coordinates.
+!*** description       Here we consider the matrix elements
+!***                   < f_i | d/dx (x*x - 1. ) d/dx | f_j>
+!                      = - <  | [ df_i/dx df_j/dx ] ( 1 - x*x ) >
+!                      where the last line comes from integrating by parts and dropping the
+!                      vanishing surface term.       
+!***references
+
+!***routines called
+!***end prologue       Xi_KE_Odd
+
+  SUBROUTINE Xi_KE_Odd(tr,q,wt,f,df,facn)
+  USE dvr_global ,  ONLY  : iout
+  USE dvr_prnt
+  IMPLICIT NONE
+  INTEGER                              :: n
+  REAL*8, DIMENSION(:)                 :: q
+  REAL*8, DIMENSION(:)                 :: wt
+  REAL*8, DIMENSION(:,:)               :: f
+  REAL*8, DIMENSION(:,:)               :: df
+  REAL*8, DIMENSION(:,:)               :: tr
+  REAL*8, DIMENSION(:)                 :: fac
+  INTEGER                              :: i
+  INTEGER                              :: j
+  INTEGER                              :: k
+  CALL rzero(tr,n*n)
+  DO  i = 1, n
+      DO j = 1, i
+         DO k = 1, n
+            tr(i,j) = tr(i,j) -  fac(k) * fac(k) * wt(k) * df(k,i) * df(k,j)
+         END DO
+         tr(i,j) = tr(i,j)  - q(i) * fac(i) * f(i,i) * df(i,j)    &
+                            - q(j) * fac(j) * f(j,j) * df(j,i) )  
+         tr(j,i) = tr(i,j)
+      END DO
+      tr(i,i) = tr(i,i)  - q(i) * q(i) * f(i,i) * f(i,i)
+  END DO
+END SUBROUTINE Xi_KE_Odd
+!***********************************************************************
+!***********************************************************************
+!deck H_0_Fedvr.f
+!***begin prologue     H_0_Fedvr
+!***date written       960718   (yymmdd)
+!***revision date               (yymmdd)
+!***keywords           lobatto functions
+!***author             schneider, b. i.(nsf)
+!***source
+!***purpose            Calculate the final unperturbed Hamiltonian for each m value.
+!***                   
+!***                   
+!***                   
+!***                   
+!***
+
+!***references
+
+!***routines called    iosys, util and mdutil
+!***end prologue       H_0_Fedvr
+
+  SUBROUTINE H_0_Fedvr(type)
+  USE dvr_global
+  USE dvr_shared
+  IMPLICIT NONE
+  CHARACTER(LEN=*)                    :: type
+  REAL*8, DIMENSION(:), ALLOCATABLE   :: fac
+  INTEGER                             :: icoord
+  INTEGER                             :: max_val
+!
+!
+  max_val = 0
+  DO i = 1, nreg
+     max_val = max ( max_val, npt(i) )
+  END DO
+  ALLOCATE( fac( 1 : max_val ) )
+  IF ( type == 'eta') THEN
+       icoord = 1
+       DO i = 1, nreg
+
+          fac ( 1 : npt(i) ) = 1. d0 / ( one - reg_grid(icoord)%reg_pt_wt(i)%qr ( 1 : npt(i) )       &
+                                          *                                                          &
+                                               reg_grid(icoord)%reg_pt_wt(i)%qr ( 1 : npt(i) ) )
+          DO i = 1 , npt(i)
+             reg_grid(icoord)%reg_mat(i,0)%tr ( i,i ) 
+                                            =                                              &
+             reg_grid(icoord)%reg_mat(i,0)%ham ( i,i )                                     &
+                                            +                                              &
+                                            reg_grid(icoord)%reg_mat(i,0)%vr ( i )         
+          END DO                 
+          DO m = 2, m_max,2
+             ALLOCATE( reg_grid(icoord)%reg_mat(i,m)%(ham( 1 :  npt(i), 1 : npt(i) ) )
+             reg_grid(icoord)%reg_mat(i,m)%ham ( 1 : npt(i), 1 : npt(i) )                   &
+                                          =                                                 &
+             reg_grid(icoord)%reg_mat(i,0)%ham ( 1 : npt(i), 1 : npt(i) ) 
+             DO i = 1, npt(i)
+                reg_grid(icoord)%reg_mat(i,m)%ham ( i,i ) 
+                                            =                                              &
+                reg_grid(icoord)%reg_mat(i,m)%ham ( i,i )                                  &
+                                            -                                              &
+                                              m * m * fac ( i )                 
+             END DO
+          END DO
+          DEALLOCATE( fac )
+       END DO
+                  
+                             reg_grid(icoord)%reg_pt_wt(i)%qr,                             &
+                             reg_grid(icoord)%reg_pt_wt(i))%wtr,                           &
+                             reg_grid(icoord)%reg_poly(i,0)%pr,                            &
+                             reg_grid(icoord)%reg_poly(i,0)%dpr,                           &
+                             npt(i),                                                       &
+                             i)
+       END DO
+       Call Matrix_Renormalization(icoord,0)
+       IF (m_max > 0 ) THEN
+           DO i = nreg
+              ALLOCATE( reg_grid(icoord)%reg_mat(i,1)%(tr( npt(i), npt(i) ) )
+              CALL Eta_KE_Odd  ( reg_grid(icoord)%reg_mat(i,0)%tr,                          &
+                                 reg_grid(icoord)%reg_pt_wt(i)%qr,                         &
+                                 reg_grid(icoord)%reg_pt_wt(i))%wtr,                       &
+                                 reg_grid(icoord)%reg_poly(i,1)%pr,                        &
+                                 reg_grid(icoord)%reg_poly(i,1)%dpr,                       &
+                                 npt(i),                                                   &
+                                 i)
+           END DO
+       END IF
+       Call Matrix_Renormalization(icoord,1)
+!
+  ELSE IF ( type == 'xi' ) THEN
+       icoord = 2
+       DO i = nreg
+          ALLOCATE( reg_grid(icoord)%reg_mat(i,0)%(tr( npt(i), npt(i) ) )
+          CALL Xi_KE_Even  ( reg_grid(icoord)%reg_mat(i,0)%tr,                              &
+                             reg_grid(icoord)%reg_pt_wt(i)%qr,                             &
+                             reg_grid(icoord)%reg_pt_wt(i))%wtr,                           &
+                             reg_grid(icoord)%reg_poly(i,0)%pr,                            &
+                             reg_grid(icoord)%reg_poly(i,0)%dpr,                           &
+                             npt(i),                                                       &
+                             i)
+       END DO
+       Call Matrix_Renormalization(icoord,0)
+       IF (m_max > 0 ) THEN
+           DO i = nreg
+              ALLOCATE( reg_grid(icoord)%reg_mat(i,1)%(tr( npt(i), npt(i) ) )
+              CALL Xi_KE_Odd   ( reg_grid(icoord)%reg_mat(i,0)%tr,                          &
+                                 reg_grid(icoord)%reg_pt_wt(i)%qr,                         &
+                                 reg_grid(icoord)%reg_pt_wt(i))%wtr,                       &
+                                 reg_grid(icoord)%reg_poly(i,1)%pr,                        &
+                                 reg_grid(icoord)%reg_poly(i,1)%dpr,                       &
+                                 npt(i),                                                   &
+                                 i)
+           END DO
+          Call Matrix_Renormalization(icoord,1)
+       END IF
+  END IF
+!
+END SUBROUTINE H_0_Fedvr
+!***********************************************************************
+!***********************************************************************
+!deck Lobatto_Functions_Even.f
+!***begin prologue     Lobatto_Functions_Even
+!***date written       960718   (yymmdd)
+!***revision date               (yymmdd)
+!***keywords           lobatto functions
+!***author             schneider, b. i.(nsf)
+!***source
+!***purpose            1. calculate piecewise lobatto dvr functions and
+!***                      their one-body matrices
+!***
+
+!***references
+
+!***routines called    iosys, util and mdutil
+!***end prologue       Lobatto_Functions_Even
+
+  SUBROUTINE Lobatto_Functions_Even(grid,typwt,coord)
+  USE dvr_global
+  IMPLICIT NONE
+  TYPE(regional_grid)                  :: grid
+  CHARACTER(LEN=*)                     :: typwt
+  CHARACTER(LEN=*)                     :: coord
+  REAL*8                               :: one = 1.d0
+  REAL*8                               :: dum
+  INTEGER                              :: i
+  INTEGER                              :: j
+  INTEGER                              :: icoord
+!
+!
+  max_val = 0
+  DO i = 1, nreg
+     max_val = max(max_val,npt(i))
+  END DO
+  DO  i=1,nreg
+      Write(iout,2) i, npt(i)
+!
+!        calculate the sector functions and their derivatives for the m even grid.
+!
+      ALLOCATE( grid%reg_pt_wt(i)%qr(npt(i)),                                 &
+                grid%reg_pt_wt(i)%wtr(npt(i)),                                &
+                grid%reg_poly(i,0)%pr(npt(i),npt(i)),                         &
+                grid%reg_poly(i,0)%dpr(npt(i),npt(i)),                        &
+                grid%reg_poly(i,0)%ddpr(npt(i),npt(i)),                       &
+                grid%reg_pt_wt(i)%inv_sqrt_wtr(npt(i)) )              
+      CALL drvply( grid%reg_pt_wt(i)%qr,                                      &
+                   grid%reg_pt_wt(i)%wtr,                                     &
+                   grid%reg_poly(i,0)%pr,                                     &
+                   grid%reg_poly(i,0)%dpr,                                    &
+                   grid%reg_poly(i,0)%ddpr,                                   &
+                   edge(i),                                                   &
+                   typwt,                                                     &
+                   npt(i),                                                    &
+                   i)
+  END DO
+!
+!                       To compute most of what is required, it is not necessary
+!                       to construct anything else. Since the bridge functions 
+!                       span two elements, one can define them at the grid points
+!                       but their derivatives are discontinuous across the
+!                       sector boundaries. The matrix elements can be constructed 
+!                       entirely from re-normalized sector quantities. 
+!
+  IF ( nreg == 1) THEN
+!
+!                       Only one region.  No endpoint corrections required.
+!
+       i = 1
+       Call ReGrid ( grid%reg_pt_wt(i)%wtr,                                   &
+                     grid%reg_pt_wt(i)%inv_sqrt_wtr,                          &
+                     dum,                                                     &
+                     dum,                                                     &
+                     npt(i),                                                  &
+                     i)               
+  ELSE
+!
+!                       First region.  Correction  at right endpoint needed from first function
+!                       in refion 2.
+       i = 1
+       Call ReGrid ( grid%reg_pt_wt(i)wtr,                                    &
+                     grid%reg_pt_wt(i)%inv_sqrt_wtr,                          &
+                     dum,                                                     &
+                     grid%reg_pt(i+1)%wtr(1),                                 &
+                     npt(i),                                                  &
+                     i)        
+!       
+       DO i = 2, nreg - 1
+!
+!                       General case.  Put result from the previous region into the
+!                       the left region and correct the right endpoint.
+!
+          Call ReGrid ( grid%reg_pt_wt(i)%wtr,                                 &
+                        grid%reg_pt_wt(i)%inv_sqrt_wtr,                        &
+                        grid%reg_pt_wt(i-1)%wtr(npt(i-1)),                     &
+                        grid%reg_pt_wt(i+1)%wtr(1),                            &
+                        npt(i),                                                &
+                        i)               
+       END DO
+!
+!                       Last region.  Correct the left end point.
+!
+       i = nreg
+          Call ReGrid ( grid%reg_pt_wt(i)%wtr,                                 &
+                        grid%reg_pt_wt(i)%inv_sqrt_wtr,                        &
+                        grid%reg_pt_wt(i-1)%wtr(npt(i-1)),                     &
+                        dum,                                                   &
+                        npt(i),                                                &
+                        i)               
+  END IF
+  DO i = 1, nreg 
+     Call RePoly (grid%reg_poly(i,0)%pr,                                       &
+                  grid%reg_poly(i,0)%dpr,                                      &
+                  grid%reg_poly(i,0)%ddpr,                                     &
+                  grid%reg_pt_wt(i)%inv_sqrt_wtr,                              &
+                  npt(i),                                                      &
+                  i)             
+  END DO
+!     
+1 FORMAT(/,10x,'Calculate the Regional Basis Functions for Coordinate = ',a4)
+2 FORMAT(/,10x,'Region = ',i3,2x,'Number of Lobatto_Functions = ', i3)
+END SUBROUTINE Lobatto_Functions_Even
+!***********************************************************************
+!***********************************************************************
+!deck Lobatto_Functions_Odd.f
+!***begin prologue     Lobatto_Functions_Odd
+!***date written       960718   (yymmdd)
+!***revision date               (yymmdd)
+!***keywords           lobatto functions
+!***author             schneider, b. i.(nsf)
+!***source
+!***purpose            1. calculate piecewise lobatto dvr functions and
+!***                      their one-body matrices
+!***
+
+!***references
+
+!***routines called    iosys, util and mdutil
+!***end prologue       Lobatto_Functions_Even
+
+  SUBROUTINE Lobatto_Functions_Odd(grid,typwt,coord)
+  USE dvr_global
+  IMPLICIT NONE
+  TYPE(regional_grid)                  :: grid
+  CHARACTER(LEN=*)                     :: typwt
+  CHARACTER(LEN=*)                     :: coord
+  REAL*8                               :: one = 1.d0
+  REAL*8                               :: dum
+  INTEGER                              :: i
+  INTEGER                              :: j
+  INTEGER                              :: icoord
+!
+!
+  DO i = 1,nreg
+     ALLOCATE( grid%reg_poly(i,1)%pr(npt(i),npt(i)),                      &
+               grid%reg_poly(i,1)%dpr(npt(i),npt(i)),                     &
+               grid%reg_poly(i,1)%ddpr(npt(i),npt(i)) )
+     Call renorm( grid,i,npt(i) )                               
+  END DO
+!
+! 
+                      Now make the proper normalized quantities
+!
+  DO i = 1, nreg
+     Call RePoly ( grid%reg_poly(i,1)%pr,                                  &
+                   grid%reg_poly(i,1)%dpr,                                 & 
+                   grid%reg_poly(i,1)%ddpr,                                &
+                   grid%pt_wt(i)%inv_sqrt_wtr,                             &
+                   npt(i),                                                 &
+                   i)             
+  END DO
+1 FORMAT(/,10x,'Calculate the Regional Basis Functions for Coordinate = ',a4)
+2 FORMAT(/,10x,'Region = ',i3,2x,'Number of Lobatto_Functions = ', i3)
+END SUBROUTINE Lobatto_Functions
+!***********************************************************************
+!***********************************************************************
+!deck Pe_Fedvr.f
+!***begin prologue     Pe_Fedvr
+!***date written       960718   (yymmdd)
+!***revision date               (yymmdd)
+!***keywords           lobatto functions
+!***author             schneider, b. i.(nsf)
+!***source
+!***purpose            Calculate the parts of the regional matrices
+!***                   not depending on the m quantum number.  since a different
+!***                   form for DVR basis functions are needed for even and odd
+!***                   m, two different kinetic energy operators need to be constructed.
+!***                   Later, the even and odd m kinetic energy will be built from these.
+!***
+
+!***references
+
+!***routines called    iosys, util and mdutil
+!***end prologue       Pe_Fedvr
+
+  SUBROUTINE Pe_Fedvr(type)
+  USE dvr_global
+  USE dvr_shared
+  IMPLICIT NONE
+  CHARACTER(LEN=*)          :: type
+  REAL*8                    :: dum
+  INTEGER                   :: icoord
+!
+!
+  IF ( type == 'eta') THEN
+       icoord = 1
+       DO i = nreg
+          ALLOCATE( reg_grid(icoord)%reg_mat(i,0)%vr( npt(i) ) )
+          reg_grid(icoord)%reg_mat(i,0)%vr( : ) = R_ab * ( z_b - z_a )                     &
+                                                       *                                   &
+                                                   reg_grid(icoord)%reg_pt_wt(i)%qr( : )
+       END DO
+!
+  ELSE IF ( type == 'xi' ) THEN
+       icoord = 2
+       DO i = nreg
+          ALLOCATE( reg_grid(icoord)%reg_mat(i,0)%vr( npt(i) ) )
+          reg_grid(icoord)%reg_mat(i,0)%vr( : ) = R_ab * ( z_a + z_b )                     &
+                                                       *                                   &
+                                                   reg_grid(icoord)%reg_pt_wt(i)%qr( : )
+       END DO
+  END IF
+!
+END SUBROUTINE Pe_Fedvr
+!***********************************************************************
+!***********************************************************************
+!deck Renorm.f
+!***begin prologue     Renorm
+!***date written       960718   (yymmdd)
+!***revision date               (yymmdd)
+!***keywords           lobatto functions
+!***author             schneider, b. i.(nsf)
+!***source
+!***purpose            1. calculate piecewise lobatto dvr functions and
+!***                      their one-body matrices
+!***
+
+!***references
+
+!***routines called    iosys, util and mdutil
+!***end prologue       Renorm
+
+  SUBROUTINE Renorm(q,p_e,dp_e,ddp_e,p_o,dp_o,ddp_o,n,coord)
+  IMPLICIT NONE
+  REAL*8, DIMENSION (:)     :: q
+  REAL*8, DIMENSION (:,:)   :: p_e
+  REAL*8, DIMENSION (:,:)   :: dp_e
+  REAL*8, DIMENSION (:,:)   :: ddp_e
+  REAL*8, DIMENSION (:,:)   :: p_o
+  REAL*8, DIMENSION (:,:)   :: dp_o
+  REAL*8, DIMENSION (:,:)   :: ddp_o
+  CHARACTER(LEN=*)          :: coord
+  REAL*8                    :: one = 1.d0
+  REAL*8                    :: fac
+  INTEGER                   :: i
+!
+!
+  IF (coord == 'eta' ) THEN
+      DO i = 1, n
+         fac = Sqrt ( one / ( one - q(i) * q(i) ) )
+         p_o(:,i)  = fac * p_e(:,j) 
+         dp_o(:,i) = fac * dp_e(:,i) 
+         ddp_o(:,i) = fac * ddp_e(:,i) 
+      END DO
+  ELSE IF (coord == 'xi' ) THEN
+      DO i= 1, n
+         fac = Sqrt ( one / ( q(i) * q(i) - one ) )
+         p_o(:,i) = fac * p_e(:,i) 
+         dp_o(:,i) = fac * dp_e(:,i) 
+         ddpr_o(:,i) = fac * ddp_e(:,i) 
+      END DO
+  END IF
+END SUBROUTINE Renorm
+!***********************************************************************
+!***********************************************************************
+!deck Eta_Coordinate_Factors                                                  
+!***begin prologue     Eta_Coordinate_Factors
+!***date written       951229   (yymmdd)
+!***revision date      yymmdd   (yymmdd)
+!***keywords
+!***author
+!***source                                                                                                           
+!***purpose                                                                                                                             
+!***                                                                                                                                   
+!***                                                                                                                      
+!***description                                                                                                                    
+!***                                                                                                                                    
+!***                                                                                                                                     
+!***                                                                                                                                    
+!***references                                                                                                                          
+!***routines called                                                                                                                      
+!***end prologue       Eta_Coordinate_Factors                                                                                            
+  Subroutine Eta_Coordinate_Factors (grid)
+  IMPLICIT NONE
+  TYPE(regional_grid)                  :: grid
+  REAL*8                               :: one = 1.d0
+  INTEGER                              :: i
+  DO i = 1, nreg
+     ALLOCATE ( grid%reg_pt_wt(i)%ptr_fac( 1:npt(i) ),           &
+                grid%reg_pt_wt(i)%inv_ptr_fac( 1:npt(i) ),       &
+                grid%reg_pt_wt(i)%inv_sqrt_ptr( 1:npt(i) ) )
+     grid%reg_pt_wt(i)%ptr_fac(:) = one - grid%reg_pt_wt(i)%ptr(:) * grid%reg_pt_wt(i)%ptr(:)
+     grid%reg_pt_wt(i)%inv_ptr_fac(:) = ( one / grid%reg_pt_wt(i)%ptr_fac(:) )
+     grid%reg_pt_wt(i)%inv_sqrt_ptr(:) = Sqrt ( grid%reg_pt_wt(i)%inv_ptr_fac(:) )
+  END DO
+  DEALLOCATE ( tmp )
+  END Subroutine Eta_Coordinate_Factors
+!***********************************************************************
+!***********************************************************************
+!deck Xi_Coordinate_Factors
+!***begin prologue     Xi_Coordinate_Factors
+!***date written       951229   (yymmdd)
+!***revision date      yymmdd   (yymmdd)
+!***keywords
+!***author
+!***source
+!***purpose                                                                                                                             
+!***
+!***description
+!***                                                                                                            
+!***                                                                                                                 
+!***references                                                                                                           
+!***routines called                                                                                                          
+!***end prologue       Xi_Coordinate_Factors                                                                                     
+  Subroutine Xi_Coordinate_Factors (grid)
+  IMPLICIT NONE
+  TYPE(regional_grid)                  :: grid
+  REAL*8                               :: one = 1.d0
+  INTEGER                              :: i
+  DO i = 1, nreg
+     ALLOCATE ( grid%reg_pt_wt(i)%ptr_fac( 1:npt(i) ),           &
+                grid%reg_pt_wt(i)%inv_ptr_fac( 1:npt(i) ),       &
+                grid%reg_pt_wt(i)%inv_sqrt_ptr( 1:npt(i) ) )
+     grid%reg_pt_wt(i)%ptr_fac(:) = grid%reg_pt_wt(i)%ptr(:) * grid%reg_pt_wt(i)%ptr(:) - one
+     grid%reg_pt_wt(i)%inv_ptr_fac(:) = ( one / grid%reg_pt_wt(i)%ptr_fac(:) )
+     grid%reg_pt_wt(i)%inv_sqrt_ptr(:) = Sqrt ( grid%reg_pt_wt(i)%inv_ptr_fac(:) )
+  END DO
+  DEALLOCATE ( tmp )
+  END Subroutine Xi_Coordinate_Factors
+!***********************************************************************
+!***********************************************************************
+           END MODULE Spheroidal_Fedvr_Module
+!***********************************************************************
+!***********************************************************************

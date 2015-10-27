@@ -1,0 +1,4 @@
+$general_eigen_solve
+ number_of_processors=2 number_of_cores_per_processor=4
+ number_of_matrix_blocks=64 file_suffix=10
+$end

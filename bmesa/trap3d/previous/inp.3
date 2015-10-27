@@ -1,0 +1,53 @@
+$route
+ print=(m7000=xall) m7000=xcheck-orthogonality number-of-dimensions=1
+ xdiagonalize-h0  xuse-atomic-units xiterative-diagonalization xto-atomic-units
+ xnumber-of-roots=10 xin-coordinate-space diagonalize-gross-pitaevski
+ maximum-number-of-iterations=40
+$end
+          
+$nonstd
+75//00;
+20//01;
+$end
+$title
+3-d trap code
+$end
+$diis
+ maximum-number-of-diis-iterations=40 diis-restart-value=40 diis-switch=off
+ new-diis diis-convergence=1.d-07 print=diis
+$end
+$trap
+ x-trap-frequency=10.d0 y-trap-frequency=10.d0 z-trap-frequency=10.d0
+ minimum-number-of-atoms=3623.d0 maximum-number-of-atoms=3623.d0 
+ xminimum-number-of-atoms=2886.d0 xmaximum-number-of-atoms=2886.d0 
+ xminimum-number-of-atoms=2000.d0 xmaximum-number-of-atoms=2000.d0 
+ number-of-steps=1
+$end
+$x-polynomials
+ order-of-polynomials=10,number-of-points=12,fix-end-points
+ number-of-fixed-points=2, left=0.d0 right=2.5d-05
+ xleft=-0.d0 xright=15.d0
+ order-of-leading-left-polynomials=1 order-of-leading-right-polynomials=1
+$end
+$y-polynomials
+ order-of-polynomials=10,number-of-points=12,fix-end-points
+ number-of-fixed-points=2, left=-2.5d-05 right=2.5d-05
+ xleft=0.d0 xright=15.d0
+ order-of-leading-left-polynomials=1 order-of-leading-right-polynomials=0
+$end
+$davidson
+ number-of-roots=1 number-of-trial-vectors=1 to-h0 convergence=1.d-05
+ xprint=buffered-hamiltonian xprint=trials xprint=(davidson=all)
+$end
+$v0
+ unperturbed-potential-type=harmonic-oscillator  
+ omega-11=10.d0 omega-22=10.d0
+ a11=-1.d0 s11=1.d0 
+$end
+$v1
+ interaction-potential-type=harmonic-oscillator diagonal-potential
+ no-off-diagonal-potential omega-11=10.d0 omega-22=10.d0
+ a11=-1.d0 s11=1.d0 
+ a22=-1.d0 s22=1.d0  
+$end 
+ 

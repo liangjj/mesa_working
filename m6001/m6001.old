@@ -1,0 +1,788 @@
+*deck m6001
+c***begin prologue     m6001
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           m6001, link 6001, orbital decomposition
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            driver for numerical orbital tabulation
+c***description        calculates contracted ao's on physical grid
+c***                   for integral calculation
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       m6001
+      program orbs
+      implicit integer (a-z)
+      parameter (dimpr=300 , dimcen=10)
+      logical logkey, logky, grdtyp
+      character *4096 ops
+      character *1600 card
+      character *8 chrkey, cpass, itp, icon
+      character *3 itoc, ans, inorm, tpe, aosym, group
+      character *80 title
+      character *13 grdnam
+      real *8 z, alf, cont, s, rloc, anorm, pi
+      real *8 fs, cs, charge, fpkey
+c----------------------------------------------------------------------c
+c                unicos memory management                              c
+      common a(1)
+      dimension z(1)
+      common /memory / ioff 
+      equivalence (z,a)
+c----------------------------------------------------------------------c
+      common /io/ inp,iout
+      common/chrpss/ itp(3), icon(10), inorm, aosym(dimpr)
+      common /aos/ npr, ncon, nxyzc(dimpr,4), alf(dimpr), cont(dimpr),
+     1             nprc(dimpr)
+      common /factr/ junk(1200), s(1500)
+      common /rloc/ charge(dimcen), rloc(3,dimcen)
+      common/logprt/logky(5)
+      dimension anorm(dimpr), iholdc(dimpr,2)
+      equivalence (anorm,iholdc)
+      data pi /3.14159265358979323846e+00/
+      call drum
+      call iosys ('read character options from rwf',-1,0,0,ops)
+      logky(1)=logkey(ops,'print=m6001=orbitals',.false.,' ')
+      logky(2)=logkey(ops,'no-ssd',.false.,' ')
+      call posinp ('$orbs',cpass)
+      read (inp,1) title
+      write (iout,22)
+      write (iout,2) title
+      write (iout,22)
+c---------------------------------------------------------------------c
+c            initialize n l and m values for cartesian aos            c
+c---------------------------------------------------------------------c
+      call setnlm
+c---------------------------------------------------------------------c
+c                read in data                                         c
+c---------------------------------------------------------------------c
+      call cardin (card)
+      icon(1)=chrkey(card,'ao-info','disk',' ')
+      grdtyp=logkey(card,'untransformed-grid',.false.,' ')
+      grdnam='"trns grid"'
+      if (grdtyp) then
+          grdnam='"untrns grid"'
+          write (iout,500)
+      else
+          write(iout,600)
+      endif
+      memmax=intkey(card,'maximum-memory',1000000,' ')
+      call iosys ('does "canonical int file" exist on rwf',0,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys ('read character "canonical int file" from rwf',
+     1                -1,0,0,itp(1))
+      else
+          itp(1)=chrkey(card,'integral-file-name','tape14',' ')
+      endif
+      call iosys ('does "grid filename" exist on rwf',0,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys ('read character "grid filename" from rwf',-1,0,0,
+     1                 itp(2))
+      else
+          itp(2)=chrkey(card,'grid-file-name','grid',' ')
+      endif
+c----------------------------------------------------------------------c
+c               open grid file and get no. of points                   c
+c               need four arrays of dimension pntbuf                   c
+c----------------------------------------------------------------------c
+      call iosys ('open grid as old',0,0,0,itp(2))
+      call iosys ('read integer "no. grid pts" from grid',1,npnts,0,
+     1            ' ')
+      call iosys ('read integer "point buffer" from grid',1,
+     1            pntbuf,0,' ')
+      itp(3)=chrkey(card,'numerical-orbital-file-name','orbs',' ')
+      inorm=chrkey(card,'nrmlze','yes',' ')
+      call iosys ('write character "orbital filename" to rwf',0,0,0,
+     1             itp(3))
+      call posinp('$geom',cpass)
+      call cardin(card)
+      ncen=intkey(card,'no-centers',1,' ')
+      do 3 i=1,ncen
+         call fparr(card,'x-y-z-center-'//itoc(i),rloc(1,i),3,' ')
+         charge(i)=fpkey(card,'charge-center-'//itoc(i),1.,' ')
+    3 continue
+      call posinp('$basis',cpass)
+      call cardin(card)
+      group=chrkey(card,'group','c2v',' ')
+      call locase(group,group)
+      npr=intkey(card,'no-prim',1,' ')
+      ncon=intkey(card,'no-contracted',1,' ')
+      call intarr (card,'no-prim/cont',nprc,ncon,' ')
+c----------------------------------------------------------------------c
+c           calculate number of passes of grid file needed             c
+c----------------------------------------------------------------------c
+      nreg=npnts/pntbuf
+      nolst=npnts-nreg*pntbuf
+      if (nolst.ne.0) then
+          nreg=nreg+1
+      else
+          nolst=pntbuf
+      endif
+c----------------------------------------------------------------------c
+c                 read in the basis set information                    c
+c----------------------------------------------------------------------c
+      if (icon(1).eq.'disk') then
+          call rdbsis(ntot,nprmx,aosym,itp(1))
+      else
+          ntot=0
+          nprmx=0
+          do 120 i=1,ncon
+             nup=nprc(i)
+             nprmx=max0(nup,nprmx)
+             iholdc(i,1)=i
+             iholdc(i,2)=ntot+1
+             ntot=ntot+1
+             read (inp,*) ncval,tpe,keyf,fs,cs
+             call nlmval (tpe,n1,n2,n3)
+             aosym(i)=tpe
+             if (keyf.eq.0) go to 100
+                 nxyzc(ntot,1)=n1
+                 nxyzc(ntot,2)=n2
+                 nxyzc(ntot,3)=n3
+                 nxyzc(ntot,4)=ncval
+                 alf(ntot)=fs
+                 cont(ntot)=cs
+                 if (nup.eq.1) go to 120
+                     do 90 j=2,nup
+                        ntot=ntot+1
+                        read (inp,*) njnk,tpe,kjnk,alf(ntot),cont(ntot)
+                        nxyzc(ntot,1)=n1
+                        nxyzc(ntot,2)=n2
+                        nxyzc(ntot,3)=n3
+                        nxyzc(ntot,4)=ncval
+   90                continue
+                 go to 120
+  100        ii=iholdc(keyf,1)
+             nup=nprc(ii)
+             ibeg=iholdc(keyf,2)-1
+             ntot=ntot-1
+             do 110 j=1,nup
+                ntot=ntot+1
+                ibeg=ibeg+1
+                nxyzc(ntot,1)=n1
+                nxyzc(ntot,2)=n2
+                nxyzc(ntot,3)=n3
+                nxyzc(ntot,4)=ncval
+                alf(ntot)=alf(ibeg)
+                cont(ntot)=cont(ibeg)
+  110        continue
+  120     continue
+      endif
+      write (iout,440)
+      do 80 i=1,ncen
+         write (iout,450) (rloc(j,i),j=1,3), charge(i)
+   80 continue
+      write (iout,460) npr,ncon
+      write (iout,470) (nprc(i),i=1,ncon)
+      if (logkey(ops,'print=m6001=basis',.false.,' ')) then
+          call wrtbas (ntot)
+      endif
+      if (ntot.ne.npr) call lnkerr('no. primitives error')
+      call overlp (s,npr,inorm)
+c----------------------------------------------------------------------c
+c               get memory                                             c
+c               at least enough for one contracted                     c
+c                     function                                         c
+c               store x, y, z, wt and function                         c
+c----------------------------------------------------------------------c        
+      call iosys ('read integer maxsiz from rwf',1,canget,0,' ')
+c     call getscm (0,z,canget,'how much core',0)
+      if (memmax.lt.0) memmax=canget
+      minsze=7*pntbuf
+      if (minsze.gt.memmax) call lnkerr('cannot get enough '//
+     1                                  'memory:quit')
+c----------------------------------------------------------------------c
+c         make buffer a multiple of number of contracted functions     c
+c----------------------------------------------------------------------c
+      nwleft=memmax-6*pntbuf
+      nfmax=nwleft/pntbuf
+      nfmax=min(nfmax,ncon)
+      write (iout,350) nfmax,pntbuf
+      nwords=(6+nfmax)*pntbuf
+c----------------------------------------------------------------------c
+c             write core needed to rwf                                 c
+      call iosys ('write integer maxsiz to rwf',1,nwords,0,' ')
+c----------------------------------------------------------------------c
+      call getscm (nwords,z,ngot,'m6001',0)
+      grid=ioff
+      pre=grid+4*pntbuf
+      rsq=pre+pntbuf
+      fmo=rsq+pntbuf
+      write (iout,340) nwords
+      call wrttpe(itp(3),grdnam,ncen,ncon,nreg,npnts,pntbuf,nolst,
+     1            aosym,group)
+      call rzero (anorm,ncon)
+      size=ncon*npnts
+      call iosys ('create real "con array" on orbs',size,0,0,0)
+      call iosys ('create real '//grdnam//' on orbs',4*npnts,0,0,' ')
+      nwds=0
+      nwrite=0
+      do 200 ireg=1,nreg
+         noptrg=pntbuf
+         if (ireg.eq.nreg) then
+             noptrg=nolst
+         endif
+c----------------------------------------------------------------------c
+c           read in this block of grid points                          c
+c----------------------------------------------------------------------c
+         call iosys ('read real '//grdnam//' from grid without '//
+     1               'rewinding',4*noptrg,z(grid),0,' ')   
+         call iosys ('write real '//grdnam//' to orbs without '//
+     1               'rewinding',4*noptrg,z(grid),0,' ')
+         call makecn (z(fmo),z(grid),z(pre),z(rsq),anorm,ncon,nfmax,
+     1                noptrg,nwrite,nwds,ireg,logky(1))
+  200 continue
+      if (nwds.ne.size) call lnkerr('error in words to orbs')
+      write (iout,140) nwrite
+      write (iout,150) nwds
+      call iosys ('rewind all on grid read-and-write',0,0,0,' ')
+      call iosys ('rewind all on orbs read-and-write',0,0,0,' ')
+      call iosys ('close grid',0,0,0,' ')
+      call iosys ('close orbs',0,0,0,' ')
+      write (iout,360) (anorm(ii),ii=1,ncon)
+c----------------------------------------------------------------------c
+c                 restore maxcore                                      c
+      call iosys ('write integer maxsiz to rwf',1,canget,0,' ')
+c----------------------------------------------------------------------c
+      call chainx(0)
+      stop
+    1 format(a80)
+    2 format(//,20x,'link m6001:numerical orbital tabulation program',
+     1       //,20x,'title:',a80)
+   22 format(/,20x,'***********************************************')
+  140 format (//,5x,'no. writes to orbs',2x,i4)
+  150 format (//,5x,'no. words written to orbs',2x,i8)
+  340 format (//,5x,'memory adjusted by',2x,i6,2x,'words to calculate',
+     1' contracted aos')
+  350 format (//,5x,'maximum no. contracted functions stored',1x,i4,/
+     1        5x,'point array buffer size',1x,i7)
+  360 format (/,5x,'normalization integrals',(/,5x,5e15.8))
+  440 format (//,10x,'position and charge of atomic centers',
+     1        //,7x,'x',17x,'y',17x,'z',17x,'charge')
+  450 format (/,1x,e15.8,3x,e15.8,3x,e15.8,3x,e15.8)
+  460 format (//,5x,'data on atomic orbitals',//,5x,'no. prim.',
+     1 2x,i4,5x,'no. of cont.',2x,i4)
+  470 format (//,5x,'no. primitives / contracted function',(/,10x,20(1x
+     1 ,i2)))
+  500 format(/,5x,'untransformed grid')
+  600 format(/,5x,'transformed grid')
+      end
+*deck makecn
+c***begin prologue     makecn
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           makecn, link 6001, numerical, orbital
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            numerical orbital tabulation
+c***description        calculates molecular orbitals on physical grid
+c***                   for integral calculation
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       makecn
+      subroutine makecn (fcon,grid,pre,rsq,anorm,ncon,nfmax,nptmx,
+     1                   nwrite,nwds,reg,prnt)
+      implicit integer (a-z)
+      parameter (dimpr=300 , dimcen=10)
+      real *8 grid, alf, cont, rloc, fcon, charge
+      real *8  pre, anorm, rsq
+      logical prnt
+      common /io/ inp,iout
+      common /aos/ npr, ndm, nxyzc(dimpr,4), alf(dimpr),cont(dimpr),
+     1             nprc(dimpr)
+      common /rloc/ charge(dimcen), rloc(3,dimcen)
+      dimension fcon(nptmx,nfmax), grid(4,nptmx), anorm(*)
+      dimension pre(nptmx), rsq(nptmx)
+c-----------------------------------------------------------------------c
+c                  set up file to hold                                  c
+c                  contracted ao's on grid                              c
+c                  nwbuf can hold at least one contracted               c
+c                  function for one buffer load of points               c
+c-----------------------------------------------------------------------c
+c-----------------------------------------------------------------------c
+c             calculate exponential factor associated                   c
+c             with each primitive in this contracted                    c
+c             function and use in all places                            c
+c                       that it occurs                                  c 
+c-----------------------------------------------------------------------c
+c-----------------------------------------------------------------------c
+c            loop over contracted functions                             c
+c-----------------------------------------------------------------------c 
+      wrdcnt=0
+      call rzero(fcon,nptmx*nfmax)
+      first=0
+      last=0
+      cntcon=0
+      con1=0
+      con2=0
+      do 10 con=1,ncon
+         cntcon=cntcon+1
+         first=first+1
+         last=last+nprc(con)
+         cen=nxyzc(first,4)
+c-----------------------------------------------------------------------c
+c                   points loop for factors                             c
+c                   depending only on contracted function               c
+c-----------------------------------------------------------------------c
+         do 20 i=1,nptmx
+            pre(i)=1.e+00
+   20    continue
+         if (nxyzc(first,1).ne.0) then
+             do 30 i=1,nptmx
+                pre(i)=pre(i)*(grid(1,i)-rloc(1,cen))**nxyzc(first,1)
+   30        continue
+         endif
+         if (nxyzc(first,2).ne.0) then
+             do 40 i=1,nptmx
+                pre(i)=pre(i)*(grid(2,i)-rloc(2,cen))**nxyzc(first,2)
+   40        continue
+         endif
+         if (nxyzc(first,3).ne.0) then
+             do 50 i=1,nptmx 
+                pre(i)=pre(i)*(grid(3,i)-rloc(3,cen))**nxyzc(first,3) 
+   50        continue
+         endif
+         do 60 i=1,nptmx
+            rsq(i)=(grid(1,i)-rloc(1,cen))*(grid(1,i)-rloc(1,cen))+
+     1          (grid(2,i)-rloc(2,cen))*(grid(2,i)-rloc(2,cen))+
+     2          (grid(3,i)-rloc(3,cen))*(grid(3,i)-rloc(3,cen))
+   60    continue
+c-----------------------------------------------------------------------c
+c              outer loop over primitives                               c
+c              inner over points                                        c
+c-----------------------------------------------------------------------c
+         do 70 prim=first,last
+            do 80 i=1,nptmx
+               fcon(i,cntcon)=fcon(i,cntcon)+cont(prim)*exp(-alf(prim)*
+     1                                                  rsq(i))
+   80       continue         
+   70    continue
+         do 90 i=1,nptmx
+            fcon(i,cntcon)=fcon(i,cntcon)*pre(i)
+c-----------------------------------------------------------------------c
+c                   calculate normalization as check                    c
+c-----------------------------------------------------------------------c
+            anorm(con)=anorm(con)+fcon(i,cntcon)*fcon(i,cntcon)*
+     1                                           grid(4,i)
+   90    continue
+         wrdcnt=wrdcnt+nptmx
+         if (cntcon.eq.nfmax) then
+c-----------------------------------------------------------------------c
+c                  print array if requested                             c
+c-----------------------------------------------------------------------c
+             if (prnt) then
+                 con1=con1+1
+                 con2=con2+nfmax
+                 call wrtorb(fcon,reg,con1,con2,nfmax,nptmx)
+                 con1=con2
+             endif
+c-----------------------------------------------------------------------c
+c                the array is filled dump it out                        c
+c-----------------------------------------------------------------------c
+             nwrite=nwrite+1
+             call iosys ('write real "con array" to orbs '//
+     1                   'without rewinding',wrdcnt,fcon,0,' ')
+             nwds=nwds+wrdcnt
+             wrdcnt=0
+             cntcon=0
+             call rzero(fcon,nptmx*nfmax)
+         endif
+            first=last
+   10 continue
+c----------------------------------------------------------------------c
+c                    get the dregs if any are left                     c
+c----------------------------------------------------------------------c
+      if (wrdcnt.ne.0) then
+          nwrite=nwrite+1
+          call iosys ('write real "con array" to orbs without '//
+     1                'rewinding',wrdcnt,fcon,0,' ')
+          nwds=nwds+wrdcnt
+      endif
+      if (prnt) then
+          con1=con1+1
+          con2=con2+nfmax
+          con2=min(con2,ncon)
+          call wrtorb(fcon,reg,con1,con2,nfmax,nptmx)
+      endif
+      return
+      end
+*deck wrtorb
+c***begin prologue     wrtorb
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           wrtorb, link 6001, orbital file
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            orbital print
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       wrtorb
+      subroutine wrtorb(fmo,reg,first,last,nfmax,npnts)
+      implicit integer (a-z)
+      real *8 fmo
+      common /io/ inp,iout
+      dimension fmo(npnts,nfmax)
+      write (iout,100) reg, npnts
+      concnt=0
+      do 10 i=first,last
+         concnt=concnt+1
+         write (iout,200) i
+         write(iout,300) (fmo(j,i),j=1,npnts)
+   10 continue
+  100 format (/,5x,'integration region',1x,i3,1x,'no. points',1x,i6)
+  200 format (/,5x,'contracted function',1x,i4)
+  300 format ( (/,5x,5(e15.8,1x)) )
+      return
+      end 
+*deck wrttpe
+c***begin prologue     wrttpe
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           wrttpe, link 6001, orbital file
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            orbital file setup
+c***description        sets up iosys file for numerical orbitals
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       wrttpe
+      subroutine wrttpe(file,grdtyp,ncen,ncon,nreg,npnts,pntbuf,
+     1                  nolst,aosym,group)
+      implicit integer (a-z)
+      parameter (dimpr=300 , dimcen=10)
+      real *8 rloc, charge
+      character * (*) file, aosym, group
+      character *11 titl
+      character *13 grdtyp
+      logical logky
+      dimension aosym(dimpr)
+      common /rloc/ charge(dimcen),rloc(3,dimcen) 
+      common/logprt/logky(5)
+      common/ io/ inp, iout
+      titl='"con array"'
+      call iosys ('write character "file title" to rwf',0,0,0,titl)
+      if (logky(2)) then
+          call iosys ('open orbs as new',npnts*20,0,0,file)
+      else
+          call iosys ('open orbs as new on ssd',npnts*20,0,0,file)
+          write (iout,500)
+      endif
+      call iosys ('write integer "orb dimen" to orbs',1,dimpr,0,' ')
+      call iosys ('write integer "centr dimen" to orbs',1,dimcen,0,' ')
+      call iosys ('write integer "no. centers" to orbs',1,ncen,0,0)
+      call iosys ('write real centers to orbs',3*dimcen,rloc,0,0) 
+      call iosys ('write real "nuclear charges" to orbs',dimcen,
+     1            charge,0,0)
+      call iosys ('write character group to orbs',0,0,0,group)
+      call iosys ('write integer "no. regions" to orbs',1,nreg,0,' ')
+      call iosys ('write character "grid type" to orbs',0,0,0,grdtyp)
+      call iosys ('write integer "no. grid pts" to orbs',1,npnts,0,' ')
+      call iosys ('write integer "point buffer" to orbs',1,pntbuf,
+     1            0,' ')
+      call iosys ('write integer "no. cont" to orbs',1,ncon,0,0)
+      call iosys ('write character symmetry to orbs',0,0,0,aosym)
+      call iosys ('write integer "final pts" to orbs',1,nolst,0,' ')
+      return
+  500 format (/,5x,'orbital file to ssd')
+      end
+*deck nlmval
+c***begin prologue     nlmval
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           nlmval, link 6001, bigmolli
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            translate character to integer nlm values
+c***references       
+c
+c***routines called
+c***end prologue       nlmval
+      subroutine nlmval (ntpe,n,l,m)
+      implicit integer (a-z)
+      character *3 name, ntpe
+      common /io/ inp, iout
+      common /stnlm/ name(20)
+      common /narry/ narry(20,3)
+      do 10 i=1,20
+         if (ntpe.ne.name(i)) go to 10
+         n=narry(i,1)
+         l=narry(i,2)
+         m=narry(i,3)
+         go to 20
+   10 continue
+      call lnkerr('error in ao type')
+   20 return
+c
+      end
+*deck overlp
+c***begin prologue     overlp
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           m6001, link 6001, overlap, normalization
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            normalization
+c***description        calculates overlap integrals needed
+c***                   for normalization of mo's
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       overlp
+      subroutine overlp(s,npr,norm)
+      implicit integer (a-z)
+      parameter (dimpr=300)
+      character *(*) norm
+      real *8 s, ddfct, alf, cont, pi
+      real *8 pi32, a1, a2, a3, a4, fac, fac1, fac2
+      real *8 alf1, alf2, al, sum
+      dimension s(npr), ddfct(10)
+      common /aos/ junk, ncon, nxyzc(dimpr,4), alf(dimpr), cont(dimpr),
+     1              nprc(dimpr)
+      data pi /3.14159265358979323846e+00/
+      pi32=sqrt(pi)
+      pi32=pi32*pi32*pi32
+      ddfct(1)=1.e+00
+      ddfct(2)=1.e+00
+      do 10 i=3,10
+         ddfct(i)=ddfct(i-1)*(2*i-3)
+  10  continue
+      if (norm.eq.'nrmlze') then
+      do 20 i=1,npr
+         l1=nxyzc(i,1)
+         l2=nxyzc(i,2)
+         l3=nxyzc(i,3)
+         l4=l1+1  
+         l5=l2+1
+         l6=l3+1
+         l7=l1+l2+l3
+         n1=2*l7
+         a1=pi/(2.e+00*alf(i))
+         a1=sqrt(a1)
+         a1=a1*a1*a1
+         a2=ddfct(l4)*ddfct(l5)*ddfct(l6)
+         a3=(2.e+00)**n1
+         a4=alf(i)**l7
+         s(i)=a1*a2/(a3*a4)
+         s(i)=1.e+00/sqrt(s(i))
+         cont(i)=cont(i)*s(i)
+   20 continue
+      endif
+      ntot=0
+      do 80 i=1,ncon
+         ilwr=ntot+1
+         iupr=ntot+nprc(i)
+         l1=nxyzc(ilwr,1)
+         m1=nxyzc(ilwr,2)
+         n1=nxyzc(ilwr,3)
+         fac1=ddfct(l1+1)*ddfct(m1+1)*ddfct(n1+1)
+         fac1=fac1*pi32
+         ltot=l1+m1+n1
+         fac2=(2.e+00)**ltot
+         fac1=fac1/fac2
+         icnt=0
+         do 50 j=ilwr,iupr
+            do 40 k=ilwr,j
+               al=alf(j)+alf(k)
+               alf1=al**ltot
+               alf2=al*sqrt(al)
+               fac=alf1*alf2
+               fac=1.e+00/fac
+               icnt=icnt+1
+               s(icnt)=fac1*fac
+               if (j.ne.k) then
+                   s(icnt)=2.e+00*s(icnt)
+               endif
+   40       continue
+   50    continue
+         icnt=0
+         sum=0.e+00
+         do 60 j=ilwr,iupr
+            do 60 k=ilwr,j
+               icnt=icnt+1
+               sum=sum+cont(j)*s(icnt)*cont(k)
+   60    continue
+         sum=1.e+00/sqrt(sum)
+         do 70 j=ilwr,iupr
+            cont(j)=cont(j)*sum
+   70    continue
+         ntot=ntot+nprc(i)
+   80 continue
+      return
+      end
+*deck rdbsis
+c***begin prologue     rdbsis
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           rdbsis, link 6001, bigmolli
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            read in cartesian ao basis parameters
+c***description        fills up arrays with numerical values of n, l, m
+c***                   and center from bigmolli input tape
+c*** 
+c
+c***references       
+c
+c***routines called
+c***end prologue       rdbsis
+      subroutine rdbsis(ntot,mxprcn,aosym,file)
+      implicit integer (a-z)
+      parameter (dimpr=300)
+      real *8 alf, cont, eta
+      character *(*) aosym
+      dimension ibuff(4096), aosym(dimpr)
+      common /aos/ npr, ncon, nxyzc(dimpr,4), alf(dimpr), cont(dimpr), 
+     1             nprc(dimpr)
+      common /stnlm/ name(20)
+      common /narry/ narry(20,3)
+      common /factr/ nfirst(dimpr), nlast(dimpr), ncntr(dimpr), 
+     1               ntype(dimpr), eta(dimpr,5)
+      character *(*) file
+      character *3 name, ntpe
+c     need to change this to standard open or cos compatible
+c     assign
+      call qassign(14,file,ibuff,4096)
+      rewind 14
+      read (14)
+      read (14) ncon,(nfirst(i),nlast(i),ncntr(i),ntype(i),i=1,ncon)
+      mxprcn=0
+      do 10 i=1,ncon
+         nprc(i)=nlast(i)-nfirst(i)+1
+         mxprcn=max(mxprcn,nprc(i))
+   10 continue    
+      read (14) npr,((eta(i,j),j=1,5),i=1,npr)
+      ntot=0
+      do 30 i=1,ncon
+         ntpe=name(ntype(i))
+         aosym(i)=ntpe
+         call nlmval (ntpe,n1,n2,n3)
+         do 20 j=1,nprc(i)
+            ntot=ntot+1
+            nxyzc(ntot,1)=n1
+            nxyzc(ntot,2)=n2
+            nxyzc(ntot,3)=n3
+            nxyzc(ntot,4)=ncntr(i)
+            alf(ntot)=eta(ntot,4)
+            cont(ntot)=eta(ntot,5)
+   20    continue
+   30 continue
+      rewind 14
+      call close(14)
+      return
+      end
+*deck setnlm
+c***begin prologue     setnlm
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           setnlm, link 6001, nlm 
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            initialize cartesian nlm values to f orbitals
+c***description        fills up array with numerical values of n, l, and m
+c***                   for aos up to f functions
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       setnlm
+      subroutine setnlm
+      common /io/ inp, iout
+      common /stnlm/ name(20)
+      common /narry/ narry(20,3)
+      character *3 name
+      data name /'s','x','y','z','xx','yy','zz','xy','xz','yz','xxx','yy
+     1y','zzz','xxy','xxz','xyy','yyz','xzz','yzz','xyz'/
+      do 10 i=1,20
+      do 10 j=1,3
+   10 narry(i,j)=0
+      narry(2,1)=1
+      narry(3,2)=1
+      narry(4,3)=1
+      narry(5,1)=2
+      narry(6,2)=2
+      narry(7,3)=2
+      narry(8,1)=1
+      narry(8,2)=1
+      narry(9,1)=1
+      narry(9,3)=1
+      narry(10,2)=1
+      narry(10,3)=1
+      narry(11,1)=3
+      narry(12,2)=3
+      narry(13,3)=3
+      narry(14,1)=2
+      narry(14,2)=1
+      narry(15,1)=2
+      narry(15,3)=1
+      narry(16,1)=1
+      narry(16,2)=2
+      narry(17,2)=2
+      narry(17,3)=1
+      narry(18,1)=1
+      narry(18,3)=2
+      narry(19,2)=1
+      narry(19,3)=2
+      narry(20,1)=1
+      narry(20,2)=1
+      narry(20,3)=1
+      return
+      end
+*deck wrtbas
+c***begin prologue     wrtbas
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           wrtbas, link 6001, basis
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            output basis information
+c*** 
+c
+c***references       
+c
+c***routines called  
+c***end prologue       wrtbas
+      subroutine wrtbas (ntot)
+      implicit integer (a-z)
+      parameter (dimpr=300)
+      real *8 alf, cont
+      character *3 aosym, inorm
+      character *8 itp, icon
+      common /io/ inp, iout
+      common /aos/ npr, ncon, nxyzc(dimpr,4), alf(dimpr), cont(dimpr),
+     1             nprc(dimpr)
+      common/chrpss/ itp(3), icon(10), inorm, aosym(dimpr)
+      write (iout,30)
+      ntot=0
+      do 10 i=1,ncon
+         do 10 j=1,nprc(i)
+            ntot=ntot+1
+      write (iout,20) i,ntot,aosym(i),nxyzc(ntot,4),alf(ntot),cont(ntot)
+   10 continue
+      return
+c
+   30 format(/,5x,'con fn',3x,'ao',2x,'sym',4x,'cen',9x,'exp',11x,'coef'
+     1      )
+   20 format(/,7x,i3,3x,i3,3x,a3,4x,i2,3x,f12.5,2x,f12.5)
+      end
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,25 @@
+$route
+ print=grid voronoi=xoff
+ xexponential-scattering-grid-cutoff=10.d0 scattering-grid-cutoff=10.d0
+ no-scattering-center 
+$end
+$nonstd
+     62//00;
+     20//01;
+$end
+$title
+ Test Of Grid Code
+$end
+$centers
+ no-atomic-centers=1
+ position-center-1=(0.,0.,0.) charge-center-1=1.0 exponent-center-1=1.5
+ scattering-center-position=(0.,0.,0.)
+$end
+$quadrature-atom-1
+ no-radial-shells=1 theta-quadrature-order=1 phi-quadrature-order=1
+ radial-quadrature-orders=30  radial-boundaries=(0.0,10.)
+$end
+$quadrature-scattering-center
+ no-radial-shells=1 theta-quadrature-order=1 phi-quadrature-order=1
+ radial-quadrature-orders=(10)  radial-boundaries=(0.0,10.)
+$end

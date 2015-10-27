@@ -1,0 +1,66 @@
+$route
+maxsiz=900000
+2s+1=3
+print=(basis,scf=vector)
+hf scf=(pulay,cycles=64)
+guess=(core)
+Basis=dz,Sym=Off,ci=(nroots=1,tolerance=3),drt=(rdsym)
+$end
+ 
+ 
+$title
+ O3 test case: SCF
+$geom
+O
+O1 O r1
+O2 O r2 O1 a1
+ 
+r1=1.949
+r2=1.949
+a1=112.3
+$end
+ 
+$dzp H
+/
+/ HYDROGEN       SCALED BY 1.2
+ TYPE=S
+         19.2406     0.032828
+          2.8992     0.231208
+          0.6534     0.817238
+ TYPE=S
+          0.1776     1.0
+ TYPE=P
+          1.0000     1.0
+$END
+ 
+$qzp O
+$include tz O
+type=d
+  1.275  1.0
+  0.566  1.0
+$end
+/
+/ OXYGEN
+  TYPE=S
+       7816.5400     0.002031
+       1175.8200     0.015436
+        273.1880     0.073771
+         81.1696     0.247606
+         27.1836     0.611832
+          3.4136     0.241205
+  TYPE=S
+          9.5322     1.0
+  TYPE=S
+          0.9398     1.0
+  TYPE=S
+          0.2846     1.0
+   TYPE=P
+         35.1832     0.019580
+          7.9040     0.124189
+          2.3051     0.394727
+          0.7171     0.627375
+   TYPE=P
+          0.2137     1.0
+   TYPE=D
+          0.85      1.0
+$END

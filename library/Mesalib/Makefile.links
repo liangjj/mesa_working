@@ -1,0 +1,107 @@
+#  @(#)Makefile	5.1 11/6/94
+#
+# Makefile for making the main Mesa links
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables for the fortran compiler
+# and the various flags and libraries needed.
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+
+MAKE = make
+MFLAGS = 
+RCS = RCS
+
+MESA_DIRECTORY = \
+	$(MESA_HOME)/m0 \
+	$(MESA_HOME)/m1 \
+	$(MESA_HOME)/m101 \
+	$(MESA_HOME)/m102 \
+	$(MESA_HOME)/m103 \
+	$(MESA_HOME)/m104 \
+	$(MESA_HOME)/m201 \
+	$(MESA_HOME)/m202bis \
+	$(MESA_HOME)/m301 \
+	$(MESA_HOME)/m302 \
+	$(MESA_HOME)/m312 \
+	$(MESA_HOME)/m330 \
+	$(MESA_HOME)/m412 \
+	$(MESA_HOME)/m501 \
+	$(MESA_HOME)/m502 \
+	$(MESA_HOME)/m602 \
+	$(MESA_HOME)/m806bis \
+	$(MESA_HOME)/m811bis \
+	$(MESA_HOME)/m819 \
+	$(MESA_HOME)/m822 \
+	$(MESA_HOME)/m901 \
+	$(MESA_HOME)/m905 \
+	$(MESA_HOME)/m940bis \
+	$(MESA_HOME)/m921 \
+	$(MESA_HOME)/m929 \
+	$(MESA_HOME)/m2001
+
+all: $(MESA_DIRECTORY)
+
+.RECURSIVE: $(MESA_DIRECTORY) 
+$(LIB_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+directory: FORCE
+	cd $(MESA_HOME)/m0 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m1 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m101 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m102 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m103 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m104 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m201 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m202 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m301 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m302 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m312 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m330 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m412 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m501 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m502 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m602 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m806 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m811 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m819 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m822 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m901 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m905 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m940 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m921 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m929 ; $(MAKE) $(MFLAGS) directory
+	cd $(MESA_HOME)/m2001; $(MAKE) $(MFLAGS) directory
+
+clean: FORCE
+	cd $(MESA_HOME)/m0 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m1 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m101 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m102 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m103 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m104 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m201 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m202 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m301 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m302 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m312 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m330 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m412 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m501 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m502 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m602 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m806 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m811 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m819 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m822 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m901 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m905 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m940 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m921 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m929 ; $(MAKE) $(MFLAGS) clean
+	cd $(MESA_HOME)/m2001; $(MAKE) $(MFLAGS) clean
+
+
+FORCE:
+

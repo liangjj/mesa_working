@@ -1,0 +1,3651 @@
+ 
+
+                    solve time-dependent schrodinger equation in
+                              imaginary time  
+
+                    algorithm = split_operator          
+                    number of variables = 1
+
+                         time-dependent data
+     coordinate system          =         cartesian               
+     units                      = atomic-units                    
+     non-linear potential       = F
+     no spatial hamiltonian     = F
+     calculate eigenvalues      = T
+     kinetic energy type        =         packed  
+     automatic point generation = F
+     calculate projections      = F
+
+     propagation order          = 4
+     diagonal modification      = none                    
+
+     number of time intervals = 5000
+     time step                =           0.00050000
+
+                    coordinate = x                       
+
+                    generating dvr representation in space
+
+ number of fixed points = 2
+
+               left point fixed    = T
+               left point dropped  = T
+               right point fixed   = T
+               right point dropped = T
+
+ point generation automated
+
+ block =   1
+               polynomial order     =    5
+               number of subregions =    3
+               left hand boundary   =  0.00000000E+00
+               right hand boundary  =  0.10000000E+01
+
+      size of the physical basis set =    14
+
+ potential type = well                            
+ angular momentum =   0
+
+ potential type = well                            
+ angular momentum =   0
+
+ potential type = well                            
+ angular momentum =   0
+
+          Diagonalize Full Hamiltonian
+
+          Diagonalize Kinetic Energy Hamiltonian
+
+ Entering Propagation for a 1 dimensional problem
+ Spatial discretization is FEDVR    Number of Points =         14
+
+               Regional Information for DVR Basis, Variable =  1
+
+                 Region     Number of Functions     Type
+                   1                  5             real
+                   2                  6             real
+                   3                  5             real
+
+ space and time    = none                            
+ non-linear        = none                            
+
+     units = atomic-units    
+************************************************************************
+          Time to input basic data               =      0.00390625
+
+          Time to compute global FEDVR spatial 
+          matrices                               =      0.00390625
+
+          Time to compute the regional spatial 
+          matrices                               =      0.00000000
+
+          Time to enter potential parameters     =      0.00000000
+************************************************************************
+
+ initial state data
+ type initial state = gaussian-pulse          
+
+               Sector Time Propagtors Variable =  1
+Constructing Propagators for Sectors with Real Potentials
+
+          Constructing the Propagators for order =  4
+          Exponential factor                     =  0.41449077E+00
+
+          Number of Propagator Passes            = 2
+
+          Pass                                   = 1
+          p_fac                                  =  0.41449077E+00
+
+     Sector =     1
+
+     Sector =     3
+
+     Sector =     2
+
+          Pass                                   = 2
+          p_fac                                  = -0.65796309E+00
+
+     Sector =     1
+
+     Sector =     3
+
+     Sector =     2
+
+ overlap integral for gaussian packet =  0.11691106E+01
+
+     initial wavepacket at t=0
+
+     the form of the cartesian packet is:
+
+
+     psi = exp[ - alpha_x * ( x - x_0 )**2 / (2*(sigma_x)**2) - i*beta_x*(x-x_0) ]
+
+ gaussian wave packet parameters
+
+ alpha_x    =  0.10000000E+01
+
+ sigma_x    =  0.10000000E+01
+
+ x_0        =  0.00000000E+00
+
+ n_x        =  0
+
+ beta_x     =  0.10000000E+01
+************************************************************************
+
+                    Begin Split Operator Propagation
+************************************************************************
+
+     Time Step     =      1     Time =      0.00050000
+     Normalization =  0.97524588E+00 Energy    =  0.21999607E+02
+
+     Time Step     =      2     Time =      0.00100000
+     Normalization =  0.98051074E+00 Energy    =  0.17661228E+02
+
+     Time Step     =      3     Time =      0.00150000
+     Normalization =  0.98401120E+00 Energy    =  0.14764205E+02
+
+     Time Step     =      4     Time =      0.00200000
+     Normalization =  0.98637913E+00 Energy    =  0.12785710E+02
+
+     Time Step     =      5     Time =      0.00250000
+     Normalization =  0.98802055E+00 Energy    =  0.11395753E+02
+
+     Time Step     =      6     Time =      0.00300000
+     Normalization =  0.98919279E+00 Energy    =  0.10387207E+02
+
+     Time Step     =      7     Time =      0.00350000
+     Normalization =  0.99005811E+00 Energy    =  0.96299944E+01
+
+     Time Step     =      8     Time =      0.00400000
+     Normalization =  0.99071892E+00 Energy    =  0.90419813E+01
+
+     Time Step     =      9     Time =      0.00450000
+     Normalization =  0.99124031E+00 Energy    =  0.85708075E+01
+
+     Time Step     =     10     Time =      0.00500000
+     Normalization =  0.99166407E+00 Energy    =  0.81826393E+01
+
+     Time Step     =     11     Time =      0.00550000
+     Normalization =  0.99201745E+00 Energy    =  0.78552353E+01
+
+     Time Step     =     12     Time =      0.00600000
+     Normalization =  0.99231854E+00 Energy    =  0.75736697E+01
+
+     Time Step     =     13     Time =      0.00650000
+     Normalization =  0.99257962E+00 Energy    =  0.73276872E+01
+
+     Time Step     =     14     Time =      0.00700000
+     Normalization =  0.99280923E+00 Energy    =  0.71100573E+01
+
+     Time Step     =     15     Time =      0.00750000
+     Normalization =  0.99301347E+00 Energy    =  0.69155432E+01
+
+     Time Step     =     16     Time =      0.00800000
+     Normalization =  0.99319682E+00 Energy    =  0.67402485E+01
+
+     Time Step     =     17     Time =      0.00850000
+     Normalization =  0.99336265E+00 Energy    =  0.65811983E+01
+
+     Time Step     =     18     Time =      0.00900000
+     Normalization =  0.99351357E+00 Energy    =  0.64360672E+01
+
+     Time Step     =     19     Time =      0.00950000
+     Normalization =  0.99365164E+00 Energy    =  0.63029979E+01
+
+     Time Step     =     20     Time =      0.01000000
+     Normalization =  0.99377852E+00 Energy    =  0.61804801E+01
+
+     Time Step     =     21     Time =      0.01050000
+     Normalization =  0.99389557E+00 Energy    =  0.60672659E+01
+
+     Time Step     =     22     Time =      0.01100000
+     Normalization =  0.99400391E+00 Energy    =  0.59623104E+01
+
+     Time Step     =     23     Time =      0.01150000
+     Normalization =  0.99410451E+00 Energy    =  0.58647291E+01
+
+     Time Step     =     24     Time =      0.01200000
+     Normalization =  0.99419817E+00 Energy    =  0.57737658E+01
+
+     Time Step     =     25     Time =      0.01250000
+     Normalization =  0.99428560E+00 Energy    =  0.56887693E+01
+
+     Time Step     =     26     Time =      0.01300000
+     Normalization =  0.99436738E+00 Energy    =  0.56091745E+01
+
+     Time Step     =     27     Time =      0.01350000
+     Normalization =  0.99444405E+00 Energy    =  0.55344882E+01
+
+     Time Step     =     28     Time =      0.01400000
+     Normalization =  0.99451607E+00 Energy    =  0.54642777E+01
+
+     Time Step     =     29     Time =      0.01450000
+     Normalization =  0.99458383E+00 Energy    =  0.53981616E+01
+
+     Time Step     =     30     Time =      0.01500000
+     Normalization =  0.99464769E+00 Energy    =  0.53358019E+01
+
+     Time Step     =     31     Time =      0.01550000
+     Normalization =  0.99470798E+00 Energy    =  0.52768985E+01
+
+     Time Step     =     32     Time =      0.01600000
+     Normalization =  0.99476497E+00 Energy    =  0.52211835E+01
+
+     Time Step     =     33     Time =      0.01650000
+     Normalization =  0.99481891E+00 Energy    =  0.51684169E+01
+
+     Time Step     =     34     Time =      0.01700000
+     Normalization =  0.99487002E+00 Energy    =  0.51183833E+01
+
+     Time Step     =     35     Time =      0.01750000
+     Normalization =  0.99491852E+00 Energy    =  0.50708887E+01
+
+     Time Step     =     36     Time =      0.01800000
+     Normalization =  0.99496459E+00 Energy    =  0.50257575E+01
+
+     Time Step     =     37     Time =      0.01850000
+     Normalization =  0.99500838E+00 Energy    =  0.49828310E+01
+
+     Time Step     =     38     Time =      0.01900000
+     Normalization =  0.99505006E+00 Energy    =  0.49419647E+01
+
+     Time Step     =     39     Time =      0.01950000
+     Normalization =  0.99508976E+00 Energy    =  0.49030272E+01
+
+     Time Step     =     40     Time =      0.02000000
+     Normalization =  0.99512759E+00 Energy    =  0.48658983E+01
+
+     Time Step     =     41     Time =      0.02050000
+     Normalization =  0.99516369E+00 Energy    =  0.48304681E+01
+
+     Time Step     =     42     Time =      0.02100000
+     Normalization =  0.99519814E+00 Energy    =  0.47966360E+01
+
+     Time Step     =     43     Time =      0.02150000
+     Normalization =  0.99523106E+00 Energy    =  0.47643093E+01
+
+     Time Step     =     44     Time =      0.02200000
+     Normalization =  0.99526252E+00 Energy    =  0.47334024E+01
+
+     Time Step     =     45     Time =      0.02250000
+     Normalization =  0.99529261E+00 Energy    =  0.47038368E+01
+
+     Time Step     =     46     Time =      0.02300000
+     Normalization =  0.99532140E+00 Energy    =  0.46755394E+01
+
+     Time Step     =     47     Time =      0.02350000
+     Normalization =  0.99534896E+00 Energy    =  0.46484427E+01
+
+     Time Step     =     48     Time =      0.02400000
+     Normalization =  0.99537536E+00 Energy    =  0.46224840E+01
+
+     Time Step     =     49     Time =      0.02450000
+     Normalization =  0.99540065E+00 Energy    =  0.45976049E+01
+
+     Time Step     =     50     Time =      0.02500000
+     Normalization =  0.99542491E+00 Energy    =  0.45737510E+01
+
+     Time Step     =     51     Time =      0.02550000
+     Normalization =  0.99544816E+00 Energy    =  0.45508716E+01
+
+     Time Step     =     52     Time =      0.02600000
+     Normalization =  0.99547047E+00 Energy    =  0.45289192E+01
+
+     Time Step     =     53     Time =      0.02650000
+     Normalization =  0.99549188E+00 Energy    =  0.45078494E+01
+
+     Time Step     =     54     Time =      0.02700000
+     Normalization =  0.99551244E+00 Energy    =  0.44876204E+01
+
+     Time Step     =     55     Time =      0.02750000
+     Normalization =  0.99553217E+00 Energy    =  0.44681931E+01
+
+     Time Step     =     56     Time =      0.02800000
+     Normalization =  0.99555113E+00 Energy    =  0.44495308E+01
+
+     Time Step     =     57     Time =      0.02850000
+     Normalization =  0.99556934E+00 Energy    =  0.44315987E+01
+
+     Time Step     =     58     Time =      0.02900000
+     Normalization =  0.99558684E+00 Energy    =  0.44143641E+01
+
+     Time Step     =     59     Time =      0.02950000
+     Normalization =  0.99560367E+00 Energy    =  0.43977962E+01
+
+     Time Step     =     60     Time =      0.03000000
+     Normalization =  0.99561984E+00 Energy    =  0.43818658E+01
+
+     Time Step     =     61     Time =      0.03050000
+     Normalization =  0.99563540E+00 Energy    =  0.43665452E+01
+
+     Time Step     =     62     Time =      0.03100000
+     Normalization =  0.99565036E+00 Energy    =  0.43518084E+01
+
+     Time Step     =     63     Time =      0.03150000
+     Normalization =  0.99566475E+00 Energy    =  0.43376305E+01
+
+     Time Step     =     64     Time =      0.03200000
+     Normalization =  0.99567860E+00 Energy    =  0.43239879E+01
+
+     Time Step     =     65     Time =      0.03250000
+     Normalization =  0.99569193E+00 Energy    =  0.43108584E+01
+
+     Time Step     =     66     Time =      0.03300000
+     Normalization =  0.99570476E+00 Energy    =  0.42982207E+01
+
+     Time Step     =     67     Time =      0.03350000
+     Normalization =  0.99571710E+00 Energy    =  0.42860545E+01
+
+     Time Step     =     68     Time =      0.03400000
+     Normalization =  0.99572899E+00 Energy    =  0.42743406E+01
+
+     Time Step     =     69     Time =      0.03450000
+     Normalization =  0.99574044E+00 Energy    =  0.42630606E+01
+
+     Time Step     =     70     Time =      0.03500000
+     Normalization =  0.99575146E+00 Energy    =  0.42521970E+01
+
+     Time Step     =     71     Time =      0.03550000
+     Normalization =  0.99576208E+00 Energy    =  0.42417332E+01
+
+     Time Step     =     72     Time =      0.03600000
+     Normalization =  0.99577230E+00 Energy    =  0.42316532E+01
+
+     Time Step     =     73     Time =      0.03650000
+     Normalization =  0.99578216E+00 Energy    =  0.42219418E+01
+
+     Time Step     =     74     Time =      0.03700000
+     Normalization =  0.99579165E+00 Energy    =  0.42125843E+01
+
+     Time Step     =     75     Time =      0.03750000
+     Normalization =  0.99580080E+00 Energy    =  0.42035670E+01
+
+     Time Step     =     76     Time =      0.03800000
+     Normalization =  0.99580961E+00 Energy    =  0.41948765E+01
+
+     Time Step     =     77     Time =      0.03850000
+     Normalization =  0.99581811E+00 Energy    =  0.41865001E+01
+
+     Time Step     =     78     Time =      0.03900000
+     Normalization =  0.99582630E+00 Energy    =  0.41784255E+01
+
+     Time Step     =     79     Time =      0.03950000
+     Normalization =  0.99583420E+00 Energy    =  0.41706412E+01
+
+     Time Step     =     80     Time =      0.04000000
+     Normalization =  0.99584181E+00 Energy    =  0.41631358E+01
+
+     Time Step     =     81     Time =      0.04050000
+     Normalization =  0.99584915E+00 Energy    =  0.41558988E+01
+
+     Time Step     =     82     Time =      0.04100000
+     Normalization =  0.99585623E+00 Energy    =  0.41489198E+01
+
+     Time Step     =     83     Time =      0.04150000
+     Normalization =  0.99586305E+00 Energy    =  0.41421889E+01
+
+     Time Step     =     84     Time =      0.04200000
+     Normalization =  0.99586964E+00 Energy    =  0.41356968E+01
+
+     Time Step     =     85     Time =      0.04250000
+     Normalization =  0.99587599E+00 Energy    =  0.41294343E+01
+
+     Time Step     =     86     Time =      0.04300000
+     Normalization =  0.99588211E+00 Energy    =  0.41233928E+01
+
+     Time Step     =     87     Time =      0.04350000
+     Normalization =  0.99588802E+00 Energy    =  0.41175638E+01
+
+     Time Step     =     88     Time =      0.04400000
+     Normalization =  0.99589372E+00 Energy    =  0.41119395E+01
+
+     Time Step     =     89     Time =      0.04450000
+     Normalization =  0.99589923E+00 Energy    =  0.41065120E+01
+
+     Time Step     =     90     Time =      0.04500000
+     Normalization =  0.99590454E+00 Energy    =  0.41012741E+01
+
+     Time Step     =     91     Time =      0.04550000
+     Normalization =  0.99590966E+00 Energy    =  0.40962185E+01
+
+     Time Step     =     92     Time =      0.04600000
+     Normalization =  0.99591461E+00 Energy    =  0.40913386E+01
+
+     Time Step     =     93     Time =      0.04650000
+     Normalization =  0.99591939E+00 Energy    =  0.40866276E+01
+
+     Time Step     =     94     Time =      0.04700000
+     Normalization =  0.99592400E+00 Energy    =  0.40820794E+01
+
+     Time Step     =     95     Time =      0.04750000
+     Normalization =  0.99592845E+00 Energy    =  0.40776879E+01
+
+     Time Step     =     96     Time =      0.04800000
+     Normalization =  0.99593275E+00 Energy    =  0.40734473E+01
+
+     Time Step     =     97     Time =      0.04850000
+     Normalization =  0.99593690E+00 Energy    =  0.40693520E+01
+
+     Time Step     =     98     Time =      0.04900000
+     Normalization =  0.99594090E+00 Energy    =  0.40653966E+01
+
+     Time Step     =     99     Time =      0.04950000
+     Normalization =  0.99594478E+00 Energy    =  0.40615759E+01
+
+     Time Step     =    100     Time =      0.05000000
+     Normalization =  0.99594852E+00 Energy    =  0.40578851E+01
+
+     Time Step     =    101     Time =      0.05050000
+     Normalization =  0.99595213E+00 Energy    =  0.40543192E+01
+
+     Time Step     =    102     Time =      0.05100000
+     Normalization =  0.99595562E+00 Energy    =  0.40508738E+01
+
+     Time Step     =    103     Time =      0.05150000
+     Normalization =  0.99595899E+00 Energy    =  0.40475445E+01
+
+     Time Step     =    104     Time =      0.05200000
+     Normalization =  0.99596225E+00 Energy    =  0.40443268E+01
+
+     Time Step     =    105     Time =      0.05250000
+     Normalization =  0.99596541E+00 Energy    =  0.40412169E+01
+
+     Time Step     =    106     Time =      0.05300000
+     Normalization =  0.99596845E+00 Energy    =  0.40382108E+01
+
+     Time Step     =    107     Time =      0.05350000
+     Normalization =  0.99597139E+00 Energy    =  0.40353046E+01
+
+     Time Step     =    108     Time =      0.05400000
+     Normalization =  0.99597424E+00 Energy    =  0.40324948E+01
+
+     Time Step     =    109     Time =      0.05450000
+     Normalization =  0.99597699E+00 Energy    =  0.40297778E+01
+
+     Time Step     =    110     Time =      0.05500000
+     Normalization =  0.99597965E+00 Energy    =  0.40271504E+01
+
+     Time Step     =    111     Time =      0.05550000
+     Normalization =  0.99598223E+00 Energy    =  0.40246092E+01
+
+     Time Step     =    112     Time =      0.05600000
+     Normalization =  0.99598472E+00 Energy    =  0.40221511E+01
+
+     Time Step     =    113     Time =      0.05650000
+     Normalization =  0.99598713E+00 Energy    =  0.40197732E+01
+
+     Time Step     =    114     Time =      0.05700000
+     Normalization =  0.99598946E+00 Energy    =  0.40174726E+01
+
+     Time Step     =    115     Time =      0.05750000
+     Normalization =  0.99599171E+00 Energy    =  0.40152465E+01
+
+     Time Step     =    116     Time =      0.05800000
+     Normalization =  0.99599389E+00 Energy    =  0.40130922E+01
+
+     Time Step     =    117     Time =      0.05850000
+     Normalization =  0.99599600E+00 Energy    =  0.40110071E+01
+
+     Time Step     =    118     Time =      0.05900000
+     Normalization =  0.99599805E+00 Energy    =  0.40089888E+01
+
+     Time Step     =    119     Time =      0.05950000
+     Normalization =  0.99600002E+00 Energy    =  0.40070350E+01
+
+     Time Step     =    120     Time =      0.06000000
+     Normalization =  0.99600194E+00 Energy    =  0.40051432E+01
+
+     Time Step     =    121     Time =      0.06050000
+     Normalization =  0.99600379E+00 Energy    =  0.40033113E+01
+
+     Time Step     =    122     Time =      0.06100000
+     Normalization =  0.99600559E+00 Energy    =  0.40015373E+01
+
+     Time Step     =    123     Time =      0.06150000
+     Normalization =  0.99600733E+00 Energy    =  0.39998190E+01
+
+     Time Step     =    124     Time =      0.06200000
+     Normalization =  0.99600901E+00 Energy    =  0.39981544E+01
+
+     Time Step     =    125     Time =      0.06250000
+     Normalization =  0.99601064E+00 Energy    =  0.39965418E+01
+
+     Time Step     =    126     Time =      0.06300000
+     Normalization =  0.99601222E+00 Energy    =  0.39949792E+01
+
+     Time Step     =    127     Time =      0.06350000
+     Normalization =  0.99601376E+00 Energy    =  0.39934649E+01
+
+     Time Step     =    128     Time =      0.06400000
+     Normalization =  0.99601524E+00 Energy    =  0.39919972E+01
+
+     Time Step     =    129     Time =      0.06450000
+     Normalization =  0.99601668E+00 Energy    =  0.39905745E+01
+
+     Time Step     =    130     Time =      0.06500000
+     Normalization =  0.99601808E+00 Energy    =  0.39891952E+01
+
+     Time Step     =    131     Time =      0.06550000
+     Normalization =  0.99601943E+00 Energy    =  0.39878579E+01
+
+     Time Step     =    132     Time =      0.06600000
+     Normalization =  0.99602074E+00 Energy    =  0.39865610E+01
+
+     Time Step     =    133     Time =      0.06650000
+     Normalization =  0.99602201E+00 Energy    =  0.39853032E+01
+
+     Time Step     =    134     Time =      0.06700000
+     Normalization =  0.99602325E+00 Energy    =  0.39840830E+01
+
+     Time Step     =    135     Time =      0.06750000
+     Normalization =  0.99602444E+00 Energy    =  0.39828993E+01
+
+     Time Step     =    136     Time =      0.06800000
+     Normalization =  0.99602561E+00 Energy    =  0.39817508E+01
+
+     Time Step     =    137     Time =      0.06850000
+     Normalization =  0.99602673E+00 Energy    =  0.39806362E+01
+
+     Time Step     =    138     Time =      0.06900000
+     Normalization =  0.99602783E+00 Energy    =  0.39795545E+01
+
+     Time Step     =    139     Time =      0.06950000
+     Normalization =  0.99602889E+00 Energy    =  0.39785044E+01
+
+     Time Step     =    140     Time =      0.07000000
+     Normalization =  0.99602992E+00 Energy    =  0.39774849E+01
+
+     Time Step     =    141     Time =      0.07050000
+     Normalization =  0.99603092E+00 Energy    =  0.39764950E+01
+
+     Time Step     =    142     Time =      0.07100000
+     Normalization =  0.99603189E+00 Energy    =  0.39755337E+01
+
+     Time Step     =    143     Time =      0.07150000
+     Normalization =  0.99603284E+00 Energy    =  0.39746000E+01
+
+     Time Step     =    144     Time =      0.07200000
+     Normalization =  0.99603375E+00 Energy    =  0.39736930E+01
+
+     Time Step     =    145     Time =      0.07250000
+     Normalization =  0.99603464E+00 Energy    =  0.39728117E+01
+
+     Time Step     =    146     Time =      0.07300000
+     Normalization =  0.99603551E+00 Energy    =  0.39719554E+01
+
+     Time Step     =    147     Time =      0.07350000
+     Normalization =  0.99603635E+00 Energy    =  0.39711232E+01
+
+     Time Step     =    148     Time =      0.07400000
+     Normalization =  0.99603717E+00 Energy    =  0.39703143E+01
+
+     Time Step     =    149     Time =      0.07450000
+     Normalization =  0.99603796E+00 Energy    =  0.39695280E+01
+
+     Time Step     =    150     Time =      0.07500000
+     Normalization =  0.99603873E+00 Energy    =  0.39687634E+01
+
+     Time Step     =    151     Time =      0.07550000
+     Normalization =  0.99603948E+00 Energy    =  0.39680199E+01
+
+     Time Step     =    152     Time =      0.07600000
+     Normalization =  0.99604021E+00 Energy    =  0.39672968E+01
+
+     Time Step     =    153     Time =      0.07650000
+     Normalization =  0.99604092E+00 Energy    =  0.39665933E+01
+
+     Time Step     =    154     Time =      0.07700000
+     Normalization =  0.99604162E+00 Energy    =  0.39659090E+01
+
+     Time Step     =    155     Time =      0.07750000
+     Normalization =  0.99604229E+00 Energy    =  0.39652431E+01
+
+     Time Step     =    156     Time =      0.07800000
+     Normalization =  0.99604294E+00 Energy    =  0.39645951E+01
+
+     Time Step     =    157     Time =      0.07850000
+     Normalization =  0.99604358E+00 Energy    =  0.39639644E+01
+
+     Time Step     =    158     Time =      0.07900000
+     Normalization =  0.99604420E+00 Energy    =  0.39633504E+01
+
+     Time Step     =    159     Time =      0.07950000
+     Normalization =  0.99604480E+00 Energy    =  0.39627526E+01
+
+     Time Step     =    160     Time =      0.08000000
+     Normalization =  0.99604539E+00 Energy    =  0.39621705E+01
+
+     Time Step     =    161     Time =      0.08050000
+     Normalization =  0.99604596E+00 Energy    =  0.39616036E+01
+
+     Time Step     =    162     Time =      0.08100000
+     Normalization =  0.99604652E+00 Energy    =  0.39610514E+01
+
+     Time Step     =    163     Time =      0.08150000
+     Normalization =  0.99604706E+00 Energy    =  0.39605134E+01
+
+     Time Step     =    164     Time =      0.08200000
+     Normalization =  0.99604759E+00 Energy    =  0.39599892E+01
+
+     Time Step     =    165     Time =      0.08250000
+     Normalization =  0.99604811E+00 Energy    =  0.39594784E+01
+
+     Time Step     =    166     Time =      0.08300000
+     Normalization =  0.99604861E+00 Energy    =  0.39589806E+01
+
+     Time Step     =    167     Time =      0.08350000
+     Normalization =  0.99604910E+00 Energy    =  0.39584953E+01
+
+     Time Step     =    168     Time =      0.08400000
+     Normalization =  0.99604958E+00 Energy    =  0.39580221E+01
+
+     Time Step     =    169     Time =      0.08450000
+     Normalization =  0.99605004E+00 Energy    =  0.39575607E+01
+
+     Time Step     =    170     Time =      0.08500000
+     Normalization =  0.99605050E+00 Energy    =  0.39571108E+01
+
+     Time Step     =    171     Time =      0.08550000
+     Normalization =  0.99605094E+00 Energy    =  0.39566720E+01
+
+     Time Step     =    172     Time =      0.08600000
+     Normalization =  0.99605137E+00 Energy    =  0.39562439E+01
+
+     Time Step     =    173     Time =      0.08650000
+     Normalization =  0.99605179E+00 Energy    =  0.39558262E+01
+
+     Time Step     =    174     Time =      0.08700000
+     Normalization =  0.99605220E+00 Energy    =  0.39554186E+01
+
+     Time Step     =    175     Time =      0.08750000
+     Normalization =  0.99605260E+00 Energy    =  0.39550209E+01
+
+     Time Step     =    176     Time =      0.08800000
+     Normalization =  0.99605300E+00 Energy    =  0.39546326E+01
+
+     Time Step     =    177     Time =      0.08850000
+     Normalization =  0.99605338E+00 Energy    =  0.39542536E+01
+
+     Time Step     =    178     Time =      0.08900000
+     Normalization =  0.99605375E+00 Energy    =  0.39538835E+01
+
+     Time Step     =    179     Time =      0.08950000
+     Normalization =  0.99605411E+00 Energy    =  0.39535222E+01
+
+     Time Step     =    180     Time =      0.09000000
+     Normalization =  0.99605447E+00 Energy    =  0.39531693E+01
+
+     Time Step     =    181     Time =      0.09050000
+     Normalization =  0.99605482E+00 Energy    =  0.39528245E+01
+
+     Time Step     =    182     Time =      0.09100000
+     Normalization =  0.99605516E+00 Energy    =  0.39524878E+01
+
+     Time Step     =    183     Time =      0.09150000
+     Normalization =  0.99605549E+00 Energy    =  0.39521588E+01
+
+     Time Step     =    184     Time =      0.09200000
+     Normalization =  0.99605581E+00 Energy    =  0.39518372E+01
+
+     Time Step     =    185     Time =      0.09250000
+     Normalization =  0.99605613E+00 Energy    =  0.39515230E+01
+
+     Time Step     =    186     Time =      0.09300000
+     Normalization =  0.99605644E+00 Energy    =  0.39512159E+01
+
+     Time Step     =    187     Time =      0.09350000
+     Normalization =  0.99605674E+00 Energy    =  0.39509157E+01
+
+     Time Step     =    188     Time =      0.09400000
+     Normalization =  0.99605704E+00 Energy    =  0.39506221E+01
+
+     Time Step     =    189     Time =      0.09450000
+     Normalization =  0.99605733E+00 Energy    =  0.39503351E+01
+
+     Time Step     =    190     Time =      0.09500000
+     Normalization =  0.99605761E+00 Energy    =  0.39500544E+01
+
+     Time Step     =    191     Time =      0.09550000
+     Normalization =  0.99605789E+00 Energy    =  0.39497799E+01
+
+     Time Step     =    192     Time =      0.09600000
+     Normalization =  0.99605816E+00 Energy    =  0.39495113E+01
+
+     Time Step     =    193     Time =      0.09650000
+     Normalization =  0.99605842E+00 Energy    =  0.39492486E+01
+
+     Time Step     =    194     Time =      0.09700000
+     Normalization =  0.99605868E+00 Energy    =  0.39489915E+01
+
+     Time Step     =    195     Time =      0.09750000
+     Normalization =  0.99605893E+00 Energy    =  0.39487400E+01
+
+     Time Step     =    196     Time =      0.09800000
+     Normalization =  0.99605918E+00 Energy    =  0.39484938E+01
+
+     Time Step     =    197     Time =      0.09850000
+     Normalization =  0.99605942E+00 Energy    =  0.39482528E+01
+
+     Time Step     =    198     Time =      0.09900000
+     Normalization =  0.99605966E+00 Energy    =  0.39480169E+01
+
+     Time Step     =    199     Time =      0.09950000
+     Normalization =  0.99605989E+00 Energy    =  0.39477860E+01
+
+     Time Step     =    200     Time =      0.10000000
+     Normalization =  0.99606012E+00 Energy    =  0.39475598E+01
+
+     Time Step     =    201     Time =      0.10050000
+     Normalization =  0.99606034E+00 Energy    =  0.39473384E+01
+
+     Time Step     =    202     Time =      0.10100000
+     Normalization =  0.99606056E+00 Energy    =  0.39471215E+01
+
+     Time Step     =    203     Time =      0.10150000
+     Normalization =  0.99606078E+00 Energy    =  0.39469091E+01
+
+     Time Step     =    204     Time =      0.10200000
+     Normalization =  0.99606099E+00 Energy    =  0.39467010E+01
+
+     Time Step     =    205     Time =      0.10250000
+     Normalization =  0.99606119E+00 Energy    =  0.39464972E+01
+
+     Time Step     =    206     Time =      0.10300000
+     Normalization =  0.99606139E+00 Energy    =  0.39462974E+01
+
+     Time Step     =    207     Time =      0.10350000
+     Normalization =  0.99606159E+00 Energy    =  0.39461017E+01
+
+     Time Step     =    208     Time =      0.10400000
+     Normalization =  0.99606178E+00 Energy    =  0.39459099E+01
+
+     Time Step     =    209     Time =      0.10450000
+     Normalization =  0.99606197E+00 Energy    =  0.39457219E+01
+
+     Time Step     =    210     Time =      0.10500000
+     Normalization =  0.99606216E+00 Energy    =  0.39455377E+01
+
+     Time Step     =    211     Time =      0.10550000
+     Normalization =  0.99606234E+00 Energy    =  0.39453570E+01
+
+     Time Step     =    212     Time =      0.10600000
+     Normalization =  0.99606252E+00 Energy    =  0.39451799E+01
+
+     Time Step     =    213     Time =      0.10650000
+     Normalization =  0.99606269E+00 Energy    =  0.39450063E+01
+
+     Time Step     =    214     Time =      0.10700000
+     Normalization =  0.99606286E+00 Energy    =  0.39448360E+01
+
+     Time Step     =    215     Time =      0.10750000
+     Normalization =  0.99606303E+00 Energy    =  0.39446690E+01
+
+     Time Step     =    216     Time =      0.10800000
+     Normalization =  0.99606319E+00 Energy    =  0.39445052E+01
+
+     Time Step     =    217     Time =      0.10850000
+     Normalization =  0.99606336E+00 Energy    =  0.39443446E+01
+
+     Time Step     =    218     Time =      0.10900000
+     Normalization =  0.99606351E+00 Energy    =  0.39441870E+01
+
+     Time Step     =    219     Time =      0.10950000
+     Normalization =  0.99606367E+00 Energy    =  0.39440324E+01
+
+     Time Step     =    220     Time =      0.11000000
+     Normalization =  0.99606382E+00 Energy    =  0.39438808E+01
+
+     Time Step     =    221     Time =      0.11050000
+     Normalization =  0.99606397E+00 Energy    =  0.39437319E+01
+
+     Time Step     =    222     Time =      0.11100000
+     Normalization =  0.99606412E+00 Energy    =  0.39435859E+01
+
+     Time Step     =    223     Time =      0.11150000
+     Normalization =  0.99606426E+00 Energy    =  0.39434426E+01
+
+     Time Step     =    224     Time =      0.11200000
+     Normalization =  0.99606440E+00 Energy    =  0.39433019E+01
+
+     Time Step     =    225     Time =      0.11250000
+     Normalization =  0.99606454E+00 Energy    =  0.39431639E+01
+
+     Time Step     =    226     Time =      0.11300000
+     Normalization =  0.99606468E+00 Energy    =  0.39430283E+01
+
+     Time Step     =    227     Time =      0.11350000
+     Normalization =  0.99606481E+00 Energy    =  0.39428953E+01
+
+     Time Step     =    228     Time =      0.11400000
+     Normalization =  0.99606494E+00 Energy    =  0.39427647E+01
+
+     Time Step     =    229     Time =      0.11450000
+     Normalization =  0.99606507E+00 Energy    =  0.39426364E+01
+
+     Time Step     =    230     Time =      0.11500000
+     Normalization =  0.99606520E+00 Energy    =  0.39425105E+01
+
+     Time Step     =    231     Time =      0.11550000
+     Normalization =  0.99606532E+00 Energy    =  0.39423868E+01
+
+     Time Step     =    232     Time =      0.11600000
+     Normalization =  0.99606545E+00 Energy    =  0.39422654E+01
+
+     Time Step     =    233     Time =      0.11650000
+     Normalization =  0.99606557E+00 Energy    =  0.39421461E+01
+
+     Time Step     =    234     Time =      0.11700000
+     Normalization =  0.99606568E+00 Energy    =  0.39420290E+01
+
+     Time Step     =    235     Time =      0.11750000
+     Normalization =  0.99606580E+00 Energy    =  0.39419139E+01
+
+     Time Step     =    236     Time =      0.11800000
+     Normalization =  0.99606591E+00 Energy    =  0.39418009E+01
+
+     Time Step     =    237     Time =      0.11850000
+     Normalization =  0.99606603E+00 Energy    =  0.39416899E+01
+
+     Time Step     =    238     Time =      0.11900000
+     Normalization =  0.99606613E+00 Energy    =  0.39415808E+01
+
+     Time Step     =    239     Time =      0.11950000
+     Normalization =  0.99606624E+00 Energy    =  0.39414736E+01
+
+     Time Step     =    240     Time =      0.12000000
+     Normalization =  0.99606635E+00 Energy    =  0.39413683E+01
+
+     Time Step     =    241     Time =      0.12050000
+     Normalization =  0.99606645E+00 Energy    =  0.39412648E+01
+
+     Time Step     =    242     Time =      0.12100000
+     Normalization =  0.99606655E+00 Energy    =  0.39411631E+01
+
+     Time Step     =    243     Time =      0.12150000
+     Normalization =  0.99606665E+00 Energy    =  0.39410632E+01
+
+     Time Step     =    244     Time =      0.12200000
+     Normalization =  0.99606675E+00 Energy    =  0.39409650E+01
+
+     Time Step     =    245     Time =      0.12250000
+     Normalization =  0.99606685E+00 Energy    =  0.39408684E+01
+
+     Time Step     =    246     Time =      0.12300000
+     Normalization =  0.99606695E+00 Energy    =  0.39407735E+01
+
+     Time Step     =    247     Time =      0.12350000
+     Normalization =  0.99606704E+00 Energy    =  0.39406803E+01
+
+     Time Step     =    248     Time =      0.12400000
+     Normalization =  0.99606713E+00 Energy    =  0.39405886E+01
+
+     Time Step     =    249     Time =      0.12450000
+     Normalization =  0.99606722E+00 Energy    =  0.39404985E+01
+
+     Time Step     =    250     Time =      0.12500000
+     Normalization =  0.99606731E+00 Energy    =  0.39404099E+01
+
+     Time Step     =    251     Time =      0.12550000
+     Normalization =  0.99606740E+00 Energy    =  0.39403227E+01
+
+     Time Step     =    252     Time =      0.12600000
+     Normalization =  0.99606748E+00 Energy    =  0.39402371E+01
+
+     Time Step     =    253     Time =      0.12650000
+     Normalization =  0.99606757E+00 Energy    =  0.39401529E+01
+
+     Time Step     =    254     Time =      0.12700000
+     Normalization =  0.99606765E+00 Energy    =  0.39400701E+01
+
+     Time Step     =    255     Time =      0.12750000
+     Normalization =  0.99606773E+00 Energy    =  0.39399886E+01
+
+     Time Step     =    256     Time =      0.12800000
+     Normalization =  0.99606781E+00 Energy    =  0.39399085E+01
+
+     Time Step     =    257     Time =      0.12850000
+     Normalization =  0.99606789E+00 Energy    =  0.39398298E+01
+
+     Time Step     =    258     Time =      0.12900000
+     Normalization =  0.99606797E+00 Energy    =  0.39397523E+01
+
+     Time Step     =    259     Time =      0.12950000
+     Normalization =  0.99606805E+00 Energy    =  0.39396762E+01
+
+     Time Step     =    260     Time =      0.13000000
+     Normalization =  0.99606812E+00 Energy    =  0.39396012E+01
+
+     Time Step     =    261     Time =      0.13050000
+     Normalization =  0.99606820E+00 Energy    =  0.39395275E+01
+
+     Time Step     =    262     Time =      0.13100000
+     Normalization =  0.99606827E+00 Energy    =  0.39394551E+01
+
+     Time Step     =    263     Time =      0.13150000
+     Normalization =  0.99606834E+00 Energy    =  0.39393837E+01
+
+     Time Step     =    264     Time =      0.13200000
+     Normalization =  0.99606841E+00 Energy    =  0.39393136E+01
+
+     Time Step     =    265     Time =      0.13250000
+     Normalization =  0.99606848E+00 Energy    =  0.39392446E+01
+
+     Time Step     =    266     Time =      0.13300000
+     Normalization =  0.99606855E+00 Energy    =  0.39391767E+01
+
+     Time Step     =    267     Time =      0.13350000
+     Normalization =  0.99606862E+00 Energy    =  0.39391099E+01
+
+     Time Step     =    268     Time =      0.13400000
+     Normalization =  0.99606868E+00 Energy    =  0.39390442E+01
+
+     Time Step     =    269     Time =      0.13450000
+     Normalization =  0.99606875E+00 Energy    =  0.39389796E+01
+
+     Time Step     =    270     Time =      0.13500000
+     Normalization =  0.99606881E+00 Energy    =  0.39389160E+01
+
+     Time Step     =    271     Time =      0.13550000
+     Normalization =  0.99606887E+00 Energy    =  0.39388534E+01
+
+     Time Step     =    272     Time =      0.13600000
+     Normalization =  0.99606894E+00 Energy    =  0.39387918E+01
+
+     Time Step     =    273     Time =      0.13650000
+     Normalization =  0.99606900E+00 Energy    =  0.39387312E+01
+
+     Time Step     =    274     Time =      0.13700000
+     Normalization =  0.99606906E+00 Energy    =  0.39386716E+01
+
+     Time Step     =    275     Time =      0.13750000
+     Normalization =  0.99606912E+00 Energy    =  0.39386129E+01
+
+     Time Step     =    276     Time =      0.13800000
+     Normalization =  0.99606917E+00 Energy    =  0.39385551E+01
+
+     Time Step     =    277     Time =      0.13850000
+     Normalization =  0.99606923E+00 Energy    =  0.39384983E+01
+
+     Time Step     =    278     Time =      0.13900000
+     Normalization =  0.99606929E+00 Energy    =  0.39384423E+01
+
+     Time Step     =    279     Time =      0.13950000
+     Normalization =  0.99606934E+00 Energy    =  0.39383873E+01
+
+     Time Step     =    280     Time =      0.14000000
+     Normalization =  0.99606940E+00 Energy    =  0.39383331E+01
+
+     Time Step     =    281     Time =      0.14050000
+     Normalization =  0.99606945E+00 Energy    =  0.39382798E+01
+
+     Time Step     =    282     Time =      0.14100000
+     Normalization =  0.99606950E+00 Energy    =  0.39382273E+01
+
+     Time Step     =    283     Time =      0.14150000
+     Normalization =  0.99606956E+00 Energy    =  0.39381756E+01
+
+     Time Step     =    284     Time =      0.14200000
+     Normalization =  0.99606961E+00 Energy    =  0.39381248E+01
+
+     Time Step     =    285     Time =      0.14250000
+     Normalization =  0.99606966E+00 Energy    =  0.39380747E+01
+
+     Time Step     =    286     Time =      0.14300000
+     Normalization =  0.99606971E+00 Energy    =  0.39380255E+01
+
+     Time Step     =    287     Time =      0.14350000
+     Normalization =  0.99606975E+00 Energy    =  0.39379770E+01
+
+     Time Step     =    288     Time =      0.14400000
+     Normalization =  0.99606980E+00 Energy    =  0.39379292E+01
+
+     Time Step     =    289     Time =      0.14450000
+     Normalization =  0.99606985E+00 Energy    =  0.39378822E+01
+
+     Time Step     =    290     Time =      0.14500000
+     Normalization =  0.99606990E+00 Energy    =  0.39378360E+01
+
+     Time Step     =    291     Time =      0.14550000
+     Normalization =  0.99606994E+00 Energy    =  0.39377904E+01
+
+     Time Step     =    292     Time =      0.14600000
+     Normalization =  0.99606999E+00 Energy    =  0.39377456E+01
+
+     Time Step     =    293     Time =      0.14650000
+     Normalization =  0.99607003E+00 Energy    =  0.39377014E+01
+
+     Time Step     =    294     Time =      0.14700000
+     Normalization =  0.99607008E+00 Energy    =  0.39376580E+01
+
+     Time Step     =    295     Time =      0.14750000
+     Normalization =  0.99607012E+00 Energy    =  0.39376152E+01
+
+     Time Step     =    296     Time =      0.14800000
+     Normalization =  0.99607016E+00 Energy    =  0.39375730E+01
+
+     Time Step     =    297     Time =      0.14850000
+     Normalization =  0.99607020E+00 Energy    =  0.39375315E+01
+
+     Time Step     =    298     Time =      0.14900000
+     Normalization =  0.99607024E+00 Energy    =  0.39374907E+01
+
+     Time Step     =    299     Time =      0.14950000
+     Normalization =  0.99607028E+00 Energy    =  0.39374505E+01
+
+     Time Step     =    300     Time =      0.15000000
+     Normalization =  0.99607032E+00 Energy    =  0.39374109E+01
+
+     Time Step     =    301     Time =      0.15050000
+     Normalization =  0.99607036E+00 Energy    =  0.39373719E+01
+
+     Time Step     =    302     Time =      0.15100000
+     Normalization =  0.99607040E+00 Energy    =  0.39373335E+01
+
+     Time Step     =    303     Time =      0.15150000
+     Normalization =  0.99607044E+00 Energy    =  0.39372957E+01
+
+     Time Step     =    304     Time =      0.15200000
+     Normalization =  0.99607048E+00 Energy    =  0.39372585E+01
+
+     Time Step     =    305     Time =      0.15250000
+     Normalization =  0.99607051E+00 Energy    =  0.39372218E+01
+
+     Time Step     =    306     Time =      0.15300000
+     Normalization =  0.99607055E+00 Energy    =  0.39371858E+01
+
+     Time Step     =    307     Time =      0.15350000
+     Normalization =  0.99607058E+00 Energy    =  0.39371502E+01
+
+     Time Step     =    308     Time =      0.15400000
+     Normalization =  0.99607062E+00 Energy    =  0.39371152E+01
+
+     Time Step     =    309     Time =      0.15450000
+     Normalization =  0.99607065E+00 Energy    =  0.39370807E+01
+
+     Time Step     =    310     Time =      0.15500000
+     Normalization =  0.99607069E+00 Energy    =  0.39370468E+01
+
+     Time Step     =    311     Time =      0.15550000
+     Normalization =  0.99607072E+00 Energy    =  0.39370134E+01
+
+     Time Step     =    312     Time =      0.15600000
+     Normalization =  0.99607076E+00 Energy    =  0.39369805E+01
+
+     Time Step     =    313     Time =      0.15650000
+     Normalization =  0.99607079E+00 Energy    =  0.39369481E+01
+
+     Time Step     =    314     Time =      0.15700000
+     Normalization =  0.99607082E+00 Energy    =  0.39369161E+01
+
+     Time Step     =    315     Time =      0.15750000
+     Normalization =  0.99607085E+00 Energy    =  0.39368847E+01
+
+     Time Step     =    316     Time =      0.15800000
+     Normalization =  0.99607088E+00 Energy    =  0.39368537E+01
+
+     Time Step     =    317     Time =      0.15850000
+     Normalization =  0.99607091E+00 Energy    =  0.39368232E+01
+
+     Time Step     =    318     Time =      0.15900000
+     Normalization =  0.99607094E+00 Energy    =  0.39367932E+01
+
+     Time Step     =    319     Time =      0.15950000
+     Normalization =  0.99607097E+00 Energy    =  0.39367636E+01
+
+     Time Step     =    320     Time =      0.16000000
+     Normalization =  0.99607100E+00 Energy    =  0.39367345E+01
+
+     Time Step     =    321     Time =      0.16050000
+     Normalization =  0.99607103E+00 Energy    =  0.39367058E+01
+
+     Time Step     =    322     Time =      0.16100000
+     Normalization =  0.99607106E+00 Energy    =  0.39366775E+01
+
+     Time Step     =    323     Time =      0.16150000
+     Normalization =  0.99607109E+00 Energy    =  0.39366497E+01
+
+     Time Step     =    324     Time =      0.16200000
+     Normalization =  0.99607111E+00 Energy    =  0.39366223E+01
+
+     Time Step     =    325     Time =      0.16250000
+     Normalization =  0.99607114E+00 Energy    =  0.39365953E+01
+
+     Time Step     =    326     Time =      0.16300000
+     Normalization =  0.99607117E+00 Energy    =  0.39365687E+01
+
+     Time Step     =    327     Time =      0.16350000
+     Normalization =  0.99607119E+00 Energy    =  0.39365425E+01
+
+     Time Step     =    328     Time =      0.16400000
+     Normalization =  0.99607122E+00 Energy    =  0.39365167E+01
+
+     Time Step     =    329     Time =      0.16450000
+     Normalization =  0.99607125E+00 Energy    =  0.39364913E+01
+
+     Time Step     =    330     Time =      0.16500000
+     Normalization =  0.99607127E+00 Energy    =  0.39364663E+01
+
+     Time Step     =    331     Time =      0.16550000
+     Normalization =  0.99607130E+00 Energy    =  0.39364416E+01
+
+     Time Step     =    332     Time =      0.16600000
+     Normalization =  0.99607132E+00 Energy    =  0.39364173E+01
+
+     Time Step     =    333     Time =      0.16650000
+     Normalization =  0.99607134E+00 Energy    =  0.39363934E+01
+
+     Time Step     =    334     Time =      0.16700000
+     Normalization =  0.99607137E+00 Energy    =  0.39363699E+01
+
+     Time Step     =    335     Time =      0.16750000
+     Normalization =  0.99607139E+00 Energy    =  0.39363467E+01
+
+     Time Step     =    336     Time =      0.16800000
+     Normalization =  0.99607141E+00 Energy    =  0.39363238E+01
+
+     Time Step     =    337     Time =      0.16850000
+     Normalization =  0.99607144E+00 Energy    =  0.39363013E+01
+
+     Time Step     =    338     Time =      0.16900000
+     Normalization =  0.99607146E+00 Energy    =  0.39362791E+01
+
+     Time Step     =    339     Time =      0.16950000
+     Normalization =  0.99607148E+00 Energy    =  0.39362573E+01
+
+     Time Step     =    340     Time =      0.17000000
+     Normalization =  0.99607150E+00 Energy    =  0.39362357E+01
+
+     Time Step     =    341     Time =      0.17050000
+     Normalization =  0.99607152E+00 Energy    =  0.39362145E+01
+
+     Time Step     =    342     Time =      0.17100000
+     Normalization =  0.99607154E+00 Energy    =  0.39361937E+01
+
+     Time Step     =    343     Time =      0.17150000
+     Normalization =  0.99607157E+00 Energy    =  0.39361731E+01
+
+     Time Step     =    344     Time =      0.17200000
+     Normalization =  0.99607159E+00 Energy    =  0.39361528E+01
+
+     Time Step     =    345     Time =      0.17250000
+     Normalization =  0.99607161E+00 Energy    =  0.39361329E+01
+
+     Time Step     =    346     Time =      0.17300000
+     Normalization =  0.99607163E+00 Energy    =  0.39361132E+01
+
+     Time Step     =    347     Time =      0.17350000
+     Normalization =  0.99607165E+00 Energy    =  0.39360938E+01
+
+     Time Step     =    348     Time =      0.17400000
+     Normalization =  0.99607166E+00 Energy    =  0.39360747E+01
+
+     Time Step     =    349     Time =      0.17450000
+     Normalization =  0.99607168E+00 Energy    =  0.39360559E+01
+
+     Time Step     =    350     Time =      0.17500000
+     Normalization =  0.99607170E+00 Energy    =  0.39360374E+01
+
+     Time Step     =    351     Time =      0.17550000
+     Normalization =  0.99607172E+00 Energy    =  0.39360192E+01
+
+     Time Step     =    352     Time =      0.17600000
+     Normalization =  0.99607174E+00 Energy    =  0.39360012E+01
+
+     Time Step     =    353     Time =      0.17650000
+     Normalization =  0.99607176E+00 Energy    =  0.39359835E+01
+
+     Time Step     =    354     Time =      0.17700000
+     Normalization =  0.99607177E+00 Energy    =  0.39359661E+01
+
+     Time Step     =    355     Time =      0.17750000
+     Normalization =  0.99607179E+00 Energy    =  0.39359489E+01
+
+     Time Step     =    356     Time =      0.17800000
+     Normalization =  0.99607181E+00 Energy    =  0.39359320E+01
+
+     Time Step     =    357     Time =      0.17850000
+     Normalization =  0.99607182E+00 Energy    =  0.39359153E+01
+
+     Time Step     =    358     Time =      0.17900000
+     Normalization =  0.99607184E+00 Energy    =  0.39358989E+01
+
+     Time Step     =    359     Time =      0.17950000
+     Normalization =  0.99607186E+00 Energy    =  0.39358827E+01
+
+     Time Step     =    360     Time =      0.18000000
+     Normalization =  0.99607187E+00 Energy    =  0.39358667E+01
+
+     Time Step     =    361     Time =      0.18050000
+     Normalization =  0.99607189E+00 Energy    =  0.39358510E+01
+
+     Time Step     =    362     Time =      0.18100000
+     Normalization =  0.99607190E+00 Energy    =  0.39358356E+01
+
+     Time Step     =    363     Time =      0.18150000
+     Normalization =  0.99607192E+00 Energy    =  0.39358203E+01
+
+     Time Step     =    364     Time =      0.18200000
+     Normalization =  0.99607193E+00 Energy    =  0.39358053E+01
+
+     Time Step     =    365     Time =      0.18250000
+     Normalization =  0.99607195E+00 Energy    =  0.39357905E+01
+
+     Time Step     =    366     Time =      0.18300000
+     Normalization =  0.99607196E+00 Energy    =  0.39357759E+01
+
+     Time Step     =    367     Time =      0.18350000
+     Normalization =  0.99607198E+00 Energy    =  0.39357616E+01
+
+     Time Step     =    368     Time =      0.18400000
+     Normalization =  0.99607199E+00 Energy    =  0.39357474E+01
+
+     Time Step     =    369     Time =      0.18450000
+     Normalization =  0.99607201E+00 Energy    =  0.39357335E+01
+
+     Time Step     =    370     Time =      0.18500000
+     Normalization =  0.99607202E+00 Energy    =  0.39357198E+01
+
+     Time Step     =    371     Time =      0.18550000
+     Normalization =  0.99607203E+00 Energy    =  0.39357063E+01
+
+     Time Step     =    372     Time =      0.18600000
+     Normalization =  0.99607205E+00 Energy    =  0.39356929E+01
+
+     Time Step     =    373     Time =      0.18650000
+     Normalization =  0.99607206E+00 Energy    =  0.39356798E+01
+
+     Time Step     =    374     Time =      0.18700000
+     Normalization =  0.99607207E+00 Energy    =  0.39356669E+01
+
+     Time Step     =    375     Time =      0.18750000
+     Normalization =  0.99607209E+00 Energy    =  0.39356541E+01
+
+     Time Step     =    376     Time =      0.18800000
+     Normalization =  0.99607210E+00 Energy    =  0.39356416E+01
+
+     Time Step     =    377     Time =      0.18850000
+     Normalization =  0.99607211E+00 Energy    =  0.39356292E+01
+
+     Time Step     =    378     Time =      0.18900000
+     Normalization =  0.99607212E+00 Energy    =  0.39356170E+01
+
+     Time Step     =    379     Time =      0.18950000
+     Normalization =  0.99607214E+00 Energy    =  0.39356050E+01
+
+     Time Step     =    380     Time =      0.19000000
+     Normalization =  0.99607215E+00 Energy    =  0.39355932E+01
+
+     Time Step     =    381     Time =      0.19050000
+     Normalization =  0.99607216E+00 Energy    =  0.39355816E+01
+
+     Time Step     =    382     Time =      0.19100000
+     Normalization =  0.99607217E+00 Energy    =  0.39355701E+01
+
+     Time Step     =    383     Time =      0.19150000
+     Normalization =  0.99607218E+00 Energy    =  0.39355588E+01
+
+     Time Step     =    384     Time =      0.19200000
+     Normalization =  0.99607219E+00 Energy    =  0.39355476E+01
+
+     Time Step     =    385     Time =      0.19250000
+     Normalization =  0.99607220E+00 Energy    =  0.39355366E+01
+
+     Time Step     =    386     Time =      0.19300000
+     Normalization =  0.99607222E+00 Energy    =  0.39355258E+01
+
+     Time Step     =    387     Time =      0.19350000
+     Normalization =  0.99607223E+00 Energy    =  0.39355152E+01
+
+     Time Step     =    388     Time =      0.19400000
+     Normalization =  0.99607224E+00 Energy    =  0.39355047E+01
+
+     Time Step     =    389     Time =      0.19450000
+     Normalization =  0.99607225E+00 Energy    =  0.39354943E+01
+
+     Time Step     =    390     Time =      0.19500000
+     Normalization =  0.99607226E+00 Energy    =  0.39354841E+01
+
+     Time Step     =    391     Time =      0.19550000
+     Normalization =  0.99607227E+00 Energy    =  0.39354741E+01
+
+     Time Step     =    392     Time =      0.19600000
+     Normalization =  0.99607228E+00 Energy    =  0.39354642E+01
+
+     Time Step     =    393     Time =      0.19650000
+     Normalization =  0.99607229E+00 Energy    =  0.39354545E+01
+
+     Time Step     =    394     Time =      0.19700000
+     Normalization =  0.99607230E+00 Energy    =  0.39354449E+01
+
+     Time Step     =    395     Time =      0.19750000
+     Normalization =  0.99607231E+00 Energy    =  0.39354354E+01
+
+     Time Step     =    396     Time =      0.19800000
+     Normalization =  0.99607232E+00 Energy    =  0.39354261E+01
+
+     Time Step     =    397     Time =      0.19850000
+     Normalization =  0.99607232E+00 Energy    =  0.39354169E+01
+
+     Time Step     =    398     Time =      0.19900000
+     Normalization =  0.99607233E+00 Energy    =  0.39354079E+01
+
+     Time Step     =    399     Time =      0.19950000
+     Normalization =  0.99607234E+00 Energy    =  0.39353989E+01
+
+     Time Step     =    400     Time =      0.20000000
+     Normalization =  0.99607235E+00 Energy    =  0.39353902E+01
+
+     Time Step     =    401     Time =      0.20050000
+     Normalization =  0.99607236E+00 Energy    =  0.39353815E+01
+
+     Time Step     =    402     Time =      0.20100000
+     Normalization =  0.99607237E+00 Energy    =  0.39353730E+01
+
+     Time Step     =    403     Time =      0.20150000
+     Normalization =  0.99607238E+00 Energy    =  0.39353646E+01
+
+     Time Step     =    404     Time =      0.20200000
+     Normalization =  0.99607239E+00 Energy    =  0.39353563E+01
+
+     Time Step     =    405     Time =      0.20250000
+     Normalization =  0.99607239E+00 Energy    =  0.39353482E+01
+
+     Time Step     =    406     Time =      0.20300000
+     Normalization =  0.99607240E+00 Energy    =  0.39353401E+01
+
+     Time Step     =    407     Time =      0.20350000
+     Normalization =  0.99607241E+00 Energy    =  0.39353322E+01
+
+     Time Step     =    408     Time =      0.20400000
+     Normalization =  0.99607242E+00 Energy    =  0.39353244E+01
+
+     Time Step     =    409     Time =      0.20450000
+     Normalization =  0.99607242E+00 Energy    =  0.39353167E+01
+
+     Time Step     =    410     Time =      0.20500000
+     Normalization =  0.99607243E+00 Energy    =  0.39353092E+01
+
+     Time Step     =    411     Time =      0.20550000
+     Normalization =  0.99607244E+00 Energy    =  0.39353017E+01
+
+     Time Step     =    412     Time =      0.20600000
+     Normalization =  0.99607245E+00 Energy    =  0.39352943E+01
+
+     Time Step     =    413     Time =      0.20650000
+     Normalization =  0.99607245E+00 Energy    =  0.39352871E+01
+
+     Time Step     =    414     Time =      0.20700000
+     Normalization =  0.99607246E+00 Energy    =  0.39352800E+01
+
+     Time Step     =    415     Time =      0.20750000
+     Normalization =  0.99607247E+00 Energy    =  0.39352729E+01
+
+     Time Step     =    416     Time =      0.20800000
+     Normalization =  0.99607248E+00 Energy    =  0.39352660E+01
+
+     Time Step     =    417     Time =      0.20850000
+     Normalization =  0.99607248E+00 Energy    =  0.39352592E+01
+
+     Time Step     =    418     Time =      0.20900000
+     Normalization =  0.99607249E+00 Energy    =  0.39352525E+01
+
+     Time Step     =    419     Time =      0.20950000
+     Normalization =  0.99607250E+00 Energy    =  0.39352459E+01
+
+     Time Step     =    420     Time =      0.21000000
+     Normalization =  0.99607250E+00 Energy    =  0.39352393E+01
+
+     Time Step     =    421     Time =      0.21050000
+     Normalization =  0.99607251E+00 Energy    =  0.39352329E+01
+
+     Time Step     =    422     Time =      0.21100000
+     Normalization =  0.99607252E+00 Energy    =  0.39352266E+01
+
+     Time Step     =    423     Time =      0.21150000
+     Normalization =  0.99607252E+00 Energy    =  0.39352203E+01
+
+     Time Step     =    424     Time =      0.21200000
+     Normalization =  0.99607253E+00 Energy    =  0.39352142E+01
+
+     Time Step     =    425     Time =      0.21250000
+     Normalization =  0.99607253E+00 Energy    =  0.39352081E+01
+
+     Time Step     =    426     Time =      0.21300000
+     Normalization =  0.99607254E+00 Energy    =  0.39352021E+01
+
+     Time Step     =    427     Time =      0.21350000
+     Normalization =  0.99607255E+00 Energy    =  0.39351963E+01
+
+     Time Step     =    428     Time =      0.21400000
+     Normalization =  0.99607255E+00 Energy    =  0.39351905E+01
+
+     Time Step     =    429     Time =      0.21450000
+     Normalization =  0.99607256E+00 Energy    =  0.39351848E+01
+
+     Time Step     =    430     Time =      0.21500000
+     Normalization =  0.99607256E+00 Energy    =  0.39351791E+01
+
+     Time Step     =    431     Time =      0.21550000
+     Normalization =  0.99607257E+00 Energy    =  0.39351736E+01
+
+     Time Step     =    432     Time =      0.21600000
+     Normalization =  0.99607257E+00 Energy    =  0.39351681E+01
+
+     Time Step     =    433     Time =      0.21650000
+     Normalization =  0.99607258E+00 Energy    =  0.39351628E+01
+
+     Time Step     =    434     Time =      0.21700000
+     Normalization =  0.99607258E+00 Energy    =  0.39351574E+01
+
+     Time Step     =    435     Time =      0.21750000
+     Normalization =  0.99607259E+00 Energy    =  0.39351522E+01
+
+     Time Step     =    436     Time =      0.21800000
+     Normalization =  0.99607260E+00 Energy    =  0.39351471E+01
+
+     Time Step     =    437     Time =      0.21850000
+     Normalization =  0.99607260E+00 Energy    =  0.39351420E+01
+
+     Time Step     =    438     Time =      0.21900000
+     Normalization =  0.99607261E+00 Energy    =  0.39351370E+01
+
+     Time Step     =    439     Time =      0.21950000
+     Normalization =  0.99607261E+00 Energy    =  0.39351321E+01
+
+     Time Step     =    440     Time =      0.22000000
+     Normalization =  0.99607262E+00 Energy    =  0.39351272E+01
+
+     Time Step     =    441     Time =      0.22050000
+     Normalization =  0.99607262E+00 Energy    =  0.39351225E+01
+
+     Time Step     =    442     Time =      0.22100000
+     Normalization =  0.99607262E+00 Energy    =  0.39351178E+01
+
+     Time Step     =    443     Time =      0.22150000
+     Normalization =  0.99607263E+00 Energy    =  0.39351131E+01
+
+     Time Step     =    444     Time =      0.22200000
+     Normalization =  0.99607263E+00 Energy    =  0.39351085E+01
+
+     Time Step     =    445     Time =      0.22250000
+     Normalization =  0.99607264E+00 Energy    =  0.39351040E+01
+
+     Time Step     =    446     Time =      0.22300000
+     Normalization =  0.99607264E+00 Energy    =  0.39350996E+01
+
+     Time Step     =    447     Time =      0.22350000
+     Normalization =  0.99607265E+00 Energy    =  0.39350952E+01
+
+     Time Step     =    448     Time =      0.22400000
+     Normalization =  0.99607265E+00 Energy    =  0.39350909E+01
+
+     Time Step     =    449     Time =      0.22450000
+     Normalization =  0.99607266E+00 Energy    =  0.39350867E+01
+
+     Time Step     =    450     Time =      0.22500000
+     Normalization =  0.99607266E+00 Energy    =  0.39350825E+01
+
+     Time Step     =    451     Time =      0.22550000
+     Normalization =  0.99607266E+00 Energy    =  0.39350784E+01
+
+     Time Step     =    452     Time =      0.22600000
+     Normalization =  0.99607267E+00 Energy    =  0.39350743E+01
+
+     Time Step     =    453     Time =      0.22650000
+     Normalization =  0.99607267E+00 Energy    =  0.39350703E+01
+
+     Time Step     =    454     Time =      0.22700000
+     Normalization =  0.99607268E+00 Energy    =  0.39350664E+01
+
+     Time Step     =    455     Time =      0.22750000
+     Normalization =  0.99607268E+00 Energy    =  0.39350625E+01
+
+     Time Step     =    456     Time =      0.22800000
+     Normalization =  0.99607268E+00 Energy    =  0.39350587E+01
+
+     Time Step     =    457     Time =      0.22850000
+     Normalization =  0.99607269E+00 Energy    =  0.39350549E+01
+
+     Time Step     =    458     Time =      0.22900000
+     Normalization =  0.99607269E+00 Energy    =  0.39350512E+01
+
+     Time Step     =    459     Time =      0.22950000
+     Normalization =  0.99607270E+00 Energy    =  0.39350475E+01
+
+     Time Step     =    460     Time =      0.23000000
+     Normalization =  0.99607270E+00 Energy    =  0.39350439E+01
+
+     Time Step     =    461     Time =      0.23050000
+     Normalization =  0.99607270E+00 Energy    =  0.39350404E+01
+
+     Time Step     =    462     Time =      0.23100000
+     Normalization =  0.99607271E+00 Energy    =  0.39350369E+01
+
+     Time Step     =    463     Time =      0.23150000
+     Normalization =  0.99607271E+00 Energy    =  0.39350334E+01
+
+     Time Step     =    464     Time =      0.23200000
+     Normalization =  0.99607271E+00 Energy    =  0.39350300E+01
+
+     Time Step     =    465     Time =      0.23250000
+     Normalization =  0.99607272E+00 Energy    =  0.39350267E+01
+
+     Time Step     =    466     Time =      0.23300000
+     Normalization =  0.99607272E+00 Energy    =  0.39350234E+01
+
+     Time Step     =    467     Time =      0.23350000
+     Normalization =  0.99607272E+00 Energy    =  0.39350201E+01
+
+     Time Step     =    468     Time =      0.23400000
+     Normalization =  0.99607273E+00 Energy    =  0.39350169E+01
+
+     Time Step     =    469     Time =      0.23450000
+     Normalization =  0.99607273E+00 Energy    =  0.39350137E+01
+
+     Time Step     =    470     Time =      0.23500000
+     Normalization =  0.99607273E+00 Energy    =  0.39350106E+01
+
+     Time Step     =    471     Time =      0.23550000
+     Normalization =  0.99607274E+00 Energy    =  0.39350076E+01
+
+     Time Step     =    472     Time =      0.23600000
+     Normalization =  0.99607274E+00 Energy    =  0.39350046E+01
+
+     Time Step     =    473     Time =      0.23650000
+     Normalization =  0.99607274E+00 Energy    =  0.39350016E+01
+
+     Time Step     =    474     Time =      0.23700000
+     Normalization =  0.99607274E+00 Energy    =  0.39349987E+01
+
+     Time Step     =    475     Time =      0.23750000
+     Normalization =  0.99607275E+00 Energy    =  0.39349958E+01
+
+     Time Step     =    476     Time =      0.23800000
+     Normalization =  0.99607275E+00 Energy    =  0.39349929E+01
+
+     Time Step     =    477     Time =      0.23850000
+     Normalization =  0.99607275E+00 Energy    =  0.39349901E+01
+
+     Time Step     =    478     Time =      0.23900000
+     Normalization =  0.99607276E+00 Energy    =  0.39349874E+01
+
+     Time Step     =    479     Time =      0.23950000
+     Normalization =  0.99607276E+00 Energy    =  0.39349846E+01
+
+     Time Step     =    480     Time =      0.24000000
+     Normalization =  0.99607276E+00 Energy    =  0.39349820E+01
+
+     Time Step     =    481     Time =      0.24050000
+     Normalization =  0.99607276E+00 Energy    =  0.39349793E+01
+
+     Time Step     =    482     Time =      0.24100000
+     Normalization =  0.99607277E+00 Energy    =  0.39349767E+01
+
+     Time Step     =    483     Time =      0.24150000
+     Normalization =  0.99607277E+00 Energy    =  0.39349741E+01
+
+     Time Step     =    484     Time =      0.24200000
+     Normalization =  0.99607277E+00 Energy    =  0.39349716E+01
+
+     Time Step     =    485     Time =      0.24250000
+     Normalization =  0.99607277E+00 Energy    =  0.39349691E+01
+
+     Time Step     =    486     Time =      0.24300000
+     Normalization =  0.99607278E+00 Energy    =  0.39349667E+01
+
+     Time Step     =    487     Time =      0.24350000
+     Normalization =  0.99607278E+00 Energy    =  0.39349643E+01
+
+     Time Step     =    488     Time =      0.24400000
+     Normalization =  0.99607278E+00 Energy    =  0.39349619E+01
+
+     Time Step     =    489     Time =      0.24450000
+     Normalization =  0.99607278E+00 Energy    =  0.39349595E+01
+
+     Time Step     =    490     Time =      0.24500000
+     Normalization =  0.99607279E+00 Energy    =  0.39349572E+01
+
+     Time Step     =    491     Time =      0.24550000
+     Normalization =  0.99607279E+00 Energy    =  0.39349549E+01
+
+     Time Step     =    492     Time =      0.24600000
+     Normalization =  0.99607279E+00 Energy    =  0.39349527E+01
+
+     Time Step     =    493     Time =      0.24650000
+     Normalization =  0.99607279E+00 Energy    =  0.39349505E+01
+
+     Time Step     =    494     Time =      0.24700000
+     Normalization =  0.99607279E+00 Energy    =  0.39349483E+01
+
+     Time Step     =    495     Time =      0.24750000
+     Normalization =  0.99607280E+00 Energy    =  0.39349462E+01
+
+     Time Step     =    496     Time =      0.24800000
+     Normalization =  0.99607280E+00 Energy    =  0.39349440E+01
+
+     Time Step     =    497     Time =      0.24850000
+     Normalization =  0.99607280E+00 Energy    =  0.39349420E+01
+
+     Time Step     =    498     Time =      0.24900000
+     Normalization =  0.99607280E+00 Energy    =  0.39349399E+01
+
+     Time Step     =    499     Time =      0.24950000
+     Normalization =  0.99607281E+00 Energy    =  0.39349379E+01
+
+     Time Step     =    500     Time =      0.25000000
+     Normalization =  0.99607281E+00 Energy    =  0.39349359E+01
+
+     Time Step     =    501     Time =      0.25050000
+     Normalization =  0.99607281E+00 Energy    =  0.39349339E+01
+
+     Time Step     =    502     Time =      0.25100000
+     Normalization =  0.99607281E+00 Energy    =  0.39349320E+01
+
+     Time Step     =    503     Time =      0.25150000
+     Normalization =  0.99607281E+00 Energy    =  0.39349301E+01
+
+     Time Step     =    504     Time =      0.25200000
+     Normalization =  0.99607281E+00 Energy    =  0.39349282E+01
+
+     Time Step     =    505     Time =      0.25250000
+     Normalization =  0.99607282E+00 Energy    =  0.39349263E+01
+
+     Time Step     =    506     Time =      0.25300000
+     Normalization =  0.99607282E+00 Energy    =  0.39349245E+01
+
+     Time Step     =    507     Time =      0.25350000
+     Normalization =  0.99607282E+00 Energy    =  0.39349227E+01
+
+     Time Step     =    508     Time =      0.25400000
+     Normalization =  0.99607282E+00 Energy    =  0.39349209E+01
+
+     Time Step     =    509     Time =      0.25450000
+     Normalization =  0.99607282E+00 Energy    =  0.39349192E+01
+
+     Time Step     =    510     Time =      0.25500000
+     Normalization =  0.99607283E+00 Energy    =  0.39349175E+01
+
+     Time Step     =    511     Time =      0.25550000
+     Normalization =  0.99607283E+00 Energy    =  0.39349158E+01
+
+     Time Step     =    512     Time =      0.25600000
+     Normalization =  0.99607283E+00 Energy    =  0.39349141E+01
+
+     Time Step     =    513     Time =      0.25650000
+     Normalization =  0.99607283E+00 Energy    =  0.39349125E+01
+
+     Time Step     =    514     Time =      0.25700000
+     Normalization =  0.99607283E+00 Energy    =  0.39349109E+01
+
+     Time Step     =    515     Time =      0.25750000
+     Normalization =  0.99607283E+00 Energy    =  0.39349093E+01
+
+     Time Step     =    516     Time =      0.25800000
+     Normalization =  0.99607284E+00 Energy    =  0.39349077E+01
+
+     Time Step     =    517     Time =      0.25850000
+     Normalization =  0.99607284E+00 Energy    =  0.39349061E+01
+
+     Time Step     =    518     Time =      0.25900000
+     Normalization =  0.99607284E+00 Energy    =  0.39349046E+01
+
+     Time Step     =    519     Time =      0.25950000
+     Normalization =  0.99607284E+00 Energy    =  0.39349031E+01
+
+     Time Step     =    520     Time =      0.26000000
+     Normalization =  0.99607284E+00 Energy    =  0.39349016E+01
+
+     Time Step     =    521     Time =      0.26050000
+     Normalization =  0.99607284E+00 Energy    =  0.39349002E+01
+
+     Time Step     =    522     Time =      0.26100000
+     Normalization =  0.99607284E+00 Energy    =  0.39348987E+01
+
+     Time Step     =    523     Time =      0.26150000
+     Normalization =  0.99607285E+00 Energy    =  0.39348973E+01
+
+     Time Step     =    524     Time =      0.26200000
+     Normalization =  0.99607285E+00 Energy    =  0.39348959E+01
+
+     Time Step     =    525     Time =      0.26250000
+     Normalization =  0.99607285E+00 Energy    =  0.39348945E+01
+
+     Time Step     =    526     Time =      0.26300000
+     Normalization =  0.99607285E+00 Energy    =  0.39348932E+01
+
+     Time Step     =    527     Time =      0.26350000
+     Normalization =  0.99607285E+00 Energy    =  0.39348918E+01
+
+     Time Step     =    528     Time =      0.26400000
+     Normalization =  0.99607285E+00 Energy    =  0.39348905E+01
+
+     Time Step     =    529     Time =      0.26450000
+     Normalization =  0.99607285E+00 Energy    =  0.39348892E+01
+
+     Time Step     =    530     Time =      0.26500000
+     Normalization =  0.99607286E+00 Energy    =  0.39348879E+01
+
+     Time Step     =    531     Time =      0.26550000
+     Normalization =  0.99607286E+00 Energy    =  0.39348867E+01
+
+     Time Step     =    532     Time =      0.26600000
+     Normalization =  0.99607286E+00 Energy    =  0.39348854E+01
+
+     Time Step     =    533     Time =      0.26650000
+     Normalization =  0.99607286E+00 Energy    =  0.39348842E+01
+
+     Time Step     =    534     Time =      0.26700000
+     Normalization =  0.99607286E+00 Energy    =  0.39348830E+01
+
+     Time Step     =    535     Time =      0.26750000
+     Normalization =  0.99607286E+00 Energy    =  0.39348818E+01
+
+     Time Step     =    536     Time =      0.26800000
+     Normalization =  0.99607286E+00 Energy    =  0.39348807E+01
+
+     Time Step     =    537     Time =      0.26850000
+     Normalization =  0.99607286E+00 Energy    =  0.39348795E+01
+
+     Time Step     =    538     Time =      0.26900000
+     Normalization =  0.99607286E+00 Energy    =  0.39348784E+01
+
+     Time Step     =    539     Time =      0.26950000
+     Normalization =  0.99607287E+00 Energy    =  0.39348772E+01
+
+     Time Step     =    540     Time =      0.27000000
+     Normalization =  0.99607287E+00 Energy    =  0.39348761E+01
+
+     Time Step     =    541     Time =      0.27050000
+     Normalization =  0.99607287E+00 Energy    =  0.39348751E+01
+
+     Time Step     =    542     Time =      0.27100000
+     Normalization =  0.99607287E+00 Energy    =  0.39348740E+01
+
+     Time Step     =    543     Time =      0.27150000
+     Normalization =  0.99607287E+00 Energy    =  0.39348729E+01
+
+     Time Step     =    544     Time =      0.27200000
+     Normalization =  0.99607287E+00 Energy    =  0.39348719E+01
+
+     Time Step     =    545     Time =      0.27250000
+     Normalization =  0.99607287E+00 Energy    =  0.39348709E+01
+
+     Time Step     =    546     Time =      0.27300000
+     Normalization =  0.99607287E+00 Energy    =  0.39348699E+01
+
+     Time Step     =    547     Time =      0.27350000
+     Normalization =  0.99607287E+00 Energy    =  0.39348689E+01
+
+     Time Step     =    548     Time =      0.27400000
+     Normalization =  0.99607288E+00 Energy    =  0.39348679E+01
+
+     Time Step     =    549     Time =      0.27450000
+     Normalization =  0.99607288E+00 Energy    =  0.39348669E+01
+
+     Time Step     =    550     Time =      0.27500000
+     Normalization =  0.99607288E+00 Energy    =  0.39348660E+01
+
+     Time Step     =    551     Time =      0.27550000
+     Normalization =  0.99607288E+00 Energy    =  0.39348650E+01
+
+     Time Step     =    552     Time =      0.27600000
+     Normalization =  0.99607288E+00 Energy    =  0.39348641E+01
+
+     Time Step     =    553     Time =      0.27650000
+     Normalization =  0.99607288E+00 Energy    =  0.39348632E+01
+
+     Time Step     =    554     Time =      0.27700000
+     Normalization =  0.99607288E+00 Energy    =  0.39348623E+01
+
+     Time Step     =    555     Time =      0.27750000
+     Normalization =  0.99607288E+00 Energy    =  0.39348614E+01
+
+     Time Step     =    556     Time =      0.27800000
+     Normalization =  0.99607288E+00 Energy    =  0.39348605E+01
+
+     Time Step     =    557     Time =      0.27850000
+     Normalization =  0.99607288E+00 Energy    =  0.39348597E+01
+
+     Time Step     =    558     Time =      0.27900000
+     Normalization =  0.99607288E+00 Energy    =  0.39348588E+01
+
+     Time Step     =    559     Time =      0.27950000
+     Normalization =  0.99607289E+00 Energy    =  0.39348580E+01
+
+     Time Step     =    560     Time =      0.28000000
+     Normalization =  0.99607289E+00 Energy    =  0.39348572E+01
+
+     Time Step     =    561     Time =      0.28050000
+     Normalization =  0.99607289E+00 Energy    =  0.39348564E+01
+
+     Time Step     =    562     Time =      0.28100000
+     Normalization =  0.99607289E+00 Energy    =  0.39348556E+01
+
+     Time Step     =    563     Time =      0.28150000
+     Normalization =  0.99607289E+00 Energy    =  0.39348548E+01
+
+     Time Step     =    564     Time =      0.28200000
+     Normalization =  0.99607289E+00 Energy    =  0.39348540E+01
+
+     Time Step     =    565     Time =      0.28250000
+     Normalization =  0.99607289E+00 Energy    =  0.39348533E+01
+
+     Time Step     =    566     Time =      0.28300000
+     Normalization =  0.99607289E+00 Energy    =  0.39348525E+01
+
+     Time Step     =    567     Time =      0.28350000
+     Normalization =  0.99607289E+00 Energy    =  0.39348518E+01
+
+     Time Step     =    568     Time =      0.28400000
+     Normalization =  0.99607289E+00 Energy    =  0.39348510E+01
+
+     Time Step     =    569     Time =      0.28450000
+     Normalization =  0.99607289E+00 Energy    =  0.39348503E+01
+
+     Time Step     =    570     Time =      0.28500000
+     Normalization =  0.99607289E+00 Energy    =  0.39348496E+01
+
+     Time Step     =    571     Time =      0.28550000
+     Normalization =  0.99607289E+00 Energy    =  0.39348489E+01
+
+     Time Step     =    572     Time =      0.28600000
+     Normalization =  0.99607290E+00 Energy    =  0.39348482E+01
+
+     Time Step     =    573     Time =      0.28650000
+     Normalization =  0.99607290E+00 Energy    =  0.39348476E+01
+
+     Time Step     =    574     Time =      0.28700000
+     Normalization =  0.99607290E+00 Energy    =  0.39348469E+01
+
+     Time Step     =    575     Time =      0.28750000
+     Normalization =  0.99607290E+00 Energy    =  0.39348462E+01
+
+     Time Step     =    576     Time =      0.28800000
+     Normalization =  0.99607290E+00 Energy    =  0.39348456E+01
+
+     Time Step     =    577     Time =      0.28850000
+     Normalization =  0.99607290E+00 Energy    =  0.39348450E+01
+
+     Time Step     =    578     Time =      0.28900000
+     Normalization =  0.99607290E+00 Energy    =  0.39348443E+01
+
+     Time Step     =    579     Time =      0.28950000
+     Normalization =  0.99607290E+00 Energy    =  0.39348437E+01
+
+     Time Step     =    580     Time =      0.29000000
+     Normalization =  0.99607290E+00 Energy    =  0.39348431E+01
+
+     Time Step     =    581     Time =      0.29050000
+     Normalization =  0.99607290E+00 Energy    =  0.39348425E+01
+
+     Time Step     =    582     Time =      0.29100000
+     Normalization =  0.99607290E+00 Energy    =  0.39348419E+01
+
+     Time Step     =    583     Time =      0.29150000
+     Normalization =  0.99607290E+00 Energy    =  0.39348413E+01
+
+     Time Step     =    584     Time =      0.29200000
+     Normalization =  0.99607290E+00 Energy    =  0.39348407E+01
+
+     Time Step     =    585     Time =      0.29250000
+     Normalization =  0.99607290E+00 Energy    =  0.39348402E+01
+
+     Time Step     =    586     Time =      0.29300000
+     Normalization =  0.99607290E+00 Energy    =  0.39348396E+01
+
+     Time Step     =    587     Time =      0.29350000
+     Normalization =  0.99607290E+00 Energy    =  0.39348391E+01
+
+     Time Step     =    588     Time =      0.29400000
+     Normalization =  0.99607290E+00 Energy    =  0.39348385E+01
+
+     Time Step     =    589     Time =      0.29450000
+     Normalization =  0.99607291E+00 Energy    =  0.39348380E+01
+
+     Time Step     =    590     Time =      0.29500000
+     Normalization =  0.99607291E+00 Energy    =  0.39348375E+01
+
+     Time Step     =    591     Time =      0.29550000
+     Normalization =  0.99607291E+00 Energy    =  0.39348370E+01
+
+     Time Step     =    592     Time =      0.29600000
+     Normalization =  0.99607291E+00 Energy    =  0.39348364E+01
+
+     Time Step     =    593     Time =      0.29650000
+     Normalization =  0.99607291E+00 Energy    =  0.39348359E+01
+
+     Time Step     =    594     Time =      0.29700000
+     Normalization =  0.99607291E+00 Energy    =  0.39348354E+01
+
+     Time Step     =    595     Time =      0.29750000
+     Normalization =  0.99607291E+00 Energy    =  0.39348350E+01
+
+     Time Step     =    596     Time =      0.29800000
+     Normalization =  0.99607291E+00 Energy    =  0.39348345E+01
+
+     Time Step     =    597     Time =      0.29850000
+     Normalization =  0.99607291E+00 Energy    =  0.39348340E+01
+
+     Time Step     =    598     Time =      0.29900000
+     Normalization =  0.99607291E+00 Energy    =  0.39348335E+01
+
+     Time Step     =    599     Time =      0.29950000
+     Normalization =  0.99607291E+00 Energy    =  0.39348331E+01
+
+     Time Step     =    600     Time =      0.30000000
+     Normalization =  0.99607291E+00 Energy    =  0.39348326E+01
+
+     Time Step     =    601     Time =      0.30050000
+     Normalization =  0.99607291E+00 Energy    =  0.39348322E+01
+
+     Time Step     =    602     Time =      0.30100000
+     Normalization =  0.99607291E+00 Energy    =  0.39348317E+01
+
+     Time Step     =    603     Time =      0.30150000
+     Normalization =  0.99607291E+00 Energy    =  0.39348313E+01
+
+     Time Step     =    604     Time =      0.30200000
+     Normalization =  0.99607291E+00 Energy    =  0.39348309E+01
+
+     Time Step     =    605     Time =      0.30250000
+     Normalization =  0.99607291E+00 Energy    =  0.39348304E+01
+
+     Time Step     =    606     Time =      0.30300000
+     Normalization =  0.99607291E+00 Energy    =  0.39348300E+01
+
+     Time Step     =    607     Time =      0.30350000
+     Normalization =  0.99607291E+00 Energy    =  0.39348296E+01
+
+     Time Step     =    608     Time =      0.30400000
+     Normalization =  0.99607291E+00 Energy    =  0.39348292E+01
+
+     Time Step     =    609     Time =      0.30450000
+     Normalization =  0.99607291E+00 Energy    =  0.39348288E+01
+
+     Time Step     =    610     Time =      0.30500000
+     Normalization =  0.99607291E+00 Energy    =  0.39348284E+01
+
+     Time Step     =    611     Time =      0.30550000
+     Normalization =  0.99607292E+00 Energy    =  0.39348280E+01
+
+     Time Step     =    612     Time =      0.30600000
+     Normalization =  0.99607292E+00 Energy    =  0.39348277E+01
+
+     Time Step     =    613     Time =      0.30650000
+     Normalization =  0.99607292E+00 Energy    =  0.39348273E+01
+
+     Time Step     =    614     Time =      0.30700000
+     Normalization =  0.99607292E+00 Energy    =  0.39348269E+01
+
+     Time Step     =    615     Time =      0.30750000
+     Normalization =  0.99607292E+00 Energy    =  0.39348266E+01
+
+     Time Step     =    616     Time =      0.30800000
+     Normalization =  0.99607292E+00 Energy    =  0.39348262E+01
+
+     Time Step     =    617     Time =      0.30850000
+     Normalization =  0.99607292E+00 Energy    =  0.39348259E+01
+
+     Time Step     =    618     Time =      0.30900000
+     Normalization =  0.99607292E+00 Energy    =  0.39348255E+01
+
+     Time Step     =    619     Time =      0.30950000
+     Normalization =  0.99607292E+00 Energy    =  0.39348252E+01
+
+     Time Step     =    620     Time =      0.31000000
+     Normalization =  0.99607292E+00 Energy    =  0.39348248E+01
+
+     Time Step     =    621     Time =      0.31050000
+     Normalization =  0.99607292E+00 Energy    =  0.39348245E+01
+
+     Time Step     =    622     Time =      0.31100000
+     Normalization =  0.99607292E+00 Energy    =  0.39348242E+01
+
+     Time Step     =    623     Time =      0.31150000
+     Normalization =  0.99607292E+00 Energy    =  0.39348238E+01
+
+     Time Step     =    624     Time =      0.31200000
+     Normalization =  0.99607292E+00 Energy    =  0.39348235E+01
+
+     Time Step     =    625     Time =      0.31250000
+     Normalization =  0.99607292E+00 Energy    =  0.39348232E+01
+
+     Time Step     =    626     Time =      0.31300000
+     Normalization =  0.99607292E+00 Energy    =  0.39348229E+01
+
+     Time Step     =    627     Time =      0.31350000
+     Normalization =  0.99607292E+00 Energy    =  0.39348226E+01
+
+     Time Step     =    628     Time =      0.31400000
+     Normalization =  0.99607292E+00 Energy    =  0.39348223E+01
+
+     Time Step     =    629     Time =      0.31450000
+     Normalization =  0.99607292E+00 Energy    =  0.39348220E+01
+
+     Time Step     =    630     Time =      0.31500000
+     Normalization =  0.99607292E+00 Energy    =  0.39348217E+01
+
+     Time Step     =    631     Time =      0.31550000
+     Normalization =  0.99607292E+00 Energy    =  0.39348214E+01
+
+     Time Step     =    632     Time =      0.31600000
+     Normalization =  0.99607292E+00 Energy    =  0.39348211E+01
+
+     Time Step     =    633     Time =      0.31650000
+     Normalization =  0.99607292E+00 Energy    =  0.39348209E+01
+
+     Time Step     =    634     Time =      0.31700000
+     Normalization =  0.99607292E+00 Energy    =  0.39348206E+01
+
+     Time Step     =    635     Time =      0.31750000
+     Normalization =  0.99607292E+00 Energy    =  0.39348203E+01
+
+     Time Step     =    636     Time =      0.31800000
+     Normalization =  0.99607292E+00 Energy    =  0.39348201E+01
+
+     Time Step     =    637     Time =      0.31850000
+     Normalization =  0.99607292E+00 Energy    =  0.39348198E+01
+
+     Time Step     =    638     Time =      0.31900000
+     Normalization =  0.99607292E+00 Energy    =  0.39348195E+01
+
+     Time Step     =    639     Time =      0.31950000
+     Normalization =  0.99607292E+00 Energy    =  0.39348193E+01
+
+     Time Step     =    640     Time =      0.32000000
+     Normalization =  0.99607292E+00 Energy    =  0.39348190E+01
+
+     Time Step     =    641     Time =      0.32050000
+     Normalization =  0.99607292E+00 Energy    =  0.39348188E+01
+
+     Time Step     =    642     Time =      0.32100000
+     Normalization =  0.99607292E+00 Energy    =  0.39348185E+01
+
+     Time Step     =    643     Time =      0.32150000
+     Normalization =  0.99607293E+00 Energy    =  0.39348183E+01
+
+     Time Step     =    644     Time =      0.32200000
+     Normalization =  0.99607293E+00 Energy    =  0.39348181E+01
+
+     Time Step     =    645     Time =      0.32250000
+     Normalization =  0.99607293E+00 Energy    =  0.39348178E+01
+
+     Time Step     =    646     Time =      0.32300000
+     Normalization =  0.99607293E+00 Energy    =  0.39348176E+01
+
+     Time Step     =    647     Time =      0.32350000
+     Normalization =  0.99607293E+00 Energy    =  0.39348174E+01
+
+     Time Step     =    648     Time =      0.32400000
+     Normalization =  0.99607293E+00 Energy    =  0.39348171E+01
+
+     Time Step     =    649     Time =      0.32450000
+     Normalization =  0.99607293E+00 Energy    =  0.39348169E+01
+
+     Time Step     =    650     Time =      0.32500000
+     Normalization =  0.99607293E+00 Energy    =  0.39348167E+01
+
+     Time Step     =    651     Time =      0.32550000
+     Normalization =  0.99607293E+00 Energy    =  0.39348165E+01
+
+     Time Step     =    652     Time =      0.32600000
+     Normalization =  0.99607293E+00 Energy    =  0.39348163E+01
+
+     Time Step     =    653     Time =      0.32650000
+     Normalization =  0.99607293E+00 Energy    =  0.39348161E+01
+
+     Time Step     =    654     Time =      0.32700000
+     Normalization =  0.99607293E+00 Energy    =  0.39348159E+01
+
+     Time Step     =    655     Time =      0.32750000
+     Normalization =  0.99607293E+00 Energy    =  0.39348157E+01
+
+     Time Step     =    656     Time =      0.32800000
+     Normalization =  0.99607293E+00 Energy    =  0.39348155E+01
+
+     Time Step     =    657     Time =      0.32850000
+     Normalization =  0.99607293E+00 Energy    =  0.39348153E+01
+
+     Time Step     =    658     Time =      0.32900000
+     Normalization =  0.99607293E+00 Energy    =  0.39348151E+01
+
+     Time Step     =    659     Time =      0.32950000
+     Normalization =  0.99607293E+00 Energy    =  0.39348149E+01
+
+     Time Step     =    660     Time =      0.33000000
+     Normalization =  0.99607293E+00 Energy    =  0.39348147E+01
+
+     Time Step     =    661     Time =      0.33050000
+     Normalization =  0.99607293E+00 Energy    =  0.39348145E+01
+
+     Time Step     =    662     Time =      0.33100000
+     Normalization =  0.99607293E+00 Energy    =  0.39348143E+01
+
+     Time Step     =    663     Time =      0.33150000
+     Normalization =  0.99607293E+00 Energy    =  0.39348142E+01
+
+     Time Step     =    664     Time =      0.33200000
+     Normalization =  0.99607293E+00 Energy    =  0.39348140E+01
+
+     Time Step     =    665     Time =      0.33250000
+     Normalization =  0.99607293E+00 Energy    =  0.39348138E+01
+
+     Time Step     =    666     Time =      0.33300000
+     Normalization =  0.99607293E+00 Energy    =  0.39348137E+01
+
+     Time Step     =    667     Time =      0.33350000
+     Normalization =  0.99607293E+00 Energy    =  0.39348135E+01
+
+     Time Step     =    668     Time =      0.33400000
+     Normalization =  0.99607293E+00 Energy    =  0.39348133E+01
+
+     Time Step     =    669     Time =      0.33450000
+     Normalization =  0.99607293E+00 Energy    =  0.39348132E+01
+
+     Time Step     =    670     Time =      0.33500000
+     Normalization =  0.99607293E+00 Energy    =  0.39348130E+01
+
+     Time Step     =    671     Time =      0.33550000
+     Normalization =  0.99607293E+00 Energy    =  0.39348128E+01
+
+     Time Step     =    672     Time =      0.33600000
+     Normalization =  0.99607293E+00 Energy    =  0.39348127E+01
+
+     Time Step     =    673     Time =      0.33650000
+     Normalization =  0.99607293E+00 Energy    =  0.39348125E+01
+
+     Time Step     =    674     Time =      0.33700000
+     Normalization =  0.99607293E+00 Energy    =  0.39348124E+01
+
+     Time Step     =    675     Time =      0.33750000
+     Normalization =  0.99607293E+00 Energy    =  0.39348122E+01
+
+     Time Step     =    676     Time =      0.33800000
+     Normalization =  0.99607293E+00 Energy    =  0.39348121E+01
+
+     Time Step     =    677     Time =      0.33850000
+     Normalization =  0.99607293E+00 Energy    =  0.39348119E+01
+
+     Time Step     =    678     Time =      0.33900000
+     Normalization =  0.99607293E+00 Energy    =  0.39348118E+01
+
+     Time Step     =    679     Time =      0.33950000
+     Normalization =  0.99607293E+00 Energy    =  0.39348116E+01
+
+     Time Step     =    680     Time =      0.34000000
+     Normalization =  0.99607293E+00 Energy    =  0.39348115E+01
+
+     Time Step     =    681     Time =      0.34050000
+     Normalization =  0.99607293E+00 Energy    =  0.39348114E+01
+
+     Time Step     =    682     Time =      0.34100000
+     Normalization =  0.99607293E+00 Energy    =  0.39348112E+01
+
+     Time Step     =    683     Time =      0.34150000
+     Normalization =  0.99607293E+00 Energy    =  0.39348111E+01
+
+     Time Step     =    684     Time =      0.34200000
+     Normalization =  0.99607293E+00 Energy    =  0.39348110E+01
+
+     Time Step     =    685     Time =      0.34250000
+     Normalization =  0.99607293E+00 Energy    =  0.39348108E+01
+
+     Time Step     =    686     Time =      0.34300000
+     Normalization =  0.99607293E+00 Energy    =  0.39348107E+01
+
+     Time Step     =    687     Time =      0.34350000
+     Normalization =  0.99607293E+00 Energy    =  0.39348106E+01
+
+     Time Step     =    688     Time =      0.34400000
+     Normalization =  0.99607293E+00 Energy    =  0.39348105E+01
+
+     Time Step     =    689     Time =      0.34450000
+     Normalization =  0.99607293E+00 Energy    =  0.39348103E+01
+
+     Time Step     =    690     Time =      0.34500000
+     Normalization =  0.99607293E+00 Energy    =  0.39348102E+01
+
+     Time Step     =    691     Time =      0.34550000
+     Normalization =  0.99607293E+00 Energy    =  0.39348101E+01
+
+     Time Step     =    692     Time =      0.34600000
+     Normalization =  0.99607293E+00 Energy    =  0.39348100E+01
+
+     Time Step     =    693     Time =      0.34650000
+     Normalization =  0.99607293E+00 Energy    =  0.39348099E+01
+
+     Time Step     =    694     Time =      0.34700000
+     Normalization =  0.99607293E+00 Energy    =  0.39348098E+01
+
+     Time Step     =    695     Time =      0.34750000
+     Normalization =  0.99607293E+00 Energy    =  0.39348097E+01
+
+     Time Step     =    696     Time =      0.34800000
+     Normalization =  0.99607293E+00 Energy    =  0.39348095E+01
+
+     Time Step     =    697     Time =      0.34850000
+     Normalization =  0.99607293E+00 Energy    =  0.39348094E+01
+
+     Time Step     =    698     Time =      0.34900000
+     Normalization =  0.99607293E+00 Energy    =  0.39348093E+01
+
+     Time Step     =    699     Time =      0.34950000
+     Normalization =  0.99607293E+00 Energy    =  0.39348092E+01
+
+     Time Step     =    700     Time =      0.35000000
+     Normalization =  0.99607293E+00 Energy    =  0.39348091E+01
+
+     Time Step     =    701     Time =      0.35050000
+     Normalization =  0.99607293E+00 Energy    =  0.39348090E+01
+
+     Time Step     =    702     Time =      0.35100000
+     Normalization =  0.99607293E+00 Energy    =  0.39348089E+01
+
+     Time Step     =    703     Time =      0.35150000
+     Normalization =  0.99607293E+00 Energy    =  0.39348088E+01
+
+     Time Step     =    704     Time =      0.35200000
+     Normalization =  0.99607293E+00 Energy    =  0.39348087E+01
+
+     Time Step     =    705     Time =      0.35250000
+     Normalization =  0.99607293E+00 Energy    =  0.39348086E+01
+
+     Time Step     =    706     Time =      0.35300000
+     Normalization =  0.99607293E+00 Energy    =  0.39348085E+01
+
+     Time Step     =    707     Time =      0.35350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348084E+01
+
+     Time Step     =    708     Time =      0.35400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348084E+01
+
+     Time Step     =    709     Time =      0.35450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348083E+01
+
+     Time Step     =    710     Time =      0.35500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348082E+01
+
+     Time Step     =    711     Time =      0.35550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348081E+01
+
+     Time Step     =    712     Time =      0.35600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348080E+01
+
+     Time Step     =    713     Time =      0.35650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348079E+01
+
+     Time Step     =    714     Time =      0.35700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348078E+01
+
+     Time Step     =    715     Time =      0.35750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348077E+01
+
+     Time Step     =    716     Time =      0.35800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348077E+01
+
+     Time Step     =    717     Time =      0.35850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348076E+01
+
+     Time Step     =    718     Time =      0.35900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348075E+01
+
+     Time Step     =    719     Time =      0.35950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348074E+01
+
+     Time Step     =    720     Time =      0.36000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348073E+01
+
+     Time Step     =    721     Time =      0.36050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348073E+01
+
+     Time Step     =    722     Time =      0.36100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348072E+01
+
+     Time Step     =    723     Time =      0.36150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348071E+01
+
+     Time Step     =    724     Time =      0.36200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348071E+01
+
+     Time Step     =    725     Time =      0.36250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348070E+01
+
+     Time Step     =    726     Time =      0.36300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348069E+01
+
+     Time Step     =    727     Time =      0.36350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348068E+01
+
+     Time Step     =    728     Time =      0.36400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348068E+01
+
+     Time Step     =    729     Time =      0.36450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348067E+01
+
+     Time Step     =    730     Time =      0.36500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348066E+01
+
+     Time Step     =    731     Time =      0.36550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348066E+01
+
+     Time Step     =    732     Time =      0.36600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348065E+01
+
+     Time Step     =    733     Time =      0.36650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348064E+01
+
+     Time Step     =    734     Time =      0.36700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348064E+01
+
+     Time Step     =    735     Time =      0.36750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348063E+01
+
+     Time Step     =    736     Time =      0.36800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348063E+01
+
+     Time Step     =    737     Time =      0.36850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348062E+01
+
+     Time Step     =    738     Time =      0.36900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348061E+01
+
+     Time Step     =    739     Time =      0.36950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348061E+01
+
+     Time Step     =    740     Time =      0.37000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348060E+01
+
+     Time Step     =    741     Time =      0.37050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348060E+01
+
+     Time Step     =    742     Time =      0.37100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348059E+01
+
+     Time Step     =    743     Time =      0.37150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348059E+01
+
+     Time Step     =    744     Time =      0.37200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348058E+01
+
+     Time Step     =    745     Time =      0.37250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348058E+01
+
+     Time Step     =    746     Time =      0.37300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348057E+01
+
+     Time Step     =    747     Time =      0.37350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348057E+01
+
+     Time Step     =    748     Time =      0.37400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348056E+01
+
+     Time Step     =    749     Time =      0.37450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348056E+01
+
+     Time Step     =    750     Time =      0.37500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348055E+01
+
+     Time Step     =    751     Time =      0.37550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348055E+01
+
+     Time Step     =    752     Time =      0.37600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348054E+01
+
+     Time Step     =    753     Time =      0.37650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348054E+01
+
+     Time Step     =    754     Time =      0.37700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348053E+01
+
+     Time Step     =    755     Time =      0.37750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348053E+01
+
+     Time Step     =    756     Time =      0.37800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348052E+01
+
+     Time Step     =    757     Time =      0.37850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348052E+01
+
+     Time Step     =    758     Time =      0.37900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348051E+01
+
+     Time Step     =    759     Time =      0.37950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348051E+01
+
+     Time Step     =    760     Time =      0.38000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348050E+01
+
+     Time Step     =    761     Time =      0.38050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348050E+01
+
+     Time Step     =    762     Time =      0.38100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348050E+01
+
+     Time Step     =    763     Time =      0.38150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348049E+01
+
+     Time Step     =    764     Time =      0.38200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348049E+01
+
+     Time Step     =    765     Time =      0.38250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348048E+01
+
+     Time Step     =    766     Time =      0.38300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348048E+01
+
+     Time Step     =    767     Time =      0.38350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348048E+01
+
+     Time Step     =    768     Time =      0.38400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348047E+01
+
+     Time Step     =    769     Time =      0.38450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348047E+01
+
+     Time Step     =    770     Time =      0.38500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348047E+01
+
+     Time Step     =    771     Time =      0.38550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348046E+01
+
+     Time Step     =    772     Time =      0.38600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348046E+01
+
+     Time Step     =    773     Time =      0.38650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348046E+01
+
+     Time Step     =    774     Time =      0.38700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348045E+01
+
+     Time Step     =    775     Time =      0.38750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348045E+01
+
+     Time Step     =    776     Time =      0.38800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348044E+01
+
+     Time Step     =    777     Time =      0.38850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348044E+01
+
+     Time Step     =    778     Time =      0.38900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348044E+01
+
+     Time Step     =    779     Time =      0.38950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348044E+01
+
+     Time Step     =    780     Time =      0.39000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348043E+01
+
+     Time Step     =    781     Time =      0.39050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348043E+01
+
+     Time Step     =    782     Time =      0.39100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348043E+01
+
+     Time Step     =    783     Time =      0.39150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348042E+01
+
+     Time Step     =    784     Time =      0.39200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348042E+01
+
+     Time Step     =    785     Time =      0.39250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348042E+01
+
+     Time Step     =    786     Time =      0.39300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348041E+01
+
+     Time Step     =    787     Time =      0.39350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348041E+01
+
+     Time Step     =    788     Time =      0.39400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348041E+01
+
+     Time Step     =    789     Time =      0.39450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348041E+01
+
+     Time Step     =    790     Time =      0.39500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348040E+01
+
+     Time Step     =    791     Time =      0.39550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348040E+01
+
+     Time Step     =    792     Time =      0.39600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348040E+01
+
+     Time Step     =    793     Time =      0.39650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348039E+01
+
+     Time Step     =    794     Time =      0.39700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348039E+01
+
+     Time Step     =    795     Time =      0.39750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348039E+01
+
+     Time Step     =    796     Time =      0.39800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348039E+01
+
+     Time Step     =    797     Time =      0.39850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348038E+01
+
+     Time Step     =    798     Time =      0.39900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348038E+01
+
+     Time Step     =    799     Time =      0.39950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348038E+01
+
+     Time Step     =    800     Time =      0.40000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348038E+01
+
+     Time Step     =    801     Time =      0.40050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348038E+01
+
+     Time Step     =    802     Time =      0.40100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348037E+01
+
+     Time Step     =    803     Time =      0.40150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348037E+01
+
+     Time Step     =    804     Time =      0.40200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348037E+01
+
+     Time Step     =    805     Time =      0.40250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348037E+01
+
+     Time Step     =    806     Time =      0.40300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348036E+01
+
+     Time Step     =    807     Time =      0.40350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348036E+01
+
+     Time Step     =    808     Time =      0.40400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348036E+01
+
+     Time Step     =    809     Time =      0.40450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348036E+01
+
+     Time Step     =    810     Time =      0.40500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348036E+01
+
+     Time Step     =    811     Time =      0.40550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348035E+01
+
+     Time Step     =    812     Time =      0.40600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348035E+01
+
+     Time Step     =    813     Time =      0.40650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348035E+01
+
+     Time Step     =    814     Time =      0.40700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348035E+01
+
+     Time Step     =    815     Time =      0.40750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348035E+01
+
+     Time Step     =    816     Time =      0.40800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348034E+01
+
+     Time Step     =    817     Time =      0.40850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348034E+01
+
+     Time Step     =    818     Time =      0.40900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348034E+01
+
+     Time Step     =    819     Time =      0.40950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348034E+01
+
+     Time Step     =    820     Time =      0.41000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348034E+01
+
+     Time Step     =    821     Time =      0.41050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348034E+01
+
+     Time Step     =    822     Time =      0.41100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348033E+01
+
+     Time Step     =    823     Time =      0.41150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348033E+01
+
+     Time Step     =    824     Time =      0.41200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348033E+01
+
+     Time Step     =    825     Time =      0.41250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348033E+01
+
+     Time Step     =    826     Time =      0.41300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348033E+01
+
+     Time Step     =    827     Time =      0.41350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348033E+01
+
+     Time Step     =    828     Time =      0.41400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348032E+01
+
+     Time Step     =    829     Time =      0.41450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348032E+01
+
+     Time Step     =    830     Time =      0.41500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348032E+01
+
+     Time Step     =    831     Time =      0.41550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348032E+01
+
+     Time Step     =    832     Time =      0.41600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348032E+01
+
+     Time Step     =    833     Time =      0.41650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348032E+01
+
+     Time Step     =    834     Time =      0.41700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348032E+01
+
+     Time Step     =    835     Time =      0.41750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348031E+01
+
+     Time Step     =    836     Time =      0.41800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348031E+01
+
+     Time Step     =    837     Time =      0.41850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348031E+01
+
+     Time Step     =    838     Time =      0.41900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348031E+01
+
+     Time Step     =    839     Time =      0.41950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348031E+01
+
+     Time Step     =    840     Time =      0.42000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348031E+01
+
+     Time Step     =    841     Time =      0.42050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348031E+01
+
+     Time Step     =    842     Time =      0.42100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    843     Time =      0.42150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    844     Time =      0.42200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    845     Time =      0.42250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    846     Time =      0.42300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    847     Time =      0.42350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    848     Time =      0.42400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    849     Time =      0.42450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    850     Time =      0.42500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348030E+01
+
+     Time Step     =    851     Time =      0.42550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    852     Time =      0.42600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    853     Time =      0.42650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    854     Time =      0.42700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    855     Time =      0.42750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    856     Time =      0.42800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    857     Time =      0.42850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    858     Time =      0.42900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    859     Time =      0.42950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    860     Time =      0.43000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348029E+01
+
+     Time Step     =    861     Time =      0.43050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    862     Time =      0.43100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    863     Time =      0.43150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    864     Time =      0.43200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    865     Time =      0.43250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    866     Time =      0.43300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    867     Time =      0.43350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    868     Time =      0.43400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    869     Time =      0.43450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    870     Time =      0.43500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    871     Time =      0.43550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348028E+01
+
+     Time Step     =    872     Time =      0.43600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    873     Time =      0.43650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    874     Time =      0.43700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    875     Time =      0.43750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    876     Time =      0.43800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    877     Time =      0.43850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    878     Time =      0.43900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    879     Time =      0.43950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    880     Time =      0.44000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    881     Time =      0.44050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    882     Time =      0.44100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    883     Time =      0.44150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    884     Time =      0.44200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348027E+01
+
+     Time Step     =    885     Time =      0.44250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    886     Time =      0.44300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    887     Time =      0.44350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    888     Time =      0.44400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    889     Time =      0.44450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    890     Time =      0.44500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    891     Time =      0.44550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    892     Time =      0.44600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    893     Time =      0.44650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    894     Time =      0.44700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    895     Time =      0.44750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    896     Time =      0.44800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    897     Time =      0.44850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    898     Time =      0.44900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    899     Time =      0.44950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    900     Time =      0.45000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    901     Time =      0.45050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    902     Time =      0.45100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348026E+01
+
+     Time Step     =    903     Time =      0.45150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    904     Time =      0.45200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    905     Time =      0.45250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    906     Time =      0.45300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    907     Time =      0.45350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    908     Time =      0.45400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    909     Time =      0.45450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    910     Time =      0.45500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    911     Time =      0.45550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    912     Time =      0.45600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    913     Time =      0.45650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    914     Time =      0.45700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    915     Time =      0.45750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    916     Time =      0.45800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    917     Time =      0.45850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    918     Time =      0.45900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    919     Time =      0.45950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    920     Time =      0.46000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    921     Time =      0.46050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    922     Time =      0.46100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    923     Time =      0.46150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    924     Time =      0.46200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348025E+01
+
+     Time Step     =    925     Time =      0.46250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    926     Time =      0.46300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    927     Time =      0.46350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    928     Time =      0.46400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    929     Time =      0.46450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    930     Time =      0.46500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    931     Time =      0.46550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    932     Time =      0.46600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    933     Time =      0.46650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    934     Time =      0.46700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    935     Time =      0.46750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    936     Time =      0.46800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    937     Time =      0.46850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    938     Time =      0.46900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    939     Time =      0.46950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    940     Time =      0.47000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    941     Time =      0.47050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    942     Time =      0.47100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    943     Time =      0.47150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    944     Time =      0.47200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    945     Time =      0.47250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    946     Time =      0.47300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    947     Time =      0.47350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    948     Time =      0.47400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    949     Time =      0.47450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    950     Time =      0.47500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    951     Time =      0.47550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    952     Time =      0.47600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    953     Time =      0.47650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    954     Time =      0.47700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    955     Time =      0.47750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    956     Time =      0.47800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    957     Time =      0.47850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    958     Time =      0.47900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    959     Time =      0.47950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348024E+01
+
+     Time Step     =    960     Time =      0.48000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    961     Time =      0.48050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    962     Time =      0.48100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    963     Time =      0.48150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    964     Time =      0.48200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    965     Time =      0.48250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    966     Time =      0.48300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    967     Time =      0.48350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    968     Time =      0.48400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    969     Time =      0.48450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    970     Time =      0.48500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    971     Time =      0.48550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    972     Time =      0.48600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    973     Time =      0.48650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    974     Time =      0.48700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    975     Time =      0.48750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    976     Time =      0.48800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    977     Time =      0.48850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    978     Time =      0.48900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    979     Time =      0.48950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    980     Time =      0.49000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    981     Time =      0.49050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    982     Time =      0.49100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    983     Time =      0.49150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    984     Time =      0.49200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    985     Time =      0.49250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    986     Time =      0.49300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    987     Time =      0.49350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    988     Time =      0.49400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    989     Time =      0.49450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    990     Time =      0.49500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    991     Time =      0.49550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    992     Time =      0.49600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    993     Time =      0.49650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    994     Time =      0.49700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    995     Time =      0.49750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    996     Time =      0.49800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    997     Time =      0.49850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    998     Time =      0.49900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =    999     Time =      0.49950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1000     Time =      0.50000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1001     Time =      0.50050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1002     Time =      0.50100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1003     Time =      0.50150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1004     Time =      0.50200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1005     Time =      0.50250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1006     Time =      0.50300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1007     Time =      0.50350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1008     Time =      0.50400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1009     Time =      0.50450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1010     Time =      0.50500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1011     Time =      0.50550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1012     Time =      0.50600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1013     Time =      0.50650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1014     Time =      0.50700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1015     Time =      0.50750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1016     Time =      0.50800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1017     Time =      0.50850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1018     Time =      0.50900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1019     Time =      0.50950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1020     Time =      0.51000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1021     Time =      0.51050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1022     Time =      0.51100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1023     Time =      0.51150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1024     Time =      0.51200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1025     Time =      0.51250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1026     Time =      0.51300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1027     Time =      0.51350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1028     Time =      0.51400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1029     Time =      0.51450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1030     Time =      0.51500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1031     Time =      0.51550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1032     Time =      0.51600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1033     Time =      0.51650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1034     Time =      0.51700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1035     Time =      0.51750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1036     Time =      0.51800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348023E+01
+
+     Time Step     =   1037     Time =      0.51850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1038     Time =      0.51900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1039     Time =      0.51950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1040     Time =      0.52000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1041     Time =      0.52050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1042     Time =      0.52100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1043     Time =      0.52150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1044     Time =      0.52200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1045     Time =      0.52250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1046     Time =      0.52300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1047     Time =      0.52350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1048     Time =      0.52400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1049     Time =      0.52450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1050     Time =      0.52500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1051     Time =      0.52550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1052     Time =      0.52600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1053     Time =      0.52650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1054     Time =      0.52700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1055     Time =      0.52750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1056     Time =      0.52800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1057     Time =      0.52850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1058     Time =      0.52900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1059     Time =      0.52950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1060     Time =      0.53000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1061     Time =      0.53050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1062     Time =      0.53100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1063     Time =      0.53150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1064     Time =      0.53200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1065     Time =      0.53250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1066     Time =      0.53300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1067     Time =      0.53350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1068     Time =      0.53400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1069     Time =      0.53450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1070     Time =      0.53500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1071     Time =      0.53550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1072     Time =      0.53600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1073     Time =      0.53650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1074     Time =      0.53700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1075     Time =      0.53750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1076     Time =      0.53800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1077     Time =      0.53850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1078     Time =      0.53900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1079     Time =      0.53950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1080     Time =      0.54000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1081     Time =      0.54050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1082     Time =      0.54100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1083     Time =      0.54150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1084     Time =      0.54200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1085     Time =      0.54250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1086     Time =      0.54300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1087     Time =      0.54350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1088     Time =      0.54400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1089     Time =      0.54450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1090     Time =      0.54500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1091     Time =      0.54550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1092     Time =      0.54600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1093     Time =      0.54650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1094     Time =      0.54700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1095     Time =      0.54750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1096     Time =      0.54800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1097     Time =      0.54850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1098     Time =      0.54900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1099     Time =      0.54950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1100     Time =      0.55000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1101     Time =      0.55050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1102     Time =      0.55100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1103     Time =      0.55150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1104     Time =      0.55200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1105     Time =      0.55250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1106     Time =      0.55300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1107     Time =      0.55350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1108     Time =      0.55400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1109     Time =      0.55450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1110     Time =      0.55500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1111     Time =      0.55550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1112     Time =      0.55600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1113     Time =      0.55650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1114     Time =      0.55700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1115     Time =      0.55750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1116     Time =      0.55800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1117     Time =      0.55850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1118     Time =      0.55900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1119     Time =      0.55950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1120     Time =      0.56000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1121     Time =      0.56050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1122     Time =      0.56100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1123     Time =      0.56150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1124     Time =      0.56200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1125     Time =      0.56250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1126     Time =      0.56300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1127     Time =      0.56350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1128     Time =      0.56400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1129     Time =      0.56450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1130     Time =      0.56500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1131     Time =      0.56550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1132     Time =      0.56600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1133     Time =      0.56650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1134     Time =      0.56700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1135     Time =      0.56750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1136     Time =      0.56800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1137     Time =      0.56850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1138     Time =      0.56900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1139     Time =      0.56950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1140     Time =      0.57000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1141     Time =      0.57050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1142     Time =      0.57100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1143     Time =      0.57150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1144     Time =      0.57200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1145     Time =      0.57250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1146     Time =      0.57300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1147     Time =      0.57350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1148     Time =      0.57400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1149     Time =      0.57450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1150     Time =      0.57500000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1151     Time =      0.57550000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1152     Time =      0.57600000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1153     Time =      0.57650000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1154     Time =      0.57700000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1155     Time =      0.57750000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1156     Time =      0.57800000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1157     Time =      0.57850000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1158     Time =      0.57900000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1159     Time =      0.57950000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1160     Time =      0.58000000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1161     Time =      0.58050000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1162     Time =      0.58100000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1163     Time =      0.58150000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1164     Time =      0.58200000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1165     Time =      0.58250000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1166     Time =      0.58300000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1167     Time =      0.58350000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1168     Time =      0.58400000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+
+     Time Step     =   1169     Time =      0.58450000
+     Normalization =  0.99607294E+00 Energy    =  0.39348022E+01
+************************************************************************
+
+                    End Split Operator Propagation
+************************************************************************
+************************************************************************
+          Time for the Split Operator Propagation =      0.03320312
+************************************************************************

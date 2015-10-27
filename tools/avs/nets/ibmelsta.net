@@ -1,0 +1,161 @@
+#!/usr/bin/avs -network
+version 4.0 (25.137 hp)
+module "Mesa Checkfile Reader.user.0" -xy 318,62 -ex /usr2/mesa/tools/avs/mesareader2
+module "Generate Limits.user.1" -xy 188,132 -ex $Path/MSI/bin/MSI_mongo
+module "Generate Densities.user.2" -xy 258,192 -ex $Path/MSI/bin/MSI_mongo
+module "Verts from Geom.user.3" -xy 358,342 -ex $Path/MSI/bin/MSI_mongo
+module "IBM Elstat.user.4" -xy 448,402 -ex $Path/MSI/bin/MSI_mongo
+module "Color Geom.user.5" -xy 178,482 -ex $Path/MSI/bin/MSI_mongo
+module "color range.user.6" -xy 128,402 -ex $Path/avs_library/mongo
+module "generate colormap.user.7" -xy 48,242
+module isosurface.user.8 -xy 268,242 -ex $Path/avs_library/tile
+module "geometry viewer.user.9" -xy 198,542
+module "image to postscript.user.10" -xy 208,648 -ex $Path/avs_library/postscript
+port_connect "Mesa Checkfile Reader.user.0":0 "Generate Limits.user.1":0
+port_connect "Mesa Checkfile Reader.user.0":0 "Generate Densities.user.2":0
+port_connect "Mesa Checkfile Reader.user.0":0 "IBM Elstat.user.4":0
+port_connect "Generate Limits.user.1":1 "Generate Densities.user.2":1
+port_connect "Generate Densities.user.2":0 isosurface.user.8:0
+port_connect "Verts from Geom.user.3":0 "IBM Elstat.user.4":2
+port_connect "IBM Elstat.user.4":1 "color range.user.6":0
+port_connect "IBM Elstat.user.4":1 "Color Geom.user.5":1
+port_connect "Color Geom.user.5":0 "geometry viewer.user.9":0
+port_connect "color range.user.6":0 "Color Geom.user.5":2
+port_connect "generate colormap.user.7":0 "color range.user.6":1
+port_connect isosurface.user.8:0 "Verts from Geom.user.3":0
+port_connect isosurface.user.8:0 "Color Geom.user.5":0
+parm_set "Generate Densities.user.2":Calculate false
+parm_set "IBM Elstat.user.4":Calculate false
+parm_set "IBM Elstat.user.4":"Multipole Expansion Write Browser" /usr2/mesa/tools/avs/nico4.multi
+parm_set "IBM Elstat.user.4":"Using Pointlist" false
+parm_set isosurface.user.8:level 0.020000000 -range 0.000000190 5997.236328125
+parm_set "image to postscript.user.10":filename /usr2/mesa/tools/avs/nico4.ps
+parm_set "image to postscript.user.10":mode color
+geom_set_scene -scene "geometry viewer.user.9"
+geom_set_camera_name "Camera 1"
+geom_resize_camera -view "Camera 1" 601 512
+#
+# State for view: Camera 1
+#
+geom_set_position -view "Camera 1" 0 0 -12
+geom_set_view_modes -depth_cue 0 -view "Camera 1"
+geom_set_view_modes -z_buffer 1 -view "Camera 1"
+geom_set_view_modes -perspective 1 -view "Camera 1"
+geom_set_camera_params -view "Camera 1" -front 1 -back 112
+geom_set_depth_cue_params "Camera 1" -scale 0.1
+#
+# Light state
+#
+geom_set_light -light 1 -type directional -state 1
+geom_set_light -type ambient -state 1
+#
+# State for object: top
+#
+geom_set_cur_cli_obj top
+geom_set_backface_cull normal
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,980
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 256,763
+   panel "Mesa Checkfile Reader.user.0" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,214
+    manipulator "Mesa Checkfile Reader.user.0:Check file" -w browser -p "Mesa Checkfile Reader.user.0" \
+        -xy 10,10 -wh 236,194
+    manipulator "Mesa Checkfile Reader.user.0:Use only active sites" -w toggle -p "Mesa Checkfile Reader.user.0" \
+        -xy 10,10 -wh 118,22
+   panel "Generate Limits.user.1" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,520
+    manipulator "Generate Limits.user.1:NumGridPoints" -w text -p "Generate Limits.user.1" \
+        -xy 10,10 -wh 236,66
+    manipulator "Generate Limits.user.1:Grid Spacing" -w typein_real -p "Generate Limits.user.1" \
+        -xy 10,76 -wh 236,22
+    manipulator "Generate Limits.user.1:Dial Message" -w text -p "Generate Limits.user.1" \
+        -xy 10,98 -wh 236,22
+    manipulator "Generate Limits.user.1:MinX" -w dial -p "Generate Limits.user.1" \
+        -xy 40,120 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxX" -w dial -p "Generate Limits.user.1" \
+        -xy 130,120 -wh 90,130
+    manipulator "Generate Limits.user.1:MinY" -w dial -p "Generate Limits.user.1" \
+        -xy 40,250 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxY" -w dial -p "Generate Limits.user.1" \
+        -xy 130,250 -wh 90,130
+    manipulator "Generate Limits.user.1:MinZ" -w dial -p "Generate Limits.user.1" \
+        -xy 40,380 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxZ" -w dial -p "Generate Limits.user.1" \
+        -xy 130,380 -wh 90,130
+   panel "Generate Densities.user.2" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,174
+    manipulator "Generate Densities.user.2:CalcMessage" -w text -p "Generate Densities.user.2" \
+        -xy 10,10 -wh 236,66
+    manipulator "Generate Densities.user.2:Derivatives" -w toggle -p "Generate Densities.user.2" \
+        -xy 10,76 -wh 236,22
+    manipulator "Generate Densities.user.2:Calculate" -w toggle -p "Generate Densities.user.2" \
+        -xy 10,98 -wh 236,22
+    manipulator "Generate Densities.user.2:Density Choices" -w text -p "Generate Densities.user.2" \
+        -xy 10,120 -wh 236,22
+    manipulator "Generate Densities.user.2:Density Matrices" -w radio_buttons -p "Generate Densities.user.2" \
+        -xy 10,142 -wh 236,22
+   panel "Verts from Geom.user.3" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,64
+    manipulator "Verts from Geom.user.3:Vertices Message" -w text -p "Verts from Geom.user.3" \
+        -xy 10,10 -wh 236,44
+   panel "IBM Elstat.user.4" -w panel -p "Top Level Stack" -xy 0,193 -wh 256,570
+    manipulator "IBM Elstat.user.4:CalcMessage" -w text -p "IBM Elstat.user.4" \
+        -xy 10,10 -wh 236,66
+    manipulator "IBM Elstat.user.4:Multipole Message" -w text -p "IBM Elstat.user.4" \
+        -xy 40,98 -wh 177,22
+    manipulator "IBM Elstat.user.4:Calculate" -w toggle -p "IBM Elstat.user.4" \
+        -xy 40,120 -wh 177,22
+    manipulator "IBM Elstat.user.4:Read" -w toggle -p "IBM Elstat.user.4" \
+        -xy 40,142 -wh 177,22
+    manipulator "IBM Elstat.user.4:Write" -w toggle -p "IBM Elstat.user.4" \
+        -xy 40,164 -wh 177,22
+    manipulator "IBM Elstat.user.4:Multipole Expansion Read Browser" -w browser -p "IBM Elstat.user.4" -hide \
+        -xy 10,164 -wh 236,374
+    manipulator "IBM Elstat.user.4:Multipole Expansion Write Browser" -w browser -p "IBM Elstat.user.4" -hide \
+        -xy 10,186 -wh 236,374
+    manipulator "IBM Elstat.user.4:Potential Message" -w text -p "IBM Elstat.user.4" \
+        -xy 40,208 -wh 177,22
+    manipulator "IBM Elstat.user.4:Using Limits" -w toggle -p "IBM Elstat.user.4" -hide \
+        -xy 40,230 -wh 177,22
+    manipulator "IBM Elstat.user.4:Using Pointlist" -w toggle -p "IBM Elstat.user.4" \
+        -xy 40,252 -wh 177,22
+    manipulator "IBM Elstat.user.4:Density Message" -w text -p "IBM Elstat.user.4" \
+        -xy 10,296 -wh 236,22
+    manipulator "IBM Elstat.user.4:Density Matrix" -w radio_buttons -p "IBM Elstat.user.4" \
+        -xy 10,318 -wh 236,22
+   panel "generate colormap.user.7" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,566
+    manipulator "generate colormap.user.7:colormap" -w color_editor -p "generate colormap.user.7" \
+        -xy 10,10 -wh 236,416
+    manipulator "generate colormap.user.7:lo value" -w dial -p "generate colormap.user.7" \
+        -xy 10,426 -wh 90,130
+    manipulator "generate colormap.user.7:hi value" -w dial -p "generate colormap.user.7" \
+        -xy 100,426 -wh 90,130
+   panel isosurface.user.8 -w panel -p "Top Level Stack" -xy 0,193 -wh 228,194
+    manipulator isosurface.user.8:level -w dial -p isosurface.user.8 \
+        -xy 10,10 -wh 90,130\
+   -P local_range real 0.26458
+    manipulator "isosurface.user.8:optimize surf" -w toggle -p isosurface.user.8 \
+        -xy 100,10 -wh 118,22
+    manipulator "isosurface.user.8:optimize wire" -w toggle -p isosurface.user.8 \
+        -xy 10,140 -wh 118,22
+    manipulator "isosurface.user.8:flip normals" -w toggle -p isosurface.user.8 \
+        -xy 10,162 -wh 118,22
+   panel "image to postscript.user.10" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,174
+    manipulator "image to postscript.user.10:filename" -w typein -p "image to postscript.user.10" \
+        -xy 10,10 -wh 472,22
+    manipulator "image to postscript.user.10:mode" -w radio_buttons -p "image to postscript.user.10" \
+        -xy 10,32 -wh 118,44
+    manipulator "image to postscript.user.10:encapsulate" -w toggle -p "image to postscript.user.10" \
+        -xy 10,76 -wh 118,22
+    manipulator "image to postscript.user.10:landscape" -w toggle -p "image to postscript.user.10" \
+        -xy 10,98 -wh 118,22
+    manipulator "image to postscript.user.10:page size x" -w typein_real -p "image to postscript.user.10" \
+        -xy 10,120 -wh 236,22
+    manipulator "image to postscript.user.10:page size y" -w typein_real -p "image to postscript.user.10" \
+        -xy 10,142 -wh 236,22
+ panel "geometry viewer.user.9!display" -w container -p ui -xy 181,20 -wh 641,584\
+   -P zoom_coords string "0 0 0 0 0 <$NULL> 0 0 0 0"
+manipulator "geometry viewer.user.9":object -w none
+# End of file

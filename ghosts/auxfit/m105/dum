@@ -1,0 +1,19 @@
+      bf=1
+      do 160 atom=1,natoms
+         bflabl(bf)(1:8)=atname(atom)
+         do 150 type=1,nbtype
+            do 140 cont=1,a(ncont+(type-1)*natoms+atom-1)
+               bfptr=mintyp(type)-1
+               do 130 i=1,nobf(type)
+                  bfptr=bfptr+1
+                  powx=nx(bfptr)
+                  powy=ny(bfptr)
+                  powz=nz(bfptr)
+                  bflabl(bf)(9:)=funcnm(powx,powy,powz)
+                  if(bflabl(bf)(9:9).eq.' ') bflabl(bf)(9:)='s'
+                  bf=bf+1
+  130          continue
+  140       continue
+  150    continue
+  160 continue
+      bf=bf-1

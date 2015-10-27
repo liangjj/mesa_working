@@ -1,0 +1,24 @@
+$route
+ dimension-1=cylindrical
+$end
+          
+$nonstd
+9//92;
+20//01;
+$end
+
+$title
+Testing DVRLIB
+$end
+
+$h0(cylindrical)
+ number-of-regions=1 region-boundaries=(0.d0,1.d0)
+ polynomial-order-per-region=(10) number-of-fixed-points=2
+ left-fixed-point right-fixed-point print=all
+ drop-last-function weight-type=r
+ number-of-reference-quadrature-points-per-region=30
+$end
+
+$v0(cylindrical)
+ use-atomic-units potential=none
+$end

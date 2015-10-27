@@ -1,0 +1,168 @@
+#!/usr/bin/avs -network
+version 4.0 (25.137 hp)
+module "Mesa Checkfile Reader.user.0" -xy 250,65 -ex /usr2/mesa/tools/avs/mesareader2
+module "Generate Limits.user.1" -xy 142,128 -ex $Path/MSI/bin/MSI_mongo
+module "Generate MOs.user.2" -xy 295,209 -ex $Path/MSI/bin/MSI_mongo
+module "geometry viewer.user.4" -xy 304,344
+module isosurface.user.5 -xy 205,263 -ex $Path/avs_library/tile
+module isosurface.user.6 -xy 376,263 -ex $Path/avs_library/tile
+port_connect "Mesa Checkfile Reader.user.0":0 "Generate Limits.user.1":0
+port_connect "Mesa Checkfile Reader.user.0":0 "Generate MOs.user.2":0
+port_connect "Generate Limits.user.1":1 "Generate MOs.user.2":1
+port_connect "Generate MOs.user.2":0 isosurface.user.6:0
+port_connect "Generate MOs.user.2":0 isosurface.user.5:0
+port_connect isosurface.user.5:0 "geometry viewer.user.4":0
+port_connect isosurface.user.6:0 "geometry viewer.user.4":0
+parm_set "Mesa Checkfile Reader.user.0":"Check file" /usr2/mesa/tools/avs/h2.chk
+parm_set "Generate Limits.user.1":"Grid Spacing" 0.400000006
+parm_set "Generate MOs.user.2":"Compute Type" HOMO -range HOMO!LUMO!M.O. !
+parm_set "Generate MOs.user.2":"Orbital Number" 1 -range 1 10
+parm_set "Generate MOs.user.2":"MO Squared" false
+parm_set "Generate MOs.user.2":Calculate false
+parm_set isosurface.user.5:level -0.000334973 -range -0.361084759 -0.000334973
+parm_set isosurface.user.6:level -0.020000000 -range -0.361084759 -0.000334973
+geom_set_scene -scene "geometry viewer.user.4"
+geom_set_camera_name "Camera 1"
+geom_resize_camera -view "Camera 1" 512 511
+#
+# State for view: Camera 1
+#
+geom_set_color -view "Camera 1" 0.000100 0.000100 0.000100
+geom_set_matrix -view "Camera 1" -mat \
+                  0.980807    0.00472763    0.194926    0 \
+                    0.0023726    0.999343    -0.0361758    0 \
+                    -0.194969    0.0359439    0.980151    0 \
+                    0    0    0    1 
+geom_set_position -view "Camera 1" 0.00809194 -0.177983 -12
+geom_set_view_modes -depth_cue 0 -view "Camera 1"
+geom_set_view_modes -z_buffer 1 -view "Camera 1"
+geom_set_view_modes -perspective 1 -view "Camera 1"
+geom_set_camera_params -view "Camera 1" -front 1 -back 112
+geom_set_depth_cue_params "Camera 1" -scale 0.1
+#
+# Light state
+#
+geom_set_light -light 1 -type directional -state 1
+geom_set_light -light 7 -type directional -state 1
+geom_set_matrix -light 7 -mat \
+                  -0.644656    0.488765    0.587819    0 \
+                    0.759173    0.3189    0.567416    0 \
+                    0.0898772    0.812044    -0.576638    0 \
+                    0    0    0    1 
+geom_set_light -type ambient -state 1
+#
+# State for object: top
+#
+geom_set_cur_cli_obj top
+geom_set_matrix   -mat \
+                  -0.123449    -0.0727847    0.374544    0 \
+                    -0.0275912    -0.390925    -0.0850617    0 \
+                    0.380551    -0.0519553    0.115332    0 \
+                    -0.532771    0.0727372    -0.161465    1 
+geom_set_position   0.554382 -0.073182 0.16731
+geom_set_render_mode gouraud
+geom_set_obj_window -3.2 3.2 -3.2 3.2 -3.2 6
+#
+# State for object: "Pos Lobe"
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "MO Surface.user.3"
+geom_create_obj "Pos Lobe" -mod "MO Surface.user.3"
+geom_set_position   0.00278691 0.00571209 -0.0554779
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: "Neg Lobe"
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "MO Surface.user.3"
+geom_create_obj "Neg Lobe" -mod "MO Surface.user.3"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: isosurface
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context isosurface.user.5
+geom_create_obj isosurface -mod isosurface.user.5
+geom_set_trans_mode parent
+geom_set_obj_window -3.2 3.2 -3.2 3.2 -3.2 6
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: isosurface
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context isosurface.user.6
+geom_create_obj isosurface -mod isosurface.user.6
+geom_set_trans_mode parent
+geom_set_obj_window -3.2 3.2 -3.2 3.2 -3.2 6
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,1024
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 255,713
+   panel "Mesa Checkfile Reader.user.0" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 254,213
+    manipulator "Mesa Checkfile Reader.user.0:Check file" -w browser -p "Mesa Checkfile Reader.user.0" \
+        -xy 10,10 -wh 234,194
+   panel "Generate Limits.user.1" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 254,520
+    manipulator "Generate Limits.user.1:NumGridPoints" -w text -p "Generate Limits.user.1" \
+        -xy 10,10 -wh 235,66
+    manipulator "Generate Limits.user.1:Grid Spacing" -w typein_real -p "Generate Limits.user.1" \
+        -xy 10,75 -wh 235,22
+    manipulator "Generate Limits.user.1:Dial Message" -w text -p "Generate Limits.user.1" \
+        -xy 10,97 -wh 235,22
+    manipulator "Generate Limits.user.1:MinX" -w dial -p "Generate Limits.user.1" \
+        -xy 40,120 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxX" -w dial -p "Generate Limits.user.1" \
+        -xy 130,120 -wh 90,130
+    manipulator "Generate Limits.user.1:MinY" -w dial -p "Generate Limits.user.1" \
+        -xy 40,250 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxY" -w dial -p "Generate Limits.user.1" \
+        -xy 130,250 -wh 90,130
+    manipulator "Generate Limits.user.1:MinZ" -w dial -p "Generate Limits.user.1" \
+        -xy 40,380 -wh 90,130
+    manipulator "Generate Limits.user.1:MaxZ" -w dial -p "Generate Limits.user.1" \
+        -xy 130,380 -wh 90,130
+   panel "Generate MOs.user.2" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 254,304
+    manipulator "Generate MOs.user.2:CalcMessage" -w text -p "Generate MOs.user.2" \
+        -xy 10,10 -wh 235,66
+    manipulator "Generate MOs.user.2:AlphaBeta" -w radio_buttons -p "Generate MOs.user.2" -hide \
+        -xy 10,75 -wh 235,22
+    manipulator "Generate MOs.user.2:Orbital Message" -w text -p "Generate MOs.user.2" \
+        -xy 10,97 -wh 235,22
+    manipulator "Generate MOs.user.2:Compute Type" -w radio_buttons -p "Generate MOs.user.2" \
+        -xy 10,121 -wh 117,66
+    manipulator "Generate MOs.user.2:Orbital Number" -w idial -p "Generate MOs.user.2" \
+        -xy 126,121 -wh 90,130
+    manipulator "Generate MOs.user.2:MO Squared" -w toggle -p "Generate MOs.user.2" \
+        -xy 10,251 -wh 117,22
+    manipulator "Generate MOs.user.2:Calculate" -w toggle -p "Generate MOs.user.2" \
+        -xy 10,273 -wh 117,22
+   panel isosurface.user.5 -w panel -p "Top Level Stack" -xy 0,193 -wh 227,194
+    manipulator isosurface.user.5:level -w dial -p isosurface.user.5 \
+        -xy 10,10 -wh 90,130\
+   -P local_range real 0.36075
+    manipulator "isosurface.user.5:optimize surf" -w toggle -p isosurface.user.5 \
+        -xy 100,10 -wh 117,22
+    manipulator "isosurface.user.5:optimize wire" -w toggle -p isosurface.user.5 \
+        -xy 10,140 -wh 117,22
+    manipulator "isosurface.user.5:flip normals" -w toggle -p isosurface.user.5 \
+        -xy 10,162 -wh 117,22
+   panel isosurface.user.6 -w panel -p "Top Level Stack" -xy 0,193 -wh 227,194
+    manipulator isosurface.user.6:level -w dial -p isosurface.user.6 \
+        -xy 10,10 -wh 90,130\
+   -P local_range real 0.36075
+    manipulator "isosurface.user.6:optimize surf" -w toggle -p isosurface.user.6 \
+        -xy 100,10 -wh 117,22
+    manipulator "isosurface.user.6:optimize wire" -w toggle -p isosurface.user.6 \
+        -xy 10,140 -wh 117,22
+    manipulator "isosurface.user.6:flip normals" -w toggle -p isosurface.user.6 \
+        -xy 10,162 -wh 117,22
+ panel "geometry viewer.user.4!display" -w container -p ui -xy 300,22 -wh 611,642\
+   -P zoom_coords string "0 0 0 0 0 <$NULL> 0 0 0 0"
+manipulator "geometry viewer.user.4":object -w none
+# End of file

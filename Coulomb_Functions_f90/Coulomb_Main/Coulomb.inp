@@ -1,0 +1,7 @@
+$coulomb
+ charge=-1.d0 energy=1.d0 smallest_angular_momentum=0 
+ largest_angular_momentum=0 smallest_r=.0005
+ largest_r=300. delta_r=5.  number_of_terms_in_power_series=100
+ number_of_terms_in_asymptotic_series=50 
+ print_long_range_coefficients print_short_range_coefficients
+$end

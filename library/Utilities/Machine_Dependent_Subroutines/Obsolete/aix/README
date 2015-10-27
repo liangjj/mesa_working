@@ -1,0 +1,28 @@
+*deck @(#)README	5.1 11/6/94
+  Notes for the AIX Version:
+  1. The Makefiles everywhere were originally written for the SUN.  The
+SUN compiler is called f77, whereas it is xlf on the IBM.
+The simplest way around this is to set an environment variable
+     setenv FC "xlf -O"
+in the shell and then to instruct make to use environment variables
+by invoking
+
+     make -e
+
+ 2.  The ops string is dimensioned at 4096 characters.  IBM-AIX 
+requires a compiler option to be turned on in order to handle these correctly.
+(I believe it is qchar=4096)
+
+ 3.  The codes put out some error messages about direct access READS, etc.
+This apparently doen't affect the results and I have diverted
+the standard error stream in the scripts which control the run.
+Whatever the problem is, it would be nice to have it fixed so we
+see a real error mesage when one actually happens.
+
+  4.  We use an assembler routine (readrtc.s) to return time information 
+which was provided by Harvey Wasserman(LANL) via IBM.  
+
+  5.  The function r1mach has machine constants.  They have been assumed
+to be the same as on the SUN.  This should be looked into.  The only one
+ever called is r1mach(4), which is called by sgefs.f in ../clams.
+ 

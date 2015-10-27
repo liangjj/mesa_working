@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# Needed environment variables
+# TMPDIR - directory for work directory
+# MESA - main mesa directory
+# ver - which compiler version (beginning with a period or blank)
+
+date
+
+echo mesa test 7 - nonadibatic couplings in CH3OH
+echo using version $ver
+
+PATH=$PATH:$MESA/bin$ver
+rundir=run_mesa_test_7$ver
+
+cd $TMPDIR
+rm -r $rundir
+mkdir $rundir
+cd $rundir
+cp $MESA/mesa.dat .
+mkdir tmp
+
+siz=4000000
+
+cat <<EOF | sed -e "s/#.*//" > mesacmn.inp 
+
+\$title
+C2H6 SCF
+\$end
+
+\$route 
+phase=save
+properties=e1
+scf=pulay
+basis=tzp
+maxsiz=4000000 
+2s+1=1
+zguess=(chk)
+nacme=(couplings=2,states=(1,2, 2,3))
+halfs
+mrciopt
+mcscf=(cas,number-of-core-orbitals=3,cycles=100,
+iterations=100,size902=10,convergence=7,ci=(cycles=100),
+navg=3,weight=(1.,1.,1.))
+drtmc=(nbf=8,vexcite=99,rdsym)
+ci=(nroots=3,cycles=200)
+zdrt=(nrefs=2,nsym=1,rdsym)
+drt=(nsym=1,refexcite=99,vexcite=1,rdsym)
+sym=norotate
+geom=(coord,inau) 
+print=(guess,basis)
+ksym=(symmetry=1,nsmall=11) 
+\$end 
+(.3675))
+
+\$nonstd 
+1//1,2;
+8//1;
+3//2,12,30;
+19//2;
+4//1;
+5//1,2;
+8//5;
+5//53;
+3//3,23;
+8//24;
+10//3;
+8//1,11,20,21;
+9//1;
+:nac;
+9//11(:endnac);
+8//30,12,40;
+7//2,12;
+10//21,31,33;
+14//2(:nac);
+:endnac;
+20//1;
+\$end 
+1//1,2;
+2//6;
+3//2,12,30;
+4//1;
+8//1,11,21;
+9//1,21;
+20//1; 
+\$end 
+
+\$drtmc
+6doc1 2uoc1
+\$end
+
+\$zdrt
+3typ1;1 8typ2;1 64typ3;1
+na=9 nb=0 ns=1
+\$end
+\$drt
+3cor1 6%doc1 2%uoc1 64uoc1
+\$end
+
+\$groups
+numel=(6,12,0)
+numel=(6,11,1)
+\$end
+
+\$geom
+C1(basis=tzp)   -2.68    0.0    0.0
+O2(basis=bigo)    0.0    0.0    0.0
+H1(basis=tzp)  -3.36797    1.94587000    0.0
+H2(basis=tzp)  -3.36797   -0.97293500   -1.68517285
+H3(basis=tzp)  -3.36797   -0.97293500    1.68517285
+H4(basis=gil)   .60164995   -1.74731833    0.0
+\$end
+
+
+\$gil h
+/basis from Gil et al PRA 49 2642 (1994)
+/
+type=s
+74.69   0.025374
+11.23   0.189684
+2.546   0.852933
+type=s
+0.7130   1.0
+type=s 
+0.2249   1.0
+type=p
+0.55    1.0
+type=p
+0.3    1.0
+\$end
+
+\$bigo o
+/ extra functions centered on O
+\$include tzp
+type=s
+.1  1.
+type=s
+0.03  1.0
+type=p
+.07 1.
+type=p
+0.02 1.0
+\$end
+EOF
+cat <mesacmn.inp >>mesa.inp
+optmesa siz=$siz
+mv mesa.out out.scf
+cat out.scf
+mv mesa.inp inp.scf

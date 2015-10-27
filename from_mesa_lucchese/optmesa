@@ -1,0 +1,125 @@
+
+#
+#    	script for running the mesa links.
+#       the first line of the script is deliberately left blank in order
+#       to invoke the Bourne shell.
+# 	%W%   %G%
+#
+TMPDIR=tmp
+export TMPDIR
+#
+#       set up the default file names.
+inp='mesa.inp'
+out='mesa.out'
+dat='mesa.dat'
+chk='mesa.chk'
+int='tmp/mesa.int'
+rwf='tmp/mesa.rwf'
+siz='2500000'
+rint='tmp/mesa.rint'
+tint='tmp/mesa.tint'
+gint='tmp/mesa.gint'
+rdint='tmp/mesa.rdint'
+dint='tmp/mesa.dint'
+zint='tmp/mesa.zint'
+ham='tmp/mesa.ham'
+moden='tmp/mesa.moden'
+aoden='tmp/mesa.aoden'
+saoden='tmp/mesa.saoden'
+gden='tmp/mesa.gden'
+fci='tmp/mesa.fci'
+#
+#
+#       set up the default initial and terminal links.
+start='m0'
+stop='m998'
+#
+#       check to see if any of the files have been replaced on the
+#       command line.
+for file in $*
+do
+   case $file in
+      inp=*) 
+        inp=`expr $file : 'inp=\(.*\)'` ;;
+      out=*) 
+        out=`expr $file : 'out=\(.*\)'` ;;
+      chk=*) 
+        chk=`expr $file : 'chk=\(.*\)'` ;;
+      dat=*) 
+        dat=`expr $file : 'dat=\(.*\)'` ;;
+      rwf=*) 
+        rwf=`expr $file : 'rwf=\(.*\)'` ;;
+      int=*) 
+        int=`expr $file : 'int=\(.*\)'` ;;
+      siz=*) 
+        siz=`expr $file : 'siz=\(.*\)'` ;;
+      start=*) 
+        start=`expr $file : 'start=\(.*\)'` ;;
+      stop=*) 
+        stop=`expr $file : 'stop=\(.*\)'` ;;
+   esac
+done
+#
+#       run the links. 
+next=$start
+#
+#       run until the next message is not a link number 
+until echo $next | egrep -v 'm[0-9]+'
+do
+#       is this the terminal link?
+        if echo $next | egrep $stop
+        then
+                break
+        fi
+        if echo $next | egrep m401
+        then
+                rm $rint
+        fi
+        if echo $next | egrep m1003
+        then
+                rm $rdint
+        fi
+        if echo $next | egrep m911
+        then
+                rm $gint
+        fi
+        if echo $next | egrep m820
+        then
+                rm $int
+        fi
+        if echo $next | egrep m840
+        then
+                rm $gden
+        fi
+        if echo $next | egrep m702
+        then
+                rm $aoden
+        fi
+        if echo $next | egrep m1021
+        then
+                rm $saoden
+        fi
+        if echo $next | egrep m1402
+        then
+                rm $moden
+        fi
+        if echo $next | egrep m731
+        then
+                rm $moden
+                rm $tint
+                rm $rdint
+        fi
+        if echo $next | egrep m2001
+        then
+                rm $dint
+#                rm $tint
+        fi
+#
+#       cp $rwf save.rwf
+#
+        echo $next inp=$inp out=$out dat=$dat chk=$chk rwf=$rwf int=$int siz=$siz 
+        next=`time $next inp=$inp out=$out dat=$dat chk=$chk rwf=$rwf int=$int siz=$siz`
+done
+#
+#       we have finished.  
+#

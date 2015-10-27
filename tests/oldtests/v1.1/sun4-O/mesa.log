@@ -1,0 +1,180 @@
+logfile
+executing o3scf
+m0 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        3.2 real         0.1 user         0.3 sys  
+m1 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       19.9 real         2.0 user         1.3 sys  
+m101 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       17.3 real         1.4 user         1.4 sys  
+m102 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       37.5 real         9.6 user         4.1 sys  
+m202 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       17.8 real         2.0 user         1.5 sys  
+m302 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+       29.1 real         6.7 user         3.0 sys  
+m312 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      989.3 real       446.9 user       163.5 sys  
+m330 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      263.5 real        21.2 user        20.3 sys  
+m330
+m401 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+       25.6 real         8.2 user         3.8 sys  
+m501 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      764.7 real       361.3 user       168.6 sys  
+m1951 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       11.2 real         2.9 user         1.7 sys  
+m2001 inp=/usr2/mesa/tests/input/o3scf out=/usr2/mesa/tests/output/sun4-O/o3scf chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       21.4 real         2.6 user         2.7 sys  
+m998
+executing o3mc
+m0 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        1.8 real         0.1 user         0.2 sys  
+m1 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       12.9 real         2.2 user         1.3 sys  
+m101 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       11.5 real         1.4 user         1.5 sys  
+m102 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       29.9 real         9.2 user         3.4 sys  
+m202 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       17.4 real         1.8 user         1.1 sys  
+m302 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       19.8 real         1.0 user         1.0 sys  
+m312 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       13.3 real         0.8 user         0.7 sys  
+m330 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       11.3 real         0.8 user         0.6 sys  
+m330
+m401 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       21.5 real         5.2 user         1.4 sys  
+m802 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       23.8 real         2.2 user         1.4 sys  
+m551 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+     2805.0 real      1231.1 user       464.1 sys  
+m921 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       25.0 real         8.6 user         4.2 sys  
+m1951 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       11.7 real         2.6 user         1.6 sys  
+m2001 inp=/usr2/mesa/tests/input/o3mc out=/usr2/mesa/tests/output/sun4-O/o3mc chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       22.9 real         3.1 user         2.9 sys  
+m998
+executing o3mc2
+m0 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        1.7 real         0.1 user         0.3 sys  
+m1 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       12.6 real         2.4 user         1.2 sys  
+m101 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       13.8 real         1.5 user         1.3 sys  
+m102 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       26.4 real         9.3 user         4.2 sys  
+m202 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       11.9 real         1.9 user         1.5 sys  
+m302 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+       18.1 real         6.3 user         3.0 sys  
+m312 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      584.8 real       423.2 user        46.3 sys  
+m330 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      119.8 real        19.8 user         9.7 sys  
+m330
+m401 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       11.8 real         5.0 user         0.8 sys  
+m802 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       11.1 real         2.1 user         0.7 sys  
+m551 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+     3177.1 real      2350.5 user       149.9 sys  
+m921 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       14.6 real         7.8 user         0.9 sys  
+m1951 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        9.5 real         2.5 user         0.7 sys  
+m2001 inp=/usr2/mesa/tests/input/o3mc2 out=/usr2/mesa/tests/output/sun4-O/o3mc2 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       17.1 real         2.7 user         1.6 sys  
+m998
+executing o3ci4
+m0 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        1.0 real         0.1 user         0.1 sys  
+m1 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        8.2 real         1.7 user         0.6 sys  
+m101 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        6.8 real         1.4 user         0.7 sys  
+m102 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       16.5 real         8.8 user         0.7 sys  
+m202 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        7.3 real         1.9 user         0.6 sys  
+m302 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        7.1 real         1.0 user         0.7 sys  
+m312 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        5.2 real         0.8 user         0.5 sys  
+m330 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        4.8 real         0.9 user         0.4 sys  
+m330
+m401 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       10.7 real         4.6 user         0.9 sys  
+m802 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        9.0 real         2.3 user         0.5 sys  
+m811 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      289.7 real       263.2 user         7.3 sys  
+m902 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+     6306.3 real      4633.6 user      1336.8 sys  
+m921 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       34.4 real        28.7 user         0.8 sys  
+m1902 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+       13.1 real         5.7 user         0.7 sys  
+m1951 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       13.2 real         8.4 user         0.6 sys  
+m2001 inp=/usr2/mesa/tests/input/o3ci4 out=/usr2/mesa/tests/output/sun4-O/o3ci4 chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       13.1 real         2.6 user         1.1 sys  
+m998
+executing o3ci
+m0 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        0.5 real         0.1 user         0.1 sys  
+m1 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        8.5 real         2.9 user         0.5 sys  
+m101 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        6.2 real         1.3 user         0.7 sys  
+m102 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       14.2 real         8.1 user         0.7 sys  
+m202 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        6.0 real         1.8 user         0.6 sys  
+m302 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+        7.8 real         4.2 user         0.4 sys  
+m312 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      195.9 real       176.5 user         2.2 sys  
+m330 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       28.4 real         4.8 user         2.8 sys  
+m330
+m401 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        7.1 real         3.3 user         0.5 sys  
+m501 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      298.2 real       279.4 user        11.0 sys  
+m801 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       24.0 real        11.3 user         4.4 sys  
+m811 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+      505.4 real       449.8 user         6.0 sys  
+m821 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       33.3 real         6.2 user         4.1 sys  
+m901 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+     5164.6 real      4491.0 user        78.5 sys  
+m921 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       95.6 real        91.3 user         0.9 sys  
+m1951 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+        6.0 real         2.6 user         0.6 sys  
+m2001 inp=/usr2/mesa/tests/input/o3ci out=/usr2/mesa/tests/output/sun4-O/o3ci chk=mesa.chk rwf=tmp/mesa.rwf rint=tmp/mesa.rint int=tmp/mesa.int tint=tmp/mesa.tint gint=tmp/mesa.gint siz=2000000
+       21.2 real         3.3 user         1.4 sys  
+m998

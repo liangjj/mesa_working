@@ -1,0 +1,13 @@
+
+tcart.f:      subroutine tcart(p,dp,ddp,wt,t,ct,ilft,irt,n,nonsym)
+tcart.f:      logical nonsym
+tcart.f:      if(nonsym) then
+tcylin.f:      subroutine tcylin(p,dp,ddp,q,wt,t,ct,ilft,irt,n,nonsym)
+tcylin.f:      logical nonsym
+tcylin.f:      if(nonsym) then
+tocord.f:      subroutine tocord(rhs,crhs,p,n,nonsym)
+tocord.f:      logical nonsym
+tocord.f:      if(nonsym) then
+tthet.f:      subroutine tthet(p,dp,ddp,q,wt,t,ct,tmp,ilft,irt,n,nonsym)
+tthet.f:      logical nonsym
+tthet.f:      if(nonsym) then   

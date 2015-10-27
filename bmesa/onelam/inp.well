@@ -1,0 +1,26 @@
+$route
+ print=(convergence,xiterations)
+$end
+$nonstd
+ 80//01;  
+ 20//01;
+$end
+
+$title 
+ One Dimensional Scattering Program
+$end
+
+$linalg
+ left-r-matrix-boundary=0.d0 right-r-matrix-boundary=15.d0
+$energy
+ no-energies=16
+ energies=(.000001,.00001,.0001,.01,.1,.2,.3,.4,.5,.6,.7,.8,.9,1.0,1.5,2.)
+$end
+$msh-1
+no-points/reg=100 start-r/reg=0.d0 final-r/reg=15.d0
+$end
+$inpot
+type=exp
+$end
+
+

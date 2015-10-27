@@ -1,0 +1,13 @@
+$title
+  reh3 dz scf/ effective core potential
+$end
+$route
+q=0,hf,2s+1=1,
+print=(gradient=(ecp,total))
+basis=(dz)
+guess=chk,geom=rdchk
+scf=(pulay,cycles=64)
+frequencies
+force-constants=(numerical=(cartesian,two-point))
+sym=off
+$end

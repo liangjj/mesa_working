@@ -1,0 +1,1701 @@
+*rcft i=%me,l=orsft,x=resfitc,lib=(bobcft,cftmath)
+      program resfit ( input, output, tape6, tape7, tape9, tape88 )
+c
+      integer chan,type,initial,final,rsn
+      integer name(3), ityp(2), ichan(3)
+      logical fit, debug, skip7, read88
+      complex sfin(20)
+      common / doyle / dum1, nit, dum2(22)
+      common / kar   / dum4(150), bl(30),bu(30),v(30), dum5(60),
+     >                 nuflag(30), nbd(30)
+      common / kchg  / gsav(300,15), bsav(300), nersdm
+      common / kvar  / npar, nprob, ners, dum3(8)
+      common / pdata / np, npbck, elist(256), plist(256), sreal(256),
+     >                 simag(256), phase(256), pabs(256), pres(256),
+     >                 pbck(256), edup(256), ilist(256), del(256)
+c
+      namelist / inp / emin,emax, chan,type,initial,final, fit,debug,
+     >                 nit,npbck,escal,eref,rsn,skip7,elist,del,name,
+     >                 np, xnpi, read88
+c
+c     chan=1,2,3 for alpha,beta,gamma channels
+c     type=1,2 for inelastic or reactive scattering
+c     initial=0,1,2,... initial state label
+c     final=0,1,2,...   final   state label
+c     final = -1  ==>>  sum over all final states
+c     emin,emax = range for spline fit
+c        if not specified, then input table limits are used
+c     escal = scale factor for energy
+c     eref  = reference energy for spline fit
+c             enew = escal*(eold - eref)
+c     ebar  = list of special energies for output list
+c     nbar  = number of elemnts in ebar list
+c
+c
+c
+      data ityp / 8hinelastc, 8hreactive /
+      data ichan / 5halpha, 5hbeta , 5hgamma /
+c      data ebar / 50*0e0 /
+c
+      call filerep
+c
+      emin = -999e0
+      emax = -999e0
+      pi = acos(-1e0)
+      chan = 1
+      type = 2
+      initial = 0
+      final = -1
+      fit = .true.
+      debug = .false.
+      de = 0e0
+      ne = -1
+      escal = 1e0
+      eref = 0e0
+      nbar = 0
+      rsn = 10h
+      npar = 3
+      npbck = 2
+      skip7 = .false.
+      xnpi = 2.
+      np = 0
+      name(1) = 1h
+      name(2) = 1h
+      name(3) = 1h
+      nit = 10
+      rsn = 1h
+      read88 = .false.
+c
+      nread = 0
+ 1    continue
+      read inp
+      if ( eof(5hinput) ) 100, 2
+ 2    continue
+c
+      do 3 i = 1, npar
+      read *, nuflag(i), v(i), nbd(i),bl(i),bu(i)
+ 3    continue
+      ntpar = npar + npbck + 1
+c
+      if ( skip7 ) go to 50
+c
+c     scan through tape7 file for transition desired
+c
+      rewind 7
+      nread = nread + 1
+      nc = 0
+      ip = 0
+c
+ 4    continue
+c
+      read ( 7, 1001 ) it,ic,name,etot,is,psum,nfs,irsn
+ 1001 format ( 2x,a8,1x,a5,5x,3a2,4x,e20.12,i10,e20.12,i10,a9 )
+      if ( eof(7) ) 6, 5
+ 5    nc = nc + 1
+      read ( 7, 1002 ) (sfin(i),i=1,nfs)
+ 1002 format ( 2x, 10e11.3 )
+c
+c     check for proper input card
+c
+      if ( irsn .ne. rsn           ) go to 4
+      if (  it  .ne. ityp(type)    ) go to 4
+      if (  ic  .ne. ichan(chan)   ) go to 4
+      if (  is  .ne. initial       ) go to 4
+      if ( nfs  .lt. 1+final       ) go to 4
+      if ( etot .lt. emin          ) go to 4
+      if ( etot .gt. emax          ) go to 4
+c
+      ifs = 1 + max0(final,0)
+      pfin = sfin(ifs)*conjg(sfin(ifs))
+      ip = ip + 1
+      elist(ip) = escal*(etot - eref)
+      sreal(ip) = real(sfin(ifs))
+      simag(ip) = aimag(sfin(ifs))
+      plist(ip) = pfin
+      if ( final .lt. 0 ) plist(ip) = psum
+c
+      go to 4
+c
+c     sort entries by energy
+c
+ 6    continue
+      np = ip
+      if ( np .lt. ntpar ) go to 500
+c
+      call fsort1 ( np, 3, elist, ilist, plist, sreal, simag )
+c
+c     discard duplicates
+c
+      i = 1
+      idup = 0
+    7 continue
+      ip1 = i + 1
+      if ( ip1 .gt. np ) go to 9
+      if ( abs(elist(ip1)-elist(i)) .lt. 1e-7 ) go to 8
+      i = ip1
+      go to 7
+ 8    continue
+      idup = idup + 1
+      edup(idup) = elist(i)
+      call condens ( elist, plist, sreal, simag, i, np )
+      go to 7
+    9 continue
+c
+      do 10 i = 1, np
+      phase(i) = atan2(simag(i), sreal(i))/pi
+ 10   continue
+      go to 51
+c
+c     input of phases given directly
+c
+ 50   continue
+      if ( read88 ) read(88,*) (ipt,elist(i),del(i),i=1,np)
+      idup = 0
+      do 52 i = 1, np
+      sreal(i) = 0e0
+      simag(i) = 0e0
+      plist(i) = 0e0
+      phase(i) = del(i)/pi
+ 52   continue
+c
+ 51   continue
+      call phasit ( elist, phase, np, xnpi, 0.,-1., pres, pabs )
+      do 11 i = 1, np
+      pabs(i) = pabs(i)*pi
+ 11   continue
+c
+      print 1300, name,ityp(type),ichan(chan),initial,final,rsn
+ 1300 format ( "1sorted list of s-matrix elements for the transition",/,
+     >         10x, 3a2,1x,a8,1x,a5, " from v=",i2,"    to v="i2,
+     >         ",   rsn=",a10, /,
+     >          14x, "energy     smat**2     s(real)     s(imag)",
+     >          "       phase/pi    abs phase" )
+      print 1301, (elist(i),plist(i),sreal(i),simag(i),phase(i),pabs(i),
+     >            i=1,np)
+ 1301 format ( 5x, 0pf15.7, 1p3e12.3, 0pf15.4, f13.4 )
+      if ( idup .gt. 0 ) print 1302, idup, (edup(i),i=1,idup)
+ 1302 format ( * a total of *, i3,* duplicate energies found -- *,/,
+     >         (1x,10f13.6) )
+c
+      print 1010, npbck, nit,
+     >            (nuflag(i), v(i), nbd(i), bl(i), bu(i), i=1, 3)
+ 1010 format ( "1   non-linear least squares resonance fitting program",
+     >         /,"0resonant part of phase shift fitted to 3 nonlinear"
+     >           " parameters",
+     >         /,"      pres(e)= p*(.5*pi + atan(2*(e-eres)/gres))",
+     >         /,"          parameters are -- p,eres,gres",
+     >         /,"0background part of phase shift fitted to e**",i2,
+     >         /,"0maximum number of iterations = ", i3,/,
+     >         /,"0",12x,"vary flag    initial guess    bound flag",
+     >           "    lower bound    upper bound",
+     >         /,"0   -p-      ", i6, g20.6, i10, g19.6, g15.6,
+     >         /,"   -eres-    ", i6, g20.6, i10, g19.6, g15.6,
+     >         /,"   -gres-    ", i6, g20.6, i10, g19.6, g15.6 )
+c
+      ners = np
+      call opac
+      call fcn ( v, bsav, phi )
+c
+      print 1011, (v(i),i=1,ntpar)
+ 1011 format ( "1final fit of data follows --", /,
+     >        "0resonant amplitude      p    = ", g15.5, /,
+     >        "0resonance energy     eres    = ", g15.5, /,
+     >        "0resonance width      gres    = ", g15.5, /,
+     >        "0linear background parameters = ", 5g15.5,/,(30x,5g15.5))
+      print 1012
+ 1012 format ( //,"0     energy    actual phase    fit phase    ",
+     >         "background     resonance         error" )
+      do 15 i = 1, np
+      pfit = pabs(i) - bsav(i)
+      print 1013, elist(i),pabs(i),pfit, pbck(i),pres(i),bsav(i)
+ 15   continue
+c
+ 1013 format ( 1x, f11.6, f16.6, 4f14.6 )
+c
+      rms = sqrt(phi/np)
+c
+      print 1014, rms
+ 1014 format ( "0rms error of fit = ", g15.3 )
+c
+      go to 1
+c
+ 500  continue
+      print 1500, ichan(chan), ityp(type), rsn, initial, final, np
+ 1500 format ( * too few entries for *,/, 1x,a8,1x,a5,1x,a10,5x,
+     >         3hi =, i5, 5h, f =, i5, " np = ", i2 )
+      go to 1
+c
+ 100  continue
+      end
+*deck condens
+      subroutine condens ( e, p, sr, si, i, n )
+      dimension e(n), p(n), sr(n), si(n)
+c
+c     eliminates extra energies
+c
+      pavg = 0.5e0*(p(i) + p(i+1) )
+      p(i) = pavg
+      sr(i) = 0.5e0*(sr(i) + sr(i+1))
+      si(i) = 0.5e0*(si(i) + si(i+1))
+      j = i + 2
+      do 1 k = j, n
+      e(k - 1) = e(k)
+      p(k - 1) = p(k)
+      sr(k - 1) = sr(k)
+      si(k - 1) = si(k)
+    1 continue
+      n = n - 1
+      return
+      end
+      subroutine fcn ( x, bsav, phi )
+      dimension x(1), bsav(1)
+      common / pdata / np, npbck, elist(256), plist(256), sreal(256),
+     >                 simag(256), phase(256), pabs(256), pres(256),
+     >                 pbck(256), edup(256), ilist(256)
+c
+      external v2fit1
+c
+      data pi2 / 1.5707963268 /, ncall /0/
+c
+      ncall = ncall + 1
+      pmax = x(1)
+      eres = x(2)
+      gres = x(3)
+      nlpar = npbck + 1
+c
+      do 1 i = 1, np
+      pres(i) = pmax*(pi2 + atan(2.*(elist(i)-eres)/gres))
+      pbck(i) = pabs(i) - pres(i)
+ 1    continue
+c
+      phi = 0e0
+      rms = 0e0
+      call lstsq ( pbck, elist, x(4), np, nlpar, rms, v2fit1 )
+c
+      do 2 i = 1, np
+      pfit = pres(i)
+      ep = 1e0
+c
+      do 3 j = 1, nlpar
+      pfit = pfit + x(j+3)*ep
+      ep = ep*elist(i)
+ 3    continue
+c
+      bsav(i) = pabs(i) - pfit
+      phi = phi + bsav(i)**2
+ 2    continue
+c
+      return
+      end
+*deck pnear
+      function pnear ( p, px )
+c
+c     p between +1 and -1, add(subtract) multiples of 2
+c         until p is closest to px
+c
+      xincr = sign(2e0, px-p)
+      incr = abs(px-p)*.5e0 + .5e0
+      pnear = p + incr*xincr
+      return
+      end
+*deck phasit
+      subroutine phasit ( e, pin, n, const, nf, sdf, a, pout )
+      dimension e(n), pin(n), pout(n), a(n)
+      common / opts / dbgphs
+      logical dbgphs
+      data pi / 3.14159265358979e0 /
+c
+      a(1) = 0e0
+      pout(1) = pin(1)
+      if ( n .eq. 1 ) return
+c      const = npi*180.
+      cinv = 1e0/const
+c
+      if ( dbgphs ) print 1001
+ 1001 format ( " phasit -- flattening the data" )
+      isml = 1
+      esml = e(2) - e(1)
+      do 1 i = 2, n
+         im = i - 1
+         pout(i) = pin(i)
+         pdif = pout(i) - pout(im)
+         ndif = pdif*cinv + sign(.5,pdif)
+         pout(i) = pout(i) - ndif*const
+         de = e(i) - e(im)
+         a(i) = (pout(i)-pout(im))/de*cinv
+         if ( dbgphs ) print 1000, i, pin(i),pout(i),ndif,a(i)
+         if ( de .gt. esml ) go to 1
+         isml = i
+         esml = de
+ 1    continue
+c
+         if ( nf .lt. 1 .or. sdf .lt. 0. ) go to 8
+      if ( dbgphs ) print 1002
+ 1002 format ( " phasit -- smoothing the data" )
+      nt = 2*nf
+      do 2 i = 2, n
+         im = i - 1
+         i1 = max0(2, i-nf)
+         i2 = i1 + nt
+         if ( i2 .le. n ) go to 3
+         i2 = n
+         i1 = max0(2, n-nt)
+ 3       ntot = i2 - i1 + 1
+         call stest ( a(i),a(i1),ntot, sdf, iflg, avg, sdev )
+c
+         if ( iflg .eq. 0 ) go to 5
+         xns = cinv*(pout(i) - pout(im)) - avg*(e(i) - e(im))
+         xn = xns + sign(.5,xns)
+         nc = xn
+         if ( nc .ne. 0 ) go to 6
+         dif1 = a(i) - avg
+         nct = sign(1.01,xn)
+         atest = (pout(i)-pout(im)-nct*const)*cinv/(e(i)-e(im))
+         dif2 = atest - avg
+         if ( abs(dif2/dif1) .gt. 1.5 ) go to 5
+         nc = nct
+ 6       continue
+         padd = nc*const
+         if ( dbgphs ) print 1003, padd, xn, i
+c
+         do 4 j = 1, im
+            pout(j) = pout(j) + padd
+ 4       continue
+c
+         a(i) = (pout(i) - pout(im))/(e(i) - e(im))*cinv
+ 5       continue
+         if ( dbgphs ) print 1005, i, pin(i), pout(i), a(i), avg, sdev
+ 2    continue
+ 8    continue
+c
+      if ( dbgphs ) print 1004, isml
+      i = 1
+      if ( dbgphs ) print 1005, i, e(1), pout(1)
+ 1004 format ( " phasit -- final derivative check", /,
+     >            "     assume derivative correct at i = ", i5 )
+c
+c     choose closest derivative working backwards
+c
+      ismlm = isml - 1
+      if ( ismlm .lt. 2 ) go to 17
+c
+      do 15 ir = 2, ismlm
+         i = ismlm - ir + 2
+         im = i - 1
+         ip = i + 1
+         aok = a(ip)
+c
+         pdif = pout(i) - pout(im)
+         einv = cinv/(e(i) - e(im))
+c
+         atp = einv*(pdif - const)
+         atm = einv*(pdif + const)
+         if ( dbgphs ) print 1005, i, e(i), pout(i), atm, a(i), atp
+         ad1 = abs(aok - atp)
+         ad2 = abs(aok - a(i))
+         ad3 = abs(aok - atm)
+         adm = amin1(ad1,ad2,ad3)
+c
+         if ( adm .eq. ad2 ) go to 15
+         padd = -const
+         if ( adm .eq. ad1 ) padd = const
+         call vas ( im, pout, 1, padd )
+         a(i) = einv*(pout(i) - pout(im))
+         if ( dbgphs ) print 1006, padd, i
+ 15   continue
+ 17   continue
+c
+c     choose closest derivative working forwards
+c
+      ismlp = isml + 1
+      if ( ismlp .gt. n ) go to 21
+c
+      do 20 i = ismlp, n
+         im = i - 1
+         aok = a(im)
+c
+         pdif = pout(i) - pout(im)
+         einv = cinv/(e(i) - e(im))
+c
+         atp = einv*(pdif - const)
+         atm = einv*(pdif + const)
+         if ( dbgphs ) print 1005, i, e(i), pout(i), atm, a(i), atp
+         ad1 = abs(aok - atp)
+         ad2 = abs(aok - a(i))
+         ad3 = abs(aok - atm)
+         adm = amin1(ad1,ad2,ad3)
+c
+         if ( adm .eq. ad2 ) go to 20
+         padd = -const
+         if ( adm .eq. ad1 ) padd = const
+         call vas ( im, pout, 1, padd )
+         a(i) = einv*(pout(i) - pout(im))
+         if ( dbgphs ) print 1006, padd, i
+ 20   continue
+ 21   continue
+c
+c
+ 1005 format ( 1x,i5, 2f12.2, 3g12.4 )
+ 1006 format ( "   adding ", g12.4, " at i = ", i5 )
+      nc = cinv*pout(n) + sign(.5,pout(n))
+      padd = -nc*const
+         call vas ( n, pout, 1, padd )
+c
+      return
+ 1000 format ( 1x,i5, 2f10.2, i5, g12.4 )
+ 1003 format ( "   adding ", 2g12.4, " to data at i = ", i5 )
+      end
+*deck vas
+      subroutine vas ( n, a, ia, s )
+      dimension a(ia,n)
+c
+      if ( ia .lt. 1 ) return
+      if ( n .lt. 1 ) return
+c
+      do 1 i = 1, n
+         a(1,i) = a(1,i) + s
+ 1    continue
+c
+      return
+      end
+*deck stest
+      subroutine stest ( x, a, n, s, iflag, avg, sdev )
+c
+c      tests to see if x is within s standard deviations
+c       of the average in the array a
+c
+      dimension a(n)
+c
+      sum = 0e0
+      sum2 = 0e0
+c
+      do 1 i = 1, n
+         sum = sum + a(i)
+         sum2 = sum2 + a(i)**2
+ 1    continue
+c
+      avg = sum/n
+      dev = sum2/n
+      sdev = sqrt(float(n)*(dev - avg*avg)/(n-1))
+c
+      iflag = 1
+      if ( abs(x-avg) .lt. s*sdev ) iflag = 0
+c
+c      print 2000, avg, sdev, iflag
+c 2000 format ( " result = avg,sdev,iflag ", 2g12.4, i6 )
+      return
+      end
+*deck v2fit1
+      subroutine v2fit1 ( x, a, n, m, nmax )
+c
+c     v2fit1 -- a(i,j) = x(i)**(j-1)
+c
+      implicit real ( a - h, o - z )
+      dimension x(n), a(nmax,m)
+      call vsets ( n, a, 1, 1e0 )
+      do 2 j = 2, m
+      call vpv ( n, a(1,j-1),1, x,1, a(1,j),1 )
+ 2    continue
+      return
+      end
+*deck e401
+      subroutine opac
+      double scal
+      common/mprin/l
+      common/kaid/aid(14,14),aid2(14,14),naid
+      common/kar/u(30),usav(30),grad(30),z(30),zsav(30),bl(30),bu(30),v(
+     130),vsav(30),gradu(30),nuflag(30),nbd(30)
+      common /kchg/ gsav( 300,14),b( 300),bsav( 300),nersdim
+      common/kvar/nu,nprob,ners,numax,nerspnu,phi,solves,ngrad,
+     1netasr,gradsq,zsq
+      logical solves
+      common/doyle/nprobs,iters,grdzmin,phimin,relphi,zsqmin,np0,nprint1
+     1,nprint2,netasch,mono,ntable,npiv,apzero,cmin,cmax,relpphi,reldgmx
+     1,etavrel,etahalt,usqmx ,mxfcn,icrow
+     1,dmult
+      common/d1/ yz,timesum,nbdsum,nindep1,rus,iter
+      data dmult/1./
+      data usqmx/1.e06/
+      data mxfcn/3/
+      data icrows/1/
+      data nprobs/1/
+      data iters/10 /
+      data grdzmin/1.e-20/
+      data phimin/1.e-25/
+      data relphi/1.e-13/
+      data zsqmin/1.e-24/
+      data np0s/1/
+      data nprint1/0/
+      data nprint2/0/
+      data net/1/
+      data mono/1/
+      data ntable/3/
+      data npiv/0 /
+      data apzero/1.e-14/
+      data cmins/1.e-3/
+      data cmaxs/1.e-0/
+      data relpphi/.8/
+      data reldgmx/1.e-50/
+      data etavrel/1.5e-02/
+      data etahalt/1.0e-02/
+      data kread/1/
+      data nersdim/300/
+      solves=.false.
+  170 ngrad=2
+  480 nindep1=0
+      do 460 k=1,nu
+      if(nuflag(k)) 460,470,460
+c           nuflag (k)=0, vary u(k)
+  470 nindep1=nindep1+1
+  460 continue
+      netasch=net
+      cmin=cmins
+      cmax=cmaxs
+      np0=np0s
+      rus=-1.
+      icrow=icrows
+      call phig
+      call bnds
+      write(9,5)iters
+        write(9,12)relphi
+      write(9,11)phimin
+      write(9,61)grdzmin
+      write( 9,18)zsqmin
+  180 call second(tstart)
+      write(9,51)nprob
+      write(9,55)
+      write(9,56)
+      write(9,57)
+      write(9,58)
+c     print starting par vec v(k), flags, bounds
+      write(9,52)
+      do 182 k=1,nu
+  182 write(9,53)nuflag(k),nbd(k),bl(k),v(k),bu(k),k
+c     compute unbounded u(k) to yield initial v(k)
+      ngrad=3
+      call bnds
+      if(nindep1) 235,235,183
+  183 iter=0
+      l=9
+      phi=0.0
+  184 netasr=2
+      call srch
+      write(l,100) (v(i),i=1,nu)
+  186 phiprev=1.0e+99
+      netasr=1
+      l=6
+  195 iter=iter+1
+      go to 240
+  230 solves =.true.
+  231 write(9,4)
+      if(nindep1) 232,233,233
+  232 nindep1=-nindep1
+  233 continue
+      ngrad=1
+      if (nbdsum) 254,254,256
+  254 ind = 0
+      do  258  k=1,nu
+      if (nuflag(k)) 258,257,258
+  257 ind = ind+1
+      v(k) = u(ind)
+  258 continue
+      call phig
+      go to 235
+  256 call bnds
+  235 write(9,8)phi
+      write(9,105) iter
+c     statistical estimator normalized when practical
+      do 620 i=1,nindep1
+      do 610 k=1,nindep1
+      aid(i,k)=0.
+      do 600 j=1,ners
+      aid(i,k)=gsav(j,i)*gsav(j,k)+aid(i,k)
+  600 continue
+  610 continue
+  620 continue
+      call sgefa(aid,naid,nindep1,aid2(1,1),info)
+      call sgedi(aid,naid,nindep1,aid2(1,1),aid2(1,5),aid2(1,6),0)
+      stem=phi
+c     signal for srch to read in data
+      nnn=ners-nindep1
+      if(nnn.ne.0) stem=stem/nnn
+      do 660 i=1,nindep1
+      do 650 k=1,nindep1
+      aid(i,k)=sign(sqrt(stem*abs(aid(i,k))),aid(i,k))
+  650 continue
+  660 continue
+      write(9,64)
+      do 670 i=1,nindep1
+      write(9,65)  (aid(i,k),k=1,nindep1)
+  670 continue
+      write(9,59)
+      write(9,7)(v(k),k=1,nu)
+      gradsq=0.
+      do 25 k=1,nindep1
+   25 gradsq=gradsq+grad(k)*grad(k)
+      write(9,9)gradsq
+      write(9,10)(grad(k),k=1,nindep1)
+      call second(tend)
+      tend=tend-tstart
+      write(9,54)nprob,tend
+      return
+  240 if(phi-phimin)250,250,260
+c     phi l th or = phimin, conv
+  250 write(9,4)
+      write(9,13)phi,phimin
+      go to 230
+  260 phirel=(phiprev-phi)/phiprev
+      if(phirel)262,280,265
+c     phi gr or = phiprev
+  262 write(9,16)phi,phiprev
+      go to 230
+  265 if(phirel-relphi)270,270,280
+c     phirel l th or = relphi, conv
+  270 write(9,4)
+      write(9,14)phirel,relphi
+      go to 230
+c     phirel gr th relphi
+  280 phiprev=phi
+      if(iter-iters)300,300,290
+c     iter = iters+1, count exit
+  290 write(9,4)
+      write(9,15)iters
+      if(iter-99999) 230,231,231
+c     iter l th or = iters
+  300 if(zsq-zsqmin)350,350,360
+c     zsq l th or = zsqmin, exit
+  350 write(9,4)
+      write(9,19)zsq,zsqmin
+      go to 230
+c     zsq gr  th zsqmin
+  360 go to 430
+c 360 if(yz)390,380,380
+c     yz 0.0 or pos
+  380 write(9,21)yz
+      go to 230
+c     yz neg
+  390 if(yz+grdzmin)430,400,400
+c     yz convergence
+  400 write(9,62)yz,grdzmin
+      go to 230
+  430 call srch
+      write(l,100) (v(i),i=1,nu)
+  100 format(1x,*    v(i)=*,
+     1 (1x,1pe20.12,e20.12,e20.12,e20.12,e20.12))
+      write(l,105) iter
+      if(nindep1) 435,235,195
+  435 nindep1=-nindep1
+      go to 235
+    1 format(i4)
+    2 format(e8.2)
+    4 format(55h ****    ****    ****    ****    ****    ****    ******)
+    5 format(9h iters  =,i4,30h, number of allowed iterations)
+    7 format(1p5e24.14)
+    8 format(11h 230, phi =,1pe24.14,22h, parameter vector u =)
+    9 format(28h 230, gradient squared mag =,1pe10.2,15h,gradient vec =)
+   10 format(1p12e10.2)
+   11 format(9h phimin =,1pe10.2,47h, convergence when phi less than non
+     czero phimin)
+   12 format(9h relphi =,1pe10.2,63h, convergence when relative drop in
+     c phi less than input relphi)
+   13 format(34h 250, small phi convergence, phi =,1pe24.14,29h is less
+     c than input phimin =,1pe24.14)
+   14 format(48h 270, convergence, small relative phi decrease =,1pe10.2
+     c,28h is less than input relphi =,1pe10.2)
+   15 format(54h 290, iteration count exit, iterations = input iters =,i
+     c4)
+   16 format(* optimiz262, present phi =*,1pe22.14,* is gr th or = previ
+     cous phi =*,1pe22.14,/*  accept as convergence only if gradients ar
+     ce small*)
+   18 format(9h zsqmin =,1pe10.2,53h, exit when squared mag of z vector
+     c less than zsqmin)
+   19 format(41h small z vector exit, squared mag z vec =,1pe10.2,28h is
+     c less than input zsqmin =,1pe10.2)
+   20 format(9h sslope =,1pe10.2,93h, exit when negative s-slope of phi-
+     ceta curve is more positive than sslope, a negative number)
+   21 format(* optimiz 380, error halt, grad.z is positive and =*,1pe10.
+     c2)
+   31 format(* 370, z vec =*)
+   43 format(* opt 410, rel phi drop =*,1pe10.2,* is less than input rel
+     cphit =*,1pe10.2,*, switch from w-srch to eta-srch*)
+   46 format(* opt 470, error halt, ncstr =*,i3)
+   51 format(*1problem*,i3,* begins here*)
+   52 format(* opt 180, nuflag(k) nbd(k)    bl(k)    parameter vector v(
+     ck)       bu(k)        k*)
+   53 format(*               *,i2,*       *,i2,*  *,1pe13.6,* *,1pe22.14
+     c,*  *,1pe13.6,*  *,i2)
+   54 format(8h problem,i2,16h, running time =,1pe14.6)
+   55 format(* parameter flag vec nuflag(k), 0 (1) to vary (hold fixed)*
+     c* parameter v(k)*)
+   56 format(* parameter bound flag vec nbd(k), 0 (v(k) unbounded), 1 (v
+     c(k) has lower bound only), 2 (v(k) bounded below and above)*,/* 3*
+     c* (v(k) has upper bound only)*)
+   57 format(* parameter lower bound vec bl(k), format(6e12.6),  blank c
+     component when v(k) is unbounded below or held fixed*)
+   58 format(* parameter upper bound vec bu(k), format(6e12.6),  blank c
+     component when v(k) is unbounded above or held fixed*)
+   59 format(* opt 230, parameter vec v =*)
+   61 format(* grdzmin=*,1pe10.2,*, convergence when grad.z between 0.0*
+     c* and -grdzmin*)
+   62 format(* optimiz 400, convergence, grad.z=*,1pe10.2,* is abs l th*
+     c* grdzmin =*,1pe10.2)
+   63 format(* optimiz 420, convergence, previous grad.z =*,1pe13.5,*, p
+     cresent grad.z =*,1pe13.5,*, rel change =*,1pe10.2,/* is abs l th r
+     celgrdz =*,1pe10.2)
+   64 format(1x,*statistical output, standard deviations*)
+   65 format(1x,12(x,1pe10.2))
+  105 format(*      , end of iteration*,i3,/)
+      end
+      subroutine phig
+      common/kar/u(30),usav(30),grad(30),z(30),zsav(30),bl(30),bu(30),v(
+     130),vsav(30),gradu(30),nuflag(30),nbd(30)
+      common /kchg/ gsav( 300,14),b( 300),bsav( 300),nersdim
+      common /ab/ bsav2( 300),esav( 300)
+      common/kvar/nu,nprob,ners,numax,nerspnj,phi,solves,ngrad,
+     1netasr,gradsq,zsq
+      common/d1/ yz,timesum,nbdsum,nindep1,rjs,iter
+      if(ngrad.eq.2) go to 2
+      nindep1=0
+      do 40 i=1,nu
+      if(nuflag(i).eq.0) nindep1=nindep1+1
+   40 continue
+      if(ngrad.eq.0) call fcn(v,esav,phi)
+      if(ngrad.eq.-1) call fcn(v,bsav,phi)
+      if(ngrad.eq.1) call der(v,gsav,bsav)
+      if(iabs(ngrad)-1) 2,14,2
+   14 do 15 k=1,nindep1
+      grad(k)=0.
+      do 15 j=1,ners
+   15 grad(k)=grad(k)-bsav(j)*gsav(j,k)
+    2 continue
+      return
+      end
+      subroutine der(v,gsav,bsav)
+      common/d1/yz(3),nindep1,dum4(2)
+      common/kar/u1(300),nuflag(30),nbd(30)
+      common/kvar/nu,nprob,ners,numax,nerspnu,phi,solves,ngrad,
+     1netasr,gradsq,zsq
+      common /ab/ bsav2( 300),esav( 300)
+      dimension v(3),gsav( 300,14),bsav( 300)
+     x,del(30),vinc(30),vder(30)
+      data delta/1.e-06/
+      call fcn(v,bsav,phi)
+      do 1 inc=1,nu
+      if (nuflag(inc) .eq. 1)   go to 1
+      del(inc)=v(inc)*delta
+      if(abs(del(inc)).lt.1.e-20) del(inc)=1.e-04*delta
+      vinc(inc)=v(inc)+del(inc)
+    1 continue
+      nind=0
+      do 10 ider=1,nu
+      if(nuflag(ider).eq.1) go to 10
+      nind=nind+1
+      do 20 ivd=1,nu
+      vder(ivd)=v(ivd)
+      if(ivd.eq.ider) vder(ivd)=vinc(ivd)
+   20 continue
+      call fcn(vder,bsav2,pp)
+      do 30 lsav=1,ners
+   30 gsav(lsav,nind)=(bsav(lsav)-bsav2(lsav))/del(ider)
+   10 continue
+      return
+      end
+      subroutine bnds
+      common/kar/u(30),usav(30),grad(30),z(30),zsav(30),bl(30),bu(30),v(
+     130),vsav(30),gradu(30),nuflag(30),nbd(30)
+      common /kchg/ gsav( 300,14),b( 300),bsav( 300),nersdim
+      common/kvar/nu,nprob,ners,numax,nerspnu,phi,solves,ngrad,
+     1netasr,gradsq,zsq
+      common/d1/ yz,timesum,nbdsum,nindep1,rus,iter
+      common/doyle/nprobs,iters,grdzmin,phimin,relphi,zsqmin,np0,nprint1
+     1,nprint2,netasch,mono,ntable,npiv,apzero,cmin,cmax,relpphi,reldgmx
+     1,etavrel,etahalt,usqmx ,mxfcn,icrow
+     1,dmult
+      common /pb/ p
+      data eps/1.e-6/
+      irdb = 0
+      if(ngrad-2)88,34,48
+34    write(9,3)
+      lter = 0
+      write(9,1)(nbd(k),k=1,nu)
+      usqd=1./usqmx
+      rus=-1.
+      nbdsum=0
+      do 36 k=1,nu
+      if(nuflag(k))36,36,35
+c     nuflag(k)=1, v(k) fixed
+   35 nbd(k)=0
+   36 nbdsum=nbdsum+nbd(k)
+      write(9,4)nbdsum
+      write(9,1) (nbd(k),k=1,nu)
+      if(nbdsum)37,37,39
+c  nbdsum =0,  no bounds
+   37 ind=0
+      do 38 k=1,nu
+      if(nuflag(k)) 41,40,41
+   40 ind=ind+1
+      u(ind)=v(k)
+   41 continue
+   38 continue
+   39 return
+c     compute unbounded u(k) to yield starting bounded v(k)
+c     nbdsum non 0, parameters bounded, nbd(k) = (0, no bds), (1, l bd o
+c     nly), (2, l and u bds), (3, u bd only)
+   48 ind=0
+      do 80 k=1,nu
+      if(nuflag(k)) 80,49,80
+   49 ind=ind+1
+      if(nbd(k))52,50,52
+c     nbd(k)=0, v(k) unbounded or fixed
+   50 u(ind)=v(k)
+      go to 80
+c     nbd(k) non 0
+   52 if(nbd(k)-2)54,60,74
+c     nbd(k)=1, l bd only
+   54 vma=v(k)-bl(k)
+      if(vma)56,56,58
+c     v(k) below or on l bd
+   56 write(9,5) k,v(k),bl(k)
+      v(k) = v(k) + eps
+      vma  = vma + eps
+      if (vma .lt. 0.)   call exit
+c     nbd(k)=1, l bd only, v(k) above l bd
+   58 u(ind)=1.0/sqrt(vma)
+      go to 80
+c     nbd(k)=2, l and u bds
+   60 vma=v(k)-bl(k)
+      sum1=0.5*(bu(k)+bl(k))
+      if(vma)62,62,64
+c     l and u bds, v(k) below or on l bd
+   62 write(9,10) k,v(k),bl(k),bu(k)
+c     l and u bds, v(k) above l bd
+      v(k) = v(k) + eps
+      vma = vma + eps
+      if (vma .lt. 0.)   call exit
+   64 vmb=v(k)-bu(k)
+c     l and u bds, v(k) between
+      if (vmb .lt. 0.)   go to 68
+      write (9,10) k,v(k),bl(k),bu(k)
+      v(k) = v(k)-eps
+      vmb  = vmb -eps
+      if (vmb .gt. 0.)   call exit
+   68 sum2=(bu(k)-bl(k))*.5
+      sum1=v(k)-sum1
+      sum2=sum1/sum2
+      u(ind)=gtan(sum2)
+      go to 80
+c     nbd(k)=3, u bd only
+   74 bmv=bu(k)-v(k)
+      if(bmv)76,76,78
+c     u bd only, v(k) above or on u bd
+   76 write(9,11) k,vk,bu(k)
+c     u bd only, v(k) below u bd
+      bmv = bmv + eps
+      v(k) = v(k) - eps
+      if (bmv .lt. 0.)   call exit
+   78 u(ind)=1.0/sqrt(bmv)
+   80 continue
+      if (irdb.eq.1)  go to 160
+      write(6,7)
+      write(6,8) (u(k),k=1,nindep1)
+      return
+c     nbdsum non 0, param bounds
+   88 ind=0
+      do 112 k=1,nu
+      if(nuflag(k)) 112,89,112
+   89 ind=ind+1
+      if(nbd(k))92,90,92
+c     nbd(k)=0, v(k) unbounded or fixed
+   90 v(k)=u(ind)
+      go to 112
+c     nbd(k) non 0, v(k) bounded
+   92 uksq=u(ind)**2
+      if(nbd(k)-2)94,106,110
+c     nbd(k)=1, l bd only
+   94 v(k)=bl(k)+1.0/uksq
+      go to 112
+c     nbd(k)=2, l and u bds
+  106 sum=u(ind)
+      v(k)=0.5*(bu(k)+bl(k) +(bu(k)-bl(k))*gatan(sum))
+      go to 112
+c     nbd(k)=3, u bd only
+  110 v(k)=bu(k)-1.0/uksq
+  112 continue
+      if (ngrad .ne. 1 )           go to 160
+  167 ind=0
+      do 160 k=1,nu
+      if(nuflag(k)) 160,168,160
+  168 ind=ind+1
+      if(nbd(k)-2) 170,169,170
+  169 us=1.-abs(gatan(u(ind)))
+      if(us-usqd) 171,171,160
+  171 if(rus .lt. 0.)  go to 160
+      lter=lter+1
+      if ( lter .lt. 13 )          go to 160
+      nindep1 = nindep1 - 1
+      lter = 0
+   16 format(* bnds 171 v(*,i2,*) = *,e20.12,*nbdsum=*,e20.12,*us=*,e20.
+     112,*no.  indep var red. to *,i3  )
+      write(9,16) k,v(k),nbdsum,us,nindep1
+      go to 172
+  170 uksq=u(ind)**2
+      lter = lter + 1
+      if ( lter .lt. 13 )          go to 160
+      lter = 0
+      if(uksq .lt. usqmx .or. rus .lt. 0. ) go to 160
+      nindep1=nindep1-1
+      write(9,15) k,v(k),nbdsum,uksq,nindep1
+   15 format(* bnds 160 v(*,i2,*) =*,e20.12,*nbdsum=*,e20.12,*uksq=*,e20
+     1.12,*no. indep var red. to *,i3 )
+  172  nbdsum=nbdsum-nbd(k)
+       nuflag(k)=1
+       nbd(k)=0
+      irdb = 1
+      go to 48
+  160  continue
+      if (irdb.eq.0) go to 155
+      do 151  k=1,nindep1
+  151 usav(k) = u(k)
+  155 continue
+      if(nbdsum .eq. 0) nbdsum=-1
+      call phig
+      if(ngrad)154,154,120
+  120 ind=0
+      sum1=0.0
+      do 150 k=1,nu
+      if(nuflag(k)) 150,122,150
+c     nuflag(k)=0, v(k) varied
+  122 ind=ind+1
+       if(nbd(k))163,164,166
+  163  call exit
+  164  sum=1.
+       go to 130
+  166 sum=u(ind  )**2
+      nbdkm2=nbd(k)-2
+      if(nbdkm2)124,128,124
+c     l or u bnd only
+  124 sum=u(ind  )*sum
+      sum=2.0/sum
+      if(nbdkm2)126,128,130
+c     l bd only
+  126 sum=-sum
+      go to 130
+c     nbd(k)=2, l and u bds
+  128 sum=(1.0+abs(u(ind  )))**2
+      sum=.5*(bu(k)-bl(k))/sum
+  130 gradu(ind)=grad(ind)*sum
+      sum1=sum1+gradu(ind)**2
+      do 140 ner=1,ners
+  140 gsav(ner,ind)=gsav(ner,ind)*sum
+  150 continue
+      write(6,12)sum1
+      write(6,14)(gradu(k),k=1,nindep1)
+  154 return
+    1 format(36i2)
+    2 format(e8.2)
+    3 format(* input parameter bounds flag vector nbdk(k) =*)
+    4 format(* bnds 36, nbdsum =*,i3,*, par bd vec, after possible modif
+     cication by par flag vec, =*)
+    5 format(* bnd 56, for param index k =*,i3,* v(k) =*,1pe22.14,* is l
+     c th or = l bd bl(k) =*,1pe14.6 )
+    7 format(* bnds 80, u(k) to produce starting v(k) is*)
+   11 format(* bnds 76, u bd only, v(k) above u bd, k =*,i3,*, v(k) =*,1
+     cpe22.14,*, bu(k) =*,1pe14.6  )
+    8 format(1p8e16.6)
+   10 format(* bnds 62, l and u bnds, v(k) beyond bnds, k =*,i3,*, v(k)*
+     c* =*,1pe22.14,*, bl(k) =*,1pe14.6,/*  bu(k) =*,1pe14.6  )
+   12 format(* bounds 150, gradusq =*,1pe10.3,*, u-gradient vec =*)
+   14 format(1p10e12.3)
+c     subrt bnds ends here
+      end
+      subroutine srch
+      common/mprin/l
+      common/irg/irang(30)
+      common/kaid/aid(14,14),aid2(14,14),naid
+c  naid must be less than or equal to numax
+      common/kar/u(30),usav(30),grad(30),z(30),zsav(30),bl(30),bu(30),v(
+     130),vsav(30),gradu(30),nuflag(30),nbd(30)
+      common /kchg/ gsav( 300,14),b( 300),bsav( 300),nersdim
+      dimension gg( 300,14)
+      common/kvar/nu,nprob,ners,numax,nerspnu,phi,solves,ngrad,
+     1netasr,gradsq,zsq
+      dimension eta3(3),phi3(3),etas2(50)
+      common/d1/ yz,timesum,nbdsum,nuvar  ,rus ,iter
+      common/doyle/nprobs,iters,grdzmin,phimin,relphi,zsqmin,np0,nprint1
+     1,nprint2,netasch,mono,ntable,npiv,apzero,cmin,cmax,relpphi,reldgmx
+     1,etavrel,etahalt,usqmx ,mxfcn,icrow
+     1,dmult
+      common /pb/ p
+      data naid/14/
+      data lshift/5/
+      if(netasr-2)116,110,118
+c     netasr = 2, read data
+  110 continue
+      cmaxs=cmax
+      cmins=cmin
+      icrset=0
+      emult=dmult
+      net=netasch
+      if (nuvar .eq. 1)  icrow = 0
+      netasr=1
+      sum =2*ntable
+      exp1= sum-2.0
+      exp1=1.0/exp1
+      tlstsq=0.0
+      dgmxpre=1.0e+99
+  116 ngrad=1
+      nbr1=1
+  118 storen=1.0
+      netasch=net
+      igls=0
+      nkp=0
+      do 11190 k=1,nuvar
+11190 usav(k)=u(k)
+11191 if(nbdsum)11192,11192,11196
+c     nbdsum=0, no bds
+11192 ind=0
+      nbdsum=0
+      do 11194 k=1,nu
+      if(nuflag(k)) 11194,11193,11194
+11193 ind=ind+1
+      v(k)=u(ind)
+11194 continue
+      call phig
+      go to 11197
+11196 call bnds
+      if(nuvar-1) 11680,1000,11197
+ 1000 np0=0
+      igls=0
+      icrow = 0
+      mono = 1
+      ntable = 2
+11197 nerpvar=ners+nuvar
+      if(nersdim-nerpvar)11198,11199,11199
+11198 write(l,59)nerpvar,nersdim
+      go to 11313
+11199 nersp1=ners+1
+      go to (11200,11250,11208,11470) nbr1
+11200 gradsq=0.0
+      som=0.0
+      do 11207 k=1,nuvar
+      b(k)=0.0
+      do 11201 ner=1,ners
+11201 b(k)=b(k)+gsav(ner,k)*gsav(ner,k)
+      if(b(k)-som) 11217,11217,11203
+11203 som=b(k)
+11217 if(nbdsum) 11209,11215,11209
+11209 gradsq=gradsq+gradu(k)*gradu(k)
+      go to 11207
+11215 gradsq=gradsq+grad(k)*grad(k)
+11207 continue
+11208 phistrt = phi
+      fipprev = phi
+11210 diagmax=som
+      diag1=cmin*som
+      diag2=cmax*som
+      pfac = cmax/(cmin+1.e-8)
+      pfac=pfac**exp1
+      pfacsq=pfac**2
+      pn1 =sqrt(diag1)/pfac
+c     write(9,7)som,pfac
+c     write(9,49)(b(k),k=1,nuvar)
+      fimin=1.0e+250
+      if(np0)11211,11211,11212
+11211 npstep=0
+      p=pn1
+      go to 11213
+11212 npstep=-1
+      p=0.0
+11213 ngrad=0
+      nbr1=2
+11214 p=p*pfac
+      npstep=npstep+1
+      if(igls) 10204,10204,10205
+10204 igls=1
+      do 11227 ner=1,ners
+      b(ner)=bsav(ner)
+      do 11227 k=1,nuvar
+11227 gg(ner,k)=gsav(ner,k)
+      if(icrow) 122,122,120
+  120 call normal(gsav,nersdim,ners,nuvar,z,1)
+      call rownorm(gsav,nersdim,b,ners,nuvar)
+  122 continue
+      do 126 i=1,nuvar
+      do 124 k=1,nuvar
+  124 aid(i,k)=0.
+  126 aid(i,i)=1.
+      call glss(ners,nuvar,1,nuvar,nrank,gsav,nersdim,b,nersdim,aid,naid
+     1,z,nu)
+      info=0
+      nrank=min(ners,nuvar)-info
+      do 127 i=1,nuvar
+      b(i)=sdot(ners,gsav(1,i),1,bsav(1),1)
+  127 bsav(i)=b(i)
+      call sgefa(aid,naid,nuvar,gsav(1,1),info)
+      call sgedi(aid,naid,nuvar,gsav(1,1),gsav(1,2),gsav(1,3),0)
+10205 if(p-1.e-100) 11225,11225,11216
+11216 do 11219 i=1,nuvar
+      b(i)=bsav(i)
+      do 11218 k=1,nuvar
+      aid2(i,k) = 0.
+11218 gsav(i,k)=aid(i,k)
+11219 aid2(i,i)=1.
+      n1=nuvar+1
+      n2=2*nuvar
+      do 11222 i=n1,n2
+      b(i)=0.
+      do 11222 k=1,nuvar
+      gsav(i,k)=0.
+      if(icrow) 11223,11223,11224
+11223 gsav(k+nuvar,k)=p
+      go to 11222
+11224 gsav(k+nuvar,k)=expad(p,-irang(k))
+11222 continue
+      call glss(n2,nuvar,1,nuvar,nrank,gsav,nersdim,b,nersdim,aid2,naid,
+     1z,nu)
+11225 ndefic=nuvar-nrank
+      if(icrow) 132,132,130
+  130 call normal(gsav,nersdim,ners,nuvar,z,2)
+  132 continue
+      if(ndefic)11228,11230,11228
+11228 write(9,38)npstep,ndefic
+      if(nuvar-1) 11680,11290,11290
+11230 zsq=0.0
+      do 11231 k=1,nuvar
+11231 zsq=zsq+z(k)*z(k)
+      if(nbdsum) 11232,11233,11232
+11232 yz=sdot(nuvar,gradu,1,z,1)
+      go to 11234
+11233 yz=sdot(nuvar,grad,1,z,1)
+11234 if(abs(yz)-grdzmin)11237,11237,11235
+11235 rtgrad=sqrt(gradsq)
+      rtzsq=sqrt(zsq)
+      sum=rtzsq*rtgrad
+      costhet=-yz/sum
+11237 do 11245 k=1,nuvar
+11245 u(k)=usav(k)+z(k)
+      go to 11191
+11250 sum=(phistrt-phi)/phistrt
+      rus=sum
+      if(nprint1) 11260,11260,11255
+11255 write(l,11)npstep,p,rtzsq,costhet,phi,sum,tlstsq
+11260 if(nuvar-1) 11266,11261,11261
+11261 if(phi .ge. phistrt .or. phi .ge. fimin) go to 11290
+11256 if( abs(sum) .ge. 1.0e-25) go to 11265
+      if(icrset) 11305,11305,11257
+11257 write(9,60)
+      nuvar=-nuvar
+      go to 11650
+11265 if(p .ne. 0. .or. iter .ge. 3 ) go to 11266
+      do 11267 k=1,nu
+      if(nbd(k)) 11267,11267,11268
+11268 if(nbd(k)-2) 11273,11271,11271
+11271 if(bu(k)-v(k)-1.0e-4) 11272,11272,11273
+11272 phi=1.0e100
+      go to 11290
+11273 if(nbd(k)-2) 11274,11274,11267
+11274 if(v(k)-1.0e-4-bl(k)) 11272,11272,11267
+11267 continue
+11266 fimin=phi
+      zmin=rtzsq
+      zsqopt=zsq
+      yzopt=yz
+      popt=p
+      nmin=npstep
+      do 11270 k=1,nuvar
+11270 zsav(k)=z(k)
+      do 11275 k=1,nu
+11275 vsav(k)=v(k)
+      if(nuvar-1) 11313,11276,11276
+11276 if(sum-relpphi)11290,11290,11285
+11285 sum1=cmin
+      sum2=cmax
+      if(npstep-ntable) 11282,11282,11278
+11278 sum2=cmax*pfacsq
+11282 if(npstep-1) 11286,11286,11284
+11284 sum1=cmin*pfacsq
+11286 continue
+      cmin=sum1
+      cmax=sum2
+      netasch=0
+      go to 11316
+11290 if(p)11292,11292,11293
+11292 p=pn1
+11293 if(mono)11302,11302,11294
+11294 if(phi-fipprev)11296,11298,11298
+11296 storen=-1.0
+      go to 11302
+11298 storep=1.0
+      sum3=storen*storep
+      if(sum3)11300,11302,11302
+11300 if(fimin-phistrt)11307,11302,11302
+11302 fipprev=phi
+      if(npstep-ntable)11214,11303,11303
+11303 if(mono)11316,11316,11304
+11304 if(fimin-phistrt)11306,11305,11305
+11305 antable=ntable
+      if(icrset .eq. 1.or. nkp .lt. 2) go to 10309
+      cmax=cmaxs
+      cmin=cmins
+      nkp=0
+10306 icrset=1
+      if(icrow) 10307,10307,10308
+10307 icrow=1
+      go to 10310
+10308 icrow=0
+10310 write(l,64) icrow
+      igls=0
+      do 1038 i=1,ners
+      do 1038 k=1,nuvar
+ 1038 gsav(i,k)=gg(i,k)
+      go to 11210
+10309 continue
+      if(nkp-3) 11301,11301,11311
+11311 write(9,100)
+  100 format(* stop 11305 *, 50x,*stop 11305 *,45x,*stop 11305*)
+11313 iter=99999
+      do 11315 k=1,nuvar
+11315 u(k)=usav(k)
+      go to 11680
+11301 sum1=cmax*pfacsq
+      sum=pfacsq**ntable
+      sum=cmax*sum
+c     write(9,33)cmin,sum1,cmax,sum
+      cmin=sum1
+      cmax=sum
+      npstep=0
+      nkp=nkp+1
+      go to 11214
+11306 sum=cmax*pfac*pfac
+c     write(9,29)cmax,sum
+      cmax=sum
+      go to 11312
+11307 if(npstep-ntable)11308,11309,11309
+11308 sum=cmax/pfacsq
+c     write(9,29)cmax,sum
+      cmax=sum
+11309 if(npstep-3)11310,11316,11312
+11310 sum=cmin/(pfac*pfac)
+      go to 11314
+11312 sum=cmin*pfacsq
+11314 cmin = sum
+11316 do 11320 k=1,nu
+11320 v(k)=vsav(k)
+      do 11318 k=1,nuvar
+11318 u(k)=usav(k)+zsav(k)
+      sum1=popt*popt
+      sum2=pfac*pfac
+11332 write(l,14)popt,phistrt,fimin
+c11332 write(9,13)nmin,popt,phistrt,fimin,zmin,yzopt
+c     write(9,49)(zsav(k),k=1,nuvar)
+c     write(9,15)gradsq,yz,timesum
+      g1=0.
+      do 11333 k=1,nuvar
+11333 g1=g1+grad(k)**2
+      write(l,16) g1,(grad(k),k=1,nuvar)
+c     write(9,49)(grad(k),k=1,nuvar)
+      if(fimin-phistrt)11336,11334,11334
+11334 write(9,43)fimin,phistrt
+      call exit
+11336 phi=fimin
+      zsq=zsqopt
+      yz=yzopt
+      if(phi-1.e-24) 11680,11680,11340
+11340 if(netasch)11650,11650,11430
+c     netasch=1, make eta search
+11430 phi3(1)=phistrt
+      eta3(1)=0.
+      phi3(2)=fimin
+      eta3(2)=1.
+      eta=2.
+      eta3(3)=eta
+      nbr2=1
+      nbr1=4
+      nfeval=0
+      nrt=-1
+      nvx=0
+      netas2=0
+11440 nfeval=nfeval+1
+      netas2=netas2+1
+      etas2(netas2)=eta3(2)
+      if(nfeval-mxfcn)11445,11445,11640
+11445 do 11450 k=1,nuvar
+11450 u(k)=usav(k)+eta*zsav(k)
+      go to (11191,11644) nbr2
+11470 if(phi-phi3(2))11480,11570,11570
+11480 if(eta-eta3(2))11484,11484,11482
+11482 phi3(1)=phi3(2)
+      eta3(1)=eta3(2)
+      go to 11486
+11484 phi3(3)=phi3(2)
+      eta3(3)=eta3(2)
+11486 phi3(2)=phi
+      eta3(2)=eta
+c has monotonicity been broken (n0 is lt 0)
+      if(nrt)11488,11640,11582
+11488 eta=emult*(eta+1.)
+      nrt=nrt-1
+      if(lshift+nrt) 11489,11440,11440
+11489 eta=eta/emult-1.
+      emult=emult*2.
+      go to 11640
+11570 nrt=1
+      emult=dmult
+11571 if(nvx)11572,11574,11576
+11574 if(eta-eta3(2))11580,11580,11578
+11578 phi3(3)=phi
+      eta3(3)=eta
+      go to 11582
+11580 phi3(1)=phi
+      eta3(1)=eta
+11582 continue
+11581 etanum=0.5*(phi3(1)*(eta3(2)**2-eta3(3)**2)-phi3(2)*(eta3(1)**2-
+     1eta3(3)**2)+phi3(3)*(eta3(1)**2-eta3(2)**2))
+      etaden= phi3(1)*(eta3(2)-eta3(3))-phi3(2)*(eta3(1)-eta3(3))+phi3(3
+     1)*(eta3(1)-eta3(2))
+      if(abs(etaden)-1.0e-30)11640,11640,11583
+11583 etavrtx=etanum/etaden
+      eta=etavrtx
+      if(eta-eta3(2))11584,11640,11586
+11584 nvx=-1
+      go to 11590
+11586 nvx=+1
+      go to 11590
+11572 eta=.5*(eta3(3)+eta3(2))
+      phi3(1)=phi
+      eta3(1)=etavrtx
+      nvx=0
+      go to 11590
+11576 eta=0.5*(eta3(2)+eta3(1))
+      phi3(3)=phi
+      eta3(3)=etavrtx
+      nvx=0
+11590 releta=abs((eta-eta3(2))/eta3(2))
+      if(nprint2)11532,11532,11530
+11530 write(9,23)
+      write(9,35)(eta3(k),k=1,3)
+      write(9,24)
+      write(9,35)(phi3(k),k=1,3)
+11532 if(releta-etavrel)11640,11640,11534
+11534 if(abs(phi3(1)+phi3(3)-2.*phi3(2))/(phi3(1)+phi3(2)+phi3(3))-.05)
+     1 11640,11440,11440
+11640 phi=phi3(2)
+      etavrtx=eta3(2)
+      eta=eta3(2)
+      nbr2=2
+      go to 11445
+11644 sum=(phistrt-fimin)/phistrt
+      sum1=etahalt*sum
+      sum=(fimin-phi)/fimin
+      write(l,25)fimin,phi,etavrtx,sum
+c     write(9,44) nfeval
+   44 format(20x,*no of function evaluations in eta search=*,i4)
+c     write(9,35)(etas2(k),k=1,netas2)
+      if(sum)11641,11642,11642
+11641 write(l,36)phi,fimin
+      phi=fimin
+      eta=1.0
+11642 if(sum-sum1)11643,11643,11650
+11643 if(sum.lt.1.e-200.or.iter.le.3.or.nfeval.lt.3)go to 11650
+      netasch=0
+      write(l,32)sum,sum1
+11650 sum=abs((diagmax-dgmxpre)/dgmxpre)
+      if(sum .gt. reldgmx .or. iter .lt. 7 ) go to 11670
+11660 ngrad=-1
+      netasr=3
+      write(l,22)dgmxpre,diagmax,sum,reldgmx
+      nbr1=3
+      gradsq=1.0e+99
+      write(l,37)
+11670 continue
+      dgmxpre=diagmax
+11680 return
+    1 format(i4)
+    2 format(*    srch 11320, unconstrained par vec u =*)
+    3 format(e8.2)
+    4 format(* nprint1 =*,i4,*, 0(1) to by-pass(print) p-table at 11255*
+     c)
+    6 format(* relpphi =*,1pe9.2, *, exit from p-srch when rel phi drop*
+     c* greater than relpphi*)
+    7 format(*    srch 11207, diagmax =*,1pe13.5,
+     c*, pfac =*,1pe9.2,*, diagonal terms are*)
+    8 format(*    srch 11194, phi =*,1pe22.14,*, nbdsum =*,i3,*, par vec
+     c v(k) =*)
+   11 format(* n=*,i3,*, p=*,1pe9.2,*, z=*,1pe9.2,*, cos=*,1pe9.2,*, phi
+     c=*,1pe21.14,*, rel phi drop =*,1pe9.2                 ,/* lstsq ti
+     cme =*,1pe11.4)
+   12 format(*    srch 11285, rel phi drop =*,1pe10.2,*, is grtr than re
+     clpphi =*,1pe10.2,   /*psrch exit, cmax= *,1pe15.8,*now=*,1pe15.8,*
+     1cmin=*,1pe15.8,*now=*,1pe15.8)
+   13 format(*    srch 11332, opt n =*,i3,*, opt p=*,1pe12.5,*, start ph
+     ci =*,1pe22.14,*, end phi =*,1pe22.14,/*  opt z =*,1pe9.2,*, grad.z
+     c optimal =*,1pe9.2,                                           *, p
+     cfac  sq =*,1pe9.2,*, popt sq =*,1pe9.2,*, z vec =*)
+   14 format(*      srch11332,opt p=*,1pe12.5,*,start phi=*,1pe22.14,*,e
+     1nd phi=*,1pe22.14)
+   15 format(*    srch 11332, gradsq =*,1pe10.2,*, z.grad =*,1pe10.2,*,*
+     c* phig    timesum =*,1pe9.2,*, gradient =*)
+   16 format(*   gradsq=*,1pe10.2,*gradient vector=*,1p5e13.5,/(2x,1p7e1
+     13.5))
+   17 format(* mono    =*,i4,*, 0(1) to continue(halt) table at min*)
+   18 format(* cmin    =*,1pe9.2,*, starting p sq = cmin(diagmax)*)
+   19 format(* cmax    =*,1pe9.2,*,      end p sq = cmax(diagmax)*)
+   20 format(* reldgmx =*,1pe9.2,*, halt differentiation and p-table whe
+     1n relative change in diag  max is less than reldgmx*)
+   21 format(* netasch =*,i4,*, 0(1) to omit(include) opt z(p) eta searc
+     ch*)
+   22 format(*    srch 11660, previous max diag term =*,1pe12.5,* and pr
+     1esent diag term =*,1pe12.5,* have rel change =*,1pe10.3,/*  less t
+     2han input reldgmx=*,1pe9.2,*,halt differentiation*)
+   23 format(*    srch 11530, parabola min  sequence= *  )
+   24 format(*    srch 11530, phi triplet =*)
+   25 format(*    srch 11640, p-srch opt phi =*,1pe22.14,*, eta-srch opt
+     1 phi =*,1pe22.14,*, opt eta =*,1pe11.3,/* relative phi drop =*,1pe
+     210.2)
+   26 format(* etavrel =*,1pe9.2,*, eta-srch exit when par vrtx rel ch l
+     cess th etavrel*)
+   27 format(* nprint2 *,i4,*,0(1) to by-pass(print)    srch triplets*)
+   28 format(* np0     =*,i4,*, 0(1) to by-pass(include) p=0 in p-tabl*)
+   29 format(*    srch 11307, old cmax =*,1pe10.3,* now reset to *,1pe10
+     c.3)
+   30 format(*    srch 11314, old cmin =*,1pe10.3,* now reset to *,1pe10
+     c.3)
+   31 format(* etahalt =*,1pe9.2,*, halt eta-srch when rel phi drop less
+     c  than etahalt(rel p-table phi drop)*)
+   32 format(*    srch 11642, rel eta-srch phi drop =*,1pe11.3,* is less
+     c than etahalt(p-table rel phi drop)=*,1pe11.3,*, halt eta-srch*)
+   33 format(*    srch 11305, continue p-table with old cmin=*,1pe10.3,*
+     c reset to *,1pe10.3,*, old cmax=*,1pe10.3,* reset to*,1pe10.3)
+   35 format(1p5e22.14)
+   36 format(*    srch 11641,    srch phi =*,1pe21.14,* is greater than*
+     c* p-srch opt phi =*,1pe21.14,*, p-srch opt phi restored*)
+   37 format(*011660, differentiation halted, symbol gradsq=1.0e+99*)
+   38 format(*    srch 11228, singular system, npstep =*,i3,*, ndefic =*
+     1,i3,*, pivot1(k) =*)
+   39 format(*    srch 11228, pivot2(k) =*)
+   40 format(*    srch 11228, jcol(k) =*)
+   41 format(30i4)
+   42 format(*    srch 11229, error halt, sing syst for const p =*,1pe10
+     c.3)
+   43 format(*    srch 11334, error halt, end phi =*,1pe22.14,* is great
+     cer than start phi =*,1pe22.14)
+   49 format(1p10e13.5)
+   56 format(* apzero  =*,1pe9.2,*, approximate 0 for lstsq rank determi
+     cnation*)
+   58 format(* ntable  =*,i4,*, number of p-table entries*)
+   59 format(*    srch11198,nerpvar =*,i6,* exceeds control input ners *
+     c* dim =*,i6,*, make nersdim = nerpvar in control order and dimensi
+     cons b, g*)
+   60 format(*    srsh  11256rel phi drop in p search =0 exit check conv
+     1.  *)
+   62 format(* icrow= *,i5,3x,*1(0) col followed by row max scaling (not
+     1)  desired  *)
+   64 format(* scaling parameter icrow has  been set to*,i5,3x,*and p ta
+     1ble restarted *)
+   65 format(* mxfcn= *,i5,3x,*max no. of fcn eval-1   allowed in etasch
+     **)
+   66 format(* dmult= *,f10.4,3x,* eta multiplyer in etasrch*)
+   74 format(*    srch 11196, ner =*,i4,*,           nuvar = *,i3,*, eq*
+     c* =*,1pe10.3,*, eqj(k) =*)
+   96 format(1p10e13.5)
+  108 format(* npiv    =*,i4,*, 0(1) when max modified col vec (modified
+     c length/orig length) determines next pivot*)
+c     subrt srch ends here
+      end
+      function gatan(x)
+      gatan=x/(1.+abs(x))
+      return
+      end
+      function gtan(c)
+      gtan=c/(1.-abs(c))
+      return
+      end
+      subroutine rownorm(a,mdepth,b,m,n)
+c max normalization
+      dimension a(mdepth,1),b(1),c(60)
+      common /ab/ pivot( 300),irange( 300)
+      do 2 i=1,m
+      do 1 k=1,n
+    1 c(k)=a(i,k)
+      c(n+1) = b(i)
+      call max(c,n+1,pivot(i))
+      ydum=unpak(pivot(i),irange(i))
+    2 continue
+      do 4 i=1,m
+      b(i)=expad(b(i),-irange(i))
+      do 3 k=1,n
+    3 a(i,k)=expad(a(i,k),-irange(i))
+    4 continue
+      return
+      end
+      subroutine normal(a,mdepth,m,n,z,istage)
+c based on max element
+c irange contains exp of a matrix cols. 1-n
+c istage is 1 to normalize a    is 2  to renormalize solution z
+      common/irg/irang(30)
+      dimension pivot(30),irange(30)
+      equivalence(irang,irange)
+      dimension a(mdepth,1),z(n)
+      go to (1,5) istage
+    1 do 2 k=1,n
+      call max(a(1,k),m,pivot(k))
+      ydum =unpak (pivot(k),irange(k))
+    2 continue
+      do 4  k=1,n
+      do 4  i=1,m
+    4 a(i,k) = expad(a(i,k),-irange(k))
+      go to 7
+    5 do 6 k=1,n
+    6 z(k)= expad(z(k),-irange(k))
+    7 continue
+      return
+      end
+      subroutine max(x,nd,xmax)
+      dimension x(1)
+      xmax=0.
+      do 1 i=1,nd
+      if(xmax-abs(x(i))) 2,1,1
+    2 xmax=abs(x(i))
+    1 continue
+      return
+      end
+*deck expad
+      function expad ( x, n )
+      IF ( n .eq. 0 ) THEN
+         expad = x
+      ELSE
+         expad = x*2e0**n
+      END IF
+      return
+      end
+*deck unpak
+      function unpak ( x, n )
+      data mask / 077777b /
+c
+      IF ( x .ne. 0e0 ) THEN
+         n1 = and(mask,shift(x,16))
+         n2 = and(mask,shift(1e0,16))
+         n = n1 - n2 + 1
+         unpak = x*2e0**(-n)
+      ELSE
+         n = 0
+         unpak = 0e0
+      END IF
+      return
+      end
+*deck,glss
+      subroutine glss(im,in,ik,il,nr,a,ia,y,iy,b,ib,x,jx,eps)
+      dimensiona(ia,ia),b(ib,ib),y(iy,iy),x(jx,jx)
+      double precision dot, dotpro
+      equivalence (dot,t)
+      m=im
+      n=in
+      k=ik
+      l=il
+      if(m.le.0.or.n.le.0.or.k.le.0.or.l.le.0)goto98
+      if(m.gt.ia.or.m.gt.iy.or.l.gt.ib.or.l.gt.jx)goto99
+      goto100
+   98 print 1515
+      call exit
+   99 print 2525
+      call exit
+  100 do1i=1,l
+      do1j=1,k
+    1 x(i,j)=0.
+      sc=0.
+      do50i=1,n
+      dot=dotpro(m,a(1,i),1,a(1,i),1)
+      if(t.le.sc) go to 50
+      sc = t
+      ix = i
+   50 continue
+      nr=0
+      if(sc.eq.0.)goto27
+      yy=sqrt(sc)
+      yx=eps*yy
+      go to 29
+   30 ic = nr + 1
+      t = 0.0
+      ix = 0
+      do 26 i = ic,n
+      yy =dotpro(m,a(1,i),1,a(1,i),1)
+      if(yy.le.t) go to 26
+      t = yy
+      ix=i
+   26 continue
+      if(ix.eq.0) go to 24
+      yy=sqrt(t)
+      if(yy.lt.yx) go to 24
+   29 nr=nr+1
+      if(ix.eq.nr) go to 31
+      ic = ix
+      do32i=1,m
+      t=a(i,ic)
+      a(i,ic)=a(i,nr)
+   32 a(i,nr)=t
+      do33i=1,l
+      t=b(i,ic)
+      b(i,ic)=b(i,nr)
+   33 b(i,nr)=t
+   31 yy=1.0/yy
+      call vecprod(0.0,a(1,nr),yy,a(1,nr),m)
+      call vecprod(0.0,b(1,nr),yy,b(1,nr),l)
+      if(nr.eq.n) go to 34
+      ip1=nr+1
+      do10j=ip1,n
+      dot=dotpro(m,a(1,nr),1,a(1,j),1)
+      t = -t
+      call vecsum(a(1,j),a(1,nr),t,a(1,j),m)
+      call vecsum(b(1,j),b(1,nr),t,b(1,j),l)
+   10 continue
+   34 do20j=1,k
+      dot=dotpro(m,a(1,nr),1,y(1,j),1)
+      t = -t
+      call vecsum(y(1,j),a(1,nr),t,y(1,j),m)
+      call vecsum(x(1,j),b(1,nr),t,x(1,j),l)
+   20 continue
+      if(nr.lt.n) go to 30
+   24 continue
+      do25j=1,k
+      do25i=1,l
+   25 x(i,j)=-x(i,j)
+   27 return
+ 1515 format(/,5x,'Glss Called With Arrays Dimensioned Wrong')
+ 2525 format(/,5x,'Glss Called With Non-Positive Indices')
+      end
+      function dotpro(n,x,ix,y,iy)
+      dimension x(ix,n),y(iy,n)
+      dotpro=0.0
+      if(n .le. 0 ) go to 20
+      do 10 i=1,n
+      dotpro=dotpro+x(1,i)*y(1,i)
+ 10   continue
+ 20   return
+      end
+      subroutine vecprod(b,x,a,z,n)
+      dimension x(n),z(n)
+      if(n .le. 0 ) go to 20
+      do 10 i=1,n
+      z(i)=a*x(i)+b
+ 10   continue
+ 20   return
+      end
+      subroutine vecsum(y,x,a,z,n)
+      dimension y(n),x(n),z(n)
+      if(n .le. 0 ) go to 20
+      do 10 i=1,n
+      z(i)=a*x(i)+y(i)
+ 10   continue
+ 20   return
+      end
+c---------------------------------------------------------------------c
+c                        Data Set                                     c
+c                Remove c In Col 1                                    c
+c---------------------------------------------------------------------c
+ $inp skip7=.t. , nit=20 , npbck=2, np=15 ,
+ elist=.01837,.0365,.0735,.11025,.1286,.147,.16538,.18376,.220707,.257258,
+ .294009,.3675,.4410,.5145,.5880 ,
+ del=.058,.079,.183,.464,.740,1.114,1.476,1.764,2.05,2.16,2.203,2.221,
+ 2.207,2.183,2.161 $
+1 1. 2 1. 1./
+0 .15 2 .13 .18/

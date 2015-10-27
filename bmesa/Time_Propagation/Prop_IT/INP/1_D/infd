@@ -1,0 +1,56 @@
+$route
+
+$end
+          
+$nonstd
+11//04;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$dvrprop_basis
+ number-of-space-dimensions=1 coordinate-system=cartesian
+ dimension-1=x use-atomic-units kinetic-energy-type=fd
+ plot get-eigenpairs xprint=all-details
+$end
+
+$h0(x)
+ automate number-of-major-blocks=1
+ number-of-fixed-points=2 left-fixed-point right-fixed-point 
+ drop-first-function drop-last-function do-not-diagonalize
+ region-boundaries=(-7.5d0,7.5d0) 
+ order-of-finite-difference-formula=3 number-of-steps=299
+ print=(xall) xsector-print=sector-details 
+$end
+
+ $block-1
+  default-order=2 number-of-subregions=4
+  left-boundary=-1.d0 right-boundary=1.d0
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=none
+$end
+ 
+$time
+ automate number-of-time-regions=100 initial-time=0.0 
+ time-interval=.001
+ print=(main=(xpointers,xpotential,xinitial-state,solution,
+              xnon-linear-potential,xh-on-initial-state))
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$initial-state
+ driver=gaussian-pulse sigma=1.d0 alpha=2.0 beta=0.0 x_0=0.0 print=xon
+$end
+
+$v_couple
+  v-space-time=none
+$end
+

@@ -1,0 +1,16 @@
+"input data"
+&input_data
+title="test_legendre", l_max=25, m_max=10, Print_Functions=.true.,
+Print_Wronskian=.false., n_points=12, input_values=.true., upper=1.0, Control="compute_functions",
+lower=-1.0, directive="both", normalize=.false., test_wron=.true.,
+recur="Miller", eps=1.d-20, R = 1.4 /
+.8 .9 .95 .99 .9999 .999999 1.000001 1.00001 1.0001 1.01 1.1 1.5 /		 
+&electron_coordinates  x1 = 10.0, y1 = -2.0, z1 = -50.0
+                       x2 = 5.0, y2 = 1.0, z2 = -3.0 /
+
+
+
+
+
+
+

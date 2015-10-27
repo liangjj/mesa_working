@@ -1,0 +1,37 @@
+#  @(#)Makefile	5.1 11/6/94
+#
+# Makefile for making Mesalib
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables for the fortran compiler
+# and the various flags and libraries needed.
+#
+TOP_DIR = $(MODULES)
+include $(TOP_DIR)/Makefile.inc
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+
+MAKE = make
+MFLAGS = 
+RCS = RCS
+
+DIRECTORIES = \
+	General_Modules \
+	Utility_Modules \
+	Mathematics_Modules
+
+all: $(DIRECTORIES)
+
+.RECURSIVE: $(DIRECTORIES) 
+$(DIRECTORIES): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+make: FORCE
+	cd General_Modules ; $(MAKE) $(MFLAGS) make
+	cd Utility_Modules ; $(MAKE) $(MFLAGS) make
+	cd Mathematics_Modules ; $(MAKE) $(MFLAGS) make
+clean: FORCE
+	cd General_Modules ; $(MAKE) $(MFLAGS) clean
+	cd Utility_Modules ; $(MAKE) $(MFLAGS) clean
+	cd Mathematics_Modules ; $(MAKE) $(MFLAGS) clean
+
+FORCE:

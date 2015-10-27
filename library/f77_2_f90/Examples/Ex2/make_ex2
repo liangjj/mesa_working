@@ -1,0 +1,23 @@
+
+#   @(#)Makefile	1.9   8/7/91
+#
+#  Makefile for the dvr routines
+#
+
+FC = fort
+FFLAGS = -c -O4
+LD = fort
+LDFLAGS =
+BINDIR = ../Ex2
+
+SRCS = \
+	ex2.f90 \
+	ex2_test.f90
+
+.f.o:
+	$(FC) $(FFLAGS) $<
+
+all: $(BINDIR)/ex2
+$(BINDIR)/ex2: $(SRCS:.f=.o)
+	$(LD) $(LDFLAGS) $(SRCS:.f=.o) -o $(BINDIR)/ex2
+

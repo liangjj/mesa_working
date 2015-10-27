@@ -1,0 +1,22 @@
+$route
+
+$end
+
+$nonstd
+2//75;
+20//1;
+$end
+
+$title
+Testing  Code
+n$end
+$time_dependent
+ method_of_solution=imaginary_time_so  step_size=.01
+ left_end=0.d0 right_end=1.0 get_eigenvectors 
+ number_of_eigenvectors=1 lower_index=1 upper_index=1
+ number_of_time_steps=5000000 time_step=.000005
+$end
+$potential
+type_potential=none
+$end
+electric_field=0.05d0 omega=.148d0 type_potential=eberlonium

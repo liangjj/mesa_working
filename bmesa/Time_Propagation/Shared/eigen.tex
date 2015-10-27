@@ -1,0 +1,74 @@
+ \documentclass{article}
+ \usepackage{graphicx}
+ \setkeys{Gin}{width=\linewidth}
+ \title{Eigen}
+ \author{Barry I. Schneider}
+ \date{}
+ \def \<{\langle}
+ \def \>{\rangle}
+ \begin{document}
+ \maketitle
+\begin{verbatim}
+*deck eigen.f
+***begin prologue     eigen
+***date written       951229   (yymmdd)
+***revision date      yymmdd   (yymmdd)
+***keywords           
+***author             schneider, barry (nsf)
+***source             
+***purpose            eigenvalues and eigenvectors
+***                   
+***references         
+***routines called    
+***end prologue       band3
+      subroutine eigen(pham,peigen,n,ndiff,prn)
+      implicit integer (a-z)
+      real*8 ham, eig, work
+      logical prn
+      dimension prn(2)
+      character*80 title
+      common/io/inp, iout
+      pointer (pham,ham(1))
+      pointer (peigen,eig(1))
+      pointer (pwork,work(1))
+      row=ndiff/2 + 1
+      h=1
+      e=h+row*n
+      ev=e+n
+      need=wpadti(ev+n*n)
+      call memory(need,peigen,ngot,'eigen',0)
+      need=wptoin(5*n)
+      call memory(need,pwork,nwd,'work',0)
+\end{verbatim}
+     diagonalize saving unitary transformation matrix in eigvec
+\begin{verbatim}
+      if(ndiff.eq.3) then
+         call copy(ham,eig(h),n*row)
+         call dstev('v',n,eig(e),eig(h),eig(ev),n,work,info)
+      elseif(ndiff.eq.5) then
+         call copy(ham,eig(h),n*row)
+         call dsbev('v','l',n,2,eig(h),3,eig(e),eig(ev),n,work,info)
+      elseif(ndiff.eq.7) then
+         call copy(ham,eig(h),n*row)
+         call dsbev('v','l',n,3,eig(h),4,eig(e),eig(e),n,work,info)
+      else
+         call copy(ham,eig(ev),n*n)
+         call dsyev('v','l',n,eig(ev),n,eig(e),work,5*n,info)
+      endif
+      if(info.eq.0) then
+         if(prn(1)) then
+            title='eigenvalues'
+            call prntrm(title,eig(e),n,1,n,1,iout)
+         endif 
+         if(prn(2)) then
+            title='eigenvectors'
+            call prntrm(title,eig(ev),n,n,n,n,iout)
+         endif
+      else
+         call lnkerr('error in diagonalization')
+      endif 
+      call memory(-nwd,pwork,idum,'work',idum)
+      return
+      end       
+\end{verbatim}
+\end{document}

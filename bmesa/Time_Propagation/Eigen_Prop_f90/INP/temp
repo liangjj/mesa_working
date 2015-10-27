@@ -1,0 +1,50 @@
+$route
+
+$end
+          
+$nonstd
+11//10;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$eigen_basis
+ number-of-space-dimensions=1 coordinate-system=cartesian
+ dimension-1=x use-atomic-units kinetic-energy-type=packed
+ plot get-eigenpairs
+$end
+
+$h0(x)
+ automate number-of-major-blocks=1 reuse-space-data
+ number-of-fixed-points=2 left-fixed-point right-fixed-point 
+ drop-first-function xdrop-last-function xdo-not-diagonalize 
+ print=(eigenvalues)
+$end
+
+ $block-1
+  default-order=100 number-of-subregions=1
+  left-boundary=0.d0 right-boundary=100.d0
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=none
+ amplitude=7.5 exponent=1.0 power=2
+$end
+ 
+$time
+ automate number-of-time-regions=5 first-time=0.d0 time-interval=1.d0
+ print=(prop=(xpointers,xpotential,xinitial-state,xnon-linear-potential,
+              xh-on-initial-state))
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$initial-state
+ driver=radial-packet exponential=1.d0 power=1
+ type-radial-packet=gaussian
+$end

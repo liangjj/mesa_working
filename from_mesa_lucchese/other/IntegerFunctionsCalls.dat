@@ -1,0 +1,26 @@
+i4l
+
+ m330:
+  scale factor for 2-electron integrals:   1.00000000000000
+     sorter will use in-core algorithm
+
+
+i8
+ m330:
+     sorter will use in-core algorithm
+
+
+function calls to fix for i8 functionality
+
+iadtwp.f:      function iadtwp(n)
+intowp.f:      function intowp(i)
+iocls.f:      function iocls(unit,status)
+ioinq.f:      function ioinq(file,query)
+itobyt.f:      function itobyt(n)
+nchrpw.f:      function nchrpw(dummy)
+done shiftl.f:      function shiftl(i,j)
+done shiftr.f:      function shiftr(i,j)
+winstr.f:      function winstr(nchars)
+wpadti.f:      function wpadti(n)
+wptbyt.f:      function wptbyt(n)
+wptoin.f:      function wptoin(i)

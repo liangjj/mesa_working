@@ -1,0 +1,131 @@
+#  @(#)Makefile	5.1 11/6/94../Generic_Propagator
+#
+# Makefile for making the propagator codes
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables for the fortran compiler
+# and the varios flags and libraries needed.
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+MAKE = make
+MFLAGS = 
+#LD = $(FC)
+#LDFLAGS = 
+#AR = -ar
+#ARFLAGS = rvu
+#RANLIB = ranlib
+RCS = RCS
+#
+GENERIC_PROPAGATOR_DIR = \
+/home/mesa/mesa/bmesa/Time_Propagation/Time_Prop/Generic_Propagator
+UTILITY_TO_GO_DIR = $(GENERIC_PROPAGATOR_DIR)/Utility_To_Go
+CHARACTER_MANIPULATION_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/Character_Manipulation_Subroutines
+COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/Common_Los_Alamos_Mathematical_Subroutines
+GENERAL_UTILITY_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/General_Utility_Subroutines
+MATHEMATICAL_SUBROUTINES_DIR = \
+$(UTILITY_TO_GO_DIR)/Mathematical_Subroutines
+DVR_LIBRARY = $(GENERIC_PROPAGATOR_DIR)/DVR_Library
+DVR_LIB_DIR = $(DVR_LIBRARY)/dvr_lib_f90
+FD_LIB_DIR = $(DVR_LIBRARY)/fd_lib_f90
+DVR_LIB_MAIN_DIR = $(DVR_LIB_DIR)/Main
+DVR_LIB_SHARED_DIR = $(DVR_LIB_DIR)/Shared_f90
+DVR_LIB_SPACE_DIR = $(DVR_LIB_DIR)/Space_f90
+DVR_LIB_TIME_DIR = $(DVR_LIB_DIR)/Time_f90
+MODULES_DIR = $(GENERIC_PROPAGATOR_DIR)/Modules
+POTENTIAL_DIR = $(GENERIC_PROPAGATOR_DIR)/Potential
+PROP_TO_GO_DIR = $(GENERIC_PROPAGATOR_DIR)/Prop_To_Go
+PROP_MODULES_DIR = $(PROP_TO_GO_DIR)/Prop_Modules
+PROP_SOURCES_DIR = $(PROP_TO_GO_DIR)/Prop_Sources
+
+MODULES_DIRECTORY = \
+	$(MODULES_DIR) \
+
+UTILITY_DIRECTORY = \
+	$(CHARACTER_MANIPULATION_SUBROUTINES_DIR) \
+	$(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR) \
+	$(GENERAL_UTILITY_SUBROUTINES_DIR) \
+	$(MATHEMATICAL_SUBROUTINES_DIR) \
+
+POTENTIAL_DIRECTORY = \
+	$(POTENTIAL_DIR) \
+
+DVR_DIRECTORY = \
+	$(DVR_LIB_MAIN_DIR) \
+	$(DVR_LIB_SHARED_DIR) \
+	$(DVR_LIB_SPACE_DIR) \
+	$(DVR_LIB_TIME_DIR) \
+	$(FD_LIB_DIR) \
+
+PROPAGATION_DIRECTORY = \
+	$(PROP_MODULES_DIR) \
+	$(PROP_SOURCES_DIR) \
+	$(PROP_TO_GO_DIR)
+
+
+all: $(MODULES_DIRECTORY) $(UTILITY_DIRECTORY) $(POTENTIAL_DIRECTORY) \
+     $(DVR_DIRECTORY) $(PROPAGATION_DIRECTORY) 
+
+mods: $(MODULES_DIRECTORY) 
+util: $(UTILITY_DIRECTORY) 
+pot: $(POTENTIAL_DIRECTORY)
+dvr: $(DVR_DIRECTORY) 
+prop: $(PROPAGATION_DIRECTORY) 
+
+.RECURSIVE: $(MODULES_DIRECTORY)
+$(MODULES_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(UTILITY_DIRECTORY)
+$(UTILITY_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(POTENTIAL_DIRECTORY)
+$(POTENTIAL_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(DVR_DIRECTORY)
+$(DVR_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(PROPAGATION_DIRECTORY)
+$(PROPAGATION_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+directory: FORCE
+	cd $(MODULES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(CHARACTER_MANIPULATION_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) \
+           $(MFLAGS) directory
+	cd $(GENERAL_UTILITY_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(POTENTIAL_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_LIB_MAIN_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_LIB_SHARED_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_LIB_SPACE_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_LIB_TIME_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(FD_LIB_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_MODULES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_SOURCES_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(PROP_TO_GO_DIR) ; $(MAKE) $(MFLAGS) directory
+
+clean: FORCE
+	cd $(MODULES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(CHARACTER_MANIPULATION_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(COMMON_LOS_ALAMOS_MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) \
+           $(MFLAGS) clean
+	cd $(GENERAL_UTILITY_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(MATHEMATICAL_SUBROUTINES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(POTENTIAL_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_LIB_MAIN_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_LIB_SHARED_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_LIB_SPACE_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_LIB_TIME_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(FD_LIB_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_MODULES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_SOURCES_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(PROP_TO_GO_DIR) ; $(MAKE) $(MFLAGS) clean
+
+FORCE:

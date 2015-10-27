@@ -1,0 +1,166 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      8-Jul-1993 17:07:36    
+     los alamos national laboratory;sun 4/280s(vivaldi);                             
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test6.1                                                                                                    
+     out:    /usr2/mesa/tests/out/sun/test6.1                                                                                                
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf                                                                                                                
+     rint:   /vivaldi/tmp/rint                                                                                                               
+     int:    /vivaldi/tmp/int                                                                                                                
+     tint:   /vivaldi/tmp/tint                                                                                                               
+     gint:   /vivaldi/tmp/gint                                                                                                               
+     rdint:  /vivaldi/tmp/rdint                                                                                                              
+     dint:   /vivaldi/tmp/dint                                                                                                               
+     zint:   /vivaldi/tmp/zint                                                                                                               
+     ham:    /vivaldi/tmp/ham                                                                                                                
+     moden:  /vivaldi/tmp/moden                                                                                                              
+     aoden:  /vivaldi/tmp/aoden                                                                                                              
+     saoden: /vivaldi/tmp/saoden                                                                                                             
+     gden:   /vivaldi/tmp/gden                                                                                                               
+     fci:    /vivaldi/tmp/fci                                                                                                                
+     machine size:          4000000
+     user defined maxsiz:    900000
+ title:
+      h2o test case: quadratic scf   
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//53;
+     19//51;
+     20//01;
+ options:
+     maxsiz=900000 2s+1=1 print=(scf=vector) hf=quadratic scf=(pulay,core-fock) guess
+     =(huckel) basis=dz,sym=off
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   0.949000 r1      
+      3   3   h  dz          1   0.949000 r2        2  112.300 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     0.94900   0.00000
+                 h2     0.94900   1.57629   0.00000
+ interatomic angles:
+          h2-o1-h3 =112.3000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    0.949000
+      3   3   h              0.878024    0.000000   -0.360104
+ rotational constants (ghz):   1010.3518013    403.6377560    288.4152374
+ isotopes:
+     o       h1      h2      
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262666( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     mcscf used for quadratic scf
+       iteration   mcscf energy        convergence
+             1       -74.856190722      1.049E-01
+             2       -76.002376489      5.160E-03
+             3       -76.010983533      2.630E-06
+             4       -76.010988053      3.103E-12
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+
+
+ ##### library: sqtotr, the square matrix is not symmetric:   2   3   0.132598367       0.132586952    
+
+
+
+
+ ##### library: sqtotr, the square matrix is not symmetric:   2   3   0.132598367       0.132586952    
+
+
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     scf vector:
+                              1         2         3         4         5
+     eigenvalues --   -20.55253  -1.35806  -0.73563  -0.55379  -0.50359
+          o       s     0.58098  -0.13068   0.00000  -0.04418   0.00000
+                  s     0.46123  -0.18127   0.00000  -0.06165   0.00000
+                  s    -0.00006   0.51046   0.00000   0.18690   0.00000
+                  s     0.00186   0.45148   0.00000   0.24959   0.00000
+                  x     0.00134   0.10071  -0.31889  -0.53066   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000   0.72713
+                  z     0.00090   0.06755   0.47545  -0.35592   0.00000
+                  x    -0.00038   0.02534  -0.09399  -0.28378   0.00000
+                  y     0.00000   0.00000   0.00000   0.00000   0.41095
+                  z    -0.00026   0.01699   0.14014  -0.19034   0.00000
+          h1      s     0.00004   0.13836   0.25767  -0.13013   0.00000
+                  s    -0.00019   0.00633   0.12291  -0.05321   0.00000
+          h2      s     0.00004   0.13836  -0.25767  -0.13013   0.00000
+                  s    -0.00019   0.00633  -0.12291  -0.05321   0.00000
+                              6         7         8         9
+     eigenvalues --     0.22223   0.31460   0.86765   0.88583
+          o       s    -0.05122   0.00000   0.00000   0.02075
+                  s    -0.06859   0.00000   0.00000   0.02865
+                  s     0.11055   0.00000   0.00000  -0.06547
+                  s     1.28342   0.00001   0.00000  -0.39386
+                  x     0.20666   0.21957   0.00000   0.70946
+                  y     0.00000   0.00000   0.90301   0.00000
+                  z     0.13861  -0.32737   0.00000   0.47584
+                  x     0.40170   0.60554   0.00000  -1.07090
+                  y     0.00000   0.00000  -1.08410   0.00000
+                  z     0.26943  -0.90283   0.00000  -0.71826
+          h1      s    -0.06069   0.02497   0.00000   0.18989
+                  s    -1.06152   1.61187   0.00000   0.23508
+          h2      s    -0.06069  -0.02497   0.00000   0.18989
+                  s    -1.06151  -1.61188   0.00000   0.23508
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.22032   0.28652   0.28652
+                 h1     0.28652   0.34873  -0.03193
+                 h2     0.28652  -0.03193   0.34873
+     total atomic charges:
+          o             8.79335
+          h1            0.60332
+          h2            0.60333
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       1.8       0.4       0.0         0
+      101         1       1.0       0.4       0.0         0
+      102         1      14.3       0.5       0.0         0
+      202         1       1.4       0.4       0.0         0
+      302         1       2.0       0.5       0.0         0
+      312         1      17.4       1.4       0.0         0
+      330         1       1.1       0.6       0.0         0
+      401         1       2.3       0.4       0.0         0
+      553         1      13.4       2.0       0.0         0
+     1951         1       1.3       0.3       0.0         0
+             total:      56.1       6.8       0.0         0

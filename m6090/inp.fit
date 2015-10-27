@@ -1,0 +1,37 @@
+$route
+ print=m6090
+$end
+$nonstd
+ 60//90;  
+ 20//01;
+$end
+
+$title
+ Fitting Code
+$end
+
+$fitit
+ no-fitting-functions=2 no-internal-basis-functions=5
+ matching-radius=5. no-integration-regions=1
+$end
+
+$energy
+ no-energies=1 energies=(.1)
+$end
+
+$region-1
+ no-points=80 starting-r=0.0 ending-r=10. 
+$end
+
+$fitfn
+ powers=(1,1) exponents=(.05,.001)
+$end
+
+$basis
+ powers=(1,1,1,1,1) exponents=(10.,5.,2.5,1.25,.65)
+
+$pot
+ type=exponential
+$end
+
+

@@ -1,0 +1,21 @@
+$route
+maxsiz=900000
+2s+1=1
+hf scf=(pulay)
+guess=(huckel)
+opt=(ts,berny)
+basis=dz,sym=off
+$end
+ 
+$title
+ h2o test case: closed shell scf transition state optimization
+$geom
+x
+o x 1.0
+h1 o r1 x a1
+h2 o r2 x a1 h1 180.0
+ 
+r1=0.949
+r2=0.949
+a1=90.0
+$end

@@ -1,0 +1,22 @@
+gcc -O3 gauher2.o \
+lanc.o \
+cdvd_new.o \
+prntcm.o \
+cschmt.o \
+tstovl.o \
+rdiag.o \
+cebcx.o \
+cc2opy.o \
+eigord.o \
+cnvec.o \
+cdvr2h0.o \
+ch02dvr.o \
+cuta2d.o \
+cuta3d.o \
+cebc.o \
+cua2d.o \
+cua3d.o \
+cebct.o \
+cebtc.o \
+itoc.o \
+gp3d_bog_barry.c -L/home/feder/lib -llapack_alpha -lblas_alpha -lf2c -lm -o temp.x

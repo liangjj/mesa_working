@@ -1,0 +1,71 @@
+m0 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        0.8
+user        0.0
+sys         0.1
+m1 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        3.7
+user        1.3
+sys         0.8
+m101 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        1.5
+user        0.5
+sys         0.3
+m102 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        8.8
+user        6.9
+sys         0.7
+m202 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        2.3
+user        0.8
+sys         0.4
+m302 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        2.8
+user        1.5
+sys         0.4
+m312 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real     1:27.0
+user     1:22.1
+sys         3.2
+m330 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real       12.0
+user        4.8
+sys         3.3
+m401 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        3.2
+user        1.3
+sys         0.4
+m802 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        2.1
+user        0.7
+sys         0.4
+m551 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real     9:41.7
+user     7:29.3
+sys      1:46.1
+m921 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        2.8
+user        0.9
+sys         0.4
+m1951 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        2.5
+user        0.9
+sys         0.4
+m2001 inp=o3mc2 out=o3mc2.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        3.2
+user        0.9
+sys         0.9
+m998

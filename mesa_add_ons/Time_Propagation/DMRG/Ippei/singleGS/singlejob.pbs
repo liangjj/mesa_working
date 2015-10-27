@@ -1,0 +1,6 @@
+#!/bin/sh
+#PBS -V -j oe
+#PBS -l nodes=1:athlon:ppn=1
+#PBS -q medium
+cd ${PBS_O_WORKDIR} # this variable is defined by PBS
+./MPDFortran

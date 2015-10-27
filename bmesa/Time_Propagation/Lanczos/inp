@@ -1,0 +1,18 @@
+$route
+ size-of-matrix=3 number-of-lanczos-iterations=3
+$end
+          
+$nonstd
+9//05;
+20//01;
+$end
+
+$title
+ Test of Lanczos
+$end
+
+$matrix
+ (7.d0,0.d0), (-2.d0,0.d0 ), (1.d0,0.d0)
+ (-2.d0,0.e0), (10.d0,0.d0), (-2.d0,0.d0)
+ (1.d0,0.d0), (-2.d0,0.d0), (7.d0,0.d0)
+$end

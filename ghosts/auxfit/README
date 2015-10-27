@@ -1,0 +1,8 @@
+These are codes that were developed in an aborted attempt at fitting the
+Coulomb potential to an auxiliary basis set.  Ths is commonly done in
+DFT implementations, and we were doing it here for SCF in the hope
+that it might prove useful for perturbation theory.  There are some
+potentially useful routines here in m352 which do three-center overlap
+integrals, and three-center two-electron integrals. The link m105
+reads in an auxiliary basis set, and 505 solves the SCF equations using
+the auxiliary integrals.

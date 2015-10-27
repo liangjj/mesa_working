@@ -1,0 +1,18 @@
+SHELL = /bin/sh
+
+PROG =	pgdi
+
+#LIBS =  -Wl,-rpath,$(MKL_PATH) -L$(MKL_PATH) -lguide -lmkl \
+#	-lmkl_core -lmkl_scalapack_lp64 -lmkl_blacs_lp64 -lmkl_lapack
+
+LIBS = -lguide -lmkl -lmkl_core -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lmkl_lapack
+F90 = mpif90
+F90FLAGS = -L$(MKL_PATH) -I$(MKL_INCLUDE) -O4
+CPPFLAGS =
+LDFLAGS = $(F90FLAGS)
+
+# module unload mvapich
+# module swap pgi intel
+# module load mvapich
+# module load scalapack
+# module load mkl

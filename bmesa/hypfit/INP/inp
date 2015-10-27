@@ -1,0 +1,29 @@
+$route
+ print=(m6299=all,lobatto=xall)
+ type-derivative=cartesian maximum-m=0 function-type=bessel
+ fit-product number-of-energies=1 units=energy number-of-regions=1
+ number-of-points-per-region=10 region-boundaries=(1.d0,2.d0)
+ left-boundary-condition=1 right-boundary-condition=1 energy=1.d0
+$end
+          
+$nonstd
+62//99;
+20//01;
+$end
+
+$title
+ Hyperspherical fit to DVR functions
+$end
+
+$v0(r1)
+ use-atomic-units potential=none 
+$end
+
+$v0(r2)
+ use-atomic-units potential=none 
+$end
+
+
+
+
+

@@ -1,0 +1,50 @@
+$cc_setup
+               type_calculation=imaginary_time
+       hamiltonian_source=external propagation_method=lanczos
+       xpack_matrices  non_orthogonal_basis drop_tolerance=1.e-20
+       print=all_details eigenvalue_convergence=1.d-08 
+       no_coupled_channels no_one_body_potential
+$end
+
+$time
+ automate number_of_time_regions=30 first_time=0.d0 time_interval=.01d0
+ xprint=(main=(xpointers,xpotential,xinitial_state,xnon_linear_potential,
+              xh_on_initial_state))
+$end
+
+$hamiltonian_parameters
+ xdiagonalize_only hamiltonian_file_name=Ham.NO.dat
+ hamiltonian_type=real xupper_triangle 
+ preconditioner=cholesky_decomposition 
+ initial_state=xfrom_disk 
+ xprint=on matrix_size=5 print_packed_matrix=xon
+  h_1=(.71235) h_2=(.33973,1.18585) h_3=(.28615,-.21846,.18159) 
+  h_4=(.30388,-.06685,.27955,.23195) h_5=(.29401,-.37360,.38898,.20496,.46004) 
+  s_1=(1.) s_2=(.5,1.) s_3=(.3,.5,1.) 
+  s_4=(.3,.3,.5,1.) s_5=(.2,.3,.3,.5,1.) 
+$end
+
+$iterative_data
+ iterative_method=preconditioned_lanczos
+ type_matrix=general compute_energy
+ overlap_tolerance=1.e-10 convergence=1.d-08
+ xorthogonalization_procedure=full 
+ xprint=(iterative=all) maximum_number_of_iterations=150
+ maximum_number_of_vectors=150 number_of_trials=1
+$end
+
+$initial_state
+ driver=random_vector
+$end
+  h_1=(1.)  h_2=(2.,3.)  h_3=(3.,4.,5.) 
+  s_1=(1.0) s_2=(.5,1.) s_3=(.5,.5,1.) 
+
+  h_1=(.71235) h_2=(.33973,1.18585) h_3=(.28615,-.21846,.18159) 
+  h_4=(.30388,-.06685,.27955,.23195) h_5=(.29401,-.37360,.38898,.20496,.46004) 
+  s_1=(1.) s_2=(0.,1.) s_3=(0.,0.,1.) 
+  s_4=(0.,0.,0,1.) s_5=(0.,0.,0.,0.,1.) 
+
+  h_1=(.71235) h_2=(.33973,1.18585) h_3=(.28615,-.21846,.18159) 
+  h_4=(.30388,-.06685,.27955,.23195) h_5=(.29401,-.37360,.38898,.20496,.46004) 
+  s_1=(1.) s_2=(.5,1.) s_3=(.3,.5,1.) 
+  s_4=(.3,.3,.5,1.) s_5=(.2,.3,.3,.5,1.) 

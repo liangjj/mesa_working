@@ -1,0 +1,38 @@
+$route
+
+$end
+          
+$nonstd
+11//00;
+20//01;
+$end
+
+$title
+Testing DVRLIB
+$end
+
+$dvr_input
+ number-of-space-variables=1  space-variable-1=x
+ kinetic-energy-type=packed coordinate-system=cartesian
+ plot get-eigenpairs xdiagonal-modification=add_potential_energy
+ print=all-details
+$end
+
+$h0(x)
+ automate number-of-major-blocks=1 reuse-space-data 
+ parity=none  region-boundaries=(0.d0,1.d0)  
+ number-of-fixed-points=2 number-of-steps=10
+ left-fixed-point right-fixed-point print=all angular-momentum=0
+ drop-left-function drop-right-function 
+ order-of-finite-difference-formula=3
+$end
+ 
+ $block-1
+  default-order=5 number-of-subregions=10
+  left-boundary=0.d0 right-boundary=1.d0
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=well
+ well-depth=-1.d0 
+$end

@@ -1,0 +1,16 @@
+
+# this script opens the Makefile for editing, add the variable MDLIB,
+#and substituites a MDLIB option on the LD line.
+sccs edit Makefile
+#
+#  add the line "MDLIB =" after the declaration of "MESALIB ="
+awk '$1 =="MESALIB" && $2 == "="{print;print "MDLIB ="}
+     $1 !="MESALIB" {print}' Makefile > junk
+#
+#   now replace the load line
+sed 's/-o/$(MDLIB) -o/g' junk >junk1
+#
+#   now move it back to Makefile
+mv junk1 Makefile
+rm junk
+

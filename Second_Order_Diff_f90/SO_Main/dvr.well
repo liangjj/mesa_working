@@ -1,0 +1,24 @@
+$dvr_basis
+ number-of-space-variables=1 coordinate-system=cartesian
+ space-variable-1=x use-atomic-units kinetic-energy-type=packed
+ xplot get-eigenpairs diagonal-modification=none 
+ plot_step=1 print=all-details 
+$end
+
+$h0(x)
+ automate number-of-major-blocks=1
+ number-of-fixed-points=2 left-fixed-point right-fixed-point 
+ drop-left-function drop-right-function xdo-not-diagonalize
+ print=all xsector-print=sector-details reuse-space-data
+$end
+
+ $block-1
+  default-order=3 number-of-subregions=3
+  left-boundary=0.0d0 right-boundary=1.d0
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=none
+$end
+
+

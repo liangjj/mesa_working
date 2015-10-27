@@ -1,0 +1,109 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+# User specific environment and startup programs
+source .bash_aliases
+export APPS_USR=/export/apps/usr
+export EDITOR=/usr/bin/emacs
+# Export the Mesa Directories
+export MESA_HOME=$HOME/mesa_working
+export LIBRARY=$MESA_HOME/library
+export MESALIB=$LIBRARY/Mesalib
+export MESA_BIN=$MESA_HOME/bin
+export MODULES=$LIBRARY/Modules
+export FEDVR=$LIBRARY/FEDVR_Lib
+export UTILITY=$LIBRARY/Utilities
+export GENERAL_MODULES=$MODULES/General_Modules
+export MATHEMATICS_MODULES=$MODULES/Mathematics_Modules
+export UTILITY_MODULES=$MODULES/Utility_Modules
+export MESA_OUT=$MESA_RUN/out
+export MESA_CHK=$MESA_RUN/chk
+export MESA_TMP=$MESA_RUN/tmp
+export B_MESA=$MESA_HOME/bmesa
+export POTENTIAL=$LIBRARY/Potential
+export MESA_LIB=$MESALIB/mesalib.a
+export UTILITY_LIB=$UTILITY/util_lib_f90.a
+export MOD_LIB=$MODULES/mod_lib_f90.a
+export FEDVR_MOD_LIB=$FEDVR/fedvr_mod_lib.a
+export POTENTIAL_LIB=$POTENTIAL/pot_lib_f90.a
+export CVSEDITOR=/usr/bin/emacs
+#
+#export MODULE_LIST=-I$MODULES/.mod_dir
+export MODULE_LIST="-I$GENERAL_MODULES -I$MATHEMATICS_MODULES -I$UTILITY_MODULES"
+#
+#
+# Export frequently used directories and libraries
+#
+#   These are the time propagation directories and libraries which
+#   are intended as stand alone.  They can be used without reference
+#   to any Mesa utilities.
+#
+export TIME_PROPAGATION=$MESA_HOME/Time_Propagation
+export GENERIC_PROPAGATOR=$TIME_PROPAGATION/Generic_Propagator
+export MESA_PROPAGATOR=$TIME_PROPAGATION/Mesa_Propagator
+export CC_PROP=$TIME_PROPAGATION/CC_Prop
+export ATOMIC_PROP=$TIME_PROPAGATION/Atomic_Propagator
+export LANCZOS=$TIME_PROPAGATION/Lanczos_Library
+export PROP_TO_GO=$GENERIC_PROPAGATOR/Prop_To_Go
+export PROP_TO_GO_MODULES=$PROP_TO_GO/Prop_Modules
+export PROP_TO_GO_SOURCES=$PROP_TO_GO/Prop_Sources
+export PROP_TO_GO_LIB=$PROP_TO_GO/prop_lib_f90.a
+#
+#
+export DVR_DRIVER=$B_MESA/DVR_Driver
+#
+#   These are the Mesa dependent versions of the time propagation
+#   codes.
+#
+export MESA_PROPAGATOR=$TIME_PROPAGATION/Mesa_Propagator
+export MESA_PROPAGATOR_MAIN=$TIME_PROPAGATION/Mesa_Propagator/Main
+export MESA_PROPAGATOR_MODULES=$MESA_PROPAGATOR/Prop_Modules
+export MESA_PROPAGATOR_SOURCES=$MESA_PROPAGATOR/Prop_Sources
+export MESA_PROPAGATOR_LIB=$MESA_PROPAGATOR/prop_lib_f90.a
+#
+# Export the fortran compiler and some flags
+#export PREFERRED_FORTRAN=11.1
+#export PREFERRED_MATH_LIBRARY=11.1
+export PREFERRED_FORTRAN=Composer
+export PREFERRED_MATH_LIBRARY=Composer_MKL
+export PREFERRED_ARCHITECTURE=64
+#export PREFERRED_MPI=openmpi
+#export PREFERRED_MPI=mpich2
+export PREFERRED_MPI=mvapich2
+export MD_LINKING_TYPE=dynamic
+export MD_THREAD_TYPE=multi_threaded
+#. /usr/local/scripts/c_env.sh
+. /usr/local/scripts/fortran_env.sh
+. /usr/local/scripts/math_env.sh
+. /usr/local/scripts/mpi_env.sh
+export LDF90=$F90
+export MAKEFLAGS=
+export LAPACK95=$MESALIB/LAPACK95
+export LAPACK95_MODULES=$LAPACK95/lapack95_modules
+export LAPACK95_LIBRARY=$LAPACK95/lapack95.a
+# Export the information for the preprocessor
+export CPP=/usr/bin/cpp
+export CPPEXT=.cpp
+export CPPFLAGS='-DMACHINEBLAS -DMACHINELAPACK'
+export MODMOVE='no'
+#
+# Export the information on the library archive
+export AR=ar
+export ARFLAGS=rvu
+export RANLIB=ranlib
+# 
+export TMP=/tmp
+TLMHOST=@rocks-fe.cise-nsf
+export TLMHOST
+PATH=$HOME/bin:$MESA_HOME:$LIBRARY:$MESALIB:$MESA_BIN:$MESA_RUN:$MESA_OUT:$PATH
+PATH=$MESA_CHK:$MESA_TMP:$B_MESA:$TMPDIR:$TEC90HOME/bin:$PATH
+PATH=$CPP:$HOME/LaTeX:$HOME/tex:$HOME/bibtex:/sbin:/usr:$PATH
+PATH=/usr/local/bin:/lib:$PATH
+BASH_ENV=$HOME/.bashrc
+#
+PS1='bschneid@rocks-fe:~$ '
+export BASH_ENV PATH
+unset USERNAME

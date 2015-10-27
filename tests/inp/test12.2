@@ -1,0 +1,78 @@
+$route
+2s+1=1,hf,scf=(pulay,convergence=5)
+guess=(chk,expand)
+drop=42
+ksym=(symmetry=1,psalc)
+print=(guess=all,scf=vector,nodis,noang)
+geom=(coord,inau,nocrowd)
+drt=(ngroups=4,nrefs=2)  ci=(nroots=2,cycles=60)
+sym=norotate
+kohn=(m822=zint,nsmall=2,ncsfs=25,nl2=12,freeze,hqq,
+energy=(.4410,.55125,.66152,.735))
+$end
+ 
+$nonstd
+1//1,2;
+3//1,2,12,30;
+4//1;
+8//6,11;
+8//19,22;
+9//2,21,29;
+20//1;
+$end
+ 
+$title
+H2 Two State Calculation
+$end
+ 
+$geom
+h1(basis=small) 0.0 0.0  .7
+h2(basis=small) 0.0 0.0 -.7
+zq(basis=scat)  0.0 0.0 0.0
+$end
+ 
+$small h
+/ old H2
+  type=s
+ 48.4479    1.00
+  type=s
+ 7.28346    1.00
+  type=s
+ 1.65139    1.00
+  type=s
+ .462447    1.00
+  type=s
+ .145885    1.00
+  type=p
+  1.5000    1.00
+$end
+$scat zq
+/Added Scattering Functions
+  type=s
+  .009        1.00
+  type=p
+  .0078       1.00
+$end
+ 
+$drop
+ atom=1 type=p keep=(z)
+ atom=2 type=p keep=(z)
+ atom=3 type=p keep=(z)
+$end
+
+$drt
+1typ1;1 1typ2;1 1typ3;1 11typ4;1
+na=1 nb=1 ns=1
+$end
+ 
+$groups
+numel=(2,0,1,0)
+numel=(1,1,1,0) spin=(1,2,1,1)
+$end
+ 
+$kohndt
+ point-buffer=5000 no-contracted=47 no-open-channels=2
+ maximum-l-value=11 maximum-m-value=0
+ maximum-r-value=100.  points-per-interval-for-spline-coefficients=10
+ maximum-lm-chan=6 maximum-k**2=2.0
+$end

@@ -1,0 +1,435 @@
+#  @(#)Makefile	5.1 11/6/94
+#
+# Makefile for making the entire MESA system of codes
+# This assumes the following directory system as well as makefiles
+# at all the appropriate levels to make each portion of MESA
+#
+# You should read the file README to learn about the environment variables
+# which should be set in order to exercise the Makefiles.
+#
+#	./
+#		bin/
+#		library/
+#			chr
+#			clams
+#                       dpintgrl
+#			intgrl
+#			io
+#			math
+#			mdutil/
+#				aix
+#				stardent
+#				sun
+#				unicos
+#				hp
+#				sgi
+#				ultrix
+#			sym
+#			util
+#		m0
+#		m1
+#		...
+#		m2001
+#		source
+#		mesa.dat	
+#		mesa.sh
+#
+MAKE = make
+MFLAGS = 
+FC = f77
+FFLAGS ="-c -O2"
+DPFLAGS ="-c -O2"
+CC = cc
+CCFLAGS ="-c"
+LD = fc
+LDFLAGS = -O2
+AR = -ar
+ARFLAGS = rvu
+RANLIB = ranlib
+OPSYS = sun
+PARTS = 
+GET = sccs get
+REL = 
+REV =r3
+#
+
+MESALIB_DIR = library
+BINDIR = $(MESA_BIN)
+
+CONTROLLER = mesa.sh
+
+LIBS = \
+	m330 
+
+LINKS = \
+	m0 \
+	m1 \
+	m101 \
+	m102 \
+	m103 \
+	m104 \
+	m201 \
+	m202 \
+	m301 \
+	m302 \
+	m312 \
+	m330 \
+	m401 \
+	m402 \
+	m503 \
+	xm515 \
+	m611 \
+	m613 \
+	m618 \
+	m619 \
+	m620 \
+	m621 \
+	m701 \
+	m702 \
+	xm715 \
+	m712 \
+	xm725 \
+	m731 \
+	m732 \
+	m1902 \
+	m1951 \
+	m2001
+
+all: $(CONTROLLER) $(MESALIB_DIR) $(LIBS) $(LINKS) 
+
+$(CONTROLLER): FORCE
+	cp mesa.sh $(BINDIR)/mesa
+	chmod ug+wx $(BINDIR)/mesa
+
+.RECURSIVE: $(MESALIB_DIR)
+$(MESALIB_DIR): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(LIBS)
+$(LIBS): FORCE 
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+.RECURSIVE: $(LINKS)
+$(LINKS): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+
+
+link: FORCE
+	cd m0 ; $(MAKE) $(MFLAGS) link
+	cd m1 ; $(MAKE) $(MFLAGS) link
+	cd m101 ; $(MAKE) $(MFLAGS) link
+	cd m102 ; $(MAKE) $(MFLAGS) link
+	cd m103 ; $(MAKE) $(MFLAGS) link
+	cd m104 ; $(MAKE) $(MFLAGS) link
+	cd m201 ; $(MAKE) $(MFLAGS) link
+	cd m202 ; $(MAKE) $(MFLAGS) link
+	cd m204 ; $(MAKE) $(MFLAGS) link
+	cd m205 ; $(MAKE) $(MFLAGS) link
+	cd m250 ; $(MAKE) $(MFLAGS) link
+	cd m301 ; $(MAKE) $(MFLAGS) link
+	cd m302 ; $(MAKE) $(MFLAGS) link
+	cd m303 ; $(MAKE) $(MFLAGS) link
+	cd m304 ; $(MAKE) $(MFLAGS) link
+	cd m309 ; $(MAKE) $(MFLAGS) link
+	cd m312 ; $(MAKE) $(MFLAGS) link
+	cd m319 ; $(MAKE) $(MFLAGS) link
+	cd m323 ; $(MAKE) $(MFLAGS) link
+	cd m330 ; $(MAKE) $(MFLAGS) link
+	cd m401 ; $(MAKE) $(MFLAGS) link
+	cd m402 ; $(MAKE) $(MFLAGS) link
+	cd m411 ; $(MAKE) $(MFLAGS) link
+	cd m501 ; $(MAKE) $(MFLAGS) link
+	cd m502 ; $(MAKE) $(MFLAGS) link
+	cd m503 ; $(MAKE) $(MFLAGS) link
+	cd m511 ; $(MAKE) $(MFLAGS) link
+	cd m553 ; $(MAKE) $(MFLAGS) link
+	cd m601 ; $(MAKE) $(MFLAGS) link
+	cd m604 ; $(MAKE) $(MFLAGS) link
+	cd m611 ; $(MAKE) $(MFLAGS) link
+	cd m618 ; $(MAKE) $(MFLAGS) link
+	cd m619 ; $(MAKE) $(MFLAGS) link
+	cd m620 ; $(MAKE) $(MFLAGS) link
+	cd m621 ; $(MAKE) $(MFLAGS) link
+	cd m701 ; $(MAKE) $(MFLAGS) link
+	cd m702 ; $(MAKE) $(MFLAGS) link
+	cd m711 ; $(MAKE) $(MFLAGS) link
+	cd m712 ; $(MAKE) $(MFLAGS) link
+	cd m721 ; $(MAKE) $(MFLAGS) link
+	cd m731 ; $(MAKE) $(MFLAGS) link
+	cd m732 ; $(MAKE) $(MFLAGS) link
+	cd m801 ; $(MAKE) $(MFLAGS) link
+	cd m802 ; $(MAKE) $(MFLAGS) link
+	cd m805 ; $(MAKE) $(MFLAGS) link
+	cd m806 ; $(MAKE) $(MFLAGS) link
+	cd m807 ; $(MAKE) $(MFLAGS) link
+	cd m811 ; $(MAKE) $(MFLAGS) link	
+	cd m812 ; $(MAKE) $(MFLAGS) link
+	cd m819 ; $(MAKE) $(MFLAGS) link
+	cd m820 ; $(MAKE) $(MFLAGS) link
+	cd m821 ; $(MAKE) $(MFLAGS) link
+	cd m822 ; $(MAKE) $(MFLAGS) link
+	cd m824 ; $(MAKE) $(MFLAGS) link
+	cd m830 ; $(MAKE) $(MFLAGS) link
+	cd m840 ; $(MAKE) $(MFLAGS) link
+	cd m891 ; $(MAKE) $(MFLAGS) link
+	cd m901 ; $(MAKE) $(MFLAGS) link
+	cd m902 ; $(MAKE) $(MFLAGS) link
+	cd m903 ; $(MAKE) $(MFLAGS) link
+	cd m904 ; $(MAKE) $(MFLAGS) link
+	cd m911 ; $(MAKE) $(MFLAGS) link
+	cd m921 ; $(MAKE) $(MFLAGS) link
+	cd m929 ; $(MAKE) $(MFLAGS) link
+	cd m930 ; $(MAKE) $(MFLAGS) link
+	cd m935 ; $(MAKE) $(MFLAGS) link
+	cd m990 ; $(MAKE) $(MFLAGS) link
+	cd m1003 ; $(MAKE) $(MFLAGS) link
+	cd m1011 ; $(MAKE) $(MFLAGS) link
+	cd m1012 ; $(MAKE) $(MFLAGS) link
+	cd m1013 ; $(MAKE) $(MFLAGS) link
+	cd m1014 ; $(MAKE) $(MFLAGS) link
+	cd m1020 ; $(MAKE) $(MFLAGS) link
+	cd m1021 ; $(MAKE) $(MFLAGS) link
+	cd m1022 ; $(MAKE) $(MFLAGS) link
+	cd m1031 ; $(MAKE) $(MFLAGS) link
+	cd m1032 ; $(MAKE) $(MFLAGS) link
+	cd m1033 ; $(MAKE) $(MFLAGS) link
+	cd m1402 ; $(MAKE) $(MFLAGS) link
+	cd m1902 ; $(MAKE) $(MFLAGS) link
+	cd m1951 ; $(MAKE) $(MFLAGS) link
+	cd m1991 ; $(MAKE) $(MFLAGS) link
+	cd m2001 ; $(MAKE) $(MFLAGS) link
+	cd library/chr; $(MAKE) $(MFLAGS) link
+	cd library/clams; $(MAKE) $(MFLAGS) link
+	cd library/dft; $(MAKE) $(MFLAGS) link
+	cd library/dpintgrl; $(MAKE) $(MFLAGS) link
+	cd library/intgrl; $(MAKE) $(MFLAGS) link
+	cd library/io; $(MAKE) $(MFLAGS) link
+	cd library/math; $(MAKE) $(MFLAGS) link
+	cd library/mdutil/unicos; $(MAKE) $(MFLAGS) link
+	cd library/mdutil/stardent; $(MAKE) $(MFLAGS) link
+	cd library/mdutil/sun; $(MAKE) $(MFLAGS) link
+	cd library/mdutil/aix; $(MAKE) $(MFLAGS) link
+	cd library/mdutil/hp; $(MAKE) $(MFLAGS) link
+	cd library/mdutil/sgi; $(MAKE) $(MFLAGS) link
+	cd library/mdutil/ultrix; $(MAKE) $(MFLAGS) link
+	cd library/sym; $(MAKE) $(MFLAGS) link
+	cd library/util; $(MAKE) $(MFLAGS) link
+	$(GET) $(REL) mesa.dat; cp mesa.dat  source/mesadat
+	$(GET) $(REL) mesa.sh; cp mesa.sh  source/mesa.sh
+
+tags: FORCE
+	etags */*.f library/*/*.f
+
+clean: FORCE
+	rm -f core;
+	rm -f *.trace;
+	rm -f *.o;
+	cd m0 ; $(MAKE) $(MFLAGS) clean
+	cd m1 ; $(MAKE) $(MFLAGS) clean
+	cd m101 ; $(MAKE) $(MFLAGS) clean
+	cd m102 ; $(MAKE) $(MFLAGS) clean
+	cd m103 ; $(MAKE) $(MFLAGS) clean
+	cd m104 ; $(MAKE) $(MFLAGS) clean
+	cd m201 ; $(MAKE) $(MFLAGS) clean
+	cd m202 ; $(MAKE) $(MFLAGS) clean
+	cd m204 ; $(MAKE) $(MFLAGS) clean
+	cd m205 ; $(MAKE) $(MFLAGS) clean
+	cd m250 ; $(MAKE) $(MFLAGS) clean
+	cd m301 ; $(MAKE) $(MFLAGS) clean
+	cd m302 ; $(MAKE) $(MFLAGS) clean
+	cd m303 ; $(MAKE) $(MFLAGS) clean
+	cd m304 ; $(MAKE) $(MFLAGS) clean
+	cd m309 ; $(MAKE) $(MFLAGS) clean
+	cd m312 ; $(MAKE) $(MFLAGS) clean
+	cd m319 ; $(MAKE) $(MFLAGS) clean
+	cd m323 ; $(MAKE) $(MFLAGS) clean
+	cd m330 ; $(MAKE) $(MFLAGS) clean
+	cd m401 ; $(MAKE) $(MFLAGS) clean
+	cd m402 ; $(MAKE) $(MFLAGS) clean
+	cd m411 ; $(MAKE) $(MFLAGS) clean
+	cd m501 ; $(MAKE) $(MFLAGS) clean
+	cd m502 ; $(MAKE) $(MFLAGS) clean
+	cd m503 ; $(MAKE) $(MFLAGS) clean
+	cd m511 ; $(MAKE) $(MFLAGS) clean
+	cd m553 ; $(MAKE) $(MFLAGS) clean
+	cd m601 ; $(MAKE) $(MFLAGS) clean
+	cd m604 ; $(MAKE) $(MFLAGS) clean
+	cd m611 ; $(MAKE) $(MFLAGS) clean
+	cd m618 ; $(MAKE) $(MFLAGS) clean
+	cd m619 ; $(MAKE) $(MFLAGS) clean
+	cd m620 ; $(MAKE) $(MFLAGS) clean
+	cd m621 ; $(MAKE) $(MFLAGS) clean
+	cd m701 ; $(MAKE) $(MFLAGS) clean
+	cd m702 ; $(MAKE) $(MFLAGS) clean
+	cd m711 ; $(MAKE) $(MFLAGS) clean
+	cd m712 ; $(MAKE) $(MFLAGS) clean
+	cd m721 ; $(MAKE) $(MFLAGS) clean
+	cd m731 ; $(MAKE) $(MFLAGS) clean
+	cd m732 ; $(MAKE) $(MFLAGS) clean
+	cd m801 ; $(MAKE) $(MFLAGS) clean
+	cd m802 ; $(MAKE) $(MFLAGS) clean
+	cd m805 ; $(MAKE) $(MFLAGS) clean
+	cd m806 ; $(MAKE) $(MFLAGS) clean
+	cd m807 ; $(MAKE) $(MFLAGS) clean
+	cd m811 ; $(MAKE) $(MFLAGS) clean	
+	cd m812 ; $(MAKE) $(MFLAGS) clean
+	cd m819 ; $(MAKE) $(MFLAGS) clean
+	cd m820 ; $(MAKE) $(MFLAGS) clean
+	cd m821 ; $(MAKE) $(MFLAGS) clean
+	cd m822 ; $(MAKE) $(MFLAGS) clean
+	cd m824 ; $(MAKE) $(MFLAGS) clean
+	cd m830 ; $(MAKE) $(MFLAGS) clean
+	cd m840 ; $(MAKE) $(MFLAGS) clean
+	cd m891 ; $(MAKE) $(MFLAGS) clean
+	cd m901 ; $(MAKE) $(MFLAGS) clean
+	cd m902 ; $(MAKE) $(MFLAGS) clean
+	cd m903 ; $(MAKE) $(MFLAGS) clean
+	cd m904 ; $(MAKE) $(MFLAGS) clean
+	cd m911 ; $(MAKE) $(MFLAGS) clean
+	cd m921 ; $(MAKE) $(MFLAGS) clean
+	cd m929 ; $(MAKE) $(MFLAGS) clean
+	cd m930 ; $(MAKE) $(MFLAGS) clean
+	cd m935 ; $(MAKE) $(MFLAGS) clean
+	cd m990 ; $(MAKE) $(MFLAGS) clean
+	cd m1003 ; $(MAKE) $(MFLAGS) clean
+	cd m1011 ; $(MAKE) $(MFLAGS) clean
+	cd m1012 ; $(MAKE) $(MFLAGS) clean
+	cd m1013 ; $(MAKE) $(MFLAGS) clean
+	cd m1014 ; $(MAKE) $(MFLAGS) clean
+	cd m1020 ; $(MAKE) $(MFLAGS) clean
+	cd m1021 ; $(MAKE) $(MFLAGS) clean
+	cd m1022 ; $(MAKE) $(MFLAGS) clean
+	cd m1031 ; $(MAKE) $(MFLAGS) clean
+	cd m1032 ; $(MAKE) $(MFLAGS) clean
+	cd m1033 ; $(MAKE) $(MFLAGS) clean
+	cd m1402 ; $(MAKE) $(MFLAGS) clean
+	cd m1902 ; $(MAKE) $(MFLAGS) clean
+	cd m1951 ; $(MAKE) $(MFLAGS) clean
+	cd m1991 ; $(MAKE) $(MFLAGS) clean
+	cd m2001 ; $(MAKE) $(MFLAGS) clean
+	cd library/chr; $(MAKE) $(MFLAGS) clean
+	cd library/clams; $(MAKE) $(MFLAGS) clean
+	cd library/dft; $(MAKE) $(MFLAGS) clean
+	cd library/dpintgrl; $(MAKE) $(MFLAGS) clean
+	cd library/intgrl; $(MAKE) $(MFLAGS) clean
+	cd library/io; $(MAKE) $(MFLAGS) clean
+	cd library/math; $(MAKE) $(MFLAGS) clean
+	cd library/mdutil/unicos; $(MAKE) $(MFLAGS) clean
+	cd library/mdutil/stardent; $(MAKE) $(MFLAGS) clean
+	cd library/mdutil/sun; $(MAKE) $(MFLAGS) clean
+	cd library/mdutil/aix; $(MAKE) $(MFLAGS) clean
+	cd library/mdutil/hp; $(MAKE) $(MFLAGS) clean
+	cd library/mdutil/sgi; $(MAKE) $(MFLAGS) clean
+	cd library/mdutil/ultrix; $(MAKE) $(MFLAGS) clean
+	cd library/sym; $(MAKE) $(MFLAGS) clean
+	cd library/util; $(MAKE) $(MFLAGS) clean
+
+install: FORCE
+	rm -f core;
+	rm -f *.trace;
+	rm -f *.o;
+	mkdir SCCS;sccs create -$(REV) Makefile mesa.dat ;rm ,*
+	cd m0 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m101 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m102 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m103 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m104 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m201 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m202 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m204 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m205 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m250 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m301 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m302 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m303 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m304 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m309 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m312 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m319 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m323 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m330 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m401 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m402 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m411 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m501 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m502 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m503 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m511 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m553 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m601 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m604 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m611 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m618 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m619 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m620 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m621 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m701 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m702 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m711 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m712 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m721 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m731 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m732 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m801 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m802 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m805 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m806 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m807 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m811 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m812 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m819 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m820 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m821 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m822 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m824 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m830 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m840 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m891 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m901 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m902 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m903 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m904 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m911 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m921 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m929 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m930 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m935 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m990 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1003 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1011 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1012 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1013 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1014 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1020 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1021 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1022 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1031 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1032 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1033 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1402 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1902 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1951 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m1991 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd m2001 ; mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library;mkdir SCCS;sccs create -$(REV) Makefile;rm ,*
+	cd library/chr;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/clams;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/dft;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/dpintgrl;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/intgrl;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/io;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/math;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/mdutil;mkdir SCCS;sccs create -$(REV) Makefile;rm ,*
+	cd library/mdutil/aix;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/mdutil/hp;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/mdutil/sgi;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/mdutil/stardent;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/mdutil/ultrix;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/mdutil/unicos;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/sym;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+	cd library/util;mkdir SCCS;sccs create -$(REV) Makefile *.f;rm ,*
+
+FORCE:
+

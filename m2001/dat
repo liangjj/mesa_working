@@ -1,0 +1,9 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M2001
+#
+SOURCE=m2001
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/archiv.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f 

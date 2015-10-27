@@ -1,0 +1,1012 @@
+..subroutine login
+!
+! fetch basic links from mesa system
+!
+..permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+..select ttyecho=p
+..select logecho=p
+!xx select keepcmn=on
+!
+! set up appropriate directory names for each machine
+!
+alias help='mesahelp'
+alias fortran='cft off=p,'
+call qqmachine(machine)
+libs='libs'
+exe='exe'
+main='/lamesa'
+if (machine.eq.'x'.or.machine.eq.'v'.or.machine.eq.'w') then
+   libs='libs/cray1as'
+   exe='exe/cray1as'
+else if (machine.eq.'y') then
+   libs='libs/cray1as'
+   exe='exe/cray1as'
+else if (machine.eq.'1') then
+   libs='libs/cray1as'
+   exe='exe/cray1as'
+else if (machine.eq.'2'.or.machine.eq.'3'.or.machine.eq.'4') then
+   libs='libs/xmp4'
+   exe='exe/xmp4'
+else if (machine.eq.'5') then
+   libs='libs/xmp4'
+   exe='exe/xmp4'
+else if (machine.eq.'6'.or.machine.eq.'7') then
+   alias fortran='cft77 off=p address=fast,'
+   libs='libs/ymp8'
+   exe='exe/ymp8'
+end if
+!
+!----- set the prompt to the machine and suffix -----
+!
+call qqsuffix(suffix,list)
+!
+select prompt='{machine}{suffix}> '
+!
+!
+!
+jtl=100
+ttl=50
+write (*) 
+write (*) ' The default job and process timelimits are {jtl} and {ttl}'
+write (*) ' Are these OK [y] ?'
+read (*) answer
+!
+if (answer(1:1).ne.'y'.and.answer.ne.'') then
+   write (*)
+   write (*) ' Job timelimit [{jtl}] ?'
+   read (*) answer
+   if (answer.ne.'') jtl=answer
+   write (*) ' Process timelimit [{ttl}] ?'
+   read (*) answer
+   if (answer.ne.'') ttl=answer
+end if
+!
+select jobtl={jtl} prctl={ttl}
+!
+if (.not.fexist('mesadat')) then
+    ..get /lamesa/mesadat
+endif
+!
+maindir=main
+select default='dir={maindir}'
+!
+! write (*) ' please enter replacement directory (may be {maindir})'
+! write (*) '  or <cr> for no replacement. <none> skips directories'
+! read (*) repdir
+!
+repdir=maindir
+if (repdir.eq.'') repdir=maindir
+if (repdir.eq.'none') return
+!
+mainexe=''
+repexe=''
+dirs=''
+call cfs('list',exe,mainexe,dirs)
+if (repdir.eq.maindir) then
+   repexe=mainexe
+else
+   select default='dir={repdir}'
+   call cfs('list',exe,repexe,dirs)
+end if
+!
+!
+return
+end
+ 
+ 
+subroutine make
+!
+!  compile and link a mesa module using the appropriate libraries
+!  eg.   make l311
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+argument name=link position=1
+!
+if (link.eq.'libs') then
+!
+!    get the sources of the libraries from the replacement and main
+!    directories
+!
+   if (repdir.eq.'none') then
+      write (*) ' cant make libraries with no directories specified'
+      return
+   end if
+!
+   main=''
+   temp=''
+   junk=maindir//'/source/libs'
+   call cfs('list',junk,main,dirs)
+   rep=''
+   dirs=''
+   junk=repdir//'/source/libs'
+   if (repdir.eq.maindir) then
+      rep=main
+   else
+      call cfs('list',junk,rep,dirs)
+      do i=1,numsym(rep)
+         last=numchr(rep(i))
+         name=rep(i)(1:last)
+         if (.not.fexist(name)) then
+            get {repdir}/source/libs/{rep(i)}
+         end if
+      end do
+   end if
+!
+   do i=1,numsym(main)
+      last=numchr(main(i))
+      name=main(i)(1:last)
+      if (.not.fexist(name)) then
+         get {maindir}/source/libs/{main(i)}
+      end if
+   end do
+!
+!    compile and make the library
+!
+   call sor(junk,main,rep)
+   if (fexist('mesalib')) destroy mesalib
+   number=numsym(junk)
+!
+   libraries='chr intgrl dpintgrl io math sym util mdutil'
+!
+   do i=1,number
+      last=numchr(junk(i))
+      file=junk(i)(1:last)
+      if (file(1:3).eq.'src') then
+         fortran i={file},l=0
+         build b=$bld,nl=lib{file(4:)}
+      else if (locsym(file,libraries).ne.0) then
+         if (file(1:2).eq.'dp') then
+            cft i={file},l=0
+         else
+            fortran i={file},l=0
+         endif
+         if (fexist('mesalib')) then
+            build b=$bld,ol=mesalib
+         else
+            build b=$bld,nl=mesalib
+         end if
+      end if
+   end do
+!
+else if (link(1:3).eq.'exe') then
+!
+!    get the sources of the links from the replacement and main
+!    directories
+!
+   if (repdir.eq.'none') then
+      write (*) ' cant make executables without directory specified'
+      return
+   end if
+!
+   main=''
+   temp=''
+   junk=maindir//'/source/links'
+   call cfs('list',junk,main,dirs)
+!
+   if (repdir.eq.maindir) then
+      rep=main
+   else
+      rep=''
+      dirs=''
+      junk=repdir//'/source/links'
+      call cfs('list',junk,rep,dirs)
+      do i=1,numsym(rep)
+         last=numchr(rep(i))
+         name=rep(i)(1:last)
+         if (.not.fexist(name)) then
+            get {repdir}/source/links/{rep(i)}
+         end if
+      end do
+   end if
+!
+   do i=1,numsym(main)
+      last=numchr(main(i))
+      name=main(i)(1:last)
+      if (.not.fexist(name)) then
+         get {maindir}/source/links/{main(i)}
+      end if
+   end do
+!
+!    and make all the links
+!
+   call sor(junk,main,rep)
+   do i=1,numsym(junk)
+!
+!      ----- links must start with an m -----
+!
+      last=numchr(junk(i))
+      link=junk(i)(1:last)
+      if (link(1:1).ne.'m') cycle
+!
+      call make {link}
+      store {repdir}/{exe}/{link}c
+   end do
+!
+else if (link(1:3).eq.'src') then
+!
+!   a library
+!
+   library='lib'//link(4:)
+   fortran i={link},l=0
+   build b=$bld,nl={library}
+else
+!
+!    make a plain, ordinary link
+!
+   if (repdir.ne.'none') then
+      if (.not.fexist('mesalib')) get {repdir}/{libs}/mesalib
+   end if
+!
+   if (.not.fexist('mesalib')) get {maindir}/{libs}/mesalib
+!
+   fortran i={link},l=0
+   if (link.eq.'m330'.or.link.eq.'m820'.or.link.eq.'m821'.or.&
+         link.eq.'m830'.or.link.eq.'m901'.or.link.eq.'m902'.or.&
+         link.eq.'m903') then
+      library='lib'//link(2:)
+      if (.not.fexist(library)) get {repdir}/{libs}/{library}
+      if (.not.fexist(library)) get {maindir}/{libs}/{library}
+      ldr b=($bld,{library}),
+      msg lib=(mesalib,cftlib,calmath,cftmath,scilib),x={link}c
+   else if(link.eq.'m914'.or.link.eq.'m915'.or.link.eq.'m916') then
+      library='lib901'
+      if (.not.fexist(library)) get {repdir}/{libs}/{library}
+      if (.not.fexist(library)) get {maindir}/{libs}/{library}
+      ldr b=($bld,{library}),
+      msg lib=(mesalib,cftlib,calmath,cftmath,scilib),x={link}c
+!
+   else if (link.eq.'m551'.or.link.eq.'m1001') then
+      library='lib330'
+      if (.not.fexist(library)) get {repdir}/{libs}/{library}
+      if (.not.fexist(library)) get {maindir}/{libs}/{library}
+!
+      library='lib820'
+      if (.not.fexist(library)) get {repdir}/{libs}/{library}
+      if (.not.fexist(library)) get {maindir}/{libs}/{library}
+!
+      library='lib830'
+      if (.not.fexist(library)) get {repdir}/{libs}/{library}
+      if (.not.fexist(library)) get {maindir}/{libs}/{library}
+!
+      library='lib902'
+      if (.not.fexist(library)) get {repdir}/{libs}/{library}
+      if (.not.fexist(library)) get {maindir}/{libs}/{library}
+!
+      library='lib903'
+      if (.not.fexist(library)) get {repdir}/{libs}/{library}
+      if (.not.fexist(library)) get {maindir}/{libs}/{library}
+!
+      ldr b=($bld,lib330,lib820,lib830,lib902,lib903),
+      msg lib=(mesalib,cftlib,calmath,cftmath,scilib),
+      msg x={link}c
+   else
+      ldr lib=(mesalib,cftlib,calmath,cftmath,scilib),x={link}c
+   end if
+!
+end if
+!
+return
+end
+ 
+subroutine mesa
+!
+!  run mesa system all the way, or up to a link to be debugged
+!    mesa inp=xx out=xx chk=xx rwf=xx int=xx siz=xx (link to debug)
+!
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+argument name=inp vkeyword=inp
+argument name=out vkeyword=out
+argument name=chk vkeyword=chk
+argument name=rwf vkeyword=rwf
+argument name=int vkeyword=int
+argument name=siz vkeyword=siz
+argument name=stop vkeyword=stop
+argument name=current vkeyword=start
+argument name=link position=1
+!
+if (inp.eq.'') inp=suffix//'inp'
+if (out.eq.'') out=suffix//'out'
+if (chk.eq.'') chk=suffix//'chk'
+if (rwf.eq.'') rwf=suffix//'rwf'
+if (int.eq.'') int=suffix//'int'
+if (siz.eq.'') siz='3000000'
+if (stop.eq.'') stop='m998'
+if (current.ne.'') current=current//'c'
+if (current.eq.'') current='m0c'
+!
+filename=suffix//'mesdat'
+open (unit=1,status='new',file=filename)
+write (unit=1) inp,out,chk,rwf,int,link,siz
+close (unit=1)
+!
+do
+   if (current.eq.stop//'c') exit
+   if (current.eq.link//'c') goto check
+   if (current.eq.'$*$*$') exit
+   if (.not.fexist(current)) call getexe {current}
+   run {current} inp={inp},out={out},chk={chk},rwf={rwf},int={int},siz={siz}
+   current=prcmsg(1)
+end do
+!
+return
+!
+check: continue
+copyfile {rwf} {suffix}rwfsav
+copyfile {out} {suffix}outsav
+if (fexist(chk)) copyfile {chk} {suffix}chksav
+if (fexist(int)) copyfile {int} {suffix}intsav
+!
+return
+end
+ 
+subroutine testlink
+!
+!  test a specific link. mesa must have been run first, and it is
+!  assumed that the link to run is that which mesa stopped at
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+filename=suffix//'mesdat'
+open (unit=1,status='old',file=filename)
+read (unit=1) inp,out,chk,rwf,int,link,siz
+close (unit=1)
+!
+copyfile {suffix}outsav {out}
+copyfile {suffix}rwfsav {rwf}
+if (fexist(suffix//'chksav')) copyfile {suffix}chksav {chk}
+if (fexist(suffix//'intsav')) copyfile {suffix}intsav {int}
+!
+run {link}c inp={inp},out={out},chk={chk},rwf={rwf},int={int},siz={siz}
+!
+return
+end
+ 
+subroutine restart
+!
+!  test a specific link. mesa must have been run first, and it is
+!  assumed that the link to run is that which mesa stopped at
+!
+argument name=newlink position=1
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+filename=suffix//'mesdat'
+open (unit=1,status='old',file=filename)
+read (unit=1) inp,out,chk,rwf,int,link,siz
+close (unit=1)
+!
+copyfile {suffix}outsav {out}
+copyfile {suffix}rwfsav {rwf}
+if (fexist(suffix//'chksav')) copyfile {suffix}chksav {chk}
+if (fexist(suffix//'intsav')) copyfile {suffix}intsav {int}
+!
+current=link//'c'
+link=newlink
+!
+do
+   if (current.eq.'m998c') exit
+   if (current.eq.link//'c') goto check
+   if (.not.fexist(current)) get exe/{current}
+   run {current} inp={inp},out={out},chk={chk},rwf={rwf},int={int},siz={siz}
+   current=prcmsg(1)
+end do
+!
+return
+!
+check: continue
+!
+filename=suffix//'mesdat'
+open (unit=1,status='new',file=filename)
+write (unit=1) inp,out,chk,rwf,int,link,siz
+close (unit=1)
+!
+copyfile {out} {suffix}outsav
+copyfile {rwf} {suffix}rwfsav
+if (fexist(suffix//'chksav')) copyfile {chk} {suffix}chksav
+if (fexist(suffix//'intsav')) copyfile {int} {suffix}intsav
+!
+return
+end
+ 
+subroutine debuglink
+!
+!  ddt the test link that mesa terminated before
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+filename=suffix//'mesdat'
+open (unit=1,status='old',file=filename)
+read (unit=1) inp,out,chk,rwf,int,link,siz
+close (unit=1)
+!
+copyfile {suffix}outsav {out}
+copyfile {suffix}rwfsav {rwf}
+if (fexist(suffix//'chksav')) copyfile {suffix}chksav {chk}
+if (fexist(suffix//'intsav')) copyfile {suffix}intsav {int}
+!
+select bypasses=open
+ddt {link}c
+!
+return
+end
+ 
+subroutine copyfile
+!
+!   module to copy a familied file
+!     copyfile file1 file2
+!
+argument name=file1 position=1
+argument name=file2 position=2
+!
+copy {file1} {file2}
+!
+if (numchr(file1).gt.6) then
+   file1a=file1(1:6)
+else
+   file1a=file1
+end if
+if (numchr(file2).gt.6) then
+   file2a=file2(1:6)
+else
+   file2a=file2
+end if
+!
+no=0
+loop: continue
+no=no+1
+if (no.lt.10) then
+   f1=file1a//'0'//no
+   f2=file2a//'0'//no
+else
+   f1=file1a//no
+   f2=file2a//no
+end if
+!
+if (fexist(f1)) then
+   copy {f1} {f2}
+   goto loop
+end if
+!
+return
+end
+!
+subroutine cfs(oper,i1,i2,i3)
+!
+! module to perform mass operations resulting in or using
+!   a list of files or directories
+!
+! call cfs('list',directory,files,directories)
+! call cfs('move',source directory,destination directory,files)
+! call cfs('delete',directory,files)
+! call cfs('get',directory,files)
+! call cfs('save',directory,files)
+! call cfs('store',directory,files)
+!
+!
+call qqselect('ttyecho',valecho)
+select ttyecho=p
+!
+if (oper.eq.'list') then
+   select ttyecho=e
+!
+   list {i1}
+!
+   if (locsym('error',prcmsg).ne.0) go to error
+!
+   files=''
+   dirs=''
+   number=numsym(prcmsg)
+   nfiles=0
+   ndirs=0
+   i=5
+   do
+      if (i.gt.number) exit
+      if (i.lt.number.and.prcmsg(i+1).eq.'dir') then
+         ndirs=ndirs+1
+         dirs(ndirs)=prcmsg(i)
+         i=i+2
+      else
+         nfiles=nfiles+1
+         files(nfiles)=prcmsg(i)
+         i=i+1
+      endif
+   end do
+   i2=files
+   i3=dirs
+!
+else if (oper.eq.'move') then
+!
+   number=numsym(i3)
+   do i=1,number
+      mass0 move {i1}/{i3(i)} to {i2}/{i3(i)}
+      if (locsym('error',prcmsg).ne.0) go to error
+   end do
+!
+else if (oper.eq.'delete'.or.oper.eq.'get'.or.oper.eq.'save'.or. &
+         oper.eq.'store') then
+!
+   number=numsym(i2)
+   do i=1,number
+      {oper} {i1}/{i2(i)}
+      if (locsym('error',prcmsg).ne.0) then
+         if (oper.eq.delete) then
+            write (*) ' ',' ##### error deleting file',' '
+         else
+            go to error
+         end if
+      end if
+   end do
+endif
+!
+select ttyecho={valecho}
+!
+return
+!
+error: continue
+!
+write (*) 'error in cfs',prcmsg
+select ttyecho={valecho}
+return
+!
+end
+!
+subroutine update
+!
+argument name=type position=1
+argument name=source position=2
+argument name=dest position=3
+!
+if (source.eq.''.or.dest.eq.'') then
+   write (*) ' ',' #### update type,source,destination',' '
+   return
+end if
+!
+files=''
+dirs=''
+if (type.eq.'source'.or.type.eq.'all') then
+   ss=source//'/source'
+   call cfs('list',ss,files,dirs)
+   mask=''
+   ds=dest//'/source'
+   call cfs('list',ds,mask,dirs)
+   temp=''
+   call sand(temp,files,mask)
+   dt=dest//'/trash'
+   call cfs('list',dt,mask,dirs)
+   temp2=''
+   call sand(temp2,temp,mask)
+   call cfs('delete',dt,temp2)
+   call cfs('move',ds,dt,temp)
+   call cfs('move',ss,ds,files)
+end if
+if (type.eq.'libs'.or.type.eq.'all') then
+   ss=source//'/libs/source'
+   call cfs('list',ss,files,dirs)
+   mask=''
+   ds=dest//'/libs/source'
+   call cfs('list',ds,mask,dirs)
+   temp=''
+   call sand(temp,files,mask)
+   dt=dest//'/trash'
+   call cfs('list',dt,mask,dirs)
+   temp2=''
+   call sand(temp2,temp,mask)
+   call cfs('delete',dt,temp2)
+   call cfs('move',ds,dt,temp)
+   call cfs('move',ss,ds,files)
+   delete {dest}/trash/mesalib
+   mass0 move {dest}/libs/mesalib to {dest}/trash/mesalib
+end if
+!
+return
+end
+subroutine sand(a,b,c)
+!
+! on return, a contains those symbols in both b and c
+!
+ia=0
+number=numsym(b)
+do ib=1,number
+   i=locsym(b(ib),c)
+   if (i.gt.0) then
+      ia=ia+1
+      a(ia)=b(ib)
+   end if
+end do
+!
+return
+end
+subroutine snot(a,b,c)
+!
+! on return, a contains those symbols in b but not c
+!
+ia=0
+number=numsym(b)
+do ib=1,number
+   i=locsym(b(ib),c)
+   if (i.le.0) then
+      ia=ia+1
+      a(ia)=b(ib)
+   end if
+end do
+!
+return
+end
+subroutine sor(a,b,c)
+!
+! on return, a contains those symbols in b and c
+!
+ia=0
+a=c
+ia=numsym(a)
+number=numsym(b)
+do ib=1,number
+   i=locsym(b(ib),c)
+   if (i.le.0) then
+      ia=ia+1
+      a(ia)=b(ib)
+   end if
+end do
+!
+return
+end
+subroutine getexe
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+argument name=link position=1
+!
+i=locsym(link,repexe)
+if (i.gt.0) then
+   get {repdir}/{exe}/{link}
+   return
+end if
+i=locsym(link,mainexe)
+if (i.gt.0) then
+   get {maindir}/{exe}/{link}
+else
+   write (*) ' ',' ##### cannot find link',link,' '
+end if
+!
+return
+end
+subroutine tovax
+!
+!  transfer sources to the vax
+!  eg.   tovax l311
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+argument name=link position=1
+argument name=access vkeyword=access
+!
+!
+if (link.eq.'libs'.or.link.eq.'all') then
+!
+!    get the sources of the libraries from the replacement and main
+!    directories
+!
+   if (repdir.eq.'none') then
+      write (*) ' cant ship libraries with no directories specified'
+      return
+   end if
+!
+   main=''
+   temp=''
+   junk=maindir//'/libs/source'
+   call cfs('list',junk,main,dirs)
+   rep=''
+   dirs=''
+   junk=repdir//'/libs/source'
+   if (repdir.eq.maindir) then
+      rep=main
+   else
+      call cfs('list',junk,rep,dirs)
+      do i=1,numsym(rep)
+         if (.not.fexist(rep(i))) get {repdir}/libs/source/{rep(i)}
+      end do
+   end if
+!
+   do i=1,numsym(main)
+      if (.not.fexist(main(i))) get {maindir}/libs/source/{main(i)}
+   end do
+!
+!    transfer to the vax
+!
+   call sor(junk,main,rep)
+   number=numsym(junk)
+!
+   do i=1,number
+      file=junk(i)
+      call tovax {file} access='{access}'
+   end do
+end if
+!
+if (link.eq.'sources'.or.link.eq.'all') then
+!
+!    get the sources of the links from the replacement and main
+!    directories
+!
+   if (repdir.eq.'none') then
+      write (*) ' cant ship sources without directory specified'
+      return
+   end if
+!
+   main=''
+   temp=''
+   junk=maindir//'/source'
+   call cfs('list',junk,main,dirs)
+!
+   if (repdir.eq.maindir) then
+      rep=main
+   else
+      rep=''
+      dirs=''
+      junk=repdir//'/source'
+      call cfs('list',junk,rep,dirs)
+      do i=1,numsym(rep)
+         if (.not.fexist(rep(i))) get {repdir}/source/{rep(i)}
+      end do
+   end if
+!
+   do i=1,numsym(main)
+      if (.not.fexist(main(i))) get {maindir}/source/{main(i)}
+   end do
+!
+!    and ship all the links
+!
+   call sor(junk,main,rep)
+   do i=1,numsym(junk)
+!
+!      ----- links must start with an l -----
+!
+      link=junk(i)
+      if (link(1:1).ne.'l') cycle
+!
+      call tovax {junk(i)} access='{access}'
+   end do
+!
+end if
+if (link.ne.'all'.and.link.ne.'libs'.and.link.ne.'sources') then
+!
+!    ship a plain, ordinary file
+!
+   stext {link} s{link}
+   magic copy s{link} ccvax"{access}"::drb2:[097427.mesa]{link}.std
+   destroy s{link}
+!
+end if
+!
+return
+end
+subroutine print
+!
+!  print sources
+!  eg.   print l311 'hsp options'
+!
+permanent common /exedir/ maindir,repdir,mainexe,repexe,exe,libs,suffix
+!
+argument name=link position=1
+argument name=options rest
+!
+!
+if (link.eq.'libs'.or.link.eq.'all') then
+!
+!    get the sources of the libraries from the replacement and main
+!    directories
+!
+   if (repdir.eq.'none') then
+      write (*) ' cant print libraries with no directories specified'
+      return
+   end if
+!
+   main=''
+   temp=''
+   junk=maindir//'/libs/source'
+   call cfs('list',junk,main,dirs)
+   rep=''
+   dirs=''
+   junk=repdir//'/libs/source'
+   if (repdir.eq.maindir) then
+      rep=main
+   else
+      call cfs('list',junk,rep,dirs)
+      do i=1,numsym(rep)
+         last=numchr(rep(i))
+         name=rep(i)(1:last)
+         if (.not.fexist(name)) then
+            get {repdir}/libs/source/{main(i)}
+         end if
+      end do
+   end if
+!
+   do i=1,numsym(main)
+      last=numchr(main(i))
+      name=main(i)(1:last)
+      if (.not.fexist(name)) then
+         get {maindir}/libs/source/{main(i)}
+      end if
+   end do
+!
+!    print the file
+!
+   call sor(junk,main,rep)
+   number=numsym(junk)
+!
+   do i=1,number
+      last=numchr(junk(i))
+      file=junk(i)(1:last)
+      call print {file} '{options}'
+   end do
+end if
+!
+if (link.eq.'sources'.or.link.eq.'all') then
+!
+!    get the sources of the links from the replacement and main
+!    directories
+!
+   if (repdir.eq.'none') then
+      write (*) ' cant print sources without directory specified'
+      return
+   end if
+!
+   main=''
+   temp=''
+   junk=maindir//'/source'
+   call cfs('list',junk,main,dirs)
+!
+   if (repdir.eq.maindir) then
+      rep=main
+   else
+      rep=''
+      dirs=''
+      junk=repdir//'/source'
+      call cfs('list',junk,rep,dirs)
+      do i=1,numsym(rep)
+         last=numchr(rep(i))
+         name=rep(i)(1:last)
+         if (.not.fexist(name)) then
+            get {repdir}/source/{main(i)}
+         end if
+      end do
+   end if
+!
+   do i=1,numsym(main)
+      last=numchr(main(i))
+      name=main(i)(1:last)
+      if (.not.fexist(name)) then
+         get {maindir}/source/{main(i)}
+      end if
+   end do
+!
+!    and print all the links
+!
+   call sor(junk,main,rep)
+   do i=1,numsym(junk)
+!
+!      ----- links must start with an 'm' -----
+!
+      last=numchr(junk(i))
+      link=junk(i)(1:last)
+      if (link(1:1).ne.'m') cycle
+!
+      call print {link} '{options}'
+   end do
+!
+end if
+if (link.ne.'all'.and.link.ne.'libs'.and.link.ne.'sources') then
+!
+!    print a plain, ordinary file
+!
+   hsp {link} major="{link}" {options}
+!
+end if
+!
+return
+end
+subroutine mesahelp
+!
+! ----- main controller for help package for mesa -----
+!
+argument name=category position=1
+argument name=level vkeyword=level default='1'
+!
+possible='mesa make update tovax ctss_help icnhelp testlink'
+possible=possible//'debuglink restart'
+!
+if (level.eq.1) then
+!
+!  ----- find category -----
+!
+   start:
+      write (*) ' The help categories are:'
+      write (*)
+      write (*) 'ctss_help  debuglink icnhelp   make      restart'
+      write (*) 'mesa   testlink  update'
+      write (*)
+      write (*) ' Please enter the category, or <cr> to exit'
+      read (*) next
+!
+!     ----- exit case -----
+!
+      if (next.eq.'') return
+!
+!     ----- check for valid section -----
+!
+   if (locsym(next,possible).le.0) go to start
+!
+!  ----- recursively call ourselves -----
+!
+   level=level+1
+   call mesahelp {next} level={level}
+!
+!  ----- each help section -----
+!
+else
+   if (locsym(category,possible).le.0) then
+      call mesahelp
+   end if
+!
+   if (category.eq.'mesa') then
+write (*)
+write (*) 'Usage: mesa inp=input out=output rwf=read-write-file &'
+write (*) '                chk=checkpoint-file siz=decimal words &'
+write (*) '                int=integral-file &'
+write (*) '                start=link stop=link debuglink'
+write (*)
+write (*) 'If any of the file specifications are omitted, they default to the'
+write (*) 'keyword prefixed by the suffix mesa is running on. Start and stop'
+write (*) 'are used to modify where mesa starts and stops. Normally, mesa'
+write (*) 'starts with m0 and ends with m998. These keywords are useful for'
+write (*) 'instance to stop after l401 or l501 to examine the vectors.'
+write (*) 'A link name with no keyword indicates a link to be debuged. mesa'
+write (*) 'will run up to the link, and then checkpoint all of the files. '
+write (*) 'Subsequent calls to testlink or debuglink will run or DDT just that'
+write (*) 'link. Restart will continue the mesa run from the checkpointed'
+write (*) 'files at the debuged link.'
+write (*)
+      call mesahelp
+   else if (category.eq.'make') then
+write (*)
+write (*) 'Usage: make <link>'
+write (*)
+write (*) ' Link may either be a single link name or it may be one of the'
+write (*) ' following: libs, exe, all. If it is one of the latter, then all'
+write (*) ' of the appropriate sources are fetched from the replacement and'
+write (*) ' main directories if they are not local, and then compiled. Finally,'
+write (*) ' either the libraries or links or both are made.'
+write (*)
+      call mesahelp
+   else if (category.eq.'ctss_help') then
+      select bypasses=open
+      run help
+      call mesahelp
+   else if (category.eq.'icnhelp') then
+      select bypasses=open
+      run icnhelp
+      call mesahelp
+   else if (category.eq.'testlink') then
+write (*) 'Usage: testlink'
+write (*)
+write (*) ' Testlink assumes that mesa has previously run with a debug link '
+write (*) ' specified. Testlink will restore all the files and run the one'
+write (*) ' debuglink. This is intended for debuging a link when it may be'
+write (*) ' necessary to run a single link over and over.'
+write (*)
+      call mesahelp
+   else if (category.eq.'debuglink') then
+write (*) 'Usage: debuglink'
+write (*)
+write (*) ' Debuglink assumes that mesa has previously run with a debug link'
+write (*) ' specified. Debuglink will restore all files and invoke DDT on the'
+write (*) ' one debug link. When in DDT it is necessary to start execution with'
+write (*) ' run with "inp=...,out=....".'
+write (*)
+   end if
+end if
+return
+end

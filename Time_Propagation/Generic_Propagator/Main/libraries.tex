@@ -1,0 +1,347 @@
+\documentclass[onecolumn,letterpaper]{report}
+\title{Codes and Libraries Developed by BIS and Collaborators }
+\author{Barry Schneider}
+\date{\today}
+
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{amssymb}    % To get extra math characters
+\usepackage{amsbsy}     % To get \boldsymbol
+\usepackage{amstext}    % To get \text
+\usepackage{psfrag} 
+\usepackage{color}  
+\newcommand{\ie}{\emph{i.e.} } 
+\newcommand{\eg}{\emph{e.g.} } 
+\newcommand{\ua}{\uparrow} 
+\newcommand{\da}{\downarrow} 
+
+\begin{document}
+\maketitle
+\section{Preamble}
+Back in the middle 1980's, Byron Lengsfield, Richard Martin, Barry Schneider and a
+number of other researchers at LANL, LLNL and other laboratories began to develop a 
+new electronic structure code which they called MESA.  The object was to make this 
+code clear, very portable, modular and to have it well documented.  To accomplish that, 
+the developers provided a library which contained all of the commonly used mathematical 
+routines, a library which performed commonly used operations on strings and a user 
+friendly input/ouput system.  These libraries contained a set of subroutines which would 
+allow users to perform;
+\begin{itemize}
+\item Mathematical manipulations on functions, vectors and 
+matrices
+\item User friendly random I/O
+\item Character manipulations on both input and output variables 
+\item Other operations which are repeatedly used across a broad
+array of scientific programs
+\end{itemize}
+The library grew over the years to incorporate as many 
+of the standard Fortran libraries as are openly available so that a user in 
+moving code from one platform to another would not be subject to any availabilty issues 
+which would prevent their code from running on that platform.  Thus, the current 
+version includes all of the BLAS, LAPACK, EISPACK, LINPACK, CLAMS and
+SLATEC libraries as well as many other specialized routines.  In addition, it includes a 
+number of subroutines required for machine dependent manipulations.  Many of these are now
+obsolete or were developed for platforms which are no longer being maintained.  In other 
+cases, the differences between platforms have vanished and there are generic routines 
+which transcend specific architectures.  For the BLAS/LAPACK/LINPACK routines, there is 
+an option in the Makefile to use machine specific libraries, where they are available.
+The best advice to a novice is to look at the routines in the sublibraries.  They are 
+generally well commented internally or refer to outside sources.  The intent is for the 
+user to compile the sublibraries using the Makefiles provided and to then use the total 
+mesalib.a in whatever applications are being developed.  New routines may be added to 
+the library but they should follow the conventions established by the developers so 
+that new users can transparently and easily use the routines.  
+Note, there is no attempt to provide detailed documentation of all of the subroutines 
+independently of actually looking at the source code.
+\par
+Each of the subroutine libraries described below has a Makefile associated with it.  The 
+compiled routines are all placed in one global library called mesalib.a.  On some
+platforms, the order in which these libraries are made is important as externals may not
+be resolved under certain circumstances.  I have never been able to figure out the
+rhyme or reason for this but the following order should work;
+\begin{itemize}
+\item Character \_ Manipulation \_ Subroutines
+\item  Common \_ Los \_ Alamos \_ Mathematical \_ Subroutines
+\item General \_ Utility \_ Subroutines
+\item IOsys \_ Subroutines
+\item Mathematical \_ Subroutines 
+\item Machine \_ Dependent \_ Subroutines
+\end{itemize}
+\section{Machine \_ Dependent \_ Subroutines}
+This consists of a small number of subroutines which originally depended on 
+specific machine characteristics.  To a large extent, this is no longer true and
+most if not all of the routines will run on all architectures.  The subdirectory
+labelled opteron may be used for most machines.  There is some editing of a few
+of these subroutines for specific machines that will add headers to your output
+which tell you which machine you are running on and your user name as well as some
+other things.  The routines to look at are versn.f, usrnam.f, lxopen.f and getmem.f.
+The changes that are required are easy to see.
+\section{Character\_ Manipulation\_ Subroutines}
+This is a set of routines to manipulate character variables.  It is used by many
+of the IOsys routines and is important in freeing the user from worry about
+how to structure their input decks.  Since input is keyword driven 
+and variables are entered in ``english'', it is necessary to decode the strings and
+get the numerical values entered into the correct places.  As an example consider
+the following part of an input file used in the propagation code,
+\newline
+\$prop\_ basis
+\newline
+                 type-calculation=imaginary-time
+\newline
+ number-of-space-variables=1 coordinate-system=cartesian
+\newline
+ space-variable-1=x use-atomic-units kinetic-energy-type=packed
+\newline
+ xplot get-eigenpairs diagonal-modification=none
+\newline
+ plot\_ step=1 xprint=all-details eigenvalue-convergence=1.d-10
+\newline
+ propagation-order=4 xpropagation-method=arnoldi
+\newline
+\$end
+\newline
+What would happen in the read is that the input file would be read until it encountered the
+keyword {\$prop\_ basis}.  Then it would read everything up to the \$end and enter the values
+into the appropriate variables.  In most cases, there are default values if a variable
+is omitted.  This keyword sequence may be placed anywhere in the input file.   Note, that an x
+in front of a keyword is just a convenient way to not set it without erasing it from the file.
+\section{IOsys\_ Subroutines}
+This contains the subroutines to perform user friendly I/O operations on files.
+The rules for opening, reading, writing and making inquiries to IOsys files are described 
+quite well in the main routine iosys.f.  The main point for this discussion
+is that all of the IO done using IOsys is random IO but the user is freed from worrying about
+any of the issues that would be typical of such IO.  For example, since files are written to units
+with names which can be quite descriptive of what the file contains, (i.e 'Hamiltonian Matrix') the
+user does not have to know where it appears in the unit.  It is even possible to use an option
+which does not require the user to know how many words are on the file, only the type, such as
+real, integer or character.
+\section{Common\_ Los\_ Alamos\_ Mathematical\_ Subroutines}
+This contains source code for the entire set of mathematical subroutines called
+CLAMS.  The source code for this library was taken from the Los Alamos library.  It is
+open source and non-propritary.  Note that there are typically machine language routines
+for many of these routines and there is an option to use those if they are available.
+\section{Mathematical\_ Subroutines}
+Many additional mathematical routines which are used by applications developers.  These have been
+developed in the course writing application specific codes.  One simple example is a set of
+routines to multiply matrices, matrices times their transposes, matrix transposes times matrix
+tranposes, matrix addition, quadrature routines, etc.  The names of these routines were intended
+to be descriptive and easy for the user to recall.
+\section{General\_ Utility\_ Subroutines}
+Routines to print matrices and to do lots of operations needed in applications.
+\section{Environment}
+I find it useful to set up environment variables which define various directories that are
+used, the name and location of the compilers and/or preprocessors and the paths.  My shell of
+choice is the bash shell but that is a personal one.  What follows can be adapted to other 
+shells with minor changes.
+\newline
+Here is my .bash\_ profile file which is exectuted when I log on to the workstation.
+\newline
+\begin{verbatim}
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+# Export the Mesa Directories
+
+export MAKEFLAGS=
+export MESA_HOME=/home/mesa/mesa
+export MESA_LIB=$MESA_HOME/library
+export MESA_BIN=$MESA_HOME/bin
+export CPPEXT=.cpp
+export FFLAGS='-c'
+#export FC='/opt/intel/fce/9.0/bin/ifort'
+export FC=ifort
+export MDLIB='/opt/intel/mkl721/lib/em64t/libmkl_em64t.a \
+              /opt/intel/mkl721/lib/em64t/libmkl_lapack.a \
+              /opt/intel/mkl721/lib/em64t/libguide.a \
+              /opt/intel/mkl721/lib/em64t/libmkl_solver.a'
+export CPP=/usr/bin/cpp
+export CPPFLAGS='-DMACHINEBLAS -DMACHINELAPACK'
+export TMP=/tmp
+TLMHOST=@feynman.mps.nsf.gov
+export TLMHOST
+PATH=$PATH:$HOME/bin:$MESA_HOME:$MESA_RUN:$MESA_BIN:$TMPDIR:$TEC90HOME/bin
+PATH=$PATH:$MESA_TMP:$MESA_LIB:$CPP:$HOME/LaTeX:/sbin:/usr/local/bin
+BASH_ENV=$HOME/.bashrc
+export BASH_ENV PATH
+unset USERNAME
+\end{verbatim}
+All of these are compiled into the library mesalib.a
+
+
+\section{DVRLIB}
+This library constructs DVR functions, first and second derivatives for a number of DVR
+representations.  In addition, the library also provides the necessary matrix elements
+to construct the kinetic energy matrix and many one dimensional potential energy matrix elements.
+These are also available for the FEDVR based on Legendre functions.  We now consider a special 
+class of DVRs, where the underlying spectral basis functions are defined in terms of a 
+classical orthogonal polynomial such that
+\begin{equation}
+\phi_n(x) = \sqrt{w(x)} \, p_{n-1}(x),
+\label{basisfcts}
+\end{equation}
+where $w(x)$ is a non-negative weight function, and
+$\{p_n,n=0,1,\ldots \}$ are polynomials of degree $n$, orthogonal to
+each other over a range $[a,b]$ with respect to $w(x)$, \ie
+\begin{equation}
+\int_a^b dx \, w(x) p_m(x) p_n(x) = \delta_{mn}.
+\end{equation}
+Depending on the orthogonal polynomial in question the interval can be
+either finite, semi-infinite or infinite. Including the weight function
+directly in the basis functions slightly modifies the definition of
+the DVR functions:
+\begin{equation}
+\chi_{\alpha} (x) = \sum_{n=1}^N  \phi_n(x) \phi^*_n (x_\alpha)) 
+\sqrt { \frac{ w(x_\alpha)}{ w_\alpha }  }
+\label{basis}
+\end{equation}
+as is easily demonstrated.
+The DVR functions are therefore the product of a polynomial of order
+$N-1$ by the square root of the weight function. 
+The special property of the orthogonal polynomials is that the
+associated quadrature is of the Gauss-Jacobi type. Hence for a
+quadrature specified on $N$ points the integration rule
+is {\emph{exact}} when the integrand is a polynomial
+of degree $2N-1$ or less~\cite{koonin1990,Gabor1939}. 
+We will now determine the DVR grid points and the quadrature weights. 
+
+The orthogonal polynomials are known to satisfy the
+Christoffel-Darboux sum formula~\cite{Gabor1939,Abramowitz1970}
+\begin{equation}
+\sum_{m=0}^{n} \, p_m(x) p_m(y)=\frac{k_{n}}{k_{n+1}} \,
+\frac{p_{n+1}(x)p_{n}(y) 
+- p_{n}(x) p_{n+1}(y)}{x-y},
+\label{CD}
+\end{equation}
+where $k_n$ is the coefficient of $x^n$ in $p_n(x)$. An equivalent
+formula holds for the basis functions~(\ref{basisfcts}) 
+\begin{equation}
+\sum_{m=1}^{N} \, \phi_m(x) \phi_m(y)=\frac{k_{N-1}}{k_{N}} \,
+\frac{\phi_{N+1}(x)\phi_{N}(y) 
+- \phi_{N}(x) \phi_{N+1}(y)}{x-y},
+\label{CD2}
+\end{equation}
+as is seen by
+multiplying both sides of~(\ref{CD}) by $\sqrt{w(x)w(y)}$. The
+condition of discrete completeness of
+the basis functions $\phi_n$ is then fulfilled for a given family of
+orthogonal polynomials if  
+\begin{equation}
+\phi_{N+1}=0  \ \Longrightarrow \ p_N(x_{\alpha})=0.
+\end{equation}
+This defines the mesh points. To determine the
+quadrature weights we follow the discussion in  
+Szeg\"o~\cite{Gabor1939}: Setting $y=x_{\alpha}$ in (\ref{CD2}),
+and integrating over the interval. We evaluate the left hand side
+first:
+\begin{eqnarray}
+\int_{a}^{b}dx \, \sum_{m=1}^{N}\phi_m(x)\phi_m(x_{\alpha}) & = & 
+\sum_{n=0}^{N-1} \left( \int_{a}^{b} dx \, w(x) p_n(x) p_0(x) \right)
+\, \frac{p_n(x_{\alpha})}{p_0(x)} \nonumber \\
+\mbox{} & =& \sum_{n=0}^{N-1} \delta_{n0} \,
+\frac{p_n(x_{\alpha})}{p_0(x)} = 1,
+\end{eqnarray}
+using the fact that $p_o(x)$ is constant and non-vanishing.
+On the right hand side the second term vanishes since
+$\phi_{N+1}(x_{\alpha})=0$, and we are left with  
+\begin{eqnarray}
+1 &=& \frac{k_{N-1}}{k_{N}}\int_{a}^{b}dx \,
+\frac{\phi_{N+1}(x)\phi_{N}(x_{\alpha})}{x-x_{\alpha}} \nonumber \\
+\mbox{} &=&\frac{k_{N-1}}{k_{N}}\int_{a}^{b}dx \, w(x)
+\frac{p_{N}(x) p_{N-1}(x_{\alpha})}{x-x_{\alpha}} =
+\frac{k_{N-1}}{k_{N}} \sum_{\beta} \, w_{\beta} \frac{p_{N}(x_{\beta})
+p_{N-1}(x_{\alpha})}{x_{\beta}-x_{\alpha}} \nonumber \\
+\mbox{} &=& \frac{k_{N-1}}{k_{N}} p_N'(x_{\alpha}) p_{N-1}(x_{\alpha})
+w_{\alpha}. 
+\end{eqnarray}
+The weights are then given by
+\begin{equation}
+w_{\alpha} = \frac{k_{N}}{k_{N-1}} \frac{1}{p_{N-1}(x_{\alpha})
+p_{N}'(x_{\alpha})}.
+\end{equation}
+Going back to the expansion of the coordinate eigenfunctions
+(\ref{basis}) we find from the Christoffel-Darboux formula for the
+basis functions~(\ref{CD2}) that the DVR functions can be expressed as 
+\begin{equation}
+\chi_{\alpha}(x) = \sqrt{\frac{w_{\alpha}}{w(x_{\alpha})}} \,
+\frac{k_{N-1}}{k_{N}} \,
+\frac{\phi_{N+1}(x)\phi_{N}(x_{\alpha})}{x-x_{\alpha}}  
+=\frac{p_{N}(x)}{p_{N}'(x_{\alpha})(x-x_{\alpha})}
+\sqrt{\frac{w(x)}{w_{\alpha}}}.  
+\label{chi_orthopol} 
+\end{equation} 
+
+We note
+that the orthogonal polynomial of order $N$ can expressed as
+\begin{equation}
+p_N(x)=k_N\prod_{\alpha=1}^{N}(x-x_{\alpha}),
+\end{equation}
+where $p_N(x_{\alpha})=0$. The derivative of $p_N(x)$ is easily
+calculated 
+\begin{equation}
+\phi_N'(x)=\sum_{{\alpha}=1}^{N}\frac{p_N(x)}{x-x_{\alpha}},
+\end{equation}
+and specifically on the mesh points it takes the values
+\begin{equation}
+\phi_N'(x_{\alpha})=k_N{\prod_{\beta=1}^{N}}{}' \,
+(x_{\alpha}-x_{\beta}), 
+\end{equation}
+where the prime denotes the exclusion of the point
+$x_{\beta}=x_{\alpha}$ in the  
+product. The expression for the DVR functions can therefore be reduced
+to the simple form
+\begin{equation}
+\chi_{\alpha}(x)=v_{\alpha}(x)\sqrt{\frac{w(x)}{w_{\alpha}}},
+\label{DVRfunc}
+\end{equation}
+where $v_{\alpha}(x)$ are the 
+Lagrange interpolating functions defined at the associated quadrature
+points 
+\begin{equation}
+v_{\alpha}(x)={\prod_{\beta=1}^{N}}{}' \,
+\frac{x-x_{\beta}}{x_{\alpha}-x_{\beta}}. 
+\end{equation}
+Matrix elements of the derivative operator are easily found
+as $v_{\alpha}(x)$ and its derivatives can be tabulated. We remark
+that an alternative, yet less straightforward way to evaluate the
+kinetic energy matrix elements, is to use the known properties of
+the orthogonal polynomials and their derivatives. For each particular
+orthogonal polynomial DVR analytical formulas for $T_{\alpha\beta}$
+can then be derived~\cite{Baye1986}. 
+
+\begin{thebibliography}{1}
+
+\bibitem{Baye1986}
+D. Baye and P.-H. Heenen, J. Phys. A: Math. Gen. {\bf 19},  2041  (1986).
+
+\bibitem{Light2000}
+J.~C. Light and T. Carrington, Jr., Adv. Chem. Phys. {\bf 114},  263  (2000).
+
+\bibitem{koonin1990}
+S.~E. Koonin and D.~C. Meredith, {\em Computational Physics} (Addison-Wesley,
+  Reading, Masachusetts, 1990).
+
+\bibitem{Lemoine1994}
+D. Lemoine, J. Chem. Phys. {\bf 101},  1  (1994).
+
+\bibitem{Arfken1995}
+G.~B. Arfken and H.~J. Weber, {\em Mathematical Methods for Physicists}, 4th
+  ed. (Academic Press, San Diego, 1995).
+
+\bibitem{Gabor1939}
+G. Szeg\"o, {\em Orthogonal Polynomials}, Vol.~XXIII of {\em American
+  Mathematical Society Colloqium Publications} (American Mathematical Society,
+  New York, 1939).
+
+\bibitem{Abramowitz1970}
+M. Abramowitz and I. Stegun, {\em Handbook of Mathematical Functions} (Dover,
+  New York, 1970).
+
+\end{thebibliography}
+\bibliographystyle{prsty}
+
+\end{document}

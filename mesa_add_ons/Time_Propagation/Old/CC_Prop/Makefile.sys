@@ -1,0 +1,9 @@
+
+F90 = /work/lcarr/opt/intel/fc/9.1.036/bin/ifort
+#F90 = f95
+#F90 = ifc
+F90FLAGS = -c -O2 -cpp
+MD_LIB = -llapack -lblas-3
+LD90 = $(F90)
+#CPPFLAGS =
+#LDFLAGS =

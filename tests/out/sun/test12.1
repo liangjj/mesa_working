@@ -1,0 +1,190 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      4-Nov-1994 05:55:29    
+     los alamos national laboratory;sun 4/280s(t12);                                 
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.1                                                                                                   
+     out:    /usr2/mesa/tests/out/sun/test12.1                                                                                               
+     chk:    /usr2/rlm/mesa/mchk.sun                                                                                                         
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf_2802                                                                                                           
+     rint:   /vivaldi/tmp/rint_2802                                                                                                          
+     int:    /vivaldi/tmp/int_2802                                                                                                           
+     tint:   /vivaldi/tmp/tint_2802                                                                                                          
+     gint:   /vivaldi/tmp/gint_2802                                                                                                          
+     rdint:  /vivaldi/tmp/rdint_2802                                                                                                         
+     dint:   /vivaldi/tmp/dint_2802                                                                                                          
+     zint:   /vivaldi/tmp/zint_2802                                                                                                          
+     ham:    /vivaldi/tmp/ham_2802                                                                                                           
+     moden:  /vivaldi/tmp/moden_2802                                                                                                         
+     aoden:  /vivaldi/tmp/aoden_2802                                                                                                         
+     saoden: /vivaldi/tmp/saoden_2802                                                                                                        
+     gden:   /vivaldi/tmp/gden_2802                                                                                                          
+     fci:    /vivaldi/tmp/fci_2802                                                                                                           
+     machine size:         16000000
+     user defined maxsiz:   3000000
+ title:
+     H2 Two State Test       
+ route:
+     1//1,2;
+     2//2;
+     3//1,2,12,30;
+     4//1;
+     5//1,2;
+     6//4;
+     20//01;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) drop=42 guess=core print=(drop,guess=all,scf
+     =(vector=all),ivo,nodis,noang) geom=(coord,inau,nocrowd) ksym=(symmetry=1) kohn=
+     (nsmall=2) sym=norotate
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000    0.000000    0.000000    0.370424
+       2    2   h  small      1.000    0.000000    0.000000   -0.370424
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     $ primitive cartesians    16
+     $ contracted cartesians   16
+     $ basis functions         16
+ symmetry:
+     full point group:  d*h 
+     utilizing group :  d2h 
+     number of salcs :   ag   b1g  b2g  b3g  au   b1u  b2u  b3u  
+                          6    0    1    1    0    6    1    1
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   h              0.000000    0.000000    0.370424
+      2   2   h              0.000000    0.000000   -0.370424
+ rotational constants (ghz):      0.0000000   1827.2741336   1827.2741336
+ isotopes:
+     h-1     h-1     
+ m301:dropping functions
+ 
+ atom number   1
+ charge          1.0000000000000
+ bflabl      h1      s       
+  primitive type s=1 p=2 d=3 etc.   1
+ number of contracted functions  5
+ number of cartesian functions  1
+  primitive type s=1 p=2 d=3 etc.   2
+ number of contracted functions  1
+ number of cartesian functions  3
+ 
+ atom number   2
+ charge          1.0000000000000
+ bflabl      h2      s       
+  primitive type s=1 p=2 d=3 etc.   1
+ number of contracted functions  5
+ number of cartesian functions  1
+  primitive type s=1 p=2 d=3 etc.   2
+ number of contracted functions  1
+ number of cartesian functions  3
+      atom=1 type=p keep=(z)                 
+     ncart ncont   3  1
+      atom=2 type=p keep=(z)                 
+     ncart ncont   3  1
+      atom=3 type=p keep=(z)                 
+     ncart ncont   3  0
+ 
+ orbital   index   label 
+      1      1  h1      s       
+      2      2          s       
+      3      3          s       
+      4      4          s       
+      5      5          s       
+      6      0          x       
+      7      0          y       
+      8      6          z       
+      9      7  h2      s       
+     10      8          s       
+     11      9          s       
+     12     10          s       
+     13     11          s       
+     14      0          x       
+     15      0          y       
+     16     12          z       
+ 
+ orbital   new label 
+      1  h1      s       
+      2          s       
+      3          s       
+      4          s       
+      5          s       
+      6          z       
+      7  h2      s       
+      8          s       
+      9          s       
+     10          s       
+     11          s       
+     12          z       
+      newnbf:  12
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length      1887
+     maximum usable field length        10551
+     $primitive integrals possible      14631
+     $primitive integrals computed      14445( 98.7%)
+     $contracted integrals possible      9316
+     $contracted integrals kept          5405( 58.0%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     core hamiltonian.
+     initial guess vector.
+                              1         2         3         4         5
+     eigenvalues --    -1.28223  -0.61133  -0.30642  -0.01767   1.50008
+          h1      s    -0.00383   0.00275  -0.00152   0.00225  -0.00830
+                  s    -0.02788   0.02135  -0.02351   0.03372   0.03539
+                  s    -0.14570   0.11033  -0.03978   0.05731  -0.88781
+                  s    -0.35511   0.50590  -0.70747   1.37966   1.22348
+                  s    -0.08776   1.06128   0.85874  -2.47439  -0.53914
+                  z     0.03138   0.01182   0.03221  -0.02052   0.37952
+          h2      s    -0.00383  -0.00275  -0.00152  -0.00225  -0.00830
+                  s    -0.02788  -0.02135  -0.02351  -0.03372   0.03539
+                  s    -0.14570  -0.11033  -0.03978  -0.05731  -0.88781
+                  s    -0.35511  -0.50590  -0.70747  -1.37966   1.22348
+                  s    -0.08776  -1.06128   0.85874   2.47439  -0.53914
+                  z    -0.03138   0.01182  -0.03221  -0.02052  -0.37952
+                              6         7         8         9        10
+     eigenvalues --     1.97601   2.24141   4.27401  12.68224  13.36658
+          h1      s    -0.01207  -0.00933   0.00322   0.02907  -0.03152
+                  s     0.02317   0.03372   0.00153  -1.08733   1.14572
+                  s    -1.21670  -0.95221   0.21725   1.16900  -1.34851
+                  s     2.13349   0.80205   1.10500  -0.63628   0.81119
+                  s    -1.37343  -0.25437  -0.38743   0.19667  -0.46393
+                  z    -0.15560  -0.48635  -1.37086   0.05685   0.20251
+          h2      s     0.01207  -0.00933  -0.00322   0.02907   0.03152
+                  s    -0.02317   0.03372  -0.00153  -1.08733  -1.14572
+                  s     1.21670  -0.95221  -0.21725   1.16900   1.34851
+                  s    -2.13349   0.80205  -1.10500  -0.63628  -0.81119
+                  s     1.37343  -0.25437   0.38743   0.19667   0.46393
+                  z    -0.15560   0.48635  -1.37086  -0.05685   0.20251
+                             11        12
+     eigenvalues --    87.98016  88.36348
+          h1      s    -0.89263  -0.89644
+                  s     0.71731   0.75129
+                  s    -0.43455  -0.50375
+                  s     0.21705   0.28793
+                  s    -0.06762  -0.16373
+                  z    -0.01653   0.05834
+          h2      s    -0.89263   0.89644
+                  s     0.71731  -0.75129
+                  s    -0.43455   0.50375
+                  s     0.21705  -0.28793
+                  s    -0.06762   0.16373
+                  z     0.01653   0.05834
+     project symmetry vectors
+ nkept,nsf  1  6
+ lnkerr: symmetry projection cannot find all the vectors

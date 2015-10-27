@@ -1,0 +1,11 @@
+
+#   this script tars the mesa directory to the file given by the first 
+#   argument.
+#   the tar omits all .o files, SCCS directories, files named errs,
+#   core, and a.out
+#   i.e. one might use this as tarmesa /usr2/rlm/mesa_tar
+#  
+#now tar it all.
+HOMEDIR=$MESA_HOME
+cd $HOMEDIR
+tar -cvoFFf $1 .

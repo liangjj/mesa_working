@@ -1,0 +1,8 @@
+
+#
+  token=$1
+  shift
+  for f in $*
+  do
+    cat $f | sed -n "/^c\*\*\*[ ]*$token/,/c\*\*\*/p"
+  done

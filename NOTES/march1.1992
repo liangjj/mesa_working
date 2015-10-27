@@ -1,0 +1,13 @@
+1.  There are now sgemm and sgemv routines in the level 2 and 3 BLAS.
+Unfortunately, the calling arguments are not compatible with the old
+ones which originated in CLAMS at Los Alamos.  I have changed the arguyments
+to reflect the BLAS routines wherever possible.  The routines which used to be
+called sgemm and sgemv in CLAMS are now present as sgmm and sgmv.  They are
+still called by some routines in MATH, because they offer transposition
+capabilities which are not available in the BLAS.
+2. A note on CLAMS. On many machines these routines are available from a
+"fast" library.  Most of them are either BLAS, EISPACK, or LINPACK routines.
+On those machines where they are available, the Makefile in library should
+be modified so that CLAMS is not compiled (see PARTS), and rather the
+LDFLAGS environment variable modified to include the "fast" library. I have
+never actually done this, but it should work.

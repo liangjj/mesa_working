@@ -1,0 +1,15 @@
+&input_data
+title='test_legendre', l_max=50, m_max=5,
+n_points=13, input_values=.true., upper=1.0,
+lower=-1.0, directive='irregular', normalize=.true., 
+recur='Continued_Fraction' eps=1.d-10 /
+&input_data
+x= -10.0 -8.0 -6.0 -4.0 -2.0 -1.000001 0. 10.0 8.0 6.0 4.0 2.0 1.000001 /		 
+
+
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+this is a link which does a comparison between the vectors on two
+chk files and makes sure they are in analogous order.  useful for
+MCSCF runs when the order of orbitals changes as a function of geometry.
+ see mob for explanations.

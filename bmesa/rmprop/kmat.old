@@ -1,0 +1,90 @@
+      subroutine kmat (r,rmtx,tev,tpev,a,b,aa,bb,indxc,lch,ech,nsts,mbst
+     1 ,ebst,ipvt,prnt,no,nc,energy,endr,ien)
+      implicit real *8 (a-h,o-z)
+      dimension rmtx(nc,nc), tev(nc,nc), tpev(nc,nc), a(nc,nc), b(nc,nc)
+      dimension aa(nc,nc), indxc(nc), lch(nc), ech(nc)
+      dimension ipvt(nc), bb(nc,nc)
+      dimension mbst(nsts), ebst(nsts)
+      character *(*) endr
+      logical prnt
+      common /io/ inp, iout
+c
+      common /bdt1/ zero,one
+      common /parms/ charge, mtot, istot, iptot, neng, amtc, ilng
+c
+c     no= no. of channels
+c     n= max dimension of arrays
+c     r= radius at which k-matrix calculated
+c     rmtx= r-matrix
+c     akmtx= k-matrix
+c
+c     this program calulates the k-matrix from
+c        a given r-matrix in the asymptotic limit
+c
+      call sgemm (nc,nc,nc,rmtx,nc,tpev,nc,a,nc,0,1)
+      call sgemm (nc,nc,nc,tev,nc,a,nc,rmtx,nc,0,1)
+c
+c     set-up the arrays of bessel and neumann fns and their
+c         derivatives
+c
+c     c= neumann fn
+c      dc= derivative of c
+c     s= bessel fn
+c     ds= derivative of s
+c
+      do 20 i=1,no
+      rkk=sqrt(abs(ech(i)))
+      call grncal (r,lch(i),ech(i),charge,f,fp,g,gp)
+      do 10 j=1,no
+      a(j,i)=rmtx(j,i)*gp
+      b(j,i)=rmtx(j,i)*fp
+   10 continue
+      a(i,i)=a(i,i)+g
+      b(i,i)=b(i,i)+f
+   20 continue
+c
+c     calculate the invers of a
+c
+      do 40 i=1,no
+      do 30 j=1,no
+   30 aa(i,j)=zero
+   40 aa(i,i)=one
+      call sgefa (a,nc,no,ipvt,info)
+      do 50 i=1,no
+   50 call sgesl (a,nc,no,ipvt,aa(1,i),0)
+c
+c     calculate the r-matrix,
+c     calculate the k-matrix, k=(a-1)*b
+c
+      call sgemm (no,no,no,aa,nc,b,nc,a,nc,0,1)
+c
+      do 60 i=1,no
+      rkk=sqrt(abs(ech(i)))
+      do 60 k=1,no
+      rkk1=sqrt(abs(ech(k)))
+   60 a(i,k)=-a(i,k)*sqrt(rkk/rkk1)
+c
+      if (prnt) then
+      write (iout,90) r
+      call matprt(a,no,no,nc,nc,0,0,0,0,0,0,0)
+      call kwrite (a,aa,nc,no,endr,ien)
+      endif
+      if (no.gt.1) go to 70
+      delta=atan(a(1,1))
+      write (iout,100) r,delta
+   70 continue
+c
+c     calculate t-matrix and  cross sections
+c
+      do 80 i=1,no
+      do 80 j=1,no
+   80 aa(i,j)=a(i,j)
+      call tmat (aa,b,bb,ipvt,nsts,mbst,ebst,indxc,lch,ech,prnt,no,
+     1           nc,energy,endr,ien)
+      if (no.gt.1) call eigfas (a,b,aa,prnt,no,nc)
+c
+      return
+c
+   90 format (///,5x,' k-matrix at r=',f15.8//)
+  100 format (//,5x,' r ',1x,f15.8,5x,'phase shift',1x,d20.8//)
+      end

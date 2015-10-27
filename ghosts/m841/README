@@ -1,0 +1,3 @@
+This link was used to prepare shell ordered two-electron integrals for m712.
+It has been superseded by m840, which shell orders the density matrices.  They
+are essentially the same code perating on different input.

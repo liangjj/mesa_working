@@ -1,0 +1,50 @@
+
+$atomic_prop_setup
+               type_calculation=imaginary_time
+    propagation_method=lanczos  preconditioner=cholesky in_core
+    non_orthogonal_basis overlap_drop_tolerance=1.e-07
+    hamiltonian_drop_tolerance=1.e-06 cholesky_drop_tolerance=1.e-06
+    eigenvalue_convergence=1.d-09 xprint_packed_matrix xprint=all_details
+    input_matrices=standard output_matrices=packed file_directory=Test
+$end
+
+$directives
+  matrix_directive=by_channels hamiltonian_file_name=from_input
+  xprint_cc xdiagonalize_only xreformat_matrix_only matrix_size=5
+$end
+
+$triangle_overlap
+1.
+.5 1.
+.3 .5 1. 
+.3 .3 .5 1.
+.2 .3 .3 .5 1. 
+$end
+
+$triangle_hamiltonian
+.71235
+.33973 1.18585
+.28615 -.21846 .18159 
+.30388 -.06685 .27955 .23195
+.29401 -.37360 .38898 .20496 .46004 
+$end
+  
+$time
+ automate number_of_time_regions=200 first_time=0.d0 time_interval=.01d0
+ xprint=(main=(xpointers,xpotential,xinitial_state,xnon_linear_potential,
+              xh_on_initial_state))
+$end
+
+$iterative_data
+ iterative_method=generalized_lanczos
+ non_orthogonal_basis
+ type_matrix=general compute_energy
+ overlap_tolerance=1.e-10 convergence=1.d-11
+ xorthogonalization_procedure=full        double_schmidt
+ xprint=(iterative=all) maximum_number_of_iterations=50
+ maximum_number_of_vectors=50 number_of_trials=1
+$end
+
+$initial_state
+ initial_state=unit_vector           from_standard_disk
+$end

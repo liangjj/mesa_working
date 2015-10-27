@@ -1,0 +1,25 @@
+$route
+2s+1=1,maxsiz=1300000
+print=(mcscf=vector)
+mcscf=(cas,cycles=15,number-of-core-orbitals=3)
+drtmc=(rdsym,nsym=1,nbf=4,vexcite=99)
+guess=(chk=mcscf), basis=dz,sym=off
+opt=berny
+$end
+
+$drtmc
+2doc1 2uoc1
+$end
+
+
+$title
+ h2o test case:  casscf(903) optimization
+$geom
+o 
+h1 o r1
+h2 o r2 h1 a1
+
+r1=0.949
+r2=0.949
+a1=112.3
+$end

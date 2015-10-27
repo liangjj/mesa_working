@@ -1,0 +1,3 @@
+$lebedev_test
+  number_of_rules_to_test=1 rules=26 print=on
+$end

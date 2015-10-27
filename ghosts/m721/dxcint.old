@@ -1,0 +1,179 @@
+*deck %W% %G%
+      subroutine dxcint(values,d,nbf,nnp,dkay,nexch,grdwts,
+     $     ndmat,nat,mxgrd,ngrid,exc,slater,becke,lyp,vwn,calce,calc,
+     $     dmcut,dencut,eexch,prteexch,ngb,
+     $     gblksiz,mxgblk,mxgbsiz,valuesi,
+     $     c,ex,cont,ptprim,noprim,nocont,ptcont,
+     $     mxcont,nprim,ntypes,nbtype,ncont,
+     $     start,nocart,nobf,maxmom,minmom,mintyp,
+     $     nx,ny,nz,xyzgrid,charge,bigl,
+     $     ops,nderiv,grade,gradwts)
+c***begin prologue     %M%
+c***date written       930521   (yymmdd)  
+c***revision date      %G%
+c   may 13, 1994       rlm at lanl
+c      modifying kmatrix(m511) to do derivatives.
+c
+c***keywords           k matrix, coulomb matrix 
+c***author             RUSSO, thomas (lanl)
+c***source             %W% %G%
+c***purpose            to form the k matrix given basis and gradients
+c                      on grid, and density matx
+c***description
+c     
+c    
+c
+c***references         Johnson, Gill and Pople, J. Chem. Phys.,98,5612(1993)
+c
+c***routines called
+c
+c***end prologue       %M%
+      implicit none
+c     --- input variables -----
+      integer nbf,nnp,nexch,ndmat,nat,mxgrd,ngrid(nat),mxgbsiz,mxgblk
+      integer nprim,ntypes,nbtype,ncont,mxcont,bigl
+      integer nderiv
+      character*(*) ops
+      character*8 calc
+      real*8 dencut,dmcut
+c     --- input arrays (unmodified) ---
+      integer ngb(nat),gblksiz(mxgblk,nat)
+      integer ptprim(nat,ntypes),noprim(nat,ntypes),nocont(nat,ntypes)
+      integer ptcont(nat,ntypes),start(nat,ntypes),nocart(0:*)
+      integer nobf(ntypes),maxmom(ntypes),minmom(ntypes),mintyp(ntypes)
+      integer nx(*),ny(*),nz(*)
+      real*8 d(nnp,ndmat)
+      real*8 c(3,nat),ex(nprim),cont(ncont)
+      real*8 xyzgrid(mxgrd,3,nat),gradwts(mxgrd,3,nat,nat)
+c     --- input arrays (scratch) ---
+      real*8 values(*),grdwts(*)
+      integer valuesi(*)
+c     --- output arrays ---
+      real*8 dkay(nbf,nbf,3,nexch)
+      real*8 charge(nat,ndmat)
+      real*8 grade(3,nat)
+c     --- output variables ---
+      real*8 exc,eexch
+c     --- scratch arrays ---
+c     --- local variables ---
+c     --- local variables ---
+      integer inp,iout,dengrida,dengridb,dengrada,dengradb,ga,gb,gab,
+     $     fout,therest,phi,grad,lap,scr,scr2,queue,tea,kay,
+     $     ktmp,dtmp,tmpgwt,nzptrs,maxl,accum,drhoaa
+      integer i,coord
+      logical slater,becke,lyp,vwn,calce,prteexch
+      logical debug
+      integer wpadti,iadtwp
+c
+      parameter (debug=.true.)
+c
+      common /io/ inp,iout
+c
+ 1000 format(5x,'the derivative k-matrix')
+ 1010 format(5x,'coordinate:',i3)
+ 1020 format(5x,'exchange-correlation energy:',f15.6)
+c
+c     --- initialize array which will hold derivatives of the K matrix.
+      call rzero(dkay,nbf*nbf*3*nexch)
+      call rzero(grade,3*nat)
+c
+c     --- initialize variables
+      exc=0.0d+00
+      eexch=0.0d+00
+c
+c     --- evaluate derviatives of the K matrix.
+      if (calc .eq. 'open' .or. calc .eq. 'general' ) then 
+         dtmp=1
+         dengrida=dtmp+nnp*2
+         dengridb=dengrida+mxgbsiz
+         if (becke .or. lyp) then
+            dengrada=dengridb+mxgbsiz
+            dengradb=dengrada+3*mxgbsiz
+            ga=dengradb+3*mxgbsiz
+            gb=ga+mxgbsiz
+            if (lyp) then
+               gab=gb+mxgbsiz
+            else
+               gab=gb
+            endif
+            queue=gab+mxgbsiz
+            fout=queue+mxgbsiz*3
+         else
+            dengrada=1
+            dengradb=1
+            ga=1
+            gb=1
+            gab=1
+            queue=1
+            fout=dengridb+mxgbsiz
+         endif
+      else if (calc .eq. 'closed') then
+         dtmp=1
+         dengrida=dtmp+nnp
+         if (becke .or. lyp) then
+            dengrada=dengrida+mxgbsiz
+            ga=dengrada+3*mxgbsiz
+            queue=ga+mxgbsiz
+            fout=queue+mxgbsiz*3
+         else
+            dengrada=1
+            ga=1
+            queue=1
+            fout=dengrida+mxgbsiz
+         endif
+      endif
+      phi=fout+mxgbsiz*5
+      if (lyp) phi=phi+mxgbsiz
+      grad=phi+mxgbsiz*nbf
+      lap=grad+mxgbsiz*3*nbf
+      scr=lap+mxgbsiz*nbf
+      scr2=scr+mxgbsiz
+      tea=scr2+mxgbsiz
+c      kay=tea+mxgbsiz*nbf
+c      ktmp=kay+nbf*nbf
+      ktmp=tea+mxgbsiz*nbf
+      tmpgwt=ktmp+nnp
+      accum=tmpgwt+mxgbsiz
+      nzptrs=wpadti(accum+nbf*3)
+      maxl=nzptrs+mxgbsiz
+      therest=iadtwp(maxl+nat)
+      if(calc.eq.'closed') then
+c         call vmove(values(dtmp),d,nnp)
+c
+         call dxclos(values(dengrida),
+     $     values(dengrada),values(ga),
+     $     values(fout),values(therest),values(phi),
+     $     values(grad),values(lap),values(scr),slater,becke,lyp,vwn,
+     $     d,nbf,nnp,dkay,grdwts,gradwts,ndmat,nat,mxgrd,
+     $     calce,exc,ngrid,dmcut,dencut,calc,valuesi(nzptrs),
+     $     values(tmpgwt),eexch,prteexch,values(queue),values(tea),
+     $     ngb,gblksiz,mxgbsiz,mxgblk,
+     $     c,ex,cont,ptprim,noprim,nocont,ptcont,
+     $     mxcont,nprim,ntypes,nbtype,ncont,
+     $     start,nocart,nobf,maxmom,minmom,mintyp,
+     $     nx,ny,nz,xyzgrid,valuesi(maxl),bigl,charge,grade,
+     $     values(accum))
+      else 
+         call vmove(values(dtmp),d,nnp*2)
+c
+         call dxopen(values(dengrida),values(dengridb),
+     $     values(dengrada),values(dengradb),values(ga),values(gb),
+     $     values(gab),values(fout),values(therest),values(phi),
+     $     values(grad),values(scr),values(scr2),slater,
+     $     becke,lyp,vwn,values(dtmp),nbf,nnp,dkay,nexch,grdwts,
+     $     ndmat,nat,mxgrd,
+     $     calce,exc,ngrid,dmcut,dencut,calc,valuesi(nzptrs),
+     $     values(tmpgwt),eexch,prteexch,values(queue),values(tea),
+     $     values(kay),values(ktmp),ngb,gblksiz,mxgbsiz,mxgblk,
+     $     c,ex,cont,ptprim,noprim,nocont,ptcont,
+     $     mxcont,nprim,ntypes,nbtype,ncont,
+     $     start,nocart,nobf,maxmom,minmom,mintyp,
+     $     nx,ny,nz,xyzgrid,charge,valuesi(maxl),bigl)
+      endif
+      if (debug) then
+         write(iout,1020) exc
+      endif
+c
+c
+      return
+      end

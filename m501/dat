@@ -1,0 +1,23 @@
+#   @(#)Makefile	5.1   11/6/94
+SOURCE = m501
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/diis.f \
+	$(MESA_HOME)/$(SOURCE)/dsym.f \
+	$(MESA_HOME)/$(SOURCE)/fixlag.f \
+	$(MESA_HOME)/$(SOURCE)/gdmat.f \
+	$(MESA_HOME)/$(SOURCE)/gvbcof.f \
+	$(MESA_HOME)/$(SOURCE)/hfenrg.f \
+	$(MESA_HOME)/$(SOURCE)/jandks.f \
+	$(MESA_HOME)/$(SOURCE)/lagrng.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+	$(MESA_HOME)/$(SOURCE)/pseud.f \
+	$(MESA_HOME)/$(SOURCE)/putvec.f \
+	$(MESA_HOME)/$(SOURCE)/qmat.f \
+	$(MESA_HOME)/$(SOURCE)/scf.f \
+	$(MESA_HOME)/$(SOURCE)/setup.f \
+	$(MESA_HOME)/$(SOURCE)/sortbl.f \
+	$(MESA_HOME)/$(SOURCE)/srtv.f \
+	$(MESA_HOME)/$(SOURCE)/symprj.f \
+	$(MESA_HOME)/$(SOURCE)/unique.f \
+	$(MESA_HOME)/$(SOURCE)/unisym.f

@@ -1,0 +1,42 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M806
+#
+SOURCE = m806
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)bis/bkspac.f \
+	$(MESA_HOME)/$(SOURCE)bis/bloksd.f \
+	$(MESA_HOME)/$(SOURCE)bis/constd.f \
+	$(MESA_HOME)/$(SOURCE)bis/drtcdd.f \
+	$(MESA_HOME)/$(SOURCE)bis/drtind.f \
+	$(MESA_HOME)/$(SOURCE)bis/extern.f \
+	$(MESA_HOME)/$(SOURCE)bis/getc.f \
+	$(MESA_HOME)/$(SOURCE)bis/getcnt.f \
+	$(MESA_HOME)/$(SOURCE)bis/getcod.f \
+	$(MESA_HOME)/$(SOURCE)bis/getkey.f \
+	$(MESA_HOME)/$(SOURCE)bis/getlin.f \
+	$(MESA_HOME)/$(SOURCE)bis/getsym.f \
+	$(MESA_HOME)/$(SOURCE)bis/intgrl.f \
+	$(MESA_HOME)/$(SOURCE)bis/iprint.f \
+	$(MESA_HOME)/$(SOURCE)bis/lwrwks.f \
+	$(MESA_HOME)/$(SOURCE)bis/$(SOURCE).f \
+	$(MESA_HOME)/$(SOURCE)bis/movdrt.f \
+	$(MESA_HOME)/$(SOURCE)bis/mosin.f \
+	$(MESA_HOME)/$(SOURCE)bis/movref.f \
+	$(MESA_HOME)/$(SOURCE)bis/mrgdrt.f \
+	$(MESA_HOME)/$(SOURCE)bis/nextc.f \
+	$(MESA_HOME)/$(SOURCE)bis/pakdrt.f \
+	$(MESA_HOME)/$(SOURCE)bis/paldus.f \
+	$(MESA_HOME)/$(SOURCE)bis/pandq.f \
+	$(MESA_HOME)/$(SOURCE)bis/pqx.f \
+	$(MESA_HOME)/$(SOURCE)bis/prtdrt.f \
+	$(MESA_HOME)/$(SOURCE)bis/qntgrl.f \
+	$(MESA_HOME)/$(SOURCE)bis/renumb.f \
+	$(MESA_HOME)/$(SOURCE)bis/reordr.f \
+	$(MESA_HOME)/$(SOURCE)bis/scan.f \
+	$(MESA_HOME)/$(SOURCE)bis/skipbl.f \
+	$(MESA_HOME)/$(SOURCE)bis/squash.f \
+	$(MESA_HOME)/$(SOURCE)bis/srtdrt.f \
+	$(MESA_HOME)/$(SOURCE)bis/tapesd.f \
+	$(MESA_HOME)/$(SOURCE)bis/weight.f

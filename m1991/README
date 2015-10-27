@@ -1,0 +1,16 @@
+  This little link performs Mulliken population analyses for individual
+orbitals.  A nonstandard route is set up, and a checkpoint file provided.
+Sample input follows:
+********
+$route
+  properties=(populations=(bond,orbital,charge))
+  vectors="no vector 1",orbitals=(39,40,41)
+  print=vector
+$nonstd
+  19//91;
+$end
+*********
+  The natural orbitals for root 1 will be read from the chk file.  The 
+contributions of orbitals 39, 40,and 41 to the bond order,gross orbital 
+population, and atomic charge will be reported.
+See M1951 for more information.

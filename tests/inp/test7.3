@@ -1,0 +1,30 @@
+$route
+ mrciopt transformation=(canonical,keep-ints)
+ 2s+1=1 m812=(check-energy)
+ mcscf=(cas,cycles=15,number-of-core-orbitals=3)
+ drtmc=(rdsym,nsym=1,nbf=4,vexcite=99)
+ ci drt=(vexcite=2),guess=(chk=mcscf),basis=dz,sym=off, 
+ opt=(berny,cycles=10)
+$end
+ 
+drt for mcscf
+$drtmc
+ 2doc1 2uoc1
+$end
+
+drt for ci
+$drt
+ 1cor1 2doc1 2%doc1 2%uoc1 6uoc1 1vir1
+$end
+ 
+$title
+ h2o test case: mrci optimization
+$geom
+ o
+ h1 o r1
+ h2 o r2 h1 a1
+ 
+ r1=.958
+ r2=.958
+ a1=107.3
+$end

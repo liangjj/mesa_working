@@ -1,0 +1,36 @@
+$route
+ print=(m5010=(xpolynomial-coefficients,xpolynomials,xpoints/weights,
+               hamiltonian ), linslv=(all) )
+ xcheck-orthogonality iterative-linear-solve 
+ linslv=(number-of-right-hand-sides=1,number-of-solutions-at-a-time=1,
+         two-schmidt-orthogonalizations)
+$end
+ 
+$nonstd
+50//10;
+20//01;
+$end
+$title
+Least Squares Linear Solver
+$end
+
+$lstsq
+ type-polynomials=standard left-boundary=0.0d0 right-boundary=1.0d0
+ order-of-polynomials=5 number-of-right-hand-sides=1
+ fix-end-points  number-of-fixed-points=2 end-points=(0.0d0,1.0d0)
+ order-of-leading-left-polynomials=1 order-of-leading-right-polynomials=0
+ xconvergence=1.d-10
+$end
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

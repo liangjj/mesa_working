@@ -1,0 +1,19 @@
+$dvr_basis
+ number-of-space-variables=1  space-variable-1=x
+ kinetic-energy-type=packed
+$end
+
+$h0(x)
+ automate
+ read-grid-parameters number-of-fixed-points=1
+ left-fixed-point drop-left-function
+ print=all  angular-momentum=0 weight-type=laguerre
+$end
+
+ $block-1
+  default-order=(50) number-of-subregions=1
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=coulomb
+$end

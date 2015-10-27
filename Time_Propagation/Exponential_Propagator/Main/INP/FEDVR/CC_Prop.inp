@@ -1,0 +1,78 @@
+$cc_setup
+               type_calculation=imaginary_time
+       hamiltonian_source=internal propagation_method=lanczos
+       xpreconditioner=cholesky use_channel_matrices
+       xpack_matrices  xnon_orthogonal_basis overlap_drop_tolerance=1.e-10 
+       hamiltonian_drop_tolerance=1.e-104 cholesky_drop_tolerance=1.e-10
+       eigenvalue_convergence=1.d-09 xprint_packed_matrix xprint=all_details
+       no_coupled_channels no_one_body_potential 
+$end
+
+$h0(x)
+ automate number_of_major_blocks=1 
+ number_of_fixed_points=2 
+ left_fixed_point right_fixed_point 
+ drop_left_function drop_right_function xdo_not_diagonalize
+ print=xall sector_print=xsector_details reuse_space_data
+$end
+
+ $block_1
+  default_order=5 number_of_subregions=3
+  left_boundary=0.0d0 right_boundary=1.d0
+ $end
+
+$v_reg_1(x)
+ use_atomic_units potential=well well_depth=-1.d0
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$hamiltonian_parameters
+ xdiagonalize_only hamiltonian_file_name=Ham.NO.dat
+ number_of_channels=1 number_of_splines=134
+ xprint_cc  xprint_channel_matrices channel_format 
+ xinitial_state=from_disk  matrix_size=5 
+ xchannel_labels_only
+ L_max=0 M_max=0  xremove_first_spline
+ channel_quantum_numbers_channel_1=(0,0,0,0) 
+ channel_quantum_numbers_channel_2=(0,0,0,0) 
+ channel_quantum_numbers_channel_3=(0,1,0,0) 
+ h_1=(.71235) h_2=(.33973,1.18585) h_3=(.28615,-.21846,.18159) 
+ h_4=(.30388,-.06685,.27955,.23195) h_5=(.29401,-.37360,.38898,.20496,.46004) 
+ s_1=(1.) s_2=(.5,1.) s_3=(.3,.5,1.) 
+ s_4=(.3,.3,.5,1.) s_5=(.2,.3,.3,.5,1.)
+$end
+
+$time
+ automate number_of_time_regions=50 first_time=0.d0 time_interval=.01d0
+ xprint=(main=(xpointers,xpotential,xinitial_state,xnon_linear_potential,
+              xh_on_initial_state))
+$end
+
+$iterative_data
+ iterative_method=lanczos
+ non_orthogonal_basis
+ type_matrix=finite_element compute_energy
+ overlap_tolerance=1.e-10 convergence=1.d-09
+ xorthogonalization_procedure=full 
+ xprint=(iterative=all) maximum_number_of_iterations=150
+ maximum_number_of_vectors=150 number_of_trials=1
+$end
+
+$initial_state
+ driver=random_vector
+$end
+  h_1=(1.)  h_2=(2.,3.)  h_3=(3.,4.,5.) 
+  s_1=(1.0) s_2=(.5,1.) s_3=(.5,.5,1.) 
+
+  h_1=(.71235) h_2=(.33973,1.18585) h_3=(.28615,-.21846,.18159) 
+  h_4=(.30388,-.06685,.27955,.23195) h_5=(.29401,-.37360,.38898,.20496,.46004) 
+  s_1=(1.) s_2=(0.,1.) s_3=(0.,0.,1.) 
+  s_4=(0.,0.,0,1.) s_5=(0.,0.,0.,0.,1.) 
+
+  h_1=(.71235) h_2=(.33973,1.18585) h_3=(.28615,-.21846,.18159) 
+  h_4=(.30388,-.06685,.27955,.23195) h_5=(.29401,-.37360,.38898,.20496,.46004) 
+  s_1=(1.) s_2=(.5,1.) s_3=(.3,.5,1.) 
+  s_4=(.3,.3,.5,1.) s_5=(.2,.3,.3,.5,1.) 

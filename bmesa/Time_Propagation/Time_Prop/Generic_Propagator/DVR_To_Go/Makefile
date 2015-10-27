@@ -1,0 +1,60 @@
+#  @(#)Makefile	5.1 11/6/94../Generic_Propagator
+#
+# Makefile for making the propagator codes
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables for the fortran compiler
+# and the varios flags and libraries needed.
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+CONTROL = all
+MAKE = make
+MFLAGS = 
+#LD = $(FC)
+#LDFLAGS = 
+#AR = -ar
+#ARFLAGS = rvu
+#RANLIB = ranlib
+RCS = RCS
+#
+GENERIC_PROPAGATOR_DIR = \
+/home/mesa/mesa/bmesa/Time_Propagation/Time_Prop/Generic_Propagator
+DVR_TO_GO_DIR = $(GENERIC_PROPAGATOR_DIR)/DVR_To_Go
+DVR_LIB_DIR = $(DVR_TO_GO_DIR)/dvr_lib_f90
+FD_LIB_DIR = $(DVR_TO_GO_DIR)/fd_lib_f90
+DVR_LIB_MAIN_DIR = $(DVR_LIB_DIR)/Main
+DVR_LIB_SHARED_DIR = $(DVR_LIB_DIR)/Shared_f90
+DVR_LIB_SPACE_DIR = $(DVR_LIB_DIR)/Space_f90
+DVR_LIB_TIME_DIR = $(DVR_LIB_DIR)/Time_f90
+
+DVR_DIRECTORY = \
+	$(DVR_LIB_MAIN_DIR) \
+	$(DVR_LIB_SHARED_DIR) \
+	$(DVR_LIB_SPACE_DIR) \
+	$(DVR_LIB_TIME_DIR) \
+	$(FD_LIB_DIR) \
+
+all: $(DVR_DIRECTORY) 
+
+dvr: $(DVR_DIRECTORY) 
+
+.RECURSIVE: $(DVR_DIRECTORY)
+$(DVR_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+directory: FORCE
+	cd $(DVR_LIB_MAIN_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_LIB_SHARED_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_LIB_SPACE_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(DVR_LIB_TIME_DIR) ; $(MAKE) $(MFLAGS) directory
+	cd $(FD_LIB_DIR) ; $(MAKE) $(MFLAGS) directory
+
+clean: FORCE
+	cd $(DVR_LIB_MAIN_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_LIB_SHARED_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_LIB_SPACE_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(DVR_LIB_TIME_DIR) ; $(MAKE) $(MFLAGS) clean
+	cd $(FD_LIB_DIR) ; $(MAKE) $(MFLAGS) clean
+
+FORCE:
+

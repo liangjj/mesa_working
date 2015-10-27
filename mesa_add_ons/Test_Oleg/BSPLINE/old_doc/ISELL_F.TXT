@@ -1,0 +1,425 @@
+
+! CODE FOR EVALUATING THE CELL INTEGRALS AND ASSEMBLING
+! SLATER MATRIX ELEMENTS
+!=========================================================================
+SUBROUTINE slaterMatrixElements(k,rk)
+!=========================================================================
+!
+! Assembles Slater matrix elements of power k in the Spline basis
+!
+! SUBROUTINE called:
+! pmoments
+!
+! Calling sequence:
+!
+! slaterMatrixElements
+! --------------------
+! |
+! pmoments
+! / \
+! moment pdiag
+! ||
+! triang
+30.! |
+! gauss
+!
+!-------------------------------------------------------------------------
+!
+! on entry
+! --------
+! k the power of the slater matrix elements
+!
+! on exit
+! -------
+! rk four-dimensional array of Slater matrix elements of power k in
+! the Spline basis
+!
+!-------------------------------------------------------------------------
+!
+USE spline_param
+IMPLICIT NONE
+INTEGER, INTENT(IN) :: k
+REAL(KIND=8), DIMENSION(ns,ns,ks,ks), INTENT(OUT) :: rk
+! .. local variables
+INTEGER :: iv,ih,i, ihp,ip, jv,jh,j, jhp,jp
+31.REAL(KIND=8), DIMENSION(ks,ks,nv) :: rkm, rkkm
+REAL(KIND=8), DIMENSION(ks,ks,ks,ks,nv) :: rkt
+CALL pmoments(k, rkm, rkkm, rkt)
+rk=0.0d0
+DO jv=1,nv
+DO jh=1,ks
+j = jv + jh - 1
+DO jhp=jh,ks
+jp = jhp - jh + 1
+DO iv=1,nv
+DO ih=1,ks
+i = iv + ih -1
+DO ihp=ih,ks
+ip = ihp - ih + 1
+IF( iv < jv ) THEN
+rk(i,j,ip,jp) = rk(i,j,ip,jp) + &
+rkm(ih,ihp,iv)*rkkm(jh,jhp,jv)
+ELSE IF( iv > jv ) THEN
+rk(i,j,ip,jp) = rk(i,j,ip,jp) + &
+rkm(jh,jhp,jv)*rkkm(ih,ihp,iv)
+32.ELSE
+rk(i,j,ip,jp) = rk(i,j,ip,jp) + &
+rkt(ih,jh,ihp,jhp,iv) + rkt(jh,ih,jhp,ihp,iv)
+END IF
+END DO
+END DO
+END DO
+END DO
+END DO
+END DO
+END SUBROUTINE slaterMatrixElements
+!========================================================================
+SUBROUTINE pmoments(k, rkm, rkkm, rkt)
+!========================================================================
+!
+! Computes Slater moments in the spline basis
+!
+! SUBROUTINES called:
+! moment
+! pdiag
+!
+33.!------------------------------------------------------------------------
+!
+! on entry
+! --------
+! k the power of the slater matrix elements
+!
+! on exit:
+! --------
+! rkm: the moments defining <B_i|r^k|B_j> over an interval
+! rkkm: the moments defining <B_i|1/r^(k+1)|B_j> over an interval
+! rkt the four-dimensional array of pieces
+! defining <B_i B_j|r^k/r^(k+1)|B_i' B_j'>
+! over a triangle
+!
+!------------------------------------------------------------------------
+!
+USE spline_param
+IMPLICIT NONE
+INTEGER, INTENT(IN) :: k
+REAL(KIND=8), DIMENSION(ks,ks,nv), INTENT(OUT) :: rkm, rkkm
+REAL(KIND=8), DIMENSION(ks,ks,ks,ks,nv), INTENT(OUT) :: rkt
+CALL moment(k, rkm)
+34.CALL moment(-(k+1), rkkm)
+CALL pdiag(k, rkt)
+END SUBROUTINE pmoments
+!=====================================================================
+SUBROUTINE moment(k, rkm)
+!=====================================================================
+!
+! Computes moments in intervals
+!
+!---------------------------------------------------------------------
+!
+! on entry
+! --------
+! k the power of moments
+!
+! on exit
+! -------
+! rkm the moments defining <B_i|r^k|B_j> over an interval
+!
+!---------------------------------------------------------------------
+!
+35.USE spline_param
+USE spline_grid
+IMPLICIT NONE
+INTEGER, INTENT(IN) :: k
+REAL(KIND=8), DIMENSION(ks,ks,nv), INTENT(OUT) :: rkm
+! .. local variables
+INTEGER :: iv, i, j, mlpks,mtmp
+REAL(KIND=8) :: hp1
+IF ( k == 0) THEN
+! .. the first equal step region
+mlpks = ml+ks
+DO iv=1,(mlpks-1)
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = SUM(bsp(iv,:,i)*bsp(iv,:,j) *grw(iv,:))
+END DO
+END DO
+END DO
+! .. the log region --- using scaling law
+hp1=h+1.0d0
+36.mtmp = ml+me-ks+2
+DO iv=mlpks,mtmp
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = rkm(i,j,iv-1)*hp1
+END DO
+END DO
+END DO
+! .. the last equal step region
+DO iv=(mtmp+1),nv
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = SUM(bsp(iv,:,i)*bsp(iv,:,j) *grw(iv,:))
+END DO
+END DO
+END DO
+ELSE IF ( k > 0) THEN
+! .. the first equal step region
+mlpks = ml+ks
+DO iv=1,(mlpks-1)
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = &
+37.SUM(bsp(iv,:,i)*bsp(iv,:,j) *gr(iv,:)**k *grw(iv,:))
+END DO
+END DO
+END DO
+! .. the log region --- using scaling law
+hp1=(h+1.d0)**(1+k)
+mtmp = ml+me-ks+2
+DO iv=mlpks,mtmp
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = rkm(i,j,iv-1)*hp1
+END DO
+END DO
+END DO
+! .. the last equal step region
+DO iv=(mtmp+1),nv
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = &
+SUM(bsp(iv,:,i)*bsp(iv,:,j) *gr(iv,:)**k *grw(iv,:))
+END DO
+END DO
+38.END DO
+ELSE IF ( k < 0) THEN
+! .. the first equal step region
+mlpks = ml+ks
+DO iv=1,(mlpks-1)
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = &
+SUM(bsp(iv,:,i)*bsp(iv,:,j) *grm(iv,:)**(-k) *grw(iv,:))
+END DO
+END DO
+END DO
+! .. the log region --- using scaling law
+IF(k/=-1) THEN
+hp1=(h+1.d0)**(1+k)
+ELSE
+hp1=1.d0
+END IF
+mtmp = ml+me-ks+2
+DO iv=mlpks,mtmp
+DO i=1,ks
+DO j=i,ks
+39.rkm(i,j,iv) = rkm(i,j,iv-1)*hp1
+END DO
+END DO
+END DO
+! .. the last equal step region
+DO iv=(mtmp+1),nv
+DO i=1,ks
+DO j=i,ks
+rkm(i,j,iv) = &
+SUM(bsp(iv,:,i)*bsp(iv,:,j) *grm(iv,:)**(-k) *grw(iv,:))
+END DO
+END DO
+END DO
+END IF
+END SUBROUTINE moment
+!======================================================================
+SUBROUTINE pdiag(k, rkt)
+!======================================================================
+!
+! Computes the Slater matrix elements in the triangle cells
+40.!
+! SUBROUTINES contained:
+! triang
+!
+!----------------------------------------------------------------------
+!
+! on entry
+! --------
+! k the power of moments
+!
+! on exit
+! -------
+! rkt the four-dimensional array of pieces
+! defining <B_i B_j|r^k/r^(k+1)|B_i' B_j'>
+! over a triangle
+!
+!----------------------------------------------------------------------
+!
+USE spline_param
+USE spline_grid
+IMPLICIT NONE
+INTEGER, INTENT(IN) :: k
+REAL(KIND=8), DIMENSION(ks,ks,ks,ks,nv), INTENT(OUT) :: rkt
+41.! .. local variables
+INTEGER :: iv,i,j,ip,jp, mlpks,mtmp
+REAL(KIND=8) :: hp1
+IF(k<0) STOP 'k<0'
+! .. the first equal step region.
+mlpks = ml+ks
+DO iv=1,(mlpks-1)
+CALL triang
+END DO
+! .. the log region --- using scaling law.
+hp1=h+1.d0
+mtmp = ml+me-ks+2
+DO iv=mlpks,mtmp
+DO j=1,ks
+DO jp=j,ks
+DO i=1,ks
+DO ip=i,ks
+rkt(i,j,ip,jp,iv) = hp1 * rkt(i,j,ip,jp,iv-1)
+END DO
+END DO
+42.END DO
+END DO
+END DO
+! .. the last equal step region
+DO iv=(mtmp+1),nv
+CALL triang
+END DO
+CONTAINS
+!========================================================================
+SUBROUTINE triang
+!========================================================================
+!
+! iv+1 -- iv+1
+! Returns the "slater matrix element" in low triangle cell | | ,
+! iv -- iv+1
+! i. e.,
+!
+! /
+! / k
+! | r_<
+! | dr_1 dr_2 --- bsp(iv,:,i)(r_1) bsp(iv,:,j)(r_2)
+43.! | k+1
+! | r_>
+! / bsp(iv,:,ip)(r_1) bsp(iv,:,jp)(r_2)
+!/
+!------------------------------------------------------------------------
+!
+! SUBROUTINES called:
+! gauss
+! qbsplvb
+!
+!---------------------------------------------------------------------
+!
+! On entry
+! --------
+! k: the indices of of the bsplines
+! iv: the index of the integration region
+!
+!---------------------------------------------------------------------
+!
+! USE spline_param
+! USE spline_grid
+IMPLICIT NONE
+44.! .. local variables
+INTEGER :: i, j, ip, jp, m,i1,left,ks1
+REAL(KIND=8) :: xbase
+REAL(KIND=8), DIMENSION(ks,ks) :: gx,gw,gxk
+REAL(KIND=8), DIMENSION(ks,ks,ks) :: bspTmp
+REAL(KIND=8), DIMENSION(ks) :: grmk,x,w,biatx,fdr2
+!
+! / r(iv,m) k
+! .. fdr2 = | bsp(iv,:,j)(r2) bsp(iv,:,jp)(r2) r2 dr2
+! / r_iv
+!
+left=iv+ks-1
+xbase=t(left)
+IF(k/=0) THEN
+grmk(1:ks) = grm(iv,1:ks)**(k+1)
+ELSE
+grmk(1:ks) = grm(iv,1:ks)
+END IF
+! .. setup the gaussian points
+! .. ks1 = ks-2
+! .. if(ks1<4) ks1=ks
+ks1 = ks
+45.CALL gauss(ks1,x,w)
+DO m=1,ks
+DO i1=1,ks1
+! .. the absolute coordinate at the new gaussian point
+gx(i1,m) = (gr(iv,m)-xbase)*x(i1) + xbase
+IF(k>1) THEN
+gxk(i1,m) = gx(i1,m)**k
+ELSE IF(k==1) THEN
+gxk(i1,m) = gx(i1,m)
+END IF
+! .. Note: K=0 is not relevent
+! .. the corresponding gaussian weights
+gw(i1,m) = (gr(iv,m)-xbase)*w(i1)
+! .. the bspline values at the new gaussian points
+CALL qbsplvb(ks, gx(i1,m), left, biatx)
+bspTmp(i1,m,1:ks)= biatx(1:ks)
+END DO
+END DO
+DO i=1,ks
+46.DO ip=i,ks
+DO j=1,ks
+DO jp=j,ks
+DO m=1,ks
+fdr2(m)= 0.0d0
+DO i1=1,ks1
+IF(k/=0) THEN
+fdr2(m)= fdr2(m) + gxk(i1,m) * bspTmp(i1,m,j) * &
+bspTmp(i1,m,jp) * gw(i1,m)
+ELSE
+fdr2(m)= fdr2(m) + bspTmp(i1,m,j)*bspTmp(i1,m,jp)*gw(i1,m)
+END IF
+END DO
+END DO
+rkt(i,j,ip,jp,iv) = SUM( bsp(iv,:,i) * bsp(iv,:,ip) * &
+grw(iv,:) * grmk(:) * fdr2(:) )
+END DO
+END DO
+END DO
+END DO
+END SUBROUTINE triang
+END SUBROUTINE pdiag
+47.!==========================================================================
+MODULE spline_param
+!==========================================================================
+! The SPLINE_PARAM module defines the spline parameters
+! -------------------------------------------------------------------------
+IMPLICIT NONE
+SAVE
+! .. Here are the commonly used parameters
+INTEGER :: ks, ns, nv, ml,me
+REAL(KIND=8) :: h
+END MODULE spline_param
+!==========================================================================
+MODULE spline_grid
+!==========================================================================
+! The spline_grid module defines the values of splines at the gaussian
+! points defined by the intervals of a grid. Included in the module
+! is the gaussian data for performing integrations on the grid.
+! -------------------------------------------------------------------------
+IMPLICIT NONE
+48.SAVE
+! .. arrays for defining grid
+REAL(KIND=8), DIMENSION(:), ALLOCATABLE:: t
+! .. arrays for initializing spline values
+REAL(KIND=8), DIMENSION(:,:), ALLOCATABLE :: bs
+REAL(KIND=8), DIMENSION(:,:,:), ALLOCATABLE:: bsp
+REAL(KIND=8), DIMENSION(:,:,:,:), ALLOCATABLE:: bspd
+! .. arrays for initializing gaussian data
+REAL(KIND=8), DIMENSION(:,:), ALLOCATABLE:: gr, grm, grw
+CONTAINS
+!======================================================================
+SUBROUTINE allocate_grid
+!======================================================================
+! This program allocates space of the arrays for initializing spline
+! values and gaussian data in MODULE spline_grid
+!----------------------------------------------------------------------
+USE spline_param
+IMPLICIT NONE
+ALLOCATE( bs(ks,ns), bsp(nv+1,ks,ks), bspd(nv+1,ks,ks,2) )
+49.ALLOCATE( gr(nv,ks),grm(nv,ks),grw(nv,ks) )
+END SUBROUTINE allocate_grid
+END MODULE spline_grid

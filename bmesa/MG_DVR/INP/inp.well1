@@ -1,0 +1,44 @@
+$route
+ print=(xsector-points,xsector-polynomials,xsector-matrix,
+        xglobal-points,xglobal-polynomials,xglobal-matrix,
+        xpotential,xhamiltonian,eigenvalues,xeigenvectors,
+        m6296=(indices,hamiltonian,buffer))
+ number-of-dimensions=2 space-dimension-1=x space-dimension-2=y
+ symmetry=unsymmetric open-as=new xpack directive=diagonalize
+$end
+          
+$nonstd
+62//96;
+20//01;
+$end
+
+$title
+DVR Code
+$end
+
+$dimension(x)
+ number-of-regions=1 number-of-points-per-region=(10)
+ left-boundary-condition=0 right-boundary-condition=1
+ region-boundaries=(0.d0,1.d0)
+$end
+
+$dimension(y)
+ number-of-regions=1 number-of-points-per-region=(10)
+ left-boundary-condition=0 right-boundary-condition=1
+ region-boundaries=(0.d0,1.d0) 
+$end
+
+$v0(x)
+ use-atomic-units potential=well well-depth=-1.d0
+$end
+
+$v0(y)
+ use-atomic-units potential=well well-depth=-1.d0
+$end
+
+$vpert
+ potential=well
+ d12=0.d0 d21=0.d0 l21=1.0 l12=1.0
+$end
+
+

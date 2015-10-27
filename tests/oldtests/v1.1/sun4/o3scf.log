@@ -1,0 +1,31 @@
+m0 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        0.6 real         0.0 user         0.0 sys  
+m1 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        4.9 real         1.6 user         0.5 sys  
+m101 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        4.1 real         1.1 user         0.5 sys  
+m102 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+       13.7 real         8.8 user         0.5 sys  
+m202 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        4.4 real         1.4 user         0.3 sys  
+m302 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+        9.6 real         6.9 user         0.4 sys  
+m312 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+     1002.1 real       842.3 user        27.4 sys  
+m330 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+      345.3 real        60.7 user        19.3 sys  
+m401 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+ Warning: the following IEEE floating-point arithmetic exceptions 
+ occurred in this program and were never cleared: 
+ Inexact;  Underflow; 
+       23.2 real        14.8 user         1.2 sys  
+m501 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+      790.8 real       686.7 user        44.6 sys  
+m1951 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+        5.3 real         2.2 user         0.6 sys  
+m2001 inp=o3scf out=mesa.out chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int
+       16.1 real         2.5 user         1.7 sys  
+m998

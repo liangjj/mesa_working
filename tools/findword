@@ -1,0 +1,16 @@
+
+cd $MESA_HOME/library
+for file in chr clams intgrl io math sym util mdutil/$OPSYS
+  do
+    echo $file
+    cd $file
+    egrep $1 *.f 
+    cd ..
+  done
+for file in $MESA_HOME/m[0-9]*
+  do
+    echo $file
+    cd $file
+    egrep $1 *.f 
+    cd ..
+  done

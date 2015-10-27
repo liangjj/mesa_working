@@ -1,0 +1,26 @@
+c $Header: convr.f,v 1.2 92/12/31 14:45:30 bis Exp $
+*deck convr.f
+c***begin prologue     convr
+c***date written       921221   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           convr, link m6201, legendre quadrature
+c***author             schneider, barry (nsf)
+c***source             m6201
+c***purpose            convert legendre quadrature from (-1,1) to (a,b)
+c***references         none
+c
+c***routines called
+c***end prologue       convr
+      subroutine convr (a,b,r,wtr,npt)
+      implicit integer (a-z)
+      real*8 a, b, r, wtr, afac, bfac
+      dimension r(npt), wtr(npt)
+      afac=(b-a)*.5d0
+      bfac=(b+a)*.5d0      
+      do 10 i=1,npt
+         r(i)=afac*r(i)+bfac
+         wtr(i)=afac*wtr(i)
+   10 continue 
+      return
+      end
+

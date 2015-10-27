@@ -1,0 +1,19 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M101
+#
+SOURCE=m101
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/coord.f \
+	$(MESA_HOME)/$(SOURCE)/cprint.f \
+	$(MESA_HOME)/$(SOURCE)/doc101.f \
+	$(MESA_HOME)/$(SOURCE)/isubst.f \
+	$(MESA_HOME)/$(SOURCE)/lsubst.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+	$(MESA_HOME)/$(SOURCE)/zcentr.f \
+	$(MESA_HOME)/$(SOURCE)/zget.f \
+	$(MESA_HOME)/$(SOURCE)/zmatch.f \
+	$(MESA_HOME)/$(SOURCE)/zparm.f \
+	$(MESA_HOME)/$(SOURCE)/zsymbl.f \
+	$(MESA_HOME)/$(SOURCE)/zvar.f 

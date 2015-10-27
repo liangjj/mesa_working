@@ -1,0 +1,13 @@
+#   @(#)Makefile	1.5   8/2/91
+#
+# Makefile for 602
+#
+SOURCE = m602
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/detsym.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+	$(MESA_HOME)/$(SOURCE)/matprt.f \
+	$(MESA_HOME)/$(SOURCE)/nsalc.f \
+	$(MESA_HOME)/$(SOURCE)/symorb.f \
+	$(MESA_HOME)/$(SOURCE)/tstsym.f 

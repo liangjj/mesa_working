@@ -1,0 +1,253 @@
+ mesa(1.2);5/30/91;unix.                                                        
+     (c) 1990, the university of california.                                    
+     P.W. Saxe, B.H. Lengsfield iii, R.L. Martin, M. Page and B. Schneider.     
+
+     23-jun-1900 16:06:31    
+     National Science Foundation;Dec Alpha 600MHz(bohr);B. Schneider                 
+ main files/memory:
+     inp:   inp.well                      out:    mesa.out                 
+     chk:   mesa.chk                      dat:    ../mesa.dat              
+     rwf:   tmp/mesa.rwf                  rint:   tmp/mesa.rint            
+     int:   tmp/mesa.int                  tint:   tmp/mesa.tint            
+     gint:  tmp/mesa.gint                 rdint:  tmp/mesa.rdint           
+     dint:  tmp/mesa.dint                 zint:   tmp/mesa.zint            
+     ham:   tmp/mesa.ham                  moden:  tmp/mesa.moden           
+     aoden: tmp/mesa.aoden                saoden: tmp/mesa.saoden          
+     gden:  tmp/mesa.gden                 fci:    tmp/mesa.fci             
+
+     machine size:        100000000
+ kohn and bec files:
+     kohn:  tmp/mesa.kohn                 kohndt: tmp/mesa.kohndt          
+     grid:  tmp/mesa.grid                 orbs:   tmp/mesa.orbs            
+     vstat: tmp/mesa.vstat                ylms:   tmp/mesa.ylms            
+     bessel:tmp/mesa.bessel               knints: tmp/mesa.knints          
+     tmat:  tmp/mesa.tmat                 blktmat:tmp/mesa.blktmt          
+     optint:tmp/mesa.optint               atomci: tmp/mesa.atomci          
+     lamdat:tmp/mesa.lamdat               bec:    tmp/mesa.bec             
+
+     user defined maxsiz:  10000000
+ title:
+     DVR Code
+ route:
+     62//94;
+     20//01;
+ options:
+     print=(m6294=(points,polynomials,matrix-elements,r-matrix-info)) generate-matrix
+     -elements test-function=sine number-of-dimensions=1 xconvert=(left-endpoint=0.d0
+     ,right-endpoint=5.d0) space-dimension-1=x
+
+
+                    grid and lobatto basis code
+
+ first call to memory in link =     ptwt
+
+ link            =     ptwt
+ words requested =         31
+ words available =   80000000
+ words gotten    =         31
+
+ link            =     poly
+ words requested =        151
+ words available =   79999969
+ words gotten    =        151
+
+ link            =  scratch
+ words requested =         51
+ words available =   79999818
+ words gotten    =         51
+points for grid = 1                                                             
+ col          1
+        -1.00000000
+        -0.65465367
+         0.00000000
+         0.65465367
+         1.00000000
+weights for grid = 1                                                            
+ col          1
+         0.10000000
+         0.54444444
+         0.71111111
+         0.54444444
+         0.10000000
+
+ free memory link =  scratch
+ words released   =         51
+polynomials grid = 1  set = 1                                                   
+ col          1              2              3              4              5
+         1.00000000     0.00000000     0.00000000     0.00000000     0.00000000
+         0.00000000     1.00000000     0.00000000     0.00000000     0.00000000
+         0.00000000     0.00000000     1.00000000     0.00000000     0.00000000
+         0.00000000     0.00000000     0.00000000     1.00000000     0.00000000
+         0.00000000     0.00000000     0.00000000     0.00000000     1.00000000
+first derivative polynomials grid = 1  set = 1                                  
+ col          1              2              3              4              5
+        -5.00000000     6.75650249    -2.66666667     1.41016418    -0.50000000
+        -1.24099025     0.00000000     1.74574312    -0.76376262     0.25900975
+         0.37500000    -1.33658458     0.00000000     1.33658458    -0.37500000
+        -0.25900975     0.76376262    -1.74574312     0.00000000     1.24099025
+         0.50000000    -1.41016418     2.66666667    -6.75650249     5.00000000
+second derivative polynomials grid = 1  set = 1                                 
+ col          1              2              3              4              5
+        15.00000000   -28.43617413    21.33333333   -12.39715920     4.50000000
+         7.18693177   -11.66666667     5.33333333    -1.16666667     0.31306823
+        -0.75000000     4.08333333    -6.66666667     4.08333333    -0.75000000
+         0.31306823    -1.16666667     5.33333333   -11.66666667     7.18693177
+         4.50000000   -12.39715920    21.33333333   -28.43617413    15.00000000
+
+ link            =      mat
+ words requested =        251
+ words available =   79999818
+ words gotten    =        251
+unnormalized psi(i)*psi(j) matrix for grid = 1                                  
+ col          1              2              3              4              5
+         0.10000000     0.00000000     0.00000000     0.00000000     0.00000000
+         0.00000000     0.54444444     0.00000000     0.00000000     0.00000000
+         0.00000000     0.00000000     0.71111111     0.00000000     0.00000000
+         0.00000000     0.00000000     0.00000000     0.54444444     0.00000000
+         0.00000000     0.00000000     0.00000000     0.00000000     0.10000000
+unnormalized psi(i)*dpsi(j) for grid = 1                                        
+ col          1              2              3              4              5
+        -0.50000000     0.67565025    -0.26666667     0.14101642    -0.05000000
+        -0.67565025     0.00000000     0.95046014    -0.41582631     0.14101642
+         0.26666667    -0.95046014     0.00000000     0.95046014    -0.26666667
+        -0.14101642     0.41582631    -0.95046014     0.00000000     0.67565025
+         0.05000000    -0.14101642     0.26666667    -0.67565025     0.50000000
+unnormalized psi(i)*ddpsi(j) for grid = 1                                       
+ col          1              2              3              4              5
+         1.50000000    -2.84361741     2.13333333    -1.23971592     0.45000000
+         3.91288508    -6.35185185     2.90370370    -0.63518519     0.17044826
+        -0.53333333     2.90370370    -4.74074074     2.90370370    -0.53333333
+         0.17044826    -0.63518519     2.90370370    -6.35185185     3.91288508
+         0.45000000    -1.23971592     2.13333333    -2.84361741     1.50000000
+unnormalized dpsi(i)*dpsi(j) for grid = 1                                       
+ col          1              2              3              4              5
+         3.50000000    -3.91288508     0.53333333    -0.17044826     0.05000000
+        -3.91288508     6.35185185    -2.90370370     0.63518519    -0.17044826
+         0.53333333    -2.90370370     4.74074074    -2.90370370     0.53333333
+        -0.17044826     0.63518519    -2.90370370     6.35185185    -3.91288508
+         0.05000000    -0.17044826     0.53333333    -3.91288508     3.50000000
+unnormalized bloch operator for grid = 1                                        
+ col          1              2              3              4              5
+        -5.00000000     6.75650249    -2.66666667     1.41016418    -0.50000000
+         0.00000000     0.00000000     0.00000000     0.00000000     0.00000000
+         0.00000000     0.00000000     0.00000000     0.00000000     0.00000000
+         0.00000000     0.00000000     0.00000000     0.00000000     0.00000000
+        -0.50000000     1.41016418    -2.66666667     6.75650249    -5.00000000
+symmetrized kinetic energy for grid = 1                                         
+ col          1              2              3              4              5
+        -3.50000000     3.91288508    -0.53333333     0.17044826    -0.05000000
+         3.91288508    -6.35185185     2.90370370    -0.63518519     0.17044826
+        -0.53333333     2.90370370    -4.74074074     2.90370370    -0.53333333
+         0.17044826    -0.63518519     2.90370370    -6.35185185     3.91288508
+        -0.05000000     0.17044826    -0.53333333     3.91288508    -3.50000000
+
+ number-of-regions =    2
+ left boundary condition = 0
+ right boundary condition = 1
+
+ edges =  0.00000000E+00  0.50000000E+00  0.10000000E+01
+
+ link            =     hmat
+ words requested =        129
+ words available =   79999567
+ words gotten    =        129
+
+ link            =     norm
+ words requested =         33
+ words available =   79999438
+ words gotten    =         33
+
+ link            =        v
+ words requested =         17
+ words available =   79999405
+ words gotten    =         17
+
+ potential type = well                            
+    using atomic units
+
+     size of global basis set =    8
+
+     region =   1 number of functions =   4
+     starting function =   2 ending function =   5
+     global starting function =   1 global ending function =   4
+     bridge function = T
+
+     region =   2 number of functions =   4
+     starting function =   2 ending function =   5
+     global starting function =   5 global ending function =   8
+     bridge function = F
+
+ link            =     diag
+ words requested =        145
+ words available =   79999388
+ words gotten    =        145
+eigenvalues                                                                     
+ col          1
+         0.23370055
+        10.10320463
+        29.82662678
+        58.91279964
+        97.55854150
+       129.76667852
+       343.47506294
+       362.12338543
+
+ link            =     ramp
+ words requested =         17
+ words available =   79999243
+ words gotten    =         17
+r-matrix amplitudes                                                             
+ col          1
+         1.41421355
+        -1.41409961
+         1.41904901
+        -1.46632924
+        -0.93275576
+         0.47313295
+         3.97023518
+         3.87038051
+
+       energy         k value       r-matrix       tan phase       phase     
+  0.10000000E-04 0.44721360E-02 0.44790818E+01 0.15557503E-01 0.15556248E-01
+  0.10000000E-03 0.14142136E-01 0.44807315E+01 0.49179959E-01 0.49140366E-01
+  0.10000000E-01 0.14142136E+00 0.46702945E+01 0.47357558E+00 0.44228550E+00
+  0.50000000E-01 0.31622777E+00 0.56441336E+01 0.92021030E+00 0.74386947E+00
+  0.10000000E+00 0.44721360E+00 0.76804709E+01 0.11162543E+01 0.84027698E+00
+  0.20000000E+00 0.63245553E+00 0.29875350E+02 0.12232172E+01 0.88546560E+00
+  0.30000000E+00 0.77459667E+00-0.14879644E+02 0.12164493E+01 0.88274538E+00
+  0.50000000E+00 0.10000000E+01-0.35492798E+01 0.11278828E+01 0.84542456E+00
+  0.80000000E+00 0.12649111E+01-0.15560985E+01 0.98127770E+00 0.77594883E+00
+  0.10000000E+01 0.14142136E+01-0.10925198E+01 0.89672926E+00 0.73100512E+00
+  0.15000000E+01 0.17320508E+01-0.56999887E+00 0.72995881E+00 0.63055088E+00
+  0.20000000E+01 0.20000000E+01-0.33838774E+00 0.60847011E+00 0.54662426E+00
+  0.50000000E+01 0.31622777E+01 0.96468240E-01 0.28258797E+00 0.27540691E+00
+
+ free memory link =     diag
+ words released   =        145
+
+ free memory link =     ramp
+ words released   =         17
+
+ free memory link =     hmat
+ words released   =        129
+
+ free memory link =     norm
+ words released   =         33
+
+ free memory link =        v
+ words released   =         17
+
+ free memory link =      mat
+ words released   =        251
+
+ free memory link =     ptwt
+ words released   =         31
+
+ free memory link =     poly
+ words released   =        151
+ summary:
+     link   entries               charges          core use      
+                          cpu       sys      io         
+        1         1       0.1       0.0       0.0         0
+     6294         1       0.1       0.0       0.0  80000000
+             total:       0.1       0.0       0.0  80000000

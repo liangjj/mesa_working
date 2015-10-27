@@ -1,0 +1,50 @@
+$cc_setup
+               type_calculation=real_time
+ number_of_space_variables=1 coordinate_system=cartesian
+ space_variable_1=x use_atomic_units kinetic_energy_type=packed
+ plot get_eigenpairs diagonal_modification=none
+ propagation_method=lanczos plot_step=1 no_coupled_channels
+$end
+
+$h0(x)
+ automate number_of_major_blocks=1
+ number_of_fixed_points=2 left_fixed_point right_fixed_point 
+ drop_left_function drop_right_function do_not_diagonalize
+ order_of_finite_difference_formula=3 
+ xprint=(all) xsector_print=sector_details reuse_space_data
+ plot_step=1
+$end
+
+ $block_1
+  default_order=7 number_of_subregions=256
+  left_boundary=-160.d0 right_boundary=160.d0
+ $end
+
+$v_reg_1(x)
+ use_atomic_units potential=none
+$end
+
+$time
+ automate number_of_time_regions=500 first_time=0.d0 time_interval=.01d0
+ xprint=(main=(xpointers,xpotential,xinitial_state,xnon_linear_potential,
+              xh_on_initial_state))
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$initial_state
+ driver=gaussian_pulse sigma=1.d0 alpha=1.d0 beta=4.d0 print=on
+$end
+
+$v_couple
+  v_space_time=none
+$end
+
+$lanczos_data
+ type_matrix=finite_element
+ overlap_tolerance=1.e-10 convergence=1.d-10 
+ xprint=(lanczos=all) maximum_number_of_iterations=50
+ maximum_number_of_vectors=50 number_of_trials=1
+$end

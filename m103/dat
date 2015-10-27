@@ -1,0 +1,7 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M102
+#
+SOURCE=m103
+SRCS = \
+        $(MESA_HOME)/$(SOURCE)/$(SOURCE).f

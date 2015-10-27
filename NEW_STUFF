@@ -1,0 +1,59 @@
+1. New functionality:
+    Through the efforts of Tom Russo,Greg Tawa, Barry Schneider,
+    Jeff Hay, and Rich Martin, we now have:
+
+    "direct" formation of j and k matrices in DFT calculations.
+       (m511)
+    dft gradients for closed-shell molecules.
+       (m711,m721)
+    population and atomic size analysis via becke partitioning.
+       this works for both Hartree-Fock and DFT wavefunctions. 
+       (m611)
+    dielectric continuum model (arbritrary cavity surface) for solvation effects
+       (m618,m619,m620,m621). implemented for both scf and dft cases.
+    electric field gradient properties.
+       (m1902)
+    symmetry routines can do salc's for oh symmetry.
+       (sym)
+    a "mesa reader" to be used in conjunction with MSI's ChemistryViewer
+       and AVS.  This allows one to do all the things ChemistryViewer does
+       with a Gaussian file (view orbitals, densities, potential, etc.)
+       using a MESA checkpoint file.
+       (tools/avs)
+    first pass at coulomb integrals via poisson solver.
+       (not quite ready for prime time, m613).
+2. DFT code has been sped up significantly.  
+   Added a new library 'dft' for utility routines.  Standard grids now
+   available for H-Ar.
+3. Several minor bug fixes. Some housecleaning done.
+      m811:  ints file removed after the half transformation to save disk.
+      m1012: data now written to tints file so that ints is not necessary.
+      m1013: hessian now written to tints.
+      m1020: hessian now read from tints as opposed to ints.
+
+      note that these changes should be transparent, if the integrals file
+      is to be kept around, use transformation=keep-ints on the route.
+      only known case where this is necessary is in conjunction with
+      ci optimizations using the flag m812=check-energy, in which case
+      m812 tries to open the ints file.
+4. All properties have now been tested (with the exception of del**4), 
+   and they look fine.
+5. Added some new tests to the suite.  They put the new functionality
+   through its paces.
+      test1.5  --- does CuH+; tests d-functions, field gradients, fermi contact.
+      test11.5 --- h2o, BLYP, standard grids
+      test11.6 --- h2o, "direct j-matrix"
+      test11.7 --- h2o, BLYP, analytic optimization
+      test11.8 --- h2o, BLYP, fletcher-powell optimization
+      test13.1 --- ch3cl2 ion-dipole complex in h2o, 
+                   dielectric continuum solvent test
+6. The 6-31G* basis sets for the first and second rows have been added to
+    mesa.dat.  [6s5p2d] contractions of Wachters' bases for first transition
+    series are available.  Specify basis=wachters, or basis=wachters-hay
+    for the [6s5p3d] with diffuse d-function.
+7. The Sun and HP version now allocate core through malloc in getscm.f
+    at the beginning of every run.  If you want to increase the amount of
+    memory used, increase the size parameter on your submittal line, or
+    change the default(6,000,000 dp words=48MBytes) in mesa.sh .
+    The maxsiz directive in the $route section no longer works.
+

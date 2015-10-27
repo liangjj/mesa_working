@@ -1,0 +1,389 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 14:55:33    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test2.8                                                                                                    
+     out:    /usr2/mesa/tests/out/hp/test2.8                                                                                                 
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_11514                                                                                                       
+     rint:   /cesium/rlm/tmp/rint_11514                                                                                                      
+     int:    /cesium/rlm/tmp/int_11514                                                                                                       
+     tint:   /cesium/rlm/tmp/tint_11514                                                                                                      
+     gint:   /cesium/rlm/tmp/gint_11514                                                                                                      
+     rdint:  /cesium/rlm/tmp/rdint_11514                                                                                                     
+     dint:   /cesium/rlm/tmp/dint_11514                                                                                                      
+     zint:   /cesium/rlm/tmp/zint_11514                                                                                                      
+     ham:    /cesium/rlm/tmp/ham_11514                                                                                                       
+     moden:  /cesium/rlm/tmp/moden_11514                                                                                                     
+     aoden:  /cesium/rlm/tmp/aoden_11514                                                                                                     
+     saoden: /cesium/rlm/tmp/saoden_11514                                                                                                    
+     gden:   /cesium/rlm/tmp/gden_11514                                                                                                      
+     fci:    /cesium/rlm/tmp/fci_11514                                                                                                       
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+      h2o test case: open-shell scf optimization     
+ route:
+     1//1,2;
+     :opt;
+     2//1(:endopt);
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     7//1,2,12,31(:opt);
+     :endopt;
+     19//51;
+     20//01;
+ options:
+     maxsiz=900000 2s+1=3 hf scf=(pulay) guess=(huckel) opt=(berny) basis=dz,sym=off
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1    .949000 r1       
+      3   3   h  dz          1    .949000 r2        2  112.300 a1       
+ molecular parameters:
+     charge:                    0
+     multiplicity:              3
+     number alpha electrons:    6
+     number beta electrons:     4
+ basis dimensions:
+     $ primitive cartesians    32
+     $ contracted cartesians   14
+     $ basis functions         14
+ berny optimization:
+     initial parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949000   estimate d2e/dx2                              
+                r2      0.949000   estimate d2e/dx2                              
+                a1    112.3000     estimate d2e/dx2                              
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o      .00000
+                 h1      .94900    .00000
+                 h2      .94900   1.57629    .00000
+ interatomic angles:
+          h2-o1-h3 =112.3000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o               .000000     .000000     .000000
+      2   2   h               .000000     .000000     .949000
+      3   3   h               .878024     .000000    -.360104
+ rotational constants (ghz):   1010.3518013    403.6377560    288.4152374
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     $primitive integrals possible     274866
+     $primitive integrals computed     262666( 95.6%)
+     $contracted integrals possible      5565
+     $contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                   12000000
+     all integrals held in core.
+     nuclear repulsion energy:    9.257562
+     iter              energy    diis convergence
+       14       -75.642193241          .000000004
+     rotating scf orbitals under core fock operator
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                       772607(281.1%)
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8        -.149577     .000000    -.100322
+       2          1         .008994     .000000     .148258
+       3          1         .140582     .000000    -.047936
+     max      .149577     rms      .092232
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1    .148258 (  1)
+           3   h     1    .148258 (  2)   2   -.016130 (  3)
+ berny optimization:
+     search for a local minimum.
+     cycle number   1 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     second derivative matrix not updated -- first cycle.
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .57840
+                 r2      .00000    .57840
+                 a1      .00000    .00000    .22937
+     eigenvalues --      .22937    .57840    .57840
+     linear search not attempted -- first point.
+     maximum step size (dxmaxt=    .200) exceeded in quadratic search.
+     -- step size scaled by    .780
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     1.79335    .14826    .00000    .20000    .20000   1.99335
+                 r2     1.79335    .14826    .00000    .20000    .20000   1.99335
+                 a1     1.96000   -.01613    .00000   -.05487   -.05487   1.90514
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .148258      .000450     no 
+                     rms force      .121410      .000300     no 
+          maximum displacement      .200000      .001800     no 
+              rms displacement      .166344      .001200     no 
+     energy                      -75.642193
+     predicted change              -.023481
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.054835   -de/dx=     0.148258                          
+                r2      1.054835   -de/dx=     0.148258                          
+                a1    109.1563     -de/dx=    -0.016130                          
+ berny optimization:
+     search for a local minimum.
+     cycle number   2 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  1  2
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .48615
+                 r2     -.09225    .48615
+                 a1      .02531    .02531    .22243
+     maximum step size (dxmaxt=    .200) exceeded in linear search.
+     -- step size scaled by    .209
+     -- skip quadratic or steepest descent search.
+     the linear search produced a scale factor of 1.00000.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     1.99335    .06832    .20000    .00000    .20000   2.19335
+                 r2     1.99335    .06832    .20000    .00000    .20000   2.19335
+                 a1     1.90514   -.03262   -.05487    .00000   -.05487   1.85027
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .068319      .000450     no 
+                     rms force      .058875      .000300     no 
+          maximum displacement      .200000      .001800     no 
+              rms displacement      .166344      .001200     no 
+     energy                      -75.685220
+     predicted change              -.015535
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.160671   -de/dx=     0.068319                          
+                r2      1.160671   -de/dx=     0.068319                          
+                a1    106.0125     -de/dx=    -0.032619                          
+ berny optimization:
+     search for a local minimum.
+     cycle number   3 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  2  3
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .40817
+                 r2     -.17023    .40817
+                 a1      .04670    .04670    .21656
+     maximum step size (dxmaxt=    .200) exceeded in linear search.
+     -- step size scaled by    .809
+     -- skip quadratic or steepest descent search.
+     the linear search produced a scale factor of 1.00000.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     2.19335    .02337    .20000    .00000    .20000   2.39335
+                 r2     2.19335    .02337    .20000    .00000    .20000   2.39335
+                 a1     1.85027   -.03884   -.05487    .00000   -.05487   1.79540
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .038843      .000450     no 
+                     rms force      .029447      .000300     no 
+          maximum displacement      .200000      .001800     no 
+              rms displacement      .166344      .001200     no 
+     energy                      -75.704792
+     predicted change              -.008818
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.266506   -de/dx=     0.023373                          
+                r2      1.266506   -de/dx=     0.023373                          
+                a1    102.8688     -de/dx=    -0.038843                          
+ berny optimization:
+     search for a local minimum.
+     cycle number   4 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  3  4
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .37067
+                 r2     -.20773    .37067
+                 a1      .05699    .05699    .21374
+     eigenvalues --      .10384    .27284    .57840
+     the linear search produced a scale factor of  .03426.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     2.39335   -.00442    .00685    .03688    .04373   2.43708
+                 r2     2.39335   -.00442    .00685    .03688    .04373   2.43708
+                 a1     1.79540   -.03774   -.00188   -.19633   -.19821   1.59719
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .037744      .000450     no 
+                     rms force      .022089      .000300     no 
+          maximum displacement      .198210      .001800     no 
+              rms displacement      .119877      .001200     no 
+     energy                      -75.710290
+     predicted change              -.003522
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.289646   -de/dx=    -0.004421                          
+                r2      1.289646   -de/dx=    -0.004421                          
+                a1     91.5122     -de/dx=    -0.037744                          
+ berny optimization:
+     search for a local minimum.
+     cycle number   5 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  3  4  5
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .36189
+                 r2     -.21651    .36189
+                 a1      .02688    .02688    .19996
+     eigenvalues --      .12587    .21947    .57840
+     the linear search produced a scale factor of -.04644.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     2.43708   -.00545   -.00203   -.03652   -.03855   2.39852
+                 r2     2.43708   -.00545   -.00203   -.03652   -.03855   2.39852
+                 a1     1.59719   -.00046    .00921   -.00202    .00719   1.60438
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .005450      .000450     no 
+                     rms force      .004458      .000300     no 
+          maximum displacement      .038554      .001800     no 
+              rms displacement      .031752      .001200     no 
+     energy                      -75.713785
+     predicted change              -.000206
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.269244   -de/dx=    -0.005450                          
+                r2      1.269244   -de/dx=    -0.005450                          
+                a1     91.9241     -de/dx=    -0.000461                          
+ berny optimization:
+     search for a local minimum.
+     cycle number   6 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  4  5  6
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .34793
+                 r2     -.23046    .34793
+                 a1      .02380    .02380    .19803
+     eigenvalues --      .10526    .21024    .57840
+     the linear search produced a scale factor of  .23819.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     2.39852   -.00109   -.00918   -.00001   -.00919   2.38933
+                 r2     2.39852   -.00109   -.00918   -.00001   -.00919   2.38933
+                 a1     1.60438   -.00005    .00171    .00019    .00191   1.60629
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .001092      .000450     no 
+                     rms force      .000892      .000300     no 
+          maximum displacement      .009192      .001800     no 
+              rms displacement      .007586      .001200     no 
+     energy                      -75.714038
+     predicted change              -.000009
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.264380   -de/dx=    -0.001092                          
+                r2      1.264380   -de/dx=    -0.001092                          
+                a1     92.0334     -de/dx=    -0.000049                          
+ berny optimization:
+     search for a local minimum.
+     cycle number   7 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  4  6  7
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .35122
+                 r2     -.22718    .35122
+                 a1      .02410    .02410    .19795
+     eigenvalues --      .11072    .21127    .57840
+     the linear search produced a scale factor of -.00028.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     2.38933    .00000    .00000    .00000    .00000   2.38933
+                 r2     2.38933    .00000    .00000    .00000    .00000   2.38933
+                 a1     1.60629    .00002    .00000    .00008    .00008   1.60637
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .000016      .000450     yes
+                     rms force      .000010      .000300     yes
+          maximum displacement      .000083      .001800     yes
+              rms displacement      .000048      .001200     yes
+     energy                      -75.714048
+     predicted change               .000000
+     optimization completed.
+     -- stationary point found.
+     optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      1.264380   -de/dx=     0.000002                          
+                r2      1.264380   -de/dx=     0.000002                          
+                a1     92.0334     -de/dx=     0.000016                          
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.37512   -.05980   -.05980
+                 h1     -.05980   1.21835   -.28631
+                 h2     -.05980   -.28631   1.21835
+     spin-density matrix:
+                              o        h1        h2                              
+                  o     1.67584   -.26023   -.26023
+                 h1     -.26023    .96076   -.27822
+                 h2     -.26023   -.27822    .96076
+     total mulliken charges and spins:
+            o          8.255510   1.155382
+            h1          .872245    .422309
+            h2          .872245    .422309
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0    156001
+      102         1       1.1        .0        .0    120010
+      201         8       1.7        .0        .0       904
+      202         7       1.0        .0        .0       145
+      302         7        .8        .0        .0      9816
+      312         7       6.9        .0        .0    530834
+      330         7        .7        .0        .0     79139
+      401         7       1.7        .0        .0         0
+      501         7      17.9        .0        .0     32421
+      701         7        .5        .0        .0      4001
+      702         7       1.5        .0        .0     21409
+      712         7      23.0        .0        .0    203196
+      731         7        .3        .0        .0       255
+     1951         1        .1        .0        .0      3849
+             total:      57.7        .0        .0    530834

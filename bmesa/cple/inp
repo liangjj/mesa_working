@@ -1,0 +1,39 @@
+$route
+ print=(xm6234,m6235=(xwavefunction,xmatrices,xintermediate-results))
+ potential-type=hazi-taylor
+$end
+$nonstd
+62//34,35;
+20//01;
+$end
+$bsroot
+maximum-l-value=0 number-of-zeros=100 right-boundary=500.d0
+$end
+$grid
+r-matrix-radius=10.d0
+no-integration-regions=1 no-points-region-1=100 starting-r-region-1=0.d0
+final-r-region-1=10.d0  
+$end
+$channels
+no-of-channels=1 channel-l-values=(0) channel-energies=(0.d0)
+no-basis-functions-per-channel=(40) v11=7.5d0
+no-zero-value-basis-functions-per-channel=(39)
+$end
+$energy
+no-energies=15 energies=(3.2,3.25,3.3,3.325,3.35,3.375,3.4,3.41,3.42,
+                         3.425,3.43,3.44,3.45,4.5,5.0)
+$end
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

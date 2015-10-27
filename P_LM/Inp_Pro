@@ -1,0 +1,5 @@
+&input_data
+title="test_prolate", l_max=50, m_max=50, Print=.true.,
+n_points=1, normalize=.false., recur="Miller", eps=1.d-15, R = 1.4 /
+&electron_coordinates  x1 = 10.0, y1 = -2.0, z1 = -50.0
+                       x2 = 5.0, y2 = 1.0, z2 = -3.0 /

@@ -1,0 +1,29 @@
+$route
+ number-of-dimensions=1 matrix-type=real-unsymmetric
+ bypass=on iterative-diagonalization
+$end
+          
+$nonstd
+70//20;
+20//01;
+$end
+$title
+PDE Code
+$end
+$genmat
+ matrix-size=300 matrix-type=rpa keep-lower-roots
+$end
+$input 
+  column-1-of-matrix=(3.d0,-1.d0) 
+  column-2-of-matrix(-1.d0,-3.d0)
+$end
+$genrpa 
+  particle-hole-spacing=.1d0 strength-of-coupling=10.d0
+$end
+$davidson
+ number-of-roots=15 number-of-trial-vectors=5
+ convergence=1.d-05 overlap-tolerance=1.d-08
+ maximum-number-of-iterations=40 maximum-number-of-davidson-vectors=100
+ xh0-preconditioning number-of-roots-at-a-time=15
+ print=davidson=iteration-information
+$end

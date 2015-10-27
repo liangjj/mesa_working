@@ -1,0 +1,34 @@
+ mesa(1.2);5/30/91;unix.                                                        
+     (c) 1990, the university of california.                                    
+     P.W. Saxe, B.H. Lengsfield iii, R.L. Martin, M. Page and B. Schneider.     
+
+     27-Nov-2006 07:50:27    
+     National Science Foundation;Dual Core 64 Bit Opteron 2.4GHz(feynman);           
+ main files/memory:
+     inp:   /home/mesa/mesa/Time_Propagation/Mesa_Propagator/Main/prop.inp                  
+     out:   mesa.out                                                                        
+     chk:   mesa.chk                             dat:    /home/mesa/mesa/mesa.dat        
+     rwf:   tmp/mesa.rwf                         rint:   /home/mesa/mesa/run/tmp/rint    
+     int:   tmp/mesa.int                         tint:   /home/mesa/mesa/run/tmp/tint    
+     gint:  /home/mesa/mesa/run/tmp/gint         rdint:  /home/mesa/mesa/run/tmp/rdint   
+     dint:  /home/mesa/mesa/run/tmp/dint         zint:   /home/mesa/mesa/run/tmp/zint    
+     ham:   /home/mesa/mesa/run/tmp/ham          moden:  /home/mesa/mesa/run/tmp/moden   
+     aoden: /home/mesa/mesa/run/tmp/aoden        saoden: /home/mesa/mesa/run/tmp/saoden  
+     gden:  /home/mesa/mesa/run/tmp/gden         fci:    /home/mesa/mesa/run/tmp/fci     
+
+     machine size:        200000000
+ kohn and bec files:
+     kohn:    /home/mesa/mesa/run/tmp/kohn         kohndt: /home/mesa/mesa/run/tmp/kohndt  
+     grid:    /home/mesa/mesa/run/tmp/grid         orbs:   /home/mesa/mesa/run/tmp/orbs    
+     vstat:   /home/mesa/mesa/run/tmp/vstat        ylms:   /home/mesa/mesa/run/tmp/ylms    
+     bessel:  /home/mesa/mesa/run/tmp/bessel       knints: /home/mesa/mesa/run/tmp/knints  
+     tmat:    /home/mesa/mesa/run/tmp/tmat         blktmat:/home/mesa/mesa/run/tmp/blktmt  
+     optint:  /home/mesa/mesa/run/tmp/optint       atomci: /home/mesa/mesa/run/tmp/atomci  
+     lamdat:  /home/mesa/mesa/run/tmp/lamdat       bec:    /home/mesa/mesa/run/tmp/bec     
+     hconfig: /home/mesa/mesa/run/tmp/hconfig      rmtrx:  /home/mesa/mesa/run/tmp/rmtrx   
+ lnkerr: error opening rwf              (file: tmp/mesa.rwf                                                                         
+ lnkerr:                                                                                                                            
+ lnkerr:                                                 ) as new             
+
+
+ ######## cannot close rwf              which is unit:  10

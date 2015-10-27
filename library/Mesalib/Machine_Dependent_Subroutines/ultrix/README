@@ -1,0 +1,4 @@
+*deck @(#)README	5.1 11/6/94
+This ultrix version was made before some changes in the file management
+were made.  Thus, the file lxopen.f should be modified, etc.
+It is a start and most changes can be 

@@ -1,0 +1,30 @@
+*deck %W% %G%
+These directories contain utility routines which are used in more
+than one link.  The directories and their contents are:
+
+chr:     this contains most of he character manipulation routines.
+clams:   (common los alamos mathematical subroutines)
+         this contains routines for performing general matrix operations, etc.
+         many of the routines from the blas and eispack which we use in the
+         codes are also kept here. the idea is that if you have "fast"
+         versions of some of these standard routines available, then it
+         should be possible to redefine the PARTS environment variable to
+         omit this directory, and the "fast" versions loaded instead.
+dft:     these contain routines used by density functional links.
+dpintgrl:these are a few routines needed by the rys polynomial section
+         of the ci code which must be compiled with the "double precision"
+         option on the cray. they are normally compiled on 32-bit unix
+         stations with no special flags.
+intgrl:  these are various auxiliary routines used by the integral and
+         derivative links.
+io:      this directory contains the machine independent portions of iosys,
+         the i/o manager.
+math:    this contains many of the "higher level" matrix manipulation routines,
+         diagonalizers, etc. many of them ultimately call a routine from
+         the blas or some other standard package.
+mdutil:  this directory contains those subroutines which are machine dependent.
+sym:     routines to handle the determination of symmetry.
+util:    generic matrix output routines, etc.
+tcgmsg:  the message passing library from Robert Harrison at PNL. this is
+         necessary if the parallel implementation is used. Note that this should
+         be done separately. Go to the makefile for that directory.

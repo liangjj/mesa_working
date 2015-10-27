@@ -1,0 +1,20 @@
+$dvr_basis
+ number-of-space-variables=1 space-variable-1=x
+ coordinate-system=cartesian kinetic-energy-type=packed 
+$end
+
+$h0(rho)
+ read-grid-parameters number-of-fixed-points=2
+ left-fixed-point right-fixed-point print=all
+ drop-left-function drop-right-function
+ automate number-of-major-blocks=1
+$end
+
+ $block-1
+  default-order=(10) number-of-subregions=1
+  left-boundary=0.0d0 right-boundary=1.0d0
+ $end
+
+$v_reg_1(rho)
+ use-atomic-units potential=none angular-momentum=0
+$end

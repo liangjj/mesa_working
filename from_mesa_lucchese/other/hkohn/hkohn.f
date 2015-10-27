@@ -1,0 +1,63 @@
+      program xhkohn
+
+      implicit real*8(a-h,o-z)
+c routine to find eigenvalues of Kohn Hamiltonian
+c input file: inham
+c      nget= number of eigenvalues to calculate
+c      nwhich = which eigenvector to print
+      parameter (npmax=5000,nqmax=700,nmax=npmax+nqmax)
+      real*8 hpp(npmax,npmax),h(nmax*(nmax+1)/2),vec(nmax,nmax),
+     $ eig(nmax)
+      i99=99
+      open(i99,file='hamcontra',form='unformatted',status='old')
+      open(5,file='inham',status='old')
+      open(6,file='outham',status='unknown')
+      read(i99)n,m
+      write(6,100)n,m
+      ntot=n+m
+      call hppget(hpp,h,n,i99)
+      call hqqget(hpp,h,n,m,i99)
+      call hpqget(hpp,h,n,m,i99)
+101   format(e16.8)
+100   format('npp,nqq:',2i5)
+      read(5,*)nget,nwhich
+      call givens(ntot,nget,nmax,h,hpp,eig,vec)
+      write(6,*)'eigenvalues'
+      write(6,101)(eig(i),i=1,nget)
+      do 88 j=1,nget
+88       write(6,102)j,(i,vec(i,j),i=1,ntot)
+102   format(' vector',i5/(i5,e16.7))
+      stop
+      end
+
+      subroutine hppget(hpp,h,n,i99)
+      real*8 hpp(n,n),h(*)
+      read(i99)((hpp(i,j),i=1,n),j=1,n)
+      ij=0
+      do 1 i=1,n
+        do 1 j=1,i
+           ij=ij+1
+1          h(ij)=hpp(i,j)
+      return
+      end
+      subroutine hqqget(hqq,h,n,m,i99)
+      real*8 hqq(m,m),h(*)
+      read(i99)((hqq(i,j),i=1,m),j=1,m)
+      do 1 i=1,m
+         ii=i+n
+         do 1 j=1,i
+            jj=j+n
+            ij=ii*(ii-1)/2+jj
+1           h(ij)=hqq(i,j)
+      return
+      end
+      subroutine hpqget(hpq,h,n,m,i99)
+      real*8 hpq(m,n),h(*)
+      read(i99)((hpq(i,j),i=1,m),j=1,n)
+      do 1 i=1,m
+        ii=i+n
+        do 1 j=1,n
+           ij=ii*(ii-1)/2+j
+1          h(ij)=hpq(i,j)
+      return
+      end

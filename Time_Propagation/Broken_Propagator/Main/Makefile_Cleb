@@ -1,0 +1,21 @@
+#   @(#)Makefile	1.4   8/2/91
+#
+#  Makefile for the propagator code
+#
+TOP_DIR = $(MESA_HOME)/Time_Propagation/CC_Prop
+include $(TOP_DIR)/Makefile.inc
+SRCS =	Test_Cleb.f90
+all: $(CLEBSCH_DRIVER)
+$(CLEBSCH_DRIVER): $(SRCS:.f90=.o) \
+                  $(UTILITY_LIB) 
+	$(LD90) $(LDFLAGS) $(SRCS:.f90=.o) \
+        $(UTILITY_LIB)  \
+	-o $(CLEBSCH_DRIVER)     
+
+
+
+files: $(SRCS) $(MODSRCS)
+	$(CO) $(RCS)/*.f90
+
+clean:
+	rm -f *.o *.mod *~

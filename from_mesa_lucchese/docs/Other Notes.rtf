@@ -1,0 +1,59 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf510
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww16600\viewh14360\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 When doing very small CIs, as in a MCFCHF calculation, you cannot use the nogiven-householder command, since the out of core diagonalization fails for such calculations.\
+\
+If you get the error message:\
+\
+ cannot fit ij-block of integrals. nmax= 100000\
+                        size of ij-block 197370\
+\
+\
+ lnkerr: cannot fit ij-block of integrals\
+\
+then you need to change the blksiz for the ci program using:\
+\
+sdrt=(blksiz=200000)\
+drt=(blksiz=200000)\
+\
+the default is 100000.  This occurs for large basis set calculations.\
+\
+In the set calculation, m9222 tries to identify the order of degenerate orbitals.  If the molecule does not have a dipole moment, but does have degenerate orbitals, you may get the error message "lnkerr:  m9222: fixci error".  In that case you need to compute the quadrupole properties, using properties=(e1,e2), so that m9222 can distinguish the roots.\
+\
+The number of configurations in the target CI wave function needs to be less than the value of maxnpdim.  This can be made larger using:\
+\
+symncsfs=maxnpdim=10000\
+\
+Useful options in GAUSSIAN to create orbitals for use in mesa\
+\
+6D 10F GFinput IOp(3/32=2) PUNCH=MO INT=Acc2e=12 SCF=(tight,NoVarAcc,DSymm)\
+\
+IOp(3/32=2) - keeps GAUSSIAN from throwing away orbitals due to near linear dependence\
+SCF=DSymm - instructs GAUSSIAN to symmeterize the density matrix after each SCF iteration\
+\
+In a molecule which has a unique center of symmetry, but where there is no atom, it is useful to put the origin at that point, but this requires that there be a center there with a basis set in the case of photoionization.  In GAUSSIAN this can be accomplished using a ghost atom center of the form\
+\
+H-Bq     0.0            0.0             0.0\
+\
+which puts a center at the origin, with no nucleus, with an H atom basis set.\
+\
+The maximum number of basis functions is set by a parameter which is either named maxnbf or nbfmax (sometimes with different capitalizations).  The current value is 650 or greater.  Likewise, there is a maximum number of primitives, maxprim or maxprims which has been set to 1000.  A practical limit is placed on the number of functions by the amount of disk space required to store the integrals in mesa.  With 300 GByte of scratch space, the maximum is around 400 basis functions.\
+\
+Most of the error messages can be found in the *out* files in the run directory (or total output file) using "grep -i err *out*".  A few can also be found using "grep -i stop"\
+\
+When using ExtractDipMat to get matrix elements into the form that ePolyScat uses, you may run into duplicate entry in the cross section calculation.  That can occur in ckohn when small dipole matrix elements are computed in the wrong symmetry.  To overcome this problem, ExtractDipMat must be told to ignore small matrix elements.  This is generally done using script code such as:\
+\
+cp inExtractDipMat.$SYM inExtractDipMat\
+echo " 2.0e-2 " | cat >> inExtractDipMat\
+ExtractDipMat\
+\
+I am not sure if the current ExtractDipMat can correctly handle low symmetry cases where the same continuum symmetry can contribute to more that one transition direction (x, y, or z)\
+\
+\
+\
+\
+\
+}

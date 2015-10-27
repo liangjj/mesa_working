@@ -1,0 +1,67 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      4-Nov-1994 05:58:04    
+     los alamos national laboratory;sun 4/280s(t12);                                 
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.3                                                                                                   
+     out:    /usr2/mesa/tests/out/sun/test12.3                                                                                               
+     chk:    /usr2/rlm/mesa/mchk.sun                                                                                                         
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf_3206                                                                                                           
+     rint:   /vivaldi/tmp/rint_3206                                                                                                          
+     int:    /vivaldi/tmp/int_3206                                                                                                           
+     tint:   /vivaldi/tmp/tint_3206                                                                                                          
+     gint:   /vivaldi/tmp/gint_3206                                                                                                          
+     rdint:  /vivaldi/tmp/rdint_3206                                                                                                         
+     dint:   /vivaldi/tmp/dint_3206                                                                                                          
+     zint:   /vivaldi/tmp/zint_3206                                                                                                          
+     ham:    /vivaldi/tmp/ham_3206                                                                                                           
+     moden:  /vivaldi/tmp/moden_3206                                                                                                         
+     aoden:  /vivaldi/tmp/aoden_3206                                                                                                         
+     saoden: /vivaldi/tmp/saoden_3206                                                                                                        
+     gden:   /vivaldi/tmp/gden_3206                                                                                                          
+     fci:    /vivaldi/tmp/fci_3206                                                                                                           
+     machine size:         16000000
+     user defined maxsiz:   3000000
+ title:
+     H2 Two State Calculation
+ route:
+     1//1,2,3,4;
+     8//6,22;
+     9//2,30,35;
+     20//1;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk) drop=42 ksym=(symmetry=1,psalc) 
+     print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(ngroups=
+     3,nrefs=3) ci=(nroots=2,cycles=60) sym=norotate kohn=(nsmall=2,ncsfs=91,nl2=45,f
+     reeze,hqq,energy=(.4410,.55125,.66152,.735))
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000    0.000000    0.000000    0.370424
+       2    2   h  small      1.000    0.000000    0.000000   -0.370424
+       3        zq scat       0.000    0.000000    0.000000    0.000000
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     $ primitive cartesians    20
+     $ contracted cartesians   20
+     $ basis functions         20
+ new options in force:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk) drop=42 ksym=(symmetry=1,psalc) 
+     print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(ngroups=
+     3,nrefs=3) ci=(nroots=2,cycles=60) sym=norotate kohn=(nsmall=2,ncsfs=91,nl2=45,f
+     reeze,hqq,energy=(.4410,.55125,.66152,.735))
+ m104: 
+ lnkerr: io system: error opening unit kohn             as old...it does not exist
+
+
+ ######## cannot close kohn             which is unit:  11

@@ -1,0 +1,96 @@
+$route
+
+$end
+          
+$nonstd
+11//04;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$dvrprop_basis
+ number-of-space-variables=1 coordinate-system=cartesian
+ space-variable-1=x use-atomic-units kinetic-energy-type=packed
+ xplot get-eigenpairs keep-diagonals plot_step=50 
+ xadd-absorbing-potential print=all-details
+$end
+
+$h0(x)
+ automate number-of-major-blocks=8
+ number-of-fixed-points=2 left-fixed-point right-fixed-point 
+ drop-first-function drop-last-function do-not-diagonalize
+ order-of-finite-difference-formula=3 number-of-steps=1000
+ xprint=(all) xsector-print=sector-details reuse-space-data
+$end
+
+ $block-1
+  skip
+  default-order=7 number-of-subregions=4
+  left-boundary=-40.d0 right-boundary=-20.d0
+ $end
+
+ $block-2
+  skip
+  default-order=7 number-of-subregions=4
+  left-boundary=-20.d0 right-boundary=-10.d0
+ $end
+
+ $block-3
+  skip
+  default-order=7 number-of-subregions=4
+  left-boundary=-10.d0 right-boundary=-5.d0
+ $end
+
+ $block-4
+  default-order=7 number-of-subregions=4
+  left-boundary=-5.d0 right-boundary=0.d0
+ $end
+
+ $block-5
+  default-order=7 number-of-subregions=4
+  left-boundary=0.d0 right-boundary=5.d0
+ $end
+
+ $block-6
+  skip
+  default-order=7 number-of-subregions=4
+  left-boundary=5.d0 right-boundary=10.d0
+ $end
+
+ $block-7
+  skip
+  default-order=7 number-of-subregions=4
+  left-boundary=10.d0 right-boundary=20.d0
+ $end
+
+ $block-8
+  skip
+  default-order=7 number-of-subregions=4
+  left-boundary=20.d0 right-boundary=40.d0
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=none
+$end
+
+$time
+ automate number-of-time-regions=5000 first-time=0.d0 time-interval=.0001d0
+ xprint=(main=(xpointers,xpotential,xinitial-state,xnon-linear-potential,
+              xh-on-initial-state))
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$initial-state
+ driver=gaussian-pulse sigma=1.d0 alpha=1.d0 beta=4.d0 
+$end
+
+$v_couple
+  v-space-time=none
+$end
+

@@ -1,0 +1,27 @@
+$route
+guess=huckel
+scf,q=0,basis=mbs,geom=(inau,coord),
+ppp=(u=12.6,v=3.0,t=-1.0,rmax=1.5)
+2s+1=1,print=(scf=vector,ci=no,),sym=(norotate)
+ci=(nroots=10,no),drt=(rdsym,nsym=1,refexcite=0,vexcite=6),
+$title
+  pariser-parr-pople test
+$nonstd
+   1//1,2;
+   2//2;  3//9,19,30;  4//1,2; 5//3; 6//1; 8//1,11,21;
+   9//2,21;
+   19//2,51;
+   20//01;
+$geom
+h1 0.0 1.0 0.0
+h2 .866 .5 0.0
+h3 0.866 -0.5 0.0
+h4 0.0 -1.0 0.0
+h5 -0.866 -0.5 0.0
+h6 -0.866 0.5 0.0
+$mbs h
+type=s
+1.0 1.0
+$drt
+1doc1 1doc1 1doc1 2uoc1 1uoc1
+$end

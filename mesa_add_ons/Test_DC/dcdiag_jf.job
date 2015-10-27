@@ -1,0 +1,18 @@
+#!/bin/bash
+#$ -N DC_DIAG
+#$ -cwd
+#$ -V
+#You should use a multiple of 8 for the number of cores:
+#$ -pe mpich 64
+
+date
+
+which mpiexec
+echo "NSLOTS = $NSLOTS"
+echo "TMPDIR = $TMPDIR"
+echo "TMPDIR/machines:"
+cat $TMPDIR/machines
+
+mpiexec -n $NSLOTS -hostfile $TMPDIR/machines ./DC_DIAG
+
+date

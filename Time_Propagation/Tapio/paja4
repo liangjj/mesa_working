@@ -1,0 +1,24 @@
+#!/bin/sh
+#PBS -l nodes=1:amd:ppn=4
+#PBS -N Sisu
+export PATH=/com/mpich2-1.0.4p1-pgi/bin:$PATH
+cd $PBS_O_WORKDIR
+# Generate the hostfile, with full-qualified-domainnames:
+mpdfile=mpd.$$
+awk '{printf("%s.farfarnet\n", $1)}' $PBS_NODEFILE | sort -u > $mpdfile
+# Start the virtual machine on the nodes:
+mpdboot --totalnum=1 --mpd=/com/mpich2-1.0.4p1-pgi/bin/mpd \
+           --file=$mpdfile --rsh=rsh
+# Optional, show the participating nodes:
+echo '=====   ============================='
+mpdtrace -l
+echo '=====  ============================='
+# NB: If we used Intel compilers we must define LD_LIBRARY_PATH first:
+# export LD_LIBRARY_PATH=/com/intel/fce/9.0/lib:$LD_LIBRARY_PATH
+# Now, run the MPI-program:
+mpiexec -np 4 ./proggis
+# Shutdown the virtual machine, and clean up:
+mpdallexit
+rm -f $mpdfile
+#
+

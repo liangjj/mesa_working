@@ -1,0 +1,12 @@
+"input data"
+&input_data
+title="test_legendre", l_max=25, m_max=10, Print_Functions=.true.,
+n_points=12, input_values=.true., normalize=.true., /
+.8 .9 .95 .99 .9999 .999999 1.000001 1.00001 1.0001 1.01 1.1 1.5 /		 
+
+
+
+
+
+
+

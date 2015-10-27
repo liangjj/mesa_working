@@ -1,0 +1,22 @@
+]$data
+ title=test_legendre l_max=5 m_max=0
+ number_of_points=7 input_values F77
+ upper_limit=1.0 lower_limit=-1.0 
+ points=(-10.,-5.,-2.,0.,2.,5.,10.)
+ type=irregular normalize
+$end
+&input_data
+title='test_legendre', l_max=5, m_max=1,
+n_points=2, input_values=.true., upper=1.0,
+lower=-1.0, directive='regular', normalize=.true., 
+Method='F77' /
+&input_data
+x= -.9999999 .9999999 /
+
+
+
+
+
+
+
+

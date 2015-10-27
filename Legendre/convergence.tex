@@ -1,0 +1,68 @@
+\documentclass[a4paper,12pt]{article}
+
+
+\textwidth=480pt
+\textheight=680pt
+\oddsidemargin=-10pt
+\evensidemargin=-10pt
+\topmargin=-0.8in
+
+
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{graphics}
+
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+%\usepackage[top=0.4in,bottom=1.6in,right=1.in,left=1.in]{geometry}
+
+\begin{document}
+\title{\bf Energy convergence of the H$_2^+$ ion: A FE-DVR Approach in prolate
+spheroidal coordinates}
+\author{Xiaoxu Guan}
+
+%\maketitle
+
+\noindent
+
+
+\begin{table}[ht]
+\caption{\label{tab:energy+} Convergence of two-electron Coloumb potential
+$1/r_{12}$ with respect to $\ell_{\rm max}$ in the Neumann expansion in
+prolate spheroidal coordinates. Internuclear separation $R$ is $1.4$. All the
+quanties are given in atomic units.}
+\begin{tabular}{lcllllc}
+\hline\hline
+Electron $1$&   & $(0.2,-0.3,0.0)$& &  $(1.0,-2.0,-1.0)$& &  $(10,-2,-50)$ \\
+Electron $2$&   & $(0.5,0.1,-1.0)$&  & $(-1.0,3.0,1.0)$& &$(5,1,-3)$   \\ \hline
+$\ell_{\rm max}=10$ & & $0.8944912425297$& & $0.1759041023385$& &
+                       $0.02111472177686$      \\
+$\ell_{\rm max}=20$ &  & $0.8944272224030$& &  $0.1739625665290$& & 
+		       $0.02111472177657$   \\
+$\ell_{\rm max}=30$&   & $0.8944271910024$& & $0.1740764143734$&&
+                       $0.02111472177657$  \\
+$\ell_{\rm max}=40$&   & $0.8944271909999$& & $0.1740778613865$& &
+                       $0.02111472177657$  \\
+$\ell_{\rm max}=50$&  & $0.8944271909999$&& $0.1740776557020$& &
+                       $0.02111472177657$\\   \hline
+Exact $1/r_{12}$&   & $0.8944271909999$& &  $0.1740776559557$&&
+$0.02111472177657$
+  \\ \hline\hline
+\end{tabular}
+\end{table}
+The von Neumann expansion of $1/r_{12}$ in prolate spheroidal coordinates is
+given by
+\begin{equation}
+\frac{1}{r_{12}}=
+\frac{2}{R}\sum_{\ell=0}^{\infty}\sum_{m=-\ell}^{\ell}(-1)^{|m|}(2\ell+1)
+\bigg(\frac{(\ell-|m|)!}{(\ell+|m|)!} \bigg)^2
+P_{\ell}^{|m|}(\xi_<)Q_{\ell}^{|m|}(\xi_>)P_{\ell}^{|m|}(\eta_1)P_{\ell}^{|m|}
+(\eta_2)
+e^{im(\varphi_1-\varphi_2)},
+\end{equation}
+where $\xi_{<}=\min(\xi_1,\xi_2)$ and $\xi_{>}=\max(\xi_1,\xi_2)$.
+
+
+\end{document}

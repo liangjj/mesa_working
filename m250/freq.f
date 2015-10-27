@@ -1,0 +1,130 @@
+*deck @(#)freq.f	5.1 11/6/94
+      subroutine freq(fkmtri,eigval,eigvec,temp1,temp2,temp3,
+     $                natoms3,nvv,zpe)
+c***begin prologue     freq.f
+c***date written       yymmdd  
+c***revision date      11/6/94      
+c   19 june, 1994      rlm at lanl
+c      using current physical constants (as opposed to hard-wired ones)
+c      for unit conversion.
+c
+c***keywords           
+c***author             page, michael(nrl)
+c***source             @(#)freq.f	5.1   11/6/94
+c***purpose            find eigenvalues/vectors of mass-weighted force
+c                      constant matrix.
+c***description
+c     
+c    
+c
+c***references
+c
+c***routines called
+c
+c***end prologue       freq.f
+      implicit none
+c     --- input variables -----
+      integer natoms3,nvv
+c     --- input arrays (unmodified) ---
+      real*8 fkmtri(nvv)
+c     --- input arrays (scratch) ---
+c     --- output arrays ---
+      real*8 eigval(natoms3),eigvec(natoms3,natoms3)
+c     --- output variables ---
+      real*8 zpe
+c     --- scratch arrays ---
+      real*8 temp1(natoms3),temp2(natoms3),temp3(nvv)
+c     --- local variables ---
+      integer inp,iout
+      integer i
+      real*8 zero,half,two
+      real*8 tokcal,tomdpa,toev,towaven
+      real*8 pi,toang,jph,jpcal,avog,etoesu,slight,emass,fines
+      real*8 planck,tokg
+      logical debug,called
+      parameter (debug=.false.,zero=0.0d+00,half=0.5d+00)
+      parameter (two=2.0d+00)
+c
+      data called/.false./
+      save called
+c
+      common /io/ inp,iout
+c
+ 1000 format(/' calling rsp natoms3,nvv= ',2i5)
+ 1010 format(i5,f14.7)
+ 1020 format (5x,'eigenvalues in h/bohr**2,   mdyne/angstrom,  and ',
+     $           'wavenumbers')
+ 1030 format (t5,i5,5x,f10.6,7x,f12.6,10x,f7.1)
+c
+c     --- generate needed constants
+      if(.not.called) then
+         called=.true.
+         call iosys('read real pi from rwf',1,pi,0,' ')
+         call iosys('read real angstrom/bohr from rwf',1,toang,0,' ')
+         call iosys('read real planck from rwf',1,planck,0,' ')
+         call iosys('read real j/hartree from rwf',1,jph,0,' ')
+         call iosys('read real j/cal from rwf',1,jpcal,0,' ')
+         call iosys('read real avogadro from rwf',1,avog,0,' ')
+         call iosys('read real esu/e- from rwf',1,etoesu,0,' ')
+         call iosys('read real lightspeed from rwf',1,slight,0,' ')
+         call iosys('read real "electron mass" from rwf',1,emass,0,' ')
+         call iosys('read real "fine-structure" from rwf',
+     $               1,fines,0,' ')
+         call iosys('read real kg/amu from rwf',1,tokg,0,' ')
+c        --- ev/hartree
+         toev=(1.0d-05)*fines*fines*emass*slight*slight*slight/etoesu
+c        --- to millidyne/angstrom from hartree/bohr**2.
+         tomdpa=1.0d+18*jph/(toang*toang)
+c        --- to wavenumbers
+c        cm**-1/hartree
+         towaven=jph/(planck*slight)
+c        --- kcal/hartree
+         tokcal=jph*avog/(1.0d03*jpcal)
+      endif
+c
+c     --- get eigenvalues and eigenvectors of mass-weighted
+c         force constant matrix
+      do 100 i=1,nvv
+         temp3(i)=fkmtri(i)
+  100 continue
+      if(debug) then
+         write(iout,1000) natoms3,nvv
+         write(iout,1010) (i,temp3(i),i=1,nvv)
+      endif
+c
+c     call rsp(natoms3,natoms3,nvv,temp3,eigval,1,eigvec,temp1,temp2)
+      call givens(natoms3,natoms3,natoms3,temp3,temp1,eigval,eigvec)
+c
+c     --- first convert the eigenvalues, which are in units of au/amu*a0**2
+c         to mdyne/amu*angstrom and place in temp1.
+c
+c         to get the frequencies, recall that 
+c            1/lambda = (1/2*pi*c)*sqrt(k/m)
+c         so convert the mass weighted force constants to sec**-2
+c         then take the square root and convert to cm**-1
+      do 1 i=1,natoms3
+          temp1(i)=eigval(i)*tomdpa
+          temp2(i)=eigval(i)*jph/((toang*toang*1.0d-20)*(tokg))
+          temp2(i)=sqrt(abs(temp2(i)))/(two*pi*slight)
+    1 continue
+      if(debug) then
+         write (iout,1020)
+         do 2 i=1,natoms3
+            write (iout,1030) i,eigval(i),temp1(i),temp2(i)
+    2    continue
+      endif
+
+c     --- calculate the zero point energy. the units of temp2 are cm**-1
+      zpe=zero
+      do 65 i=1,natoms3
+         if(temp1(i).gt.zero) then
+            zpe=zpe+temp2(i)
+         else
+            temp2(i)=-temp2(i)
+         endif
+   65 continue
+      zpe=zpe*half*tokcal/towaven
+c
+c
+      return
+      end

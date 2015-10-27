@@ -1,0 +1,1505 @@
+
+
+ pde solution by product formula
+
+
+
+
+
+ radial mesh
+
+ no. of pomits=        50
+ rstart=  -0.100000E+02      rstop=   0.100000E+02
+ delr=   0.400000E+00
+
+
+ radial mesh
+
+ no. of pomits=        50
+ rstart=  -0.100000E+02      rstop=   0.100000E+02
+ delr=   0.400000E+00
+
+
+ radial mesh
+
+ no. of pomits=        50
+ rstart=  -0.100000E+02      rstop=   0.100000E+02
+ delr=   0.400000E+00
+
+
+ temporal mesh
+
+ no. of ponts=       100
+ tstart=   0.00000 tstop=        0.10000
+ delt=   0.100000E-02
+
+
+
+
+ POTENTIAL PARAMETERS
+
+ Number of atoms =   1.000000E+05
+ a/d0 =   5.000000E-04     alpha =   1.000000E+00      beta =   1.000000E+00
+ non-linear term =   6.283185E+02
+
+ Chemical Potential(Initial Guess) =   2.000000E+01
+
+
+
+
+ Potential Type
+
+
+
+
+ summary of mesh parameters
+
+ delt =   0.100000E-02
+ delrx =   0.400000E+00      tvx =   0.312500E-02
+ delry =   0.400000E+00      tvy =   0.312500E-02
+ delrz =   0.400000E+00      tvz =   0.312500E-02
+
+
+
+
+
+
+ norm at initial time=
+   0.196870E+01
+   <x>=   0.163065E-16
+   <y>=  -0.164384E-16
+   <z>=  -0.631543E-17
+
+
+
+
+
+
+
+ norm at initial time=
+   0.100000E+01
+   <x>=  -0.109600E-15
+   <y>=   0.104468E-16
+   <z>=  -0.176909E-17
+
+
+
+
+
+
+
+ propagation in r and t
+
+
+
+ time=        0.00100      it=         1      ntime =       100
+   norm=   0.838785E+00
+   <r>=   0.231749E-10   0.231748E-10   0.231747E-10
+
+
+ Effective Number of Trap atoms =    8.38785E+04
+
+   energy (ham-exp) =   7.733696E+01
+
+   1.105659E+00   6.376339E+01
+
+   chemical potential =   2.000000E+01
+
+
+ time=        0.00200      it=         2      ntime =       100
+   norm=   0.757384E+00
+   <r>=   0.617604E-10   0.617607E-10   0.617608E-10
+
+
+ Effective Number of Trap atoms =    7.57384E+04
+
+   energy (ham-exp) =   6.193608E+01
+
+   9.519690E-01   4.595746E+01
+
+   chemical potential =   2.384402E+01
+
+
+ time=        0.00300      it=         3      ntime =       100
+   norm=   0.714619E+00
+   <r>=   0.736467E-10   0.736468E-10   0.736468E-10
+
+
+ Effective Number of Trap atoms =    7.14619E+04
+
+   energy (ham-exp) =   5.362465E+01
+
+   8.688526E-01   3.745236E+01
+
+   chemical potential =   3.148206E+01
+
+
+ time=        0.00400      it=         4      ntime =       100
+   norm=   0.702415E+00
+   <r>=   0.553665E-10   0.553668E-10   0.553668E-10
+
+
+ Effective Number of Trap atoms =    7.02415E+04
+
+   energy (ham-exp) =   4.917646E+01
+
+   8.319979E-01   3.371028E+01
+
+   chemical potential =   4.405431E+01
+
+
+ time=        0.00500      it=         5      ntime =       100
+   norm=   0.722786E+00
+   <r>=   0.854221E-11   0.854255E-11   0.854255E-11
+
+
+ Effective Number of Trap atoms =    7.22786E+04
+
+   energy (ham-exp) =   4.760135E+01
+
+   8.373566E-01   3.356824E+01
+
+   chemical potential =   6.271836E+01
+
+
+ time=        0.00600      it=         6      ntime =       100
+   norm=   0.782734E+00
+   <r>=  -0.659917E-10  -0.659913E-10  -0.659914E-10
+
+
+ Effective Number of Trap atoms =    7.82734E+04
+
+   energy (ham-exp) =   4.864257E+01
+
+   8.888265E-01   3.718535E+01
+
+   chemical potential =   8.677305E+01
+
+
+ time=        0.00700      it=         7      ntime =       100
+   norm=   0.887633E+00
+   <r>=  -0.169290E-09  -0.169289E-09  -0.169289E-09
+
+
+ Effective Number of Trap atoms =    8.87633E+04
+
+   energy (ham-exp) =   5.204197E+01
+
+   9.888694E-01   4.520528E+01
+
+   chemical potential =   1.108590E+02
+
+
+ time=        0.00800      it=         8      ntime =       100
+   norm=   0.102836E+01
+   <r>=  -0.302320E-09  -0.302320E-09  -0.302320E-09
+
+
+ Effective Number of Trap atoms =    1.02836E+05
+
+   energy (ham-exp) =   5.677945E+01
+
+   1.124113E+00   5.726582E+01
+
+   chemical potential =   1.248928E+02
+
+
+ time=        0.00900      it=         9      ntime =       100
+   norm=   0.117231E+01
+   <r>=  -0.459586E-09  -0.459586E-09  -0.459586E-09
+
+
+ Effective Number of Trap atoms =    1.17231E+05
+
+   energy (ham-exp) =   6.084528E+01
+
+   1.257242E+00   7.007256E+01
+
+   chemical potential =   1.214481E+02
+
+
+ time=        0.01000      it=        10      ntime =       100
+   norm=   0.127931E+01
+   <r>=  -0.621491E-09  -0.621491E-09  -0.621491E-09
+
+
+ Effective Number of Trap atoms =    1.27931E+05
+
+   energy (ham-exp) =   6.241295E+01
+
+   1.346470E+00   7.849906E+01
+
+   chemical potential =   1.035969E+02
+
+
+ time=        0.01100      it=        11      ntime =       100
+   norm=   0.133015E+01
+   <r>=  -0.756836E-09  -0.756836E-09  -0.756836E-09
+
+
+ Effective Number of Trap atoms =    1.33015E+05
+
+   energy (ham-exp) =   6.116498E+01
+
+   1.375337E+00   7.998339E+01
+
+   chemical potential =   8.097870E+01
+
+
+ time=        0.01200      it=        12      ntime =       100
+   norm=   0.133162E+01
+   <r>=  -0.837993E-09  -0.837993E-09  -0.837993E-09
+
+
+ Effective Number of Trap atoms =    1.33162E+05
+
+   energy (ham-exp) =   5.800637E+01
+
+   1.354658E+00   7.588804E+01
+
+   chemical potential =   6.087928E+01
+
+
+ time=        0.01300      it=        13      ntime =       100
+   norm=   0.130116E+01
+   <r>=  -0.852778E-09  -0.852779E-09  -0.852779E-09
+
+
+ Effective Number of Trap atoms =    1.30116E+05
+
+   energy (ham-exp) =   5.401767E+01
+
+   1.304430E+00   6.898118E+01
+
+   chemical potential =   4.571806E+01
+
+
+ time=        0.01400      it=        14      ntime =       100
+   norm=   0.125442E+01
+   <r>=  -0.803700E-09  -0.803700E-09  -0.803700E-09
+
+
+ Effective Number of Trap atoms =    1.25442E+05
+
+   energy (ham-exp) =   4.992675E+01
+
+   1.241153E+00   6.138821E+01
+
+   chemical potential =   3.513640E+01
+
+
+ time=        0.01500      it=        15      ntime =       100
+   norm=   0.120179E+01
+   <r>=  -0.701057E-09  -0.701057E-09  -0.701057E-09
+
+
+ Effective Number of Trap atoms =    1.20179E+05
+
+   energy (ham-exp) =   4.609883E+01
+
+   1.175055E+00   5.422601E+01
+
+   chemical potential =   2.800996E+01
+
+
+ time=        0.01600      it=        16      ntime =       100
+   norm=   0.114915E+01
+   <r>=  -0.557112E-09  -0.557113E-09  -0.557113E-09
+
+
+ Effective Number of Trap atoms =    1.14915E+05
+
+   energy (ham-exp) =   4.267298E+01
+
+   1.111536E+00   4.792599E+01
+
+   chemical potential =   2.330689E+01
+
+
+ time=        0.01700      it=        17      ntime =       100
+   norm=   0.109954E+01
+   <r>=  -0.383106E-09  -0.383105E-09  -0.383104E-09
+
+
+ Effective Number of Trap atoms =    1.09954E+05
+
+   energy (ham-exp) =   3.967490E+01
+
+   1.053095E+00   4.257110E+01
+
+   chemical potential =   2.028190E+01
+
+
+ time=        0.01800      it=        18      ntime =       100
+   norm=   0.105441E+01
+   <r>=  -0.188231E-09  -0.188231E-09  -0.188231E-09
+
+
+ Effective Number of Trap atoms =    1.05441E+05
+
+   energy (ham-exp) =   3.708209E+01
+
+   1.000690E+00   3.809913E+01
+
+   chemical potential =   1.844578E+01
+
+
+ time=        0.01900      it=        19      ntime =       100
+   norm=   0.101438E+01
+   <r>=   0.204017E-10   0.204024E-10   0.204025E-10
+
+
+ Effective Number of Trap atoms =    1.01438E+05
+
+   energy (ham-exp) =   3.485623E+01
+
+   9.545377E-01   3.440276E+01
+
+   chemical potential =   1.749390E+01
+
+
+ time=        0.02000      it=        20      ntime =       100
+   norm=   0.979663E+00
+   <r>=   0.237497E-09   0.237498E-09   0.237498E-09
+
+
+ Effective Number of Trap atoms =    9.79663E+04
+
+   energy (ham-exp) =   3.295791E+01
+
+   9.145445E-01   3.137308E+01
+
+   chemical potential =   1.724598E+01
+
+
+ time=        0.02100      it=        21      ntime =       100
+   norm=   0.950369E+00
+   <r>=   0.459208E-09   0.459208E-09   0.459209E-09
+
+
+ Effective Number of Trap atoms =    9.50369E+04
+
+   energy (ham-exp) =   3.135267E+01
+
+   8.805360E-01   2.891606E+01
+
+   chemical potential =   1.760400E+01
+
+
+ time=        0.02200      it=        22      ntime =       100
+   norm=   0.926580E+00
+   <r>=   0.682820E-09   0.682821E-09   0.682821E-09
+
+
+ Effective Number of Trap atoms =    9.26580E+04
+
+   energy (ham-exp) =   3.001304E+01
+
+   8.523688E-01   2.695712E+01
+
+   chemical potential =   1.852335E+01
+
+
+ time=        0.02300      it=        23      ntime =       100
+   norm=   0.908445E+00
+   <r>=   0.906493E-09   0.906494E-09   0.906494E-09
+
+
+ Effective Number of Trap atoms =    9.08445E+04
+
+   energy (ham-exp) =   2.891871E+01
+
+   8.299849E-01   2.544107E+01
+
+   chemical potential =   1.999109E+01
+
+
+ time=        0.02400      it=        24      ntime =       100
+   norm=   0.896198E+00
+   <r>=   0.112906E-08   0.112906E-08   0.112906E-08
+
+
+ Effective Number of Trap atoms =    8.96198E+04
+
+   energy (ham-exp) =   2.805576E+01
+
+   8.134261E-01   2.433011E+01
+
+   chemical potential =   2.200583E+01
+
+
+ time=        0.02500      it=        25      ntime =       100
+   norm=   0.890153E+00
+   <r>=   0.134985E-08   0.134985E-08   0.134985E-08
+
+
+ Effective Number of Trap atoms =    8.90153E+04
+
+   energy (ham-exp) =   2.741519E+01
+
+   8.028185E-01   2.360091E+01
+
+   chemical potential =   2.455464E+01
+
+
+ time=        0.02600      it=        26      ntime =       100
+   norm=   0.890652E+00
+   <r>=   0.156856E-08   0.156856E-08   0.156856E-08
+
+
+ Effective Number of Trap atoms =    8.90652E+04
+
+   energy (ham-exp) =   2.699051E+01
+
+   7.983213E-01   2.324082E+01
+
+   chemical potential =   2.758472E+01
+
+
+ time=        0.02700      it=        27      ntime =       100
+   norm=   0.897960E+00
+   <r>=   0.178513E-08   0.178514E-08   0.178514E-08
+
+
+ Effective Number of Trap atoms =    8.97960E+04
+
+   energy (ham-exp) =   2.677437E+01
+
+   8.000327E-01   2.324228E+01
+
+   chemical potential =   3.097140E+01
+
+
+ time=        0.02800      it=        28      ntime =       100
+   norm=   0.912113E+00
+   <r>=   0.199956E-08   0.199956E-08   0.199956E-08
+
+
+ Effective Number of Trap atoms =    9.12113E+04
+
+   energy (ham-exp) =   2.675388E+01
+
+   8.078476E-01   2.359471E+01
+
+   chemical potential =   3.449083E+01
+
+
+ time=        0.02900      it=        29      ntime =       100
+   norm=   0.932703E+00
+   <r>=   0.221172E-08   0.221172E-08   0.221172E-08
+
+
+ Effective Number of Trap atoms =    9.32703E+04
+
+   energy (ham-exp) =   2.690538E+01
+
+   8.212817E-01   2.427345E+01
+
+   chemical potential =   3.781422E+01
+
+
+ time=        0.03000      it=        30      ntime =       100
+   norm=   0.958686E+00
+   <r>=   0.242115E-08   0.242115E-08   0.242115E-08
+
+
+ Effective Number of Trap atoms =    9.58686E+04
+
+   energy (ham-exp) =   2.719000E+01
+
+   8.393077E-01   2.522738E+01
+
+   chemical potential =   4.054262E+01
+
+
+ time=        0.03100      it=        31      ntime =       100
+   norm=   0.988283E+00
+   <r>=   0.262681E-08   0.262681E-08   0.262681E-08
+
+
+ Effective Number of Trap atoms =    9.88283E+04
+
+   energy (ham-exp) =   2.755245E+01
+
+   8.602864E-01   2.636933E+01
+
+   chemical potential =   4.228976E+01
+
+
+ time=        0.03200      it=        32      ntime =       100
+   norm=   0.101908E+01
+   <r>=   0.282692E-08   0.282693E-08   0.282693E-08
+
+
+ Effective Number of Trap atoms =    1.01908E+05
+
+   energy (ham-exp) =   2.792539E+01
+
+   8.820742E-01   2.757614E+01
+
+   chemical potential =   4.279115E+01
+
+
+ time=        0.03300      it=        33      ntime =       100
+   norm=   0.104838E+01
+   <r>=   0.301889E-08   0.301889E-08   0.301889E-08
+
+
+ Effective Number of Trap atoms =    1.04838E+05
+
+   energy (ham-exp) =   2.823952E+01
+
+   9.023335E-01   2.870331E+01
+
+   chemical potential =   4.198997E+01
+
+
+ time=        0.03400      it=        34      ntime =       100
+   norm=   0.107367E+01
+   <r>=   0.319943E-08   0.319943E-08   0.319943E-08
+
+
+ Effective Number of Trap atoms =    1.07367E+05
+
+   energy (ham-exp) =   2.843626E+01
+
+   9.189576E-01   2.961225E+01
+
+   chemical potential =   4.005238E+01
+
+
+ time=        0.03500      it=        35      ntime =       100
+   norm=   0.109312E+01
+   <r>=   0.336492E-08   0.336492E-08   0.336492E-08
+
+
+ Effective Number of Trap atoms =    1.09312E+05
+
+   energy (ham-exp) =   2.847807E+01
+
+   9.304479E-01   3.019953E+01
+
+   chemical potential =   3.730412E+01
+
+
+ time=        0.03600      it=        36      ntime =       100
+   norm=   0.110578E+01
+   <r>=   0.351181E-08   0.351181E-08   0.351181E-08
+
+
+ Effective Number of Trap atoms =    1.10578E+05
+
+   energy (ham-exp) =   2.835230E+01
+
+   9.361008E-01   3.041522E+01
+
+   chemical potential =   3.412624E+01
+
+
+ time=        0.03700      it=        37      ntime =       100
+   norm=   0.111157E+01
+   <r>=   0.363704E-08   0.363704E-08   0.363704E-08
+
+
+ Effective Number of Trap atoms =    1.11157E+05
+
+   energy (ham-exp) =   2.806832E+01
+
+   9.359684E-01   3.026407E+01
+
+   chemical potential =   3.086177E+01
+
+
+ time=        0.03800      it=        38      ntime =       100
+   norm=   0.111112E+01
+   <r>=   0.373831E-08   0.373831E-08   0.373831E-08
+
+
+ Effective Number of Trap atoms =    1.11112E+05
+
+   energy (ham-exp) =   2.765044E+01
+
+   9.306630E-01   2.979242E+01
+
+   chemical potential =   2.776401E+01
+
+
+ time=        0.03900      it=        39      ntime =       100
+   norm=   0.110544E+01
+   <r>=   0.381421E-08   0.381422E-08   0.381422E-08
+
+
+ Effective Number of Trap atoms =    1.10544E+05
+
+   energy (ham-exp) =   2.713008E+01
+
+   9.211125E-01   2.906950E+01
+
+   chemical potential =   2.498730E+01
+
+
+ time=        0.04000      it=        40      ntime =       100
+   norm=   0.109568E+01
+   <r>=   0.386421E-08   0.386421E-08   0.386421E-08
+
+
+ Effective Number of Trap atoms =    1.09568E+05
+
+   energy (ham-exp) =   2.653955E+01
+
+   9.083485E-01   2.817046E+01
+
+   chemical potential =   2.260399E+01
+
+
+ time=        0.04100      it=        41      ntime =       100
+   norm=   0.108299E+01
+   <r>=   0.388846E-08   0.388847E-08   0.388847E-08
+
+
+ Effective Number of Trap atoms =    1.08299E+05
+
+   energy (ham-exp) =   2.590808E+01
+
+   8.933619E-01   2.716492E+01
+
+   chemical potential =   2.063013E+01
+
+
+ time=        0.04200      it=        42      ntime =       100
+   norm=   0.106841E+01
+   <r>=   0.388773E-08   0.388773E-08   0.388773E-08
+
+
+ Effective Number of Trap atoms =    1.06841E+05
+
+   energy (ham-exp) =   2.526017E+01
+
+   8.770262E-01   2.611127E+01
+
+   chemical potential =   1.904918E+01
+
+
+ time=        0.04300      it=        43      ntime =       100
+   norm=   0.105281E+01
+   <r>=   0.386311E-08   0.386311E-08   0.386311E-08
+
+
+ Effective Number of Trap atoms =    1.05281E+05
+
+   energy (ham-exp) =   2.461516E+01
+
+   8.600698E-01   2.505509E+01
+
+   chemical potential =   1.782942E+01
+
+
+ time=        0.04400      it=        44      ntime =       100
+   norm=   0.103691E+01
+   <r>=   0.381596E-08   0.381596E-08   0.381596E-08
+
+
+ Effective Number of Trap atoms =    1.03691E+05
+
+   energy (ham-exp) =   2.398773E+01
+
+   8.430799E-01   2.403011E+01
+
+   chemical potential =   1.693503E+01
+
+
+ time=        0.04500      it=        45      ntime =       100
+   norm=   0.102129E+01
+   <r>=   0.374774E-08   0.374774E-08   0.374774E-08
+
+
+ Effective Number of Trap atoms =    1.02129E+05
+
+   energy (ham-exp) =   2.338873E+01
+
+   8.265198E-01   2.306026E+01
+
+   chemical potential =   1.633216E+01
+
+
+ time=        0.04600      it=        46      ntime =       100
+   norm=   0.100642E+01
+   <r>=   0.365989E-08   0.365989E-08   0.365989E-08
+
+
+ Effective Number of Trap atoms =    1.00642E+05
+
+   energy (ham-exp) =   2.282601E+01
+
+   8.107522E-01   2.216185E+01
+
+   chemical potential =   1.599163E+01
+
+
+ time=        0.04700      it=        47      ntime =       100
+   norm=   0.992673E+00
+   <r>=   0.355384E-08   0.355384E-08   0.355384E-08
+
+
+ Effective Number of Trap atoms =    9.92673E+04
+
+   energy (ham-exp) =   2.230519E+01
+
+   7.960620E-01   2.134571E+01
+
+   chemical potential =   1.588958E+01
+
+
+ time=        0.04800      it=        48      ntime =       100
+   norm=   0.980356E+00
+   <r>=   0.343088E-08   0.343088E-08   0.343088E-08
+
+
+ Effective Number of Trap atoms =    9.80356E+04
+
+   energy (ham-exp) =   2.183027E+01
+
+   7.826754E-01   2.061877E+01
+
+   chemical potential =   1.600685E+01
+
+
+ time=        0.04900      it=        49      ntime =       100
+   norm=   0.969728E+00
+   <r>=   0.329218E-08   0.329218E-08   0.329218E-08
+
+
+ Effective Number of Trap atoms =    9.69728E+04
+
+   energy (ham-exp) =   2.140414E+01
+
+   7.707745E-01   1.998541E+01
+
+   chemical potential =   1.632759E+01
+
+
+ time=        0.05000      it=        50      ntime =       100
+   norm=   0.961006E+00
+   <r>=   0.313876E-08   0.313876E-08   0.313876E-08
+
+
+ Effective Number of Trap atoms =    9.61006E+04
+
+   energy (ham-exp) =   2.102880E+01
+
+   7.605084E-01   1.944831E+01
+
+   chemical potential =   1.683729E+01
+
+
+ time=        0.05100      it=        51      ntime =       100
+   norm=   0.954378E+00
+   <r>=   0.297146E-08   0.297146E-08   0.297146E-08
+
+
+ Effective Number of Trap atoms =    9.54378E+04
+
+   energy (ham-exp) =   2.070563E+01
+
+   7.519976E-01   1.900900E+01
+
+   chemical potential =   1.752048E+01
+
+
+ time=        0.05200      it=        52      ntime =       100
+   norm=   0.949994E+00
+   <r>=   0.279096E-08   0.279096E-08   0.279096E-08
+
+
+ Effective Number of Trap atoms =    9.49994E+04
+
+   energy (ham-exp) =   2.043537E+01
+
+   7.453357E-01   1.866813E+01
+
+   chemical potential =   1.835801E+01
+
+
+ time=        0.05300      it=        53      ntime =       100
+   norm=   0.947968E+00
+   <r>=   0.259778E-08   0.259778E-08   0.259778E-08
+
+
+ Effective Number of Trap atoms =    9.47968E+04
+
+   energy (ham-exp) =   2.021801E+01
+
+   7.405850E-01   1.842546E+01
+
+   chemical potential =   1.932435E+01
+
+
+ time=        0.05400      it=        54      ntime =       100
+   norm=   0.948366E+00
+   <r>=   0.239227E-08   0.239227E-08   0.239227E-08
+
+
+ Effective Number of Trap atoms =    9.48366E+04
+
+   energy (ham-exp) =   2.005270E+01
+
+   7.377682E-01   1.827953E+01
+
+   chemical potential =   2.038501E+01
+
+
+ time=        0.05500      it=        55      ntime =       100
+   norm=   0.951185E+00
+   <r>=   0.217465E-08   0.217465E-08   0.217465E-08
+
+
+ Effective Number of Trap atoms =    9.51185E+04
+
+   energy (ham-exp) =   1.993735E+01
+
+   7.368570E-01   1.822724E+01
+
+   chemical potential =   2.149488E+01
+
+
+ time=        0.05600      it=        56      ntime =       100
+   norm=   0.956338E+00
+   <r>=   0.194503E-08   0.194503E-08   0.194503E-08
+
+
+ Effective Number of Trap atoms =    9.56338E+04
+
+   energy (ham-exp) =   1.986845E+01
+
+   7.377589E-01   1.826319E+01
+
+   chemical potential =   2.259801E+01
+
+
+ time=        0.05700      it=        57      ntime =       100
+   norm=   0.963637E+00
+   <r>=   0.170343E-08   0.170343E-08   0.170343E-08
+
+
+ Effective Number of Trap atoms =    9.63637E+04
+
+   energy (ham-exp) =   1.984073E+01
+
+   7.403042E-01   1.837896E+01
+
+   chemical potential =   2.362974E+01
+
+
+ time=        0.05800      it=        58      ntime =       100
+   norm=   0.972778E+00
+   <r>=   0.144987E-08   0.144988E-08   0.144988E-08
+
+
+ Effective Number of Trap atoms =    9.72778E+04
+
+   energy (ham-exp) =   1.984705E+01
+
+   7.442387E-01   1.856253E+01
+
+   chemical potential =   2.452141E+01
+
+
+ time=        0.05900      it=        59      ntime =       100
+   norm=   0.983342E+00
+   <r>=   0.118439E-08   0.118439E-08   0.118439E-08
+
+
+ Effective Number of Trap atoms =    9.83342E+04
+
+   energy (ham-exp) =   1.987845E+01
+
+   7.492244E-01   1.879808E+01
+
+   chemical potential =   2.520762E+01
+
+
+ time=        0.06000      it=        60      ntime =       100
+   norm=   0.994807E+00
+   <r>=   0.907117E-09   0.907117E-09   0.907117E-09
+
+
+ Effective Number of Trap atoms =    9.94807E+04
+
+   energy (ham-exp) =   1.992454E+01
+
+   7.548523E-01   1.906622E+01
+
+   chemical potential =   2.563465E+01
+
+
+ time=        0.06100      it=        61      ntime =       100
+   norm=   0.100658E+01
+   <r>=   0.618349E-09   0.618350E-09   0.618350E-09
+
+
+ Effective Number of Trap atoms =    1.00658E+05
+
+   energy (ham-exp) =   1.997415E+01
+
+   7.606677E-01   1.934496E+01
+
+   chemical potential =   2.576846E+01
+
+
+ time=        0.06200      it=        62      ntime =       100
+   norm=   0.101805E+01
+   <r>=   0.318598E-09   0.318600E-09   0.318600E-09
+
+
+ Effective Number of Trap atoms =    1.01805E+05
+
+   energy (ham-exp) =   2.001617E+01
+
+   7.662058E-01   1.961132E+01
+
+   chemical potential =   2.559995E+01
+
+
+ time=        0.06300      it=        63      ntime =       100
+   norm=   0.102863E+01
+   <r>=   0.862893E-11   0.862987E-11   0.862982E-11
+
+
+ Effective Number of Trap atoms =    1.02863E+05
+
+   energy (ham-exp) =   2.004054E+01
+
+   7.710322E-01   1.984334E+01
+
+   chemical potential =   2.514599E+01
+
+
+ time=        0.06400      it=        64      ntime =       100
+   norm=   0.103782E+01
+   <r>=  -0.310537E-09  -0.310536E-09  -0.310536E-09
+
+
+ Effective Number of Trap atoms =    1.03782E+05
+
+   energy (ham-exp) =   2.003907E+01
+
+   7.747802E-01   2.002216E+01
+
+   chemical potential =   2.444600E+01
+
+
+ time=        0.06500      it=        65      ntime =       100
+   norm=   0.104523E+01
+   <r>=  -0.637627E-09  -0.637626E-09  -0.637626E-09
+
+
+ Effective Number of Trap atoms =    1.04523E+05
+
+   energy (ham-exp) =   2.000605E+01
+
+   7.771788E-01   2.013367E+01
+
+   chemical potential =   2.355516E+01
+
+
+ time=        0.06600      it=        66      ntime =       100
+   norm=   0.105061E+01
+   <r>=  -0.971157E-09  -0.971156E-09  -0.971156E-09
+
+
+ Effective Number of Trap atoms =    1.05061E+05
+
+   energy (ham-exp) =   1.993848E+01
+
+   7.780664E-01   2.016951E+01
+
+   chemical potential =   2.253594E+01
+
+
+ time=        0.06700      it=        67      ntime =       100
+   norm=   0.105387E+01
+   <r>=  -0.130950E-08  -0.130949E-08  -0.130949E-08
+
+
+ Effective Number of Trap atoms =    1.05387E+05
+
+   energy (ham-exp) =   1.983592E+01
+
+   7.773898E-01   2.012717E+01
+
+   chemical potential =   2.145032E+01
+
+
+ time=        0.06800      it=        68      ntime =       100
+   norm=   0.105505E+01
+   <r>=  -0.165093E-08  -0.165092E-08  -0.165092E-08
+
+
+ Effective Number of Trap atoms =    1.05505E+05
+
+   energy (ham-exp) =   1.970017E+01
+
+   7.751920E-01   2.000940E+01
+
+   chemical potential =   2.035378E+01
+
+
+ time=        0.06900      it=        69      ntime =       100
+   norm=   0.105426E+01
+   <r>=  -0.199371E-08  -0.199371E-08  -0.199371E-08
+
+
+ Effective Number of Trap atoms =    1.05426E+05
+
+   energy (ham-exp) =   1.953468E+01
+
+   7.715920E-01   1.982312E+01
+
+   chemical potential =   1.929183E+01
+
+
+ time=        0.07000      it=        70      ntime =       100
+   norm=   0.105174E+01
+   <r>=  -0.233618E-08  -0.233618E-08  -0.233618E-08
+
+
+ Effective Number of Trap atoms =    1.05174E+05
+
+   energy (ham-exp) =   1.934401E+01
+
+   7.667617E-01   1.957807E+01
+
+   chemical potential =   1.829886E+01
+
+
+ time=        0.07100      it=        71      ntime =       100
+   norm=   0.104773E+01
+   <r>=  -0.267672E-08  -0.267672E-08  -0.267672E-08
+
+
+ Effective Number of Trap atoms =    1.04773E+05
+
+   energy (ham-exp) =   1.913328E+01
+
+   7.609050E-01   1.928558E+01
+
+   chemical potential =   1.739868E+01
+
+
+ time=        0.07200      it=        72      ntime =       100
+   norm=   0.104252E+01
+   <r>=  -0.301390E-08  -0.301390E-08  -0.301390E-08
+
+
+ Effective Number of Trap atoms =    1.04252E+05
+
+   energy (ham-exp) =   1.890778E+01
+
+   7.542389E-01   1.895746E+01
+
+   chemical potential =   1.660610E+01
+
+
+ time=        0.07300      it=        73      ntime =       100
+   norm=   0.103639E+01
+   <r>=  -0.334641E-08  -0.334641E-08  -0.334641E-08
+
+
+ Effective Number of Trap atoms =    1.03639E+05
+
+   energy (ham-exp) =   1.867262E+01
+
+   7.469801E-01   1.860521E+01
+
+   chemical potential =   1.592884E+01
+
+
+ time=        0.07400      it=        74      ntime =       100
+   norm=   0.102964E+01
+   <r>=  -0.367311E-08  -0.367311E-08  -0.367311E-08
+
+
+ Effective Number of Trap atoms =    1.02964E+05
+
+   energy (ham-exp) =   1.843255E+01
+
+   7.393357E-01   1.823949E+01
+
+   chemical potential =   1.536948E+01
+
+
+ time=        0.07500      it=        75      ntime =       100
+   norm=   0.102251E+01
+   <r>=  -0.399306E-08  -0.399306E-08  -0.399306E-08
+
+
+ Effective Number of Trap atoms =    1.02251E+05
+
+   energy (ham-exp) =   1.819188E+01
+
+   7.314971E-01   1.786982E+01
+
+   chemical potential =   1.492709E+01
+
+
+ time=        0.07600      it=        76      ntime =       100
+   norm=   0.101525E+01
+   <r>=  -0.430545E-08  -0.430545E-08  -0.430545E-08
+
+
+ Effective Number of Trap atoms =    1.01525E+05
+
+   energy (ham-exp) =   1.795436E+01
+
+   7.236374E-01   1.750444E+01
+
+   chemical potential =   1.459853E+01
+
+
+ time=        0.07700      it=        77      ntime =       100
+   norm=   0.100807E+01
+   <r>=  -0.460965E-08  -0.460964E-08  -0.460964E-08
+
+
+ Effective Number of Trap atoms =    1.00807E+05
+
+   energy (ham-exp) =   1.772327E+01
+
+   7.159108E-01   1.715040E+01
+
+   chemical potential =   1.437931E+01
+
+
+ time=        0.07800      it=        78      ntime =       100
+   norm=   0.100118E+01
+   <r>=  -0.490514E-08  -0.490514E-08  -0.490514E-08
+
+
+ Effective Number of Trap atoms =    1.00118E+05
+
+   energy (ham-exp) =   1.750139E+01
+
+   7.084526E-01   1.681353E+01
+
+   chemical potential =   1.426419E+01
+
+
+ time=        0.07900      it=        79      ntime =       100
+   norm=   0.994736E+00
+   <r>=  -0.519157E-08  -0.519157E-08  -0.519157E-08
+
+
+ Effective Number of Trap atoms =    9.94736E+04
+
+   energy (ham-exp) =   1.729107E+01
+
+   7.013806E-01   1.649867E+01
+
+   chemical potential =   1.424743E+01
+
+
+ time=        0.08000      it=        80      ntime =       100
+   norm=   0.988900E+00
+   <r>=  -0.546866E-08  -0.546866E-08  -0.546866E-08
+
+
+ Effective Number of Trap atoms =    9.88900E+04
+
+   energy (ham-exp) =   1.709425E+01
+
+   6.947960E-01   1.620971E+01
+
+   chemical potential =   1.432283E+01
+
+
+ time=        0.08100      it=        81      ntime =       100
+   norm=   0.983800E+00
+   <r>=  -0.573624E-08  -0.573624E-08  -0.573624E-08
+
+
+ Effective Number of Trap atoms =    9.83800E+04
+
+   energy (ham-exp) =   1.691251E+01
+
+   6.887847E-01   1.594974E+01
+
+   chemical potential =   1.448360E+01
+
+
+ time=        0.08200      it=        82      ntime =       100
+   norm=   0.979548E+00
+   <r>=  -0.599421E-08  -0.599420E-08  -0.599420E-08
+
+
+ Effective Number of Trap atoms =    9.79548E+04
+
+   energy (ham-exp) =   1.674708E+01
+
+   6.834178E-01   1.572114E+01
+
+   chemical potential =   1.472210E+01
+
+
+ time=        0.08300      it=        83      ntime =       100
+   norm=   0.976235E+00
+   <r>=  -0.624252E-08  -0.624251E-08  -0.624251E-08
+
+
+ Effective Number of Trap atoms =    9.76235E+04
+
+   energy (ham-exp) =   1.659886E+01
+
+   6.787517E-01   1.552564E+01
+
+   chemical potential =   1.502948E+01
+
+
+ time=        0.08400      it=        84      ntime =       100
+   norm=   0.973934E+00
+   <r>=  -0.648118E-08  -0.648117E-08  -0.648117E-08
+
+
+ Effective Number of Trap atoms =    9.73934E+04
+
+   energy (ham-exp) =   1.646842E+01
+
+   6.748275E-01   1.536432E+01
+
+   chemical potential =   1.539535E+01
+
+
+ time=        0.08500      it=        85      ntime =       100
+   norm=   0.972691E+00
+   <r>=  -0.671022E-08  -0.671021E-08  -0.671021E-08
+
+
+ Effective Number of Trap atoms =    9.72691E+04
+
+   energy (ham-exp) =   1.635599E+01
+
+   6.716702E-01   1.523765E+01
+
+   chemical potential =   1.580739E+01
+
+
+ time=        0.08600      it=        86      ntime =       100
+   norm=   0.972531E+00
+   <r>=  -0.692968E-08  -0.692968E-08  -0.692968E-08
+
+
+ Effective Number of Trap atoms =    9.72531E+04
+
+   energy (ham-exp) =   1.626140E+01
+
+   6.692870E-01   1.514543E+01
+
+   chemical potential =   1.625119E+01
+
+
+ time=        0.08700      it=        87      ntime =       100
+   norm=   0.973447E+00
+   <r>=  -0.713962E-08  -0.713962E-08  -0.713962E-08
+
+
+ Effective Number of Trap atoms =    9.73447E+04
+
+   energy (ham-exp) =   1.618410E+01
+
+   6.676655E-01   1.508670E+01
+
+   chemical potential =   1.671021E+01
+
+
+ time=        0.08800      it=        88      ntime =       100
+   norm=   0.975403E+00
+   <r>=  -0.734006E-08  -0.734006E-08  -0.734006E-08
+
+
+ Effective Number of Trap atoms =    9.75403E+04
+
+   energy (ham-exp) =   1.612311E+01
+
+   6.667723E-01   1.505975E+01
+
+   chemical potential =   1.716602E+01
+
+
+ time=        0.08900      it=        89      ntime =       100
+   norm=   0.978328E+00
+   <r>=  -0.753103E-08  -0.753102E-08  -0.753102E-08
+
+
+ Effective Number of Trap atoms =    9.78328E+04
+
+   energy (ham-exp) =   1.607698E+01
+
+   6.665517E-01   1.506200E+01
+
+   chemical potential =   1.759891E+01
+
+
+ time=        0.09000      it=        90      ntime =       100
+   norm=   0.982117E+00
+   <r>=  -0.771248E-08  -0.771248E-08  -0.771248E-08
+
+
+ Effective Number of Trap atoms =    9.82117E+04
+
+   energy (ham-exp) =   1.604383E+01
+
+   6.669253E-01   1.508999E+01
+
+   chemical potential =   1.798877E+01
+
+
+ time=        0.09100      it=        91      ntime =       100
+   norm=   0.986632E+00
+   <r>=  -0.788438E-08  -0.788438E-08  -0.788438E-08
+
+
+ Effective Number of Trap atoms =    9.86632E+04
+
+   energy (ham-exp) =   1.602135E+01
+
+   6.677929E-01   1.513939E+01
+
+   chemical potential =   1.831632E+01
+
+
+ time=        0.09200      it=        92      ntime =       100
+   norm=   0.991704E+00
+   <r>=  -0.804660E-08  -0.804660E-08  -0.804660E-08
+
+
+ Effective Number of Trap atoms =    9.91704E+04
+
+   energy (ham-exp) =   1.600690E+01
+
+   6.690356E-01   1.520508E+01
+
+   chemical potential =   1.856449E+01
+
+
+ time=        0.09300      it=        93      ntime =       100
+   norm=   0.997141E+00
+   <r>=  -0.819901E-08  -0.819901E-08  -0.819901E-08
+
+
+ Effective Number of Trap atoms =    9.97141E+04
+
+   energy (ham-exp) =   1.599757E+01
+
+   6.705198E-01   1.528131E+01
+
+   chemical potential =   1.871978E+01
+
+
+ time=        0.09400      it=        94      ntime =       100
+   norm=   0.100273E+01
+   <r>=  -0.834142E-08  -0.834142E-08  -0.834142E-08
+
+
+ Effective Number of Trap atoms =    1.00273E+05
+
+   energy (ham-exp) =   1.599032E+01
+
+   6.721030E-01   1.536193E+01
+
+   chemical potential =   1.877345E+01
+
+
+ time=        0.09500      it=        95      ntime =       100
+   norm=   0.100827E+01
+   <r>=  -0.847359E-08  -0.847359E-08  -0.847359E-08
+
+
+ Effective Number of Trap atoms =    1.00827E+05
+
+   energy (ham-exp) =   1.598215E+01
+
+   6.736415E-01   1.544066E+01
+
+   chemical potential =   1.872228E+01
+
+
+ time=        0.09600      it=        96      ntime =       100
+   norm=   0.101354E+01
+   <r>=  -0.859529E-08  -0.859529E-08  -0.859529E-08
+
+
+ Effective Number of Trap atoms =    1.01354E+05
+
+   energy (ham-exp) =   1.597024E+01
+
+   6.749978E-01   1.551147E+01
+
+   chemical potential =   1.856874E+01
+
+
+ time=        0.09700      it=        97      ntime =       100
+   norm=   0.101836E+01
+   <r>=  -0.870626E-08  -0.870626E-08  -0.870626E-08
+
+
+ Effective Number of Trap atoms =    1.01836E+05
+
+   energy (ham-exp) =   1.595209E+01
+
+   6.760475E-01   1.556887E+01
+
+   chemical potential =   1.832070E+01
+
+
+ time=        0.09800      it=        98      ntime =       100
+   norm=   0.102256E+01
+   <r>=  -0.880625E-08  -0.880624E-08  -0.880624E-08
+
+
+ Effective Number of Trap atoms =    1.02256E+05
+
+   energy (ham-exp) =   1.592567E+01
+
+   6.766862E-01   1.560823E+01
+
+   chemical potential =   1.799046E+01
+
+
+ time=        0.09900      it=        99      ntime =       100
+   norm=   0.102602E+01
+   <r>=  -0.889502E-08  -0.889502E-08  -0.889502E-08
+
+
+ Effective Number of Trap atoms =    1.02602E+05
+
+   energy (ham-exp) =   1.588947E+01
+
+   6.768333E-01   1.562600E+01
+
+   chemical potential =   1.759360E+01
+
+
+ time=        0.10000      it=       100      ntime =       100
+   norm=   0.102864E+01
+   <r>=  -0.897237E-08  -0.897237E-08  -0.897237E-08
+
+
+ Effective Number of Trap atoms =    1.02864E+05
+
+   energy (ham-exp) =   1.584253E+01
+
+   6.764348E-01   1.561984E+01
+
+   chemical potential =   1.714750E+01
+
+
+
+
+
+
+ timimg information 
+
+ number of time steps =       100
+ number of radial pts. =    132651
+ total time(sec) =           67.161491
+ average time/step =      0.671614913940
+

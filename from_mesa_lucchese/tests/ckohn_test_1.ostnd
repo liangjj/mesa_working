@@ -1,0 +1,1617 @@
+Fri Jan  2 18:26:34 CST 2015
+ckohn test 1 - 1 channel FCHF CO2 ionization
+using version .gfi8
+rm: run_ckohn_test_1.gfi8: No such file or directory
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m206 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.030s
+user	0m0.005s
+sys	0m0.003s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.026s
+user	0m0.023s
+sys	0m0.002s
+m312 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m11.165s
+user	0m9.948s
+sys	0m0.235s
+m330 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m14.750s
+user	0m1.854s
+sys	0m1.056s
+m401
+m401 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.123s
+user	0m0.071s
+sys	0m0.003s
+m501 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m24.234s
+user	0m20.774s
+sys	0m3.373s
+m644 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.079s
+user	0m0.065s
+sys	0m0.004s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.025s
+user	0m0.009s
+sys	0m0.004s
+m998
+Program ExtractData - get data from mesa.out
+nsmall =    11
+na   11  nb    0
+Atomic center to use for the asymptotic functions     1
+Label for insolve for contractq is nocontq  
+Highest asymptotic partial wave LMaxK     6
+Center of symmeter (1 no, 2 yes) CenterSym     2
+Rotation symmetry order about z axis CnOrder    2
+Number of scattering channels    1
+Number of continuum symmetry types    1
+Symmetry type of each channel    1
+Number of diffrerent groups for nsmall orbitals NGroupOcc   -2
+Group number     1  with   10  orbitals
+    1-ag       2-ag       3-ag       1-b2g      1-b3g  
+    1-b1u      2-b1u      3-b1u      1-b2u      1-b3u  
+Group number     2  with    1  orbitals
+    4-ag   
+Symmetry of the total N electron initial state ag
+Symmetry of the total N electron scattering state b1u
+For Symmetry type    1
+Symmetry for the continuum one electron functions b1u
+Symmetry of the total N-1 electron+target state ag
+Lowest L for asymptotic partial waves PWLStart    1
+MOD of M values to use PWmMOD    0
+Cos (0) or Sin (1) like terms iCS    0
+NSym =    8
+SymLabel   =ag   b1g  b2g  b3g  au   b1u  b2u  b3u  
+SymNormOrb =   35    7   13   13    5   28   17   17
+analyze OrbInSmall NSym =    8
+iSym =    1  NOrbInSmall =    4  NOrbInScat =   31
+iSym =    2  NOrbInSmall =    0  NOrbInScat =    7
+iSym =    3  NOrbInSmall =    1  NOrbInScat =   12
+iSym =    4  NOrbInSmall =    1  NOrbInScat =   12
+iSym =    5  NOrbInSmall =    0  NOrbInScat =    5
+iSym =    6  NOrbInSmall =    3  NOrbInScat =   25
+iSym =    7  NOrbInSmall =    1  NOrbInScat =   16
+iSym =    8  NOrbInSmall =    1  NOrbInScat =   16
+
+Orbitals numbers by symmetry
+  Sym Num    Orb Num
+    1-ag         2
+    2-ag         3
+    3-ag         4
+    4-ag         6
+    1-b2g       10
+    1-b3g       11
+    1-b1u        1
+    2-b1u        5
+    3-b1u        7
+    1-b2u        8
+    1-b3u        9
+
+Orbitals by number
+Orb Num  Sym Num
+    1      1-b1u  
+    2      1-ag   
+    3      2-ag   
+    4      3-ag   
+    5      2-b1u  
+    6      4-ag   
+    7      3-b1u  
+    8      1-b2u  
+    9      1-b3u  
+   10      1-b2g  
+   11      1-b3g  
+
+NSym =    8
+For symmetry type    1
+nscont =    6
+FFBFN =   49
+ffbfdata =    8   11   14   17   38   41   44   46   47   48
+ffbfdata =   49   50   53   56   59   62   63   64   65   69
+ffbfdata =   70   71   75   76   77   83   86   89   91   92
+ffbfdata =   93   94   95   98  101  104  107  108  109  110
+ffbfdata =  114  115  116  120  121  122  128  131  134
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.007s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.222s
+user	0m0.173s
+sys	0m0.016s
+m998
+Program ExtractConfig - get configuration counts from mesa.out
+Number of continuum symmetry types    1
+Number of numel lines used in each symmetry and for the target/Q space
+    1    1
+Number of basis functions in each continuum   25
+ncsfs        26
+Count of each type of reference
+      25       1
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m1902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.015s
+user	0m0.011s
+sys	0m0.002s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.025s
+user	0m0.021s
+sys	0m0.002s
+m312 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m9.857s
+user	0m9.629s
+sys	0m0.226s
+m330 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m11.042s
+user	0m1.749s
+sys	0m1.033s
+m401
+m401 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.066s
+user	0m0.060s
+sys	0m0.004s
+m806 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.601s
+user	0m0.140s
+sys	0m0.004s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.158s
+user	0m0.143s
+sys	0m0.012s
+m808 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.033s
+user	0m0.007s
+sys	0m0.003s
+m811 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	1m58.831s
+user	1m30.209s
+sys	0m3.928s
+m819 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m11.315s
+user	0m0.719s
+sys	0m1.137s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m22.289s
+user	0m4.842s
+sys	0m2.429s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.347s
+user	0m0.103s
+sys	0m0.079s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.159s
+user	0m0.007s
+sys	0m0.003s
+m9211 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.026s
+user	0m0.012s
+sys	0m0.004s
+m926 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.657s
+user	0m0.176s
+sys	0m0.462s
+m990 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.020s
+user	0m0.007s
+sys	0m0.003s
+m9221 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.027s
+user	0m0.021s
+sys	0m0.003s
+m806 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.141s
+user	0m0.137s
+sys	0m0.002s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m21.213s
+user	0m4.743s
+sys	0m2.158s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.185s
+user	0m0.101s
+sys	0m0.079s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.002s
+m9222 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.054s
+user	0m0.022s
+sys	0m0.003s
+m927 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.033s
+user	0m0.006s
+sys	0m0.003s
+m990 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.007s
+sys	0m0.002s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.007s
+sys	0m0.003s
+m998
+Program ExtractIP - get ionization potentials
+Number of channels    1
+Ionization potential in the first channel   0.21637400E+02
+Input eigenvalues
+    -186.908153
+Ionization potentials for inphot
+      21.637400
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.002s
+m103 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.035s
+user	0m0.002s
+sys	0m0.002s
+m104 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.002s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.192s
+user	0m0.175s
+sys	0m0.016s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m14.826s
+user	0m4.081s
+sys	0m1.839s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.195s
+user	0m0.066s
+sys	0m0.052s
+m930 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.080s
+user	0m0.004s
+sys	0m0.005s
+m935 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.021s
+user	0m0.005s
+sys	0m0.004s
+m950 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.031s
+user	0m0.016s
+sys	0m0.004s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m998
+start xlebgrid
+Fri Jan  2 18:31:00 CST 2015
+start xcbetter1
+Fri Jan  2 18:31:01 CST 2015
+start xass
+Fri Jan  2 18:31:01 CST 2015
+start xbasis
+Fri Jan  2 18:31:02 CST 2015
+start xstatnuc
+Fri Jan  2 18:31:06 CST 2015
+  ZRes     1.0000000000000000     
+  NPT                   500
+  NGrid                 89100
+ sumpot   1   =  -0.61184016E+02
+start xcffbfcg
+Fri Jan  2 18:35:36 CST 2015
+start xcknew
+Fri Jan  2 18:35:39 CST 2015
+eigkohn.b1u
+      0.0134000    457.7699124      1.5202204
+      0.0502000    117.3887397      1.4239345
+      0.0869000     66.0246627      1.3936745
+      0.1237000     45.9246898      1.4169434
+modulus from outkohn.b1u
+ channel momenta:     0.16371
+ eigenphase #  1 =     1.37176 modulus =     1.00014
+ eigenphase #  2 =     0.12155 modulus =     1.00079
+ eigenphase #  3 =     0.01288 modulus =     1.00042
+ eigenphase #  4 =    -0.00844 modulus =     1.00012
+ eigenphase #  5 =     0.01543 modulus =     1.00008
+ eigenphase #  6 =     0.00704 modulus =     1.00011
+ channel momenta:     0.31686
+ eigenphase #  1 =     1.30471 modulus =     1.00031
+ eigenphase #  2 =     0.07219 modulus =     1.00054
+ eigenphase #  3 =     0.01559 modulus =     1.00048
+ eigenphase #  4 =    -0.01011 modulus =     1.00014
+ eigenphase #  5 =     0.03369 modulus =     1.00014
+ eigenphase #  6 =     0.00787 modulus =     1.00019
+ channel momenta:     0.41689
+ eigenphase #  1 =     1.25738 modulus =     1.00038
+ eigenphase #  2 =     0.06553 modulus =     1.00043
+ eigenphase #  3 =     0.01885 modulus =     1.00036
+ eigenphase #  4 =    -0.01151 modulus =     1.00014
+ eigenphase #  5 =     0.05491 modulus =     1.00026
+ eigenphase #  6 =     0.00851 modulus =     1.00025
+ channel momenta:     0.49739
+ eigenphase #  1 =     1.23157 modulus =     1.00042
+ eigenphase #  2 =     0.08734 modulus =     1.00109
+ eigenphase #  3 =     0.02384 modulus =     1.00025
+ eigenphase #  4 =    -0.01276 modulus =     1.00014
+ eigenphase #  5 =     0.07792 modulus =     1.00046
+ eigenphase #  6 =     0.00903 modulus =     1.00029
+Largest 10 modulus values
+ eigenphase #  3 =     0.01885 modulus =     1.00036
+ eigenphase #  1 =     1.25738 modulus =     1.00038
+ eigenphase #  1 =     1.23157 modulus =     1.00042
+ eigenphase #  3 =     0.01288 modulus =     1.00042
+ eigenphase #  2 =     0.06553 modulus =     1.00043
+ eigenphase #  5 =     0.07792 modulus =     1.00046
+ eigenphase #  3 =     0.01559 modulus =     1.00048
+ eigenphase #  2 =     0.07219 modulus =     1.00054
+ eigenphase #  2 =     0.12155 modulus =     1.00079
+ eigenphase #  2 =     0.08734 modulus =     1.00109
+start xcknew a
+Fri Jan  2 18:35:41 CST 2015
+start xcsolve
+Fri Jan  2 18:35:42 CST 2015
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.002s
+m103 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m104 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.026s
+user	0m0.022s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.192s
+user	0m0.176s
+sys	0m0.012s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m21.499s
+user	0m4.778s
+sys	0m2.301s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.637s
+user	0m0.100s
+sys	0m0.078s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m9278 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.061s
+user	0m0.003s
+sys	0m0.003s
+m9290 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.107s
+user	0m0.051s
+sys	0m0.011s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.194s
+user	0m0.003s
+sys	0m0.003s
+m998
+start xcdipc
+Fri Jan  2 18:36:06 CST 2015
+start xcphot
+Fri Jan  2 18:36:23 CST 2015
+pltphot.b1u
+
+ Channel      1
+     0.80857    22.00203     0.00000     0.00000     0.66167
+     0.84537    23.00339     0.00000     0.00000     0.97077
+     0.88207    24.00204     0.00000     0.00000     1.43017
+     0.91887    25.00340     0.00000     0.00000     1.90683
+From pltphot.b1u
+
+ Channel      1
+     0.80857    22.00203     0.00000     0.00000     0.66167
+     0.84537    23.00339     0.00000     0.00000     0.97077
+     0.88207    24.00204     0.00000     0.00000     1.43017
+     0.91887    25.00340     0.00000     0.00000     1.90683
+Program ExtractData - get data from mesa.out
+nsmall =    11
+na   11  nb    0
+Atomic center to use for the asymptotic functions     1
+Label for insolve for contractq is nocontq  
+Highest asymptotic partial wave LMaxK     6
+Center of symmeter (1 no, 2 yes) CenterSym     2
+Rotation symmetry order about z axis CnOrder    2
+Number of scattering channels    1
+Number of continuum symmetry types    1
+Symmetry type of each channel    1
+Number of diffrerent groups for nsmall orbitals NGroupOcc   -2
+Group number     1  with   10  orbitals
+    1-ag       2-ag       3-ag       1-b2g      1-b3g  
+    1-b1u      2-b1u      3-b1u      1-b2u      1-b3u  
+Group number     2  with    1  orbitals
+    4-ag   
+Symmetry of the total N electron initial state ag
+Symmetry of the total N electron scattering state b2u
+For Symmetry type    1
+Symmetry for the continuum one electron functions b2u
+Symmetry of the total N-1 electron+target state ag
+Lowest L for asymptotic partial waves PWLStart    1
+MOD of M values to use PWmMOD    1
+Cos (0) or Sin (1) like terms iCS    1
+NSym =    8
+SymLabel   =ag   b1g  b2g  b3g  au   b1u  b2u  b3u  
+SymNormOrb =   35    7   13   13    5   28   17   17
+analyze OrbInSmall NSym =    8
+iSym =    1  NOrbInSmall =    4  NOrbInScat =   31
+iSym =    2  NOrbInSmall =    0  NOrbInScat =    7
+iSym =    3  NOrbInSmall =    1  NOrbInScat =   12
+iSym =    4  NOrbInSmall =    1  NOrbInScat =   12
+iSym =    5  NOrbInSmall =    0  NOrbInScat =    5
+iSym =    6  NOrbInSmall =    3  NOrbInScat =   25
+iSym =    7  NOrbInSmall =    1  NOrbInScat =   16
+iSym =    8  NOrbInSmall =    1  NOrbInScat =   16
+
+Orbitals numbers by symmetry
+  Sym Num    Orb Num
+    1-ag         2
+    2-ag         3
+    3-ag         4
+    4-ag         6
+    1-b2g       10
+    1-b3g       11
+    1-b1u        1
+    2-b1u        5
+    3-b1u        7
+    1-b2u        8
+    1-b3u        9
+
+Orbitals by number
+Orb Num  Sym Num
+    1      1-b1u  
+    2      1-ag   
+    3      2-ag   
+    4      3-ag   
+    5      2-b1u  
+    6      4-ag   
+    7      3-b1u  
+    8      1-b2u  
+    9      1-b3u  
+   10      1-b2g  
+   11      1-b3g  
+
+NSym =    8
+For symmetry type    1
+nscont =    7
+FFBFN =   27
+ffbfdata =    7   10   13   16   37   40   43   52   55   58
+ffbfdata =   61   68   74   80   82   85   88   97  100  103
+ffbfdata =  106  113  119  125  127  130  133
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.192s
+user	0m0.176s
+sys	0m0.015s
+m998
+Program ExtractConfig - get configuration counts from mesa.out
+Number of continuum symmetry types    1
+Number of numel lines used in each symmetry and for the target/Q space
+    1    1
+Number of basis functions in each continuum   16
+ncsfs        17
+Count of each type of reference
+      16       1
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m1902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.015s
+user	0m0.012s
+sys	0m0.002s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.024s
+user	0m0.021s
+sys	0m0.002s
+m312 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m9.842s
+user	0m9.615s
+sys	0m0.226s
+m330 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m12.451s
+user	0m1.745s
+sys	0m1.070s
+m401
+m401 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.126s
+user	0m0.056s
+sys	0m0.003s
+m806 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.142s
+user	0m0.138s
+sys	0m0.003s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.157s
+user	0m0.141s
+sys	0m0.015s
+m808 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.002s
+m811 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	2m3.966s
+user	1m30.705s
+sys	0m4.111s
+m819 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m24.579s
+user	0m0.745s
+sys	0m1.296s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m38.935s
+user	0m4.952s
+sys	0m2.209s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.420s
+user	0m0.105s
+sys	0m0.081s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.140s
+user	0m0.007s
+sys	0m0.002s
+m9211 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.016s
+user	0m0.012s
+sys	0m0.003s
+m926 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.785s
+user	0m0.183s
+sys	0m0.485s
+m990 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.007s
+sys	0m0.002s
+m9221 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.034s
+user	0m0.021s
+sys	0m0.003s
+m806 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.146s
+user	0m0.142s
+sys	0m0.003s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m42.533s
+user	0m5.097s
+sys	0m2.444s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.186s
+user	0m0.105s
+sys	0m0.079s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.002s
+m9222 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.039s
+user	0m0.023s
+sys	0m0.003s
+m927 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.002s
+m990 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.007s
+sys	0m0.002s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.092s
+user	0m0.007s
+sys	0m0.003s
+m998
+Program ExtractIP - get ionization potentials
+Number of channels    1
+Ionization potential in the first channel   0.21637400E+02
+Input eigenvalues
+    -186.908153
+Ionization potentials for inphot
+      21.637400
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m103 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.002s
+sys	0m0.002s
+m104 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.206s
+user	0m0.189s
+sys	0m0.013s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m17.958s
+user	0m4.453s
+sys	0m2.007s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.237s
+user	0m0.075s
+sys	0m0.058s
+m930 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.004s
+sys	0m0.004s
+m935 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.005s
+sys	0m0.004s
+m950 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.159s
+user	0m0.016s
+sys	0m0.005s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.007s
+user	0m0.003s
+sys	0m0.003s
+m998
+start xlebgrid
+Fri Jan  2 18:40:58 CST 2015
+start xcbetter1
+Fri Jan  2 18:40:59 CST 2015
+start xass
+Fri Jan  2 18:41:00 CST 2015
+start xbasis
+Fri Jan  2 18:41:00 CST 2015
+start xstatnuc
+Fri Jan  2 18:41:03 CST 2015
+  ZRes     1.0000000000000000     
+  NPT                   500
+  NGrid                 89100
+ sumpot   1   =  -0.61184016E+02
+start xcffbfcg
+Fri Jan  2 18:45:36 CST 2015
+start xcknew
+Fri Jan  2 18:45:39 CST 2015
+eigkohn.b2u
+      0.0134000    433.6222959     -1.3907586
+      0.0502000    119.5247924     -1.4794774
+      0.0869000     71.1119006     -1.5633541
+      0.1237000     51.2747049     -1.6407310
+modulus from outkohn.b2u
+ channel momenta:     0.16371
+ eigenphase #  1 =    -1.28167 modulus =     1.00027
+ eigenphase #  2 =    -0.05270 modulus =     1.00018
+ eigenphase #  3 =    -0.05084 modulus =     1.00218
+ eigenphase #  4 =     0.01155 modulus =     1.00030
+ eigenphase #  5 =    -0.01776 modulus =     1.00055
+ eigenphase #  6 =     0.00067 modulus =     1.00000
+ channel momenta:     0.31686
+ eigenphase #  1 =    -1.32875 modulus =     1.00039
+ eigenphase #  2 =    -0.09448 modulus =     1.00019
+ eigenphase #  3 =     0.01396 modulus =     1.00039
+ eigenphase #  4 =    -0.05028 modulus =     1.00182
+ eigenphase #  5 =    -0.02019 modulus =     1.00058
+ eigenphase #  6 =     0.00027 modulus =     1.00001
+ channel momenta:     0.41689
+ eigenphase #  1 =    -1.37497 modulus =     1.00052
+ eigenphase #  2 =    -0.13333 modulus =     1.00053
+ eigenphase #  3 =     0.01653 modulus =     1.00037
+ eigenphase #  4 =    -0.04930 modulus =     1.00163
+ eigenphase #  5 =    -0.02209 modulus =     1.00057
+ eigenphase #  6 =    -0.00019 modulus =     1.00001
+ channel momenta:     0.49739
+ eigenphase #  1 =    -1.41861 modulus =     1.00067
+ eigenphase #  2 =    -0.16979 modulus =     1.00090
+ eigenphase #  3 =     0.01961 modulus =     1.00030
+ eigenphase #  4 =    -0.04764 modulus =     1.00153
+ eigenphase #  5 =    -0.02363 modulus =     1.00055
+ eigenphase #  6 =    -0.00067 modulus =     1.00002
+Largest 10 modulus values
+ eigenphase #  5 =    -0.01776 modulus =     1.00055
+ eigenphase #  5 =    -0.02363 modulus =     1.00055
+ eigenphase #  5 =    -0.02209 modulus =     1.00057
+ eigenphase #  5 =    -0.02019 modulus =     1.00058
+ eigenphase #  1 =    -1.41861 modulus =     1.00067
+ eigenphase #  2 =    -0.16979 modulus =     1.00090
+ eigenphase #  4 =    -0.04764 modulus =     1.00153
+ eigenphase #  4 =    -0.04930 modulus =     1.00163
+ eigenphase #  4 =    -0.05028 modulus =     1.00182
+ eigenphase #  3 =    -0.05084 modulus =     1.00218
+start xcknew a
+Fri Jan  2 18:45:40 CST 2015
+start xcsolve
+Fri Jan  2 18:45:42 CST 2015
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.032s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m103 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m104 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.002s
+sys	0m0.002s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.025s
+user	0m0.022s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.192s
+user	0m0.176s
+sys	0m0.012s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m21.568s
+user	0m4.794s
+sys	0m2.317s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.174s
+user	0m0.097s
+sys	0m0.076s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m9278 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.002s
+sys	0m0.002s
+m9290 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.056s
+user	0m0.046s
+sys	0m0.009s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.007s
+user	0m0.003s
+sys	0m0.002s
+m998
+start xcdipc
+Fri Jan  2 18:46:05 CST 2015
+start xcphot
+Fri Jan  2 18:46:22 CST 2015
+pltphot.b2u
+
+ Channel      1
+     0.80857    22.00203     0.00000     0.55506     0.00000
+     0.84537    23.00339     0.00000     0.43121     0.00000
+     0.88207    24.00204     0.00000     0.35123     0.00000
+     0.91887    25.00340     0.00000     0.30353     0.00000
+From pltphot.b2u
+
+ Channel      1
+     0.80857    22.00203     0.00000     0.55506     0.00000
+     0.84537    23.00339     0.00000     0.43121     0.00000
+     0.88207    24.00204     0.00000     0.35123     0.00000
+     0.91887    25.00340     0.00000     0.30353     0.00000
+Program ExtractData - get data from mesa.out
+nsmall =    11
+na   11  nb    0
+Atomic center to use for the asymptotic functions     1
+Label for insolve for contractq is nocontq  
+Highest asymptotic partial wave LMaxK     6
+Center of symmeter (1 no, 2 yes) CenterSym     2
+Rotation symmetry order about z axis CnOrder    2
+Number of scattering channels    1
+Number of continuum symmetry types    1
+Symmetry type of each channel    1
+Number of diffrerent groups for nsmall orbitals NGroupOcc   -2
+Group number     1  with   10  orbitals
+    1-ag       2-ag       3-ag       1-b2g      1-b3g  
+    1-b1u      2-b1u      3-b1u      1-b2u      1-b3u  
+Group number     2  with    1  orbitals
+    4-ag   
+Symmetry of the total N electron initial state ag
+Symmetry of the total N electron scattering state b3u
+For Symmetry type    1
+Symmetry for the continuum one electron functions b3u
+Symmetry of the total N-1 electron+target state ag
+Lowest L for asymptotic partial waves PWLStart    1
+MOD of M values to use PWmMOD    1
+Cos (0) or Sin (1) like terms iCS    0
+NSym =    8
+SymLabel   =ag   b1g  b2g  b3g  au   b1u  b2u  b3u  
+SymNormOrb =   35    7   13   13    5   28   17   17
+analyze OrbInSmall NSym =    8
+iSym =    1  NOrbInSmall =    4  NOrbInScat =   31
+iSym =    2  NOrbInSmall =    0  NOrbInScat =    7
+iSym =    3  NOrbInSmall =    1  NOrbInScat =   12
+iSym =    4  NOrbInSmall =    1  NOrbInScat =   12
+iSym =    5  NOrbInSmall =    0  NOrbInScat =    5
+iSym =    6  NOrbInSmall =    3  NOrbInScat =   25
+iSym =    7  NOrbInSmall =    1  NOrbInScat =   16
+iSym =    8  NOrbInSmall =    1  NOrbInScat =   16
+
+Orbitals numbers by symmetry
+  Sym Num    Orb Num
+    1-ag         2
+    2-ag         3
+    3-ag         4
+    4-ag         6
+    1-b2g       10
+    1-b3g       11
+    1-b1u        1
+    2-b1u        5
+    3-b1u        7
+    1-b2u        8
+    1-b3u        9
+
+Orbitals by number
+Orb Num  Sym Num
+    1      1-b1u  
+    2      1-ag   
+    3      2-ag   
+    4      3-ag   
+    5      2-b1u  
+    6      4-ag   
+    7      3-b1u  
+    8      1-b2u  
+    9      1-b3u  
+   10      1-b2g  
+   11      1-b3g  
+
+NSym =    8
+For symmetry type    1
+nscont =    8
+FFBFN =   27
+ffbfdata =    6    9   12   15   36   39   42   51   54   57
+ffbfdata =   60   67   73   79   81   84   87   96   99  102
+ffbfdata =  105  112  118  124  126  129  132
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.004s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.200s
+user	0m0.183s
+sys	0m0.016s
+m998
+Program ExtractConfig - get configuration counts from mesa.out
+Number of continuum symmetry types    1
+Number of numel lines used in each symmetry and for the target/Q space
+    1    1
+Number of basis functions in each continuum   16
+ncsfs        17
+Count of each type of reference
+      16       1
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m1902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.015s
+user	0m0.011s
+sys	0m0.002s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.024s
+user	0m0.021s
+sys	0m0.002s
+m312 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m9.833s
+user	0m9.602s
+sys	0m0.229s
+m330 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m11.229s
+user	0m1.741s
+sys	0m1.034s
+m401
+m401 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.402s
+user	0m0.060s
+sys	0m0.004s
+m806 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.141s
+user	0m0.137s
+sys	0m0.003s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.159s
+user	0m0.142s
+sys	0m0.013s
+m808 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.002s
+m811 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	2m0.120s
+user	1m30.100s
+sys	0m4.007s
+m819 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m11.462s
+user	0m0.701s
+sys	0m1.173s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m21.316s
+user	0m4.823s
+sys	0m2.348s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.188s
+user	0m0.107s
+sys	0m0.079s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.002s
+m9211 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.016s
+user	0m0.011s
+sys	0m0.004s
+m926 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.643s
+user	0m0.173s
+sys	0m0.468s
+m990 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.007s
+sys	0m0.002s
+m9221 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.024s
+user	0m0.021s
+sys	0m0.002s
+m806 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.141s
+user	0m0.138s
+sys	0m0.002s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m19.172s
+user	0m4.767s
+sys	0m2.169s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.200s
+user	0m0.102s
+sys	0m0.078s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.002s
+m9222 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.025s
+user	0m0.022s
+sys	0m0.003s
+m927 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.009s
+user	0m0.006s
+sys	0m0.002s
+m990 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.010s
+user	0m0.007s
+sys	0m0.002s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.007s
+sys	0m0.003s
+m998
+Program ExtractIP - get ionization potentials
+Number of channels    1
+Ionization potential in the first channel   0.21637400E+02
+Input eigenvalues
+    -186.908153
+Ionization potentials for inphot
+      21.637400
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.002s
+m103 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m104 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.194s
+user	0m0.176s
+sys	0m0.016s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m19.079s
+user	0m4.214s
+sys	0m2.002s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.129s
+user	0m0.072s
+sys	0m0.056s
+m930 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.009s
+user	0m0.004s
+sys	0m0.004s
+m935 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.009s
+user	0m0.004s
+sys	0m0.003s
+m950 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.020s
+user	0m0.016s
+sys	0m0.003s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.038s
+user	0m0.003s
+sys	0m0.002s
+m998
+start xlebgrid
+Fri Jan  2 18:49:58 CST 2015
+start xcbetter1
+Fri Jan  2 18:49:59 CST 2015
+start xass
+Fri Jan  2 18:49:59 CST 2015
+start xbasis
+Fri Jan  2 18:49:59 CST 2015
+start xstatnuc
+Fri Jan  2 18:50:03 CST 2015
+  ZRes     1.0000000000000000     
+  NPT                   500
+  NGrid                 89100
+ sumpot   1   =  -0.61184016E+02
+start xcffbfcg
+Fri Jan  2 18:54:33 CST 2015
+start xcknew
+Fri Jan  2 18:54:36 CST 2015
+eigkohn.b3u
+      0.0134000    433.6222959     -1.3907586
+      0.0502000    119.5247924     -1.4794774
+      0.0869000     71.1119006     -1.5633541
+      0.1237000     51.2747049     -1.6407310
+modulus from outkohn.b3u
+ channel momenta:     0.16371
+ eigenphase #  1 =    -1.28167 modulus =     1.00027
+ eigenphase #  2 =    -0.05270 modulus =     1.00018
+ eigenphase #  3 =    -0.05084 modulus =     1.00218
+ eigenphase #  4 =     0.01155 modulus =     1.00030
+ eigenphase #  5 =    -0.01776 modulus =     1.00055
+ eigenphase #  6 =     0.00067 modulus =     1.00000
+ channel momenta:     0.31686
+ eigenphase #  1 =    -1.32875 modulus =     1.00039
+ eigenphase #  2 =    -0.09448 modulus =     1.00019
+ eigenphase #  3 =     0.01396 modulus =     1.00039
+ eigenphase #  4 =    -0.05028 modulus =     1.00182
+ eigenphase #  5 =    -0.02019 modulus =     1.00058
+ eigenphase #  6 =     0.00027 modulus =     1.00001
+ channel momenta:     0.41689
+ eigenphase #  1 =    -1.37497 modulus =     1.00052
+ eigenphase #  2 =    -0.13333 modulus =     1.00053
+ eigenphase #  3 =     0.01653 modulus =     1.00037
+ eigenphase #  4 =    -0.04930 modulus =     1.00163
+ eigenphase #  5 =    -0.02209 modulus =     1.00057
+ eigenphase #  6 =    -0.00019 modulus =     1.00001
+ channel momenta:     0.49739
+ eigenphase #  1 =    -1.41861 modulus =     1.00067
+ eigenphase #  2 =    -0.16979 modulus =     1.00090
+ eigenphase #  3 =     0.01961 modulus =     1.00030
+ eigenphase #  4 =    -0.04764 modulus =     1.00153
+ eigenphase #  5 =    -0.02363 modulus =     1.00055
+ eigenphase #  6 =    -0.00067 modulus =     1.00002
+Largest 10 modulus values
+ eigenphase #  5 =    -0.01776 modulus =     1.00055
+ eigenphase #  5 =    -0.02363 modulus =     1.00055
+ eigenphase #  5 =    -0.02209 modulus =     1.00057
+ eigenphase #  5 =    -0.02019 modulus =     1.00058
+ eigenphase #  1 =    -1.41861 modulus =     1.00067
+ eigenphase #  2 =    -0.16979 modulus =     1.00090
+ eigenphase #  4 =    -0.04764 modulus =     1.00153
+ eigenphase #  4 =    -0.04930 modulus =     1.00163
+ eigenphase #  4 =    -0.05028 modulus =     1.00182
+ eigenphase #  3 =    -0.05084 modulus =     1.00218
+start xcknew a
+Fri Jan  2 18:54:37 CST 2015
+start xcsolve
+Fri Jan  2 18:54:39 CST 2015
+m0 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.001s
+sys	0m0.002s
+m1 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.008s
+user	0m0.003s
+sys	0m0.002s
+m101 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m102 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+m103 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m104 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.005s
+user	0m0.002s
+sys	0m0.002s
+m302 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.029s
+user	0m0.025s
+sys	0m0.003s
+m807 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.189s
+user	0m0.172s
+sys	0m0.013s
+m822 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m20.406s
+user	0m4.758s
+sys	0m2.284s
+m902 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.265s
+user	0m0.102s
+sys	0m0.077s
+m908 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m9278 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+m9290 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.056s
+user	0m0.046s
+sys	0m0.009s
+m2001
+rm: tmp/mesa.dint: No such file or directory
+m2001 inp=mesa.inp out=mesa.out dat=mesa.dat chk=mesa.chk rwf=tmp/mesa.rwf int=tmp/mesa.int siz=2500000
+
+real	0m0.007s
+user	0m0.003s
+sys	0m0.002s
+m998
+start xcdipc
+Fri Jan  2 18:55:01 CST 2015
+start xcphot
+Fri Jan  2 18:55:18 CST 2015
+pltphot.b3u
+
+ Channel      1
+     0.80857    22.00203     0.55506     0.00000     0.00000
+     0.84537    23.00339     0.43121     0.00000     0.00000
+     0.88207    24.00204     0.35123     0.00000     0.00000
+     0.91887    25.00340     0.30353     0.00000     0.00000
+From pltphot.b3u
+
+ Channel      1
+     0.80857    22.00203     0.55506     0.00000     0.00000
+     0.84537    23.00339     0.43121     0.00000     0.00000
+     0.88207    24.00204     0.35123     0.00000     0.00000
+     0.91887    25.00340     0.30353     0.00000     0.00000
+rm: DipMatAll??.dat: No such file or directory
+Program ExtractDipMat put dipole matrix elements in ePolyScat form
+nchan     1
+Channel     1
+    1  l     1  m    0  mePoly     0
+    2  l     3  m    0  mePoly     0
+    3  l     3  m    3  mePoly     2
+    4  l     5  m    0  mePoly     0
+    5  l     5  m    3  mePoly     2
+    6  l     5  m    7  mePoly     4
+Ignore blocks of matrix elements if abs of all are less than   0.10000000E-05
+tmat dip =    3  ic =    1  kchan =   0.16370706E+00
+  -0.18067993E+00   0.35026518E+00   0.56797498E+00  -0.60405690E-02
+  -0.47067937E-11  -0.13682503E-11   0.71321193E-02  -0.14357406E-02
+   0.30407722E-12  -0.31629015E-13  -0.14225249E-04   0.21282315E-04
+tmat dip =    3  ic =    1  kchan =   0.31685959E+00
+  -0.24901194E+00   0.22741047E+00   0.74611929E+00  -0.12895075E-02
+  -0.54444307E-11  -0.17582651E-11   0.18864117E-01  -0.43745400E-02
+   0.71831877E-12  -0.52741886E-13  -0.25957358E-04   0.29212434E-04
+tmat dip =    3  ic =    1  kchan =   0.41689327E+00
+  -0.32478719E+00   0.11128697E+00   0.90941121E+00  -0.29026743E-01
+  -0.57911637E-11  -0.17167933E-11   0.36090115E-01  -0.83704155E-02
+   0.12083433E-11  -0.74754529E-13  -0.51226862E-04   0.44381159E-04
+tmat dip =    3  ic =    1  kchan =   0.49739320E+00
+  -0.40433382E+00   0.16552042E-01   0.10179600E+01  -0.93144204E-01
+  -0.56363486E-11  -0.10970575E-11   0.57313282E-01  -0.15560688E-01
+   0.17483406E-11  -0.66052076E-13  -0.76570907E-04   0.78584189E-04
+Program ExtractDipMat put dipole matrix elements in ePolyScat form
+nchan     1
+Channel     1
+    1  l     1  m    2  mePoly    -1
+    2  l     3  m    2  mePoly    -1
+    3  l     3  m    6  mePoly    -3
+    4  l     5  m    2  mePoly    -1
+    5  l     5  m    6  mePoly    -3
+    6  l     5  m   10  mePoly    -5
+Ignore blocks of matrix elements if abs of all are less than   0.10000000E-05
+tmat dip =    2  ic =    1  kchan =   0.16370706E+00
+   0.18000688E+00   0.60633522E+00  -0.27793277E-01  -0.13365134E-01
+   0.32458789E-04  -0.97477596E-05   0.80742893E-03  -0.64073784E-03
+   0.11948998E-05  -0.82617415E-05   0.60061959E-06  -0.57475249E-05
+tmat dip =    2  ic =    1  kchan =   0.31685959E+00
+   0.13095745E+00   0.52792739E+00   0.45746737E-01  -0.13020865E-02
+   0.32482300E-04  -0.82830089E-05   0.30481124E-02  -0.15029671E-02
+  -0.12619686E-06  -0.10791267E-04  -0.74011697E-06  -0.73330166E-05
+tmat dip =    2  ic =    1  kchan =   0.41689327E+00
+   0.91185727E-01   0.45943217E+00   0.11363093E+00   0.15540147E-01
+   0.28644911E-04  -0.72459063E-05   0.69785213E-02  -0.23089826E-02
+  -0.42747479E-05  -0.12015149E-04  -0.43254662E-05  -0.80014149E-05
+tmat dip =    2  ic =    1  kchan =   0.49739320E+00
+   0.59034868E-01   0.39792780E+00   0.17254088E+00   0.34552052E-01
+   0.23891698E-04  -0.67038514E-05   0.12547187E-01  -0.28332338E-02
+  -0.79582169E-05  -0.12243226E-04  -0.78602553E-05  -0.80366995E-05
+Program ExtractDipMat put dipole matrix elements in ePolyScat form
+nchan     1
+Channel     1
+    1  l     1  m    1  mePoly     1
+    2  l     3  m    1  mePoly     1
+    3  l     3  m    5  mePoly     3
+    4  l     5  m    1  mePoly     1
+    5  l     5  m    5  mePoly     3
+    6  l     5  m    9  mePoly     5
+Ignore blocks of matrix elements if abs of all are less than   0.10000000E-05
+tmat dip =    1  ic =    1  kchan =   0.16370706E+00
+   0.18000688E+00   0.60633522E+00  -0.27793277E-01  -0.13365134E-01
+  -0.32458817E-04   0.97477585E-05   0.80742893E-03  -0.64073784E-03
+  -0.11948995E-05   0.82617415E-05   0.60061959E-06  -0.57475249E-05
+tmat dip =    1  ic =    1  kchan =   0.31685959E+00
+   0.13095745E+00   0.52792739E+00   0.45746737E-01  -0.13020865E-02
+  -0.32482332E-04   0.82830077E-05   0.30481124E-02  -0.15029671E-02
+   0.12619759E-06   0.10791267E-04  -0.74011698E-06  -0.73330166E-05
+tmat dip =    1  ic =    1  kchan =   0.41689327E+00
+   0.91185727E-01   0.45943217E+00   0.11363093E+00   0.15540147E-01
+  -0.28644945E-04   0.72459051E-05   0.69785213E-02  -0.23089826E-02
+   0.42747491E-05   0.12015149E-04  -0.43254662E-05  -0.80014149E-05
+tmat dip =    1  ic =    1  kchan =   0.49739320E+00
+   0.59034868E-01   0.39792780E+00   0.17254088E+00   0.34552052E-01
+  -0.23891732E-04   0.67038503E-05   0.12547187E-01  -0.28332338E-02
+   0.79582187E-05   0.12243226E-04  -0.78602553E-05  -0.80366995E-05
+Fri Jan  2 18:55:18 CST 2015

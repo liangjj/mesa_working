@@ -1,0 +1,212 @@
+ mesa(4.3);7/7/93;hp-ux 9.01 unix.                                              
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+     21-jul-1993 14:44:03    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test2.2                                                                                                    
+     out:    /usr2/mesa/tests/out/hp/test2.2                                                                                                 
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium1/rlm/tmp/rwf                                                                                                            
+     rint:   /cesium1/rlm/tmp/rint                                                                                                           
+     int:    /cesium1/rlm/tmp/int                                                                                                            
+     tint:   /cesium1/rlm/tmp/tint                                                                                                           
+     gint:   /cesium1/rlm/tmp/gint                                                                                                           
+     rdint:  /cesium1/rlm/tmp/rdint                                                                                                          
+     dint:   /cesium1/rlm/tmp/dint                                                                                                           
+     zint:   /cesium1/rlm/tmp/zint                                                                                                           
+     ham:    /cesium1/rlm/tmp/ham                                                                                                            
+     moden:  /cesium1/rlm/tmp/moden                                                                                                          
+     aoden:  /cesium1/rlm/tmp/aoden                                                                                                          
+     saoden: /cesium1/rlm/tmp/saoden                                                                                                         
+     gden:   /cesium1/rlm/tmp/gden                                                                                                           
+     fci:    /cesium1/rlm/tmp/fci                                                                                                            
+     machine size:          8000000
+     user defined maxsiz:    900000
+ title:
+      h2o test case: closed shell scf optimization(murtaugh-sargent) 
+ route:
+     1//1,2;
+     :opt;
+     2//1(:endopt);
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     7//1,2,12,31(:opt);
+     :endopt;
+     19//51;
+     20//01;
+ options:
+     maxsiz=900000 2s+1=1 hf scf=(pulay) guess=(huckel) opt basis=dz,sym=off
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1    .949000 r1       
+      3   3   h  dz          1    .949000 r2        2  112.300 a1       
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ murtaugh-sargent optimization:
+     initial parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.949000   estimate d2e/dx2                              
+                r2      0.949000   estimate d2e/dx2                              
+                a1    112.3000     estimate d2e/dx2                              
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o      .00000
+                 h1      .94900    .00000
+                 h2      .94900   1.57629    .00000
+ interatomic angles:
+          h2-o1-h3 =112.3000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o               .000000     .000000     .000000
+      2   2   h               .000000     .000000     .949000
+      3   3   h               .878024     .000000    -.360104
+ rotational constants (ghz):   1010.3518013    403.6377560    288.4152374
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262666( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                    7999999
+     all integrals held in core.
+     nuclear repulsion energy:    9.257562
+     iter              energy    diis convergence
+       13       -76.010988053          .000000003
+     rotating scf orbitals under core fock operator
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                       772607(281.1%)
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8        -.001862     .000000    -.001249
+       2          1        -.000541     .000000     .002819
+       3          1         .002403     .000000    -.001571
+     max      .002819     rms      .001546
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1    .002819 (  1)
+           3   h     1    .002819 (  2)   2    .000971 (  3)
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   1 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     second derivative matrix not updated -- first cycle.
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1      .57840
+                 r2      .00000    .57840
+                 a1      .00000    .00000    .22937
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79335    .00282    .00487   1.79822
+                 r2     1.79335    .00282    .00487   1.79822
+                 a1     1.96000    .00097    .00423   1.96424
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .002819      .000450     no 
+                     rms force      .002369      .000300     no 
+          maximum displacement      .004874      .001800     no 
+              rms displacement      .004670      .001200     no 
+     energy                      -76.010988
+     predicted change              -.000016
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.951579   -de/dx=     0.002819                          
+                r2      0.951579   -de/dx=     0.002819                          
+                a1    112.5425     -de/dx=     0.000971                          
+ murtaugh-sargent optimization:
+     search for a local minimum.
+     cycle number   2 out of a maximum of  13
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  1  2
+     step:
+           variable       old x    -de/dx   delta x     new x
+
+                 r1     1.79822   -.00027   -.00042   1.79780
+                 r2     1.79822   -.00027   -.00042   1.79780
+                 a1     1.96424   -.00011   -.00043   1.96381
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force      .000269      .000450     yes
+                     rms force      .000229      .000300     yes
+          maximum displacement      .000431      .001800     yes
+              rms displacement      .000427      .001200     yes
+     energy                      -76.011002
+     predicted change               .000000
+     optimization completed.
+     -- stationary point found.
+     optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.951579   -de/dx=    -0.000269                          
+                r2      0.951579   -de/dx=    -0.000269                          
+                a1    112.5425     -de/dx=    -0.000109                          
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.951579   -de/dx=    -0.000269                          
+                r2      0.951579   -de/dx=    -0.000269                          
+                a1    112.5425     -de/dx=    -0.000109                          
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.22325    .28580    .28580
+                 h1      .28580    .34828   -.03151
+                 h2      .28580   -.03151    .34828
+     total atomic charges:
+          o             8.79485
+          h1             .60257
+          h2             .60257
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1       1.1        .0        .0         0
+      201         3        .7        .0        .0         0
+      202         2        .3        .0        .0         0
+      302         2        .2        .0        .0         0
+      312         2       1.8        .0        .0         0
+      330         2        .2        .0        .0         0
+      401         2        .5        .0        .0         0
+      501         2       4.0        .0        .0         0
+      701         2        .1        .0        .0         0
+      702         2        .4        .0        .0         0
+      712         2       4.5        .0        .0         0
+      731         2        .1        .0        .0         0
+     1951         1        .2        .0        .0         0
+             total:      14.5        .0        .0         0

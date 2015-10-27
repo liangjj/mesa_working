@@ -1,0 +1,34 @@
+$atomic_prop_setup
+               type_calculation=imaginary_time
+    propagation_method=lanczos  preconditioner=cholesky in_core
+    non_orthogonal_basis overlap_drop_tolerance=1.e-07
+    hamiltonian_drop_tolerance=1.e-07 cholesky_drop_tolerance=1.e-07
+    eigenvalue_convergence=1.d-09 xprint_packed_matrix xprint=all_details
+    input_matrices=packed_in_drake_format output_matrices=packed_in_iosys_format
+    file_directory=He
+$end
+
+$directives
+  matrix_directive=by_channels hamiltonian_file_name=He_Mat_20
+  xprint_cc xdiagonalize_only xreformat_input_matrix_only 
+$end
+
+$time
+ automate number_of_time_regions=200 first_time=0.d0 time_interval=.01d0
+ xprint=(main=(xpointers,xpotential,xinitial_state,xnon_linear_potential,
+              xh_on_initial_state))
+$end
+
+$iterative_data
+ iterative_method=generalized_lanczos
+ non_orthogonal_basis
+ type_matrix=general compute_energy
+ overlap_tolerance=1.e-10 convergence=1.d-09
+ xorthogonalization_procedure=full        double_schmidt
+ xprint=(iterative=all) maximum_number_of_iterations=50
+ maximum_number_of_vectors=25 number_of_trials=1
+$end
+
+$initial_state
+ initial_state=unit_vector
+$end

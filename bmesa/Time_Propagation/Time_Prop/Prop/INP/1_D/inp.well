@@ -1,0 +1,67 @@
+$route
+
+$end
+          
+$nonstd
+12//35;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$prop_basis
+                 type-calculation=imaginary-time
+ number-of-space-variables=1 coordinate-system=cartesian
+ space-variable-1=x use-atomic-units kinetic-energy-type=packed
+ plot get-eigenpairs diagonal-modification=none
+ plot_step=1 xprint=all-details eigenvalue-convergence=1.d-10
+ propagation-order=4 xpropagation-method=arnoldi
+$end
+$h0(x)
+ automate number-of-major-blocks=1
+ number-of-fixed-points=2 left-fixed-point right-fixed-point 
+ drop-left-function drop-right-function xdo-not-diagonalize
+ order-of-finite-difference-formula=3 number-of-steps=1000
+ print=all xsector-print=sector-details reuse-space-data
+$end
+
+ $block-1
+ default-order=6 number-of-subregions=3
+ left-boundary=0.d0 right-boundary=1.0d0
+ $end
+
+$v_reg_1(x)
+ use-atomic-units potential=well well-depth=-1.d0
+$end
+
+$time
+ number-of-time-regions=2 first-time=0.d0 time-interval=.0001d0
+ print=(main=(xpointers,xpotential,xinitial-state,xnon-linear-potential,
+              xsolution,xh-on-initial-state)) eigenvalue-method=hamiltonian
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$initial-state
+ driver=gaussian-pulse alpha=1.d0 sigma=1.d0 x_0=0.d0 print=xon
+ power=1
+$end
+
+$v_couple
+  v-space-time=none
+$end
+
+$lanczos_data
+ overlap-tolerance=1.e-10 convergence=1.d-10 
+ xprint=(lanczos=all) maximum-number-of-iterations=20
+ maximum-number-of-vectors=20 number-of-trials=1
+$end
+ driver=gaussian-pulse alpha=1.d0 sigma=1.d0 x_0=0.d0 print=xon
+ driver=gaussian-pulse alpha=1.d0 sigma=1.d0 x_0=0.d0 print=xon
+ driver=perturbed-state-vector state=0 print=xon
+ driver=gaussian-pulse alpha=1.d0 sigma=1.d0 x_0=0.d0 print=xon
+ driver=unperturbed-state-vector state=0 print=on

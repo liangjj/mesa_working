@@ -1,0 +1,52 @@
+#
+# Created by C. Froese Fischer on  June 99
+# Makefile for the spline system mchf
+#
+
+# Directory where the libraries reside
+LIBDIR1 = ../..
+LIBDIR2 =  /nfs/atoms/users/cff/atsp/cpc/sun3/lib
+
+# Libraries to be searched
+COM =   -lspline -lnet
+
+# Flags to be added for compilation
+FC = f77
+FFLAGS = -g
+
+# Object files needed for the system
+
+OBJ = hf.o a.o add.o array.o az.o b.o bwint.o bwzeta.o ca.o cb.o \
+      data.o de.o dev.o ekin.o energy.o enexpr.o eptr.o \
+      factrl.o grange.o help.o hnorm.o hwf.o init.o \
+      initsp.o looktm.o lookup.o lval.o menu.o method.o nodec.o \
+      orthog.o output.o potl.o quad.o reform.o reord.o rme.o rotate.o \
+      scf.o solve.o sn.o summry.o vk.o wavefn.o xch.o \
+      bxv.o bxvpw.o yval.o minty.o facdyk.o ginvit.o 
+
+RADOBJ = ecore.o fky.o gky.o grad.o hl.o hlc.o quadr.o rky.o \
+	 rlshft.o ykf.o
+
+hf :	$(OBJ)  $(RADOBJ)
+	$(FC) -o hf  $(FFLAGS) -L$(LIBDIR1) -L$(LIBDIR2) \
+	$(OBJ) $(RADOBJ)  $(COM) 
+ 
+
+SRC = hf.f a.f add.f array.f az.f b.f bwint.f bwzeta.f ca.f cb.f \
+      data.f de.f dev.f dyk.f ekin.f energy.f enexpr.f eptr.f \
+      factrl.f grange.f help.f hnorm.f hwf.f init.f \
+      initsp.f looktm.f lookup.f lval.f menu.f orthog.f output.f \
+      potl.f reform.f reord.f rme.f rotate.f scf.f sn.f summry.f \
+      vk.f wavefn.f xch.f bxv.f bxvpw.f 
+
+RADSRC = ecore.f fky.f gky.f grad.f hl.f hlc.f quadr.f rky.f \
+	 rlshft.f ykf.f
+
+
+HF.f : $(SRC) $(RADSRC)
+	cat $(SRC) $(RADSRC) > HF.f
+
+
+clear  : $(SRC)
+	rm $(OBJ)
+

@@ -1,0 +1,40 @@
+$route
+hf basis=dz 2s+1=1 scf=(core-fock,pulay)
+guess=huckel
+print=(scf=(vector=all),ivo)
+drt=(nrefs=1,ngroups=3,rdsym,nsym=1)
+sym=off,ci=(nroots=5)
+ivo=singlet
+$end
+
+$drt
+4typ1;1 1typ2;1 9typ3;1
+na=5 nb=0 ns=1
+$end
+$groups
+numel=(8,1,1)
+$end
+
+$nonstd
+1//1,2;
+2//2; 3//2,12,30; 
+4//1; 5//1,2; 8//2,11;
+9//2;
+19//51;
+20//1;
+$end
+ 
+$title
+h2o test case:scf/singlet ivo/ci 
+$end
+ 
+$geom
+o1(basis=dz)
+h2(basis=dz) o1 r1
+h3(basis=dz) o1 r2  h2 a1
+ 
+r1=0.959447
+r2=0.959447
+a1=104.8318
+ 
+$end

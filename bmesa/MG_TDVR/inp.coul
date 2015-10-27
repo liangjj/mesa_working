@@ -1,0 +1,36 @@
+$route
+ number-of-space-dimensions=1 use-atomic-units space-dimension-1=r
+ m6290=(time-dimension=no,space-dimension=yes)
+ xprint=(xm6290=(points,polynomials),m6295=(all)) xm6290=check-orthogonality 
+ open-bec=new  m6291=(time-dimension=no,space-dimension=yes) 
+ spatial-grid-number=(1) mode=multigrid
+$end
+          
+$nonstd
+62//90,91;
+20//01;
+$end
+$title
+time-propagation code
+$end
+
+$v0-r-1
+ potential-type=coulomb
+$end 
+
+$grids-dimension-r
+ number-of-subgrids=1 coordinate-type=x quadrature-type=legendre
+ xl=0.d0 xr=100.d0 fix-end-points fix-left-end-point fix-right-end-point
+ number-of-points-per-subgrid=(25)
+$end
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

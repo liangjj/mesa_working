@@ -1,0 +1,22 @@
+Demonstration of using SuperLU
+
+This demonstration assumes that all of SuperLU is installed
+from the standard distribution
+
+The linux makefile assumes that the installation is in
+/usr/local/SuperLU
+
+It makes use of its own version of the bridging routine
+(driver that interfaces fortran to c)
+
+The order of the test matrix and other parameters are all set in 
+main.f    No input necessary
+
+To use this demo:
+
+1)  make  
+2)  xtest > output
+
+to clean up: 
+
+1)  make clean

@@ -1,0 +1,9 @@
+Hi,
+I made a directory called trap3d which has the subroutines and main program we
+talked about.  The main program is trap3d.f and the code has a number of options.
+Forgetting about many details of the utility subroutines which are used to enter data
+and parse strings, the best approach is likely to be to walk through the code with
+me and we can see where to ( or if ) continue in a fruitful fashion.  Best way to get
+me is by email at this address.
+
+                           Barry

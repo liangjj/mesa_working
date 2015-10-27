@@ -1,0 +1,33 @@
+      subroutine pot (r,v,clm,indxc,lch,ebst,npwr,n,nsts,itri,nlmas,ndim
+     1 )
+c
+      implicit real *8 (a-h,o-z)
+      common /bdt1/ zero, one, two, pi
+      common /lrmt/ iflg, ief
+      dimension v(n,n), clm(ndim,itri), indxc(n), lch(n), ebst(nsts)
+      dimension npwr(ndim)
+c
+      ik=0
+      do 20 i=1,n
+      ind1=indxc(i)
+      do 20 k=1,i
+      ind2=indxc(k)
+      ik=ik+1
+      vin=0.
+      do 10 lm=1,nlmas
+      lam=npwr(lm)
+      cof=clm(lm,ik)
+      rl=r**lam
+   10 vin=vin+(cof/rl)
+      v(i,k)=2.d+00*vin
+      if (ind1.ne.ind2.and.iflg.eq.0) v(i,k)=zero
+      v(k,i)=v(i,k)
+      if (i.ne.k) go to 20
+      indd=indxc(i)
+      xl=float(lch(i))
+      ecorr=two*(ebst(1)-ebst(indd))
+      v(i,i)=v(i,i)+((xl*(xl+1.))/(r*r))+ecorr
+   20 continue
+c
+      return
+      end

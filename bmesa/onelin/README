@@ -1,0 +1,3 @@
+This program calculates the solution to one-d scattering problems
+using the numerov method, either directly or in a variation-iteration
+approach.  It needs to be looked at since I have not used it in a long time.

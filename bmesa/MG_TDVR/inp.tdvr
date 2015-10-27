@@ -1,0 +1,64 @@
+$route
+ number-of-dimensions=1 coordinate-system=spherical use-atomic-units
+ diagonalize-h0 xm6285=check-orthogonality
+ xiterative-linear-system-solve xquit-after-h0 open-ham=new
+ xprint=(m6285=(full-hamiltonian,solution,block-factors))
+$end
+          
+$nonstd
+62//85;
+20//01;
+$end
+$title
+time-propagation code
+$end
+
+$time
+ pure-time-perturbation=none driver=state-vector initial-state=0
+ space-time-perturbation=none number-of-time-regions=1
+$end
+
+
+$q1-polynomials
+ number-of-points-grid-1=125 coordinate-type=r fix-end-points
+ fix-left-end-point fix-right-end-point xcheck-q1-orthogonality
+ left-end-point=-15.d0 right-end-point=15.d0 left-boundary-condition=0
+ right-boundary-condition=0 xprint=(m6285=(q1-polynomials))
+$end
+
+$t1-polynomials
+ number-of-points-grid-1=10 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=0.d0 right-end-point=5.d0
+ left-boundary-condition=0 right-boundary-condition=1
+ maximum-number-of-iterations=200 maximum-number-of-vectors=200
+$end
+
+$gmres
+ overlap-tolerance=1.e-10 convergence=1.e-08
+ preconditioner=forced-block maximum-size-of-preconditioning-block=100
+ xprint=(iterative-solve=all) maximum-number-of-iterations=100
+ maximum-number-of-vectors=100
+$end
+
+$trials
+ type-of-trial-vectors=unit number-of-trial-vectors=1
+$end
+
+$v0-1
+ potential-type=rounded-well n-well=10 a-well=14.d0
+$end 
+ 
+$vt
+ units=atomic-units electric-field-frequency=.2d0 
+ electric-field-strength=.001d0
+$end 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,34 @@
+$route
+ diis=on print=diis=on type-calculation=xlinear-system
+$end
+          
+$nonstd
+62//86;
+20//01;
+$end
+$title
+diis test
+$end
+$diis
+ order-of-polynomials=20 number-of-points=22 fix-end-points
+ number-of-fixed-points=2  order-of-leading-left-polynomials=1 
+ order-of-leading-right-polynomials=1 maximum-number-of-iterations=50
+ restart-value=10  convergence=1.d-09 trap-size=5.d0 
+ minimum-number-of-atoms=5000.d0 maximum-number-of-atoms=15000.0d0
+ switch-to-diis=1.0d0 xobject-type=hartree no-iteration
+ potential-type=harmonic-oscillator number-of-steps=5
+ number-of-right-hand-sides=1 number-of-energies=1 energies=5.d0 
+$end
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

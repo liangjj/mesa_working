@@ -1,0 +1,26 @@
+#   @(#)Makefile	1.6   9/6/91
+#
+# Makefile for M503_old
+#
+SOURCE = m503
+
+SRCS = \
+	diis.f \
+	fixlag.f \
+	gdmat.f \
+	gvbcof.f \
+	hfenrg.f \
+	jandks.f \
+	lagrng.f \
+	$(SOURCE).f \
+	pseud.f \
+	putvec.f \
+	qmat.f \
+	scatvec.f \
+	scf.f \
+	setup.f \
+	sortbl.f \
+	srtv.f \
+	symrsp.f \
+	tmptou.f \
+	unique.f 

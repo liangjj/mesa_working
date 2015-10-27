@@ -1,0 +1,11 @@
+
+REV=r1
+for file in $*
+  do
+    echo $file
+    cd $file
+    sccs create -$REV Makefile *.f
+    rm ,*
+    cd ..
+  done
+ 

@@ -1,0 +1,441 @@
+ mesa(2.2);7/27/92;system v(3.0)unix.                                           
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+      2-Nov-1992 22:17:47    
+     los alamos national laboratory;titan(zeus);                                     
+ files/memory:
+     inp:    /usr2/mesa/tests/input/test2.6                                                                                                  
+     out:    /titan/rlm/mesa/out/test2.6                                                                                                     
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /titan/rlm/mesa/tmp/rwf                                                                                                         
+     rint:   /titan/rlm/mesa/tmp/rint                                                                                                        
+     int:    /titan/rlm/mesa/tmp/int                                                                                                         
+     tint:   /titan/rlm/mesa/tmp/tint                                                                                                        
+     gint:   /titan/rlm/mesa/tmp/gint                                                                                                        
+     rdint:  /titan/rlm/mesa/tmp/rdint                                                                                                       
+     dint:   /titan/rlm/mesa/tmp/dint                                                                                                        
+     zint:   /titan/rlm/mesa/tmp/zint                                                                                                        
+     ham:    /titan/rlm/mesa/tmp/ham                                                                                                         
+     moden:  /titan/rlm/mesa/tmp/moden                                                                                                       
+     aoden:  /titan/rlm/mesa/tmp/aoden                                                                                                       
+     saoden: /titan/rlm/mesa/tmp/saoden                                                                                                      
+     gden:   /titan/rlm/mesa/tmp/gden                                                                                                        
+     fci:    /titan/rlm/mesa/tmp/fci                                                                                                         
+     machine size:          4000000
+     user defined maxsiz:    900000
+ title:
+      h2o test case: closed shell finite-difference force constants                  
+                     / cartesian two-point   
+ route:
+     1//1,2;
+     :d2e;
+     2//5(:endd2e);
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     7//1,2,12,31(:d2e);
+     :endd2e;
+     19//51;
+     20//01;
+ options:
+     2s+1=1,maxsiz=900000 print=(gradient=(total)) hf scf=(pulay), guess=chk, geom=rd
+     chk opt=(force-constants) frequencies force-constants=(cartesian,two-point) basi
+     s=dz,sym=off
+
+ m101:  process geometry input.
+     z-matrix read from checkpoint file 
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   0.951579 r1      
+      3   3   h  dz          1   0.951579 r2        2  112.542 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ m205:numerical second derivatives
+     initialization pass
+     differencing cartesian coordinate gradients
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     0.95158   0.00000
+                 h2     0.95158   1.58281   0.00000
+ interatomic angles:
+          h2-o1-h3 =112.5425
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    0.951579
+      3   3   h              0.878874    0.000000   -0.364806
+ rotational constants (ghz):   1011.2575063    400.3170496    286.7886925
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262666( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ m501:
+     memory use                      31319
+     all integrals held in core.
+     nuclear repulsion energy:    9.231993
+     iter              energy    diis convergence
+        9       -76.011002260         0.000000004
+     rotating scf orbitals under core fock operator
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                       771573(280.7%)
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0001652  -0.0000604   0.0002256
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0001103   0.0002693  -0.0001591
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8        0.000165    0.000000    0.000110
+       2          1        0.000060    0.000000   -0.000269
+       3          1       -0.000226    0.000000    0.000159
+     max     0.000269     rms     0.000146
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1  -0.000269 (  1)
+           3   h     1  -0.000269 (  2)   2  -0.000109 (  3)
+ m205:numerical second derivatives
+     d2e cycle    0
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1     0.0055974  -0.0006047  -0.0049927
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0020999   0.0006696   0.0014303
+ m205:numerical second derivatives
+     d2e cycle    1
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0057582   0.0004813   0.0052769
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0017581  -0.0000995  -0.0016586
+ m205:numerical second derivatives
+     d2e cycle    2
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0001835  -0.0000572   0.0002406
+   2     0.0000022  -0.0000011  -0.0000011
+   3    -0.0001225   0.0002842  -0.0001618
+ m205:numerical second derivatives
+     d2e cycle    3
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0001835  -0.0000572   0.0002406
+   2    -0.0000022   0.0000011   0.0000011
+   3    -0.0001225   0.0002842  -0.0001618
+ m205:numerical second derivatives
+     d2e cycle    4
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0020852  -0.0004232   0.0025085
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0072915  -0.0057794  -0.0015120
+ m205:numerical second derivatives
+     d2e cycle    5
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1     0.0017712   0.0003005  -0.0020717
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0072667   0.0060921   0.0011746
+ m205:numerical second derivatives
+     d2e cycle    6
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0007083   0.0004679   0.0002403
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0004872   0.0000808   0.0004064
+ m205:numerical second derivatives
+     d2e cycle    7
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1     0.0003778  -0.0005883   0.0002105
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0002365   0.0004849  -0.0007214
+ m205:numerical second derivatives
+     d2e cycle    8
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0001647  -0.0000604   0.0002251
+   2    -0.0000011   0.0000015  -0.0000004
+   3    -0.0001272   0.0002860  -0.0001588
+ m205:numerical second derivatives
+     d2e cycle    9
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0001647  -0.0000604   0.0002251
+   2     0.0000011  -0.0000014   0.0000004
+   3    -0.0001272   0.0002860  -0.0001588
+ m205:numerical second derivatives
+     d2e cycle   10
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1     0.0002181  -0.0002613   0.0000432
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0059347   0.0062371  -0.0003024
+ m205:numerical second derivatives
+     d2e cycle   11
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0005511   0.0001428   0.0004083
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0059368  -0.0059211  -0.0000157
+ m205:numerical second derivatives
+     d2e cycle   12
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0052178  -0.0000466   0.0052644
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0021344   0.0000878  -0.0022222
+ m205:numerical second derivatives
+     d2e cycle   13
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1     0.0050518  -0.0000765  -0.0049753
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0024472   0.0004529   0.0019943
+ m205:numerical second derivatives
+     d2e cycle   14
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0001806  -0.0000604   0.0002410
+   2    -0.0000011  -0.0000004   0.0000015
+   3    -0.0001034   0.0002688  -0.0001654
+ m205:numerical second derivatives
+     d2e cycle   15
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0001806  -0.0000604   0.0002410
+   2     0.0000011   0.0000004  -0.0000014
+   3    -0.0001034   0.0002688  -0.0001654
+ m205:numerical second derivatives
+     d2e cycle   16
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1     0.0013847   0.0005060  -0.0018907
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0014456   0.0001243   0.0013213
+ m205:numerical second derivatives
+     d2e cycle   17
+
+     the total scf first derivatives:
+             1           2           3
+  ------------------------------------------
+   1    -0.0017027  -0.0006218   0.0023244
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0012410   0.0004110  -0.0016520
+ m205:numerical second derivatives
+     d2e cycle   18
+
+
+
+     finite difference second derivative calculation:
+     double point difference formula: stepsize = 0.010
+
+     the force constant matrix
+                              1         2         3         4         5
+         1              0.56778   0.00000  -0.19286  -0.05430   0.00000
+         2              0.00000   0.00022   0.00000   0.00000  -0.00011
+         3             -0.19286   0.00000   0.72791  -0.03618   0.00000
+         4             -0.05430   0.00000  -0.03618   0.05281   0.00000
+         5              0.00000  -0.00011   0.00000   0.00000   0.00014
+         6              0.03846   0.00000  -0.59358  -0.02020   0.00000
+         7             -0.51348   0.00000   0.22905   0.00150   0.00000
+         8              0.00000  -0.00011   0.00000   0.00000  -0.00004
+         9              0.15441   0.00000  -0.13433   0.05639   0.00000
+                              6         7         8         9
+         1              0.03846  -0.51348   0.00000   0.15441
+         2              0.00000   0.00000  -0.00011   0.00000
+         3             -0.59358   0.22905   0.00000  -0.13433
+         4             -0.02020   0.00150   0.00000   0.05639
+         5              0.00000   0.00000  -0.00004   0.00000
+         6              0.60791  -0.01825   0.00000  -0.01433
+         7             -0.01825   0.51199   0.00000  -0.21079
+         8              0.00000   0.00000   0.00015   0.00000
+         9             -0.01433  -0.21079   0.00000   0.14867
+     cartesian force constant matrix
+             1           2           3           4           5
+  ------------------------------------------------------------------
+   1     0.5677834   0.0000000  -0.1928618  -0.0543036   0.0000000
+   2     0.0000000   0.0002209  -0.0000001   0.0000000  -0.0001096
+   3    -0.1928618  -0.0000001   0.7279089  -0.0361841   0.0000001
+   4    -0.0543036   0.0000000  -0.0361841   0.0528091   0.0000000
+   5     0.0000000  -0.0001096   0.0000001   0.0000000   0.0001450
+   6     0.0384555   0.0000000  -0.5935779  -0.0202035  -0.0000001
+   7    -0.5134804   0.0000000   0.2290452   0.0014952   0.0000000
+   8     0.0000000  -0.0001096   0.0000000   0.0000000  -0.0000362
+   9     0.1544072   0.0000000  -0.1343307   0.0563875   0.0000000
+
+
+             6           7           8           9
+  ------------------------------------------------------
+   1     0.0384555  -0.5134804   0.0000000   0.1544072
+   2     0.0000000   0.0000000  -0.0001096   0.0000000
+   3    -0.5935779   0.2290452   0.0000000  -0.1343307
+   4    -0.0202035   0.0014952   0.0000000   0.0563875
+   5    -0.0000001   0.0000000  -0.0000362   0.0000000
+   6     0.6079116  -0.0182526   0.0000000  -0.0143344
+   7    -0.0182526   0.5119850   0.0000000  -0.2107933
+   8     0.0000000   0.0000000   0.0001450  -0.0000001
+   9    -0.0143344  -0.2107933  -0.0000001   0.1486655
+     unprojected frequencies
+     eigenvalues in h/bohr**2,   mdyne/angstrom,  and wavenumbers
+        1       0.000000           0.000000              0.1
+        2       0.000000           0.000000              0.0
+        3       0.000000           0.000000              0.0
+        4       0.000122           0.001896             56.7
+        5       0.000151           0.002343             63.1
+        6       0.000180           0.002799             68.9
+        7       0.110768           1.724408           1710.8
+        8       0.613205           9.546255           4025.2
+        9       0.667995          10.399208           4201.2
+     projected mass weighted cartesian force constant matrix 
+             1           2           3           4           5           6
+  ------------------------------------------------------------------------------
+   1     0.0354971
+   2     0.0000000   0.0000000
+   3    -0.0120570   0.0000000   0.0455081
+   4    -0.0135171   0.0000000  -0.0090226   0.0523162
+   5     0.0000000   0.0000000   0.0000000   0.0000000   0.0000000
+   6     0.0095803   0.0000000  -0.1478438  -0.0200633   0.0000000   0.6031901
+   7    -0.1278966   0.0000000   0.0570553   0.0015334   0.0000000  -0.0181028
+   8     0.0000000   0.0000000   0.0000000   0.0000000   0.0000000   0.0000000
+   9     0.0384524   0.0000000  -0.0334517   0.0560076   0.0000000  -0.0142089
+
+
+             7           8           9
+  ------------------------------------------
+   7     0.5079822
+   8     0.0000000   0.0000000
+   9    -0.2091945   0.0000000   0.1474739
+     frequencies with rotations and translations projected out
+     eigenvalues in h/bohr**2,   mdyne/angstrom,  and wavenumbers
+        1       0.000000           0.000000              0.0
+        2       0.000000           0.000000              0.0
+        3       0.000000           0.000000              0.0
+        4       0.000000           0.000000              0.0
+        5       0.000000           0.000000              0.0
+        6       0.000000           0.000000              0.0
+        7       0.110768           1.724408           1710.8
+        8       0.613205           9.546255           4025.2
+        9       0.667995          10.399208           4201.2
+     zero point vibrational energy:    14.21 kcal/mole
+
+***** normal modes of vibration ***** 
+
+     cartesian normal modes 
+                              1         2         3         4         5
+     frequencies --         0.0       0.0       0.0       0.0       0.0
+         1             -0.57403  -0.11632  -0.00001   0.00001   0.73626
+         2             -0.78887  -0.02780   0.00001   0.00000  -0.59838
+         3              0.04517  -0.62442  -0.00008   0.00006  -0.18983
+         4             -0.16257   0.43325   0.00006  -0.00004   0.06432
+         5             -0.00001   0.00001  -0.61389  -0.78939   0.00000
+         6              0.01134  -0.15674  -0.00002   0.00001  -0.04765
+         7             -0.13701  -0.20649  -0.00002   0.00002   0.23101
+         8              0.00001  -0.00016   0.78939  -0.61389   0.00000
+         9              0.02840  -0.58385  -0.00008   0.00005   0.06364
+                              6         7         8         9
+     frequencies --         0.0    1710.8    4025.2    4201.2
+         1              0.11291  -0.23809  -0.14402   0.15716
+         2             -0.13729   0.00000   0.00000   0.00000
+         3              0.69431  -0.15897  -0.09599  -0.23554
+         4              0.56607   0.67740  -0.04927  -0.00003
+         5              0.00000   0.00000   0.00000   0.00000
+         6              0.17428   0.01239   0.69436   0.67851
+         7             -0.17780   0.27112   0.62303  -0.62605
+         8              0.00000   0.00000   0.00000   0.00000
+         9             -0.32236   0.62090  -0.31195   0.25983
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.22499   0.28561   0.28543
+                 h1     0.28561   0.34772  -0.03122
+                 h2     0.28543  -0.03122   0.34766
+     total atomic charges:
+          o             8.79603
+          h1            0.60211
+          h2            0.60186
+ summary:
+     link   entries               charges          core use      
+                          cpu       sys      io         
+        1         1       1.7       0.0       0.0         0
+      101         1       0.5       0.0       0.0    152000
+      102         1      11.1       0.0       0.0    120009
+      205        20       8.5       0.0       0.0     21694
+      202        19      16.4       0.0       0.0       144
+      302        19      12.7       0.0       0.0      9732
+      312        19      59.8       0.0       0.0    530751
+      330        19      10.4       0.0       0.0     79138
+      401        19      21.3       0.0       0.0     32828
+      501        19     157.8       0.0       0.0     31318
+      701        19       5.3       0.0       0.0      4000
+      702        19      28.7       0.0       0.0     21324
+      712        19     120.8       0.0       0.0    202031
+      731        19       5.0       0.0       0.0       254
+     1951         1       0.7       0.0       0.0      2054
+             total:     460.7       0.0       0.0    530751

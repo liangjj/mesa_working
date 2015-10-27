@@ -1,0 +1,18 @@
+$route
+ print=(r-matrix-2=all))
+ number-of-dimensions=1 space-dimension-1=x
+$end
+          
+$nonstd
+71//02;
+20//01;
+$end
+
+$title
+DVR Code
+$end
+$scattering
+
+ number-of-energies=13 energy=(.00001,.0001,.01d0,.05d0,.1d0,.2d0,.3d0,
+                               .5d0,.8d0,1.0d0,1.5d0,2.d0,5.d0)
+$end

@@ -1,0 +1,686 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      3-Nov-1994 02:51:41    
+     los alamos national laboratory;sun 4/280s(t12);                                 
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test7.3                                                                                                    
+     out:    /usr2/mesa/tests/out/sun/test7.3                                                                                                
+     chk:    /usr2/rlm/mesa/mchk.sun                                                                                                         
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf_23683                                                                                                          
+     rint:   /vivaldi/tmp/rint_23683                                                                                                         
+     int:    /vivaldi/tmp/int_23683                                                                                                          
+     tint:   /vivaldi/tmp/tint_23683                                                                                                         
+     gint:   /vivaldi/tmp/gint_23683                                                                                                         
+     rdint:  /vivaldi/tmp/rdint_23683                                                                                                        
+     dint:   /vivaldi/tmp/dint_23683                                                                                                         
+     zint:   /vivaldi/tmp/zint_23683                                                                                                         
+     ham:    /vivaldi/tmp/ham_23683                                                                                                          
+     moden:  /vivaldi/tmp/moden_23683                                                                                                        
+     aoden:  /vivaldi/tmp/aoden_23683                                                                                                        
+     saoden: /vivaldi/tmp/saoden_23683                                                                                                       
+     gden:   /vivaldi/tmp/gden_23683                                                                                                         
+     fci:    /vivaldi/tmp/fci_23683                                                                                                          
+     machine size:         16000000
+     user defined maxsiz:   6000000
+ title:
+      h2o test case: mrci optimization       
+ route:
+     1//1,2;
+     8//1;
+     :opt;
+     2//1(:endopt);
+     2//2;
+     3//2,12,30;
+     4//1;
+     8//5;
+     5//53;
+     3//3,23;
+     8//24;
+     10//3;
+     8//1,11,20,21;
+     9//1,11;
+     8//30,12,40;
+     7//2,12;
+     10//21,31,33;
+     7//31(:opt);
+     :endopt;
+     19//51;
+     20//1;
+ options:
+     mrciopt transformation=(canonical,keep-ints) 2s+1=1 m812=(check-energy) mcscf=(c
+     as,cycles=15,number-of-core-orbitals=3) drtmc=(rdsym,nsym=1,nbf=4,vexcite=99) ci
+      drt=(vexcite=2),guess=(chk=mcscf),basis=dz,sym=off, opt=(berny,cycles=10)
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   0.958000 r1      
+      3   3   h  dz          1   0.958000 r2        2  107.300 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     $ primitive cartesians    32
+     $ contracted cartesians   14
+     $ basis functions         14
+ m801:drt generation
+                     
+     number of symmetries                 1
+     number of references                 1
+     virtual excitation level             2
+     valence excitation level             0
+     integral block size             100000
+     3-4 external arrays                yes
+     interacting space                 spin
+     symmetry restrict valence space     no
+     orbital information:
+       functions   #  key orbital type       symmetry
+           1-  1   1      restricted core           1
+           2-  3   2      doubly occupied           1
+           4-  5   2    % doubly occupied           1
+           6-  7   2    % unoccupied                1
+           8- 13   6      unoccupied                1
+          14- 14   1      restricted virtual        1
+     number of interacting walks       2859
+     integral storage:
+        number of groups                  1
+        group size                     9261
+        number of integrals            9261
+     number of orbitals allowed in ci    14
+ berny optimization:
+     initial parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.958000   estimate d2e/dx2                              
+                r2      0.958000   estimate d2e/dx2                              
+                a1    107.3000     estimate d2e/dx2                              
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     0.95800   0.00000
+                 h2     0.95800   1.54317   0.00000
+ interatomic angles:
+          h2-o1-h3 =107.3000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    0.958000
+      3   3   h              0.914661    0.000000   -0.284885
+ rotational constants (ghz):    875.6344100    421.1488408    284.3747531
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     $primitive integrals possible     274866
+     $primitive integrals computed     262670( 95.6%)
+     $contracted integrals possible      5565
+     $contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ m805:mcscf drt generation
+     number of symmetries:         1
+     number of basis functions:    4
+     number of references:         1
+     number of groups:             0
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  2   2        doubly occupied    0
+             3-  4   2        unoccupied         0
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+     integral information:
+         number of integrals:      113
+         number of groups:           1
+         group size:               113
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+         number of intermediate walks:        20
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.062134584      1.133E-10
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    2
+
+ active  one-electron energy       -10.571834276037
+         h(1)         energy       -27.234484013190
+         2j-k         energy        16.662649737153
+ active  two-electron energy         3.638303453103
+ active  electronic   energy        -6.933530822934
+ core    electronic   energy       -78.309553279124
+         h(1)         energy       -95.685940052996
+         2j-k         energy        17.376386773871
+ total   electronic   energy       -85.243084102058
+         h(1)         energy      -122.920424066185
+         g(2)         energy        37.677339964127
+ nuclear repulsion    energy         9.180949517868
+ *total* mcscf        energy       -76.062134584190
+ m323:
+     gradient integral pre-exponential cutoff: 1.0E-13
+     gradient integral retention       cutoff: 1.0E-09
+     # integrals kept                            17552
+     # integrals possible                       144272
+     # integrals computed                       130632( 90.5%)
+ m824: derivative lagrangians 
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+ m1003:state-averaged coupled-perturbed mcscf
+     byron lengsfield  llnl may 1991
+     maximum # of cycles :      30
+     convergence criteria: 0.1E-05
+     cpmcscf solutions stored on rwf 
+ m801:drt generation
+                     
+     number of symmetries                 1
+     number of references                 1
+     virtual excitation level             2
+     valence excitation level             0
+     integral block size             100000
+     3-4 external arrays                yes
+     interacting space                 spin
+     symmetry restrict valence space     no
+     orbital information:
+       functions   #  key orbital type       symmetry
+           1-  1   1      restricted core           1
+           2-  3   2      doubly occupied           1
+           4-  5   2    % doubly occupied           1
+           6-  7   2    % unoccupied                1
+           8- 13   6      unoccupied                1
+          14- 14   1      restricted virtual        1
+     number of interacting walks       2859
+     integral storage:
+        number of groups                  1
+        group size                     9261
+        number of integrals            9261
+     number of orbitals allowed in ci    14
+ m811:transformation
+     canonical order
+     orbital set:"mcscf vector"                  
+     number of basis functions:          14
+     orthonormality deviation      0.27E-14
+     memory use                       52407
+ shape driven guga sort:
+     label from drt...                                                                              
+     number of configurations:         2859
+     number of basis functions:          14
+     number of allowed orbitals:         14
+     fermi level:                         6
+     sorter will use in-core algorithm
+ m901:
+     number roots sought:                 1
+     number guess vectors:                1
+     maximum number iterations:          16
+     convergence criterion:         0.1E-04
+     davidson vector threshhold:    0.1E-04
+     number of configurations:         2859
+     number of basis functions:          14
+     number of allowed orbitals:         14
+     davidson vectors in use:             1
+     davidson vectors possible:           1
+     nuclear repulsion:       9.18094951787    
+     reference energies:     -76.0097808073    (    2797)
+      cycle   1 using    1 vectors for a total of   1
+         root                    energy          convergence
+            1            -76.009780807               0.642206952
+      cycle   2 using    2 vectors for a total of   2
+         root                    energy          convergence
+            1            -76.130364695               0.167908813
+      cycle   3 using    3 vectors for a total of   3
+         root                    energy          convergence
+            1            -76.138469286               0.042143210
+      cycle   4 using    4 vectors for a total of   4
+         root                    energy          convergence
+            1            -76.139065752               0.015664219
+      cycle   5 using    5 vectors for a total of   5
+         root                    energy          convergence
+            1            -76.139146020               0.005712534
+      cycle   6 using    6 vectors for a total of   6
+         root                    energy          convergence
+            1            -76.139158340               0.002148856
+      cycle   7 using    7 vectors for a total of   7
+         root                    energy          convergence
+            1            -76.139160107               0.000790981
+      cycle   8 using    8 vectors for a total of   8
+         root                    energy          convergence
+            1            -76.139160343               0.000343965
+      cycle   9 using    9 vectors for a total of   9
+         root                    energy          convergence
+            1            -76.139160406               0.000189753
+      cycle  10 using   10 vectors for a total of  10
+         root                    energy          convergence
+            1            -76.139160424               0.000093698
+      cycle  11 using   11 vectors for a total of  11
+         root                    energy          convergence
+            1            -76.139160427               0.000036939
+      cycle  12 using   12 vectors for a total of  12
+         root                    energy          convergence
+            1            -76.139160428               0.000015164
+      cycle  13 using   13 vectors for a total of  13
+         root                    energy          convergence
+            1            -76.139160428               0.000006326
+
+
+
+ root   reference     energy         ci energy   davidson energy        c(0)
+   1      2797   -76.0097808       -76.1391604       -76.1448313     -0.9778
+ m911:density matrix construction
+     creating guga density matrix
+     label from drt...                                                                              
+     number of configurations is       2859
+     number of basis functions is        14
+     number of allowed orbitals is       14
+     fermi level is                       6
+     reading  1 vector(s) from tape 12.
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.27E-14
+     memory use                            75007
+     checking the energy:
+          one-electron:            -122.73115617
+          two-electron:              37.41104622
+          nuclear repulsion :         9.18094952
+          total from ao density:    -76.13916043
+          total from calculation:   -76.13916043
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                       773225(281.3%)
+ m1031:ci lagrangian construction 
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8       -0.011890    0.000000   -0.008750
+       2          1       -0.007097    0.000000    0.022098
+       3          1        0.018988    0.000000   -0.013348
+     max     0.022098     rms     0.011997
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1   0.022098 (  1)
+           3   h     1   0.022098 (  2)   2   0.012849 (  3)
+ berny optimization:
+     search for a local minimum.
+     cycle number   1 out of a maximum of  10
+     all quantities printed in hartrees-bohr-radians.
+     second derivative matrix not updated -- first cycle.
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1     0.55840
+                 r2     0.00000   0.55840
+                 a1     0.00000   0.00000   0.22937
+     eigenvalues --     0.22937   0.55840   0.55840
+     linear search not attempted -- first point.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     1.81036   0.02210   0.00000   0.03957   0.03957   1.84993
+                 r2     1.81036   0.02210   0.00000   0.03957   0.03957   1.84993
+                 a1     1.87274   0.01285   0.00000   0.05602   0.05602   1.92876
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.022098     0.000450     no 
+                     rms force     0.019508     0.000300     no 
+          maximum displacement     0.056018     0.001800     no 
+              rms displacement     0.045717     0.001200     no 
+     energy                      -76.139160
+     predicted change             -0.001234
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.978941   -de/dx=     0.022098                          
+                r2      0.978941   -de/dx=     0.022098                          
+                a1    110.5096     -de/dx=     0.012849                          
+ m805:mcscf drt generation
+     number of symmetries:         1
+     number of basis functions:    4
+     number of references:         1
+     number of groups:             0
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  2   2        doubly occupied    0
+             3-  4   2        unoccupied         0
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+     integral information:
+         number of integrals:      113
+         number of groups:           1
+         group size:               113
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+         number of intermediate walks:        20
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.062567525      4.132E-04
+          second order option invoked .. 
+             2       -76.062887948      1.591E-05
+          second order option invoked .. 
+             3       -76.062889210      9.467E-11
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.429402407632
+         h(1)         energy       -26.994121518024
+         2j-k         energy        16.564719110393
+ active  two-electron energy         3.591912213008
+ active  electronic   energy        -6.837490194624
+ core    electronic   energy       -78.203302209721
+         h(1)         energy       -95.578017776383
+         2j-k         energy        17.374715566662
+ total   electronic   energy       -85.040792404345
+         h(1)         energy      -122.572139294407
+         g(2)         energy        37.531346890062
+ nuclear repulsion    energy         8.977903194762
+ *total* mcscf        energy       -76.062889209584
+ m824: derivative lagrangians 
+ m1003:state-averaged coupled-perturbed mcscf
+     byron lengsfield  llnl may 1991
+     maximum # of cycles :      30
+     convergence criteria: 0.1E-05
+     cpmcscf solutions stored on rwf 
+ m801:drt generation
+                     
+     number of symmetries                 1
+     number of references                 1
+     virtual excitation level             2
+     valence excitation level             0
+     integral block size             100000
+     3-4 external arrays                yes
+     interacting space                 spin
+     symmetry restrict valence space     no
+     orbital information:
+       functions   #  key orbital type       symmetry
+           1-  1   1      restricted core           1
+           2-  3   2      doubly occupied           1
+           4-  5   2    % doubly occupied           1
+           6-  7   2    % unoccupied                1
+           8- 13   6      unoccupied                1
+          14- 14   1      restricted virtual        1
+     number of interacting walks       2859
+     integral storage:
+        number of groups                  1
+        group size                     9261
+        number of integrals            9261
+     number of orbitals allowed in ci    14
+ m811:transformation
+     canonical order
+     orbital set:"mcscf vector"                  
+     number of basis functions:          14
+     orthonormality deviation      0.16E-14
+     memory use                       52407
+ m911:density matrix construction
+     creating guga density matrix
+     label from drt...                                                                              
+     number of configurations is       2859
+     number of basis functions is        14
+     number of allowed orbitals is       14
+     fermi level is                       6
+     reading  1 vector(s) from tape 12.
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.16E-14
+     memory use                            75007
+     checking the energy:
+          one-electron:            -122.38587370
+          two-electron:              37.26766498
+          nuclear repulsion :         8.97790319
+          total from ao density:    -76.14030552
+          total from calculation:   -76.14030552
+ m1031:ci lagrangian construction 
+ berny optimization:
+     search for a local minimum.
+     cycle number   2 out of a maximum of  10
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  1  2
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1     0.56325
+                 r2     0.00484   0.56325
+                 a1     0.00685   0.00685   0.23907
+     eigenvalues --     0.23879   0.55840   0.56837
+     the linear search produced a scale factor of-0.05002.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     1.84993  -0.00132  -0.00198  -0.00037  -0.00235   1.84758
+                 r2     1.84993  -0.00132  -0.00198  -0.00037  -0.00235   1.84758
+                 a1     1.92876  -0.00030  -0.00280   0.00122  -0.00158   1.92718
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.001324     0.000450     no 
+                     rms force     0.001095     0.000300     no 
+          maximum displacement     0.002352     0.001800     no 
+              rms displacement     0.002126     0.001200     no 
+     energy                      -76.140306
+     predicted change             -0.000003
+     non-optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.977697   -de/dx=    -0.001324                          
+                r2      0.977697   -de/dx=    -0.001324                          
+                a1    110.4191     -de/dx=    -0.000299                          
+ m805:mcscf drt generation
+     number of symmetries:         1
+     number of basis functions:    4
+     number of references:         1
+     number of groups:             0
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  2   2        doubly occupied    0
+             3-  4   2        unoccupied         0
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+     integral information:
+         number of integrals:      113
+         number of groups:           1
+         group size:               113
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+         number of intermediate walks:        20
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.062901876      9.657E-07
+          second order option invoked .. 
+             2       -76.062902687      6.376E-08
+          second order option invoked .. 
+             3       -76.062902699      1.090E-14
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.438470730994
+         h(1)         energy       -27.009208759048
+         2j-k         energy        16.570738028054
+ active  two-electron energy         3.594792813636
+ active  electronic   energy        -6.843677917357
+ core    electronic   energy       -78.208737868269
+         h(1)         energy       -95.583342806705
+         2j-k         energy        17.374604938437
+ total   electronic   energy       -85.052415785626
+         h(1)         energy      -122.592551565753
+         g(2)         energy        37.540135780127
+ nuclear repulsion    energy         8.989513086925
+ *total* mcscf        energy       -76.062902698701
+ m824: derivative lagrangians 
+ m1003:state-averaged coupled-perturbed mcscf
+     byron lengsfield  llnl may 1991
+     maximum # of cycles :      30
+     convergence criteria: 0.1E-05
+     cpmcscf solutions stored on rwf 
+ m801:drt generation
+                     
+     number of symmetries                 1
+     number of references                 1
+     virtual excitation level             2
+     valence excitation level             0
+     integral block size             100000
+     3-4 external arrays                yes
+     interacting space                 spin
+     symmetry restrict valence space     no
+     orbital information:
+       functions   #  key orbital type       symmetry
+           1-  1   1      restricted core           1
+           2-  3   2      doubly occupied           1
+           4-  5   2    % doubly occupied           1
+           6-  7   2    % unoccupied                1
+           8- 13   6      unoccupied                1
+          14- 14   1      restricted virtual        1
+     number of interacting walks       2859
+     integral storage:
+        number of groups                  1
+        group size                     9261
+        number of integrals            9261
+     number of orbitals allowed in ci    14
+ m811:transformation
+     canonical order
+     orbital set:"mcscf vector"                  
+     number of basis functions:          14
+     orthonormality deviation      0.89E-15
+     memory use                       52407
+ m911:density matrix construction
+     creating guga density matrix
+     label from drt...                                                                              
+     number of configurations is       2859
+     number of basis functions is        14
+     number of allowed orbitals is       14
+     fermi level is                       6
+     reading  1 vector(s) from tape 12.
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.89E-15
+     memory use                            75007
+     checking the energy:
+          one-electron:            -122.40608827
+          two-electron:              37.27626607
+          nuclear repulsion :         8.98951309
+          total from ao density:    -76.14030911
+          total from calculation:   -76.14030911
+ m1031:ci lagrangian construction 
+ berny optimization:
+     search for a local minimum.
+     cycle number   3 out of a maximum of  10
+     all quantities printed in hartrees-bohr-radians.
+     update second derivatives using information from cycles  1  2  3
+     the second derivative matrix:
+                             r1        r2        a1                              
+                 r1     0.52449
+                 r2    -0.03391   0.52449
+                 a1     0.04627   0.04627   0.15235
+     eigenvalues --     0.14013   0.50279   0.55840
+     the linear search produced a scale factor of 0.02775.
+     step:
+           variable       old x    -de/dx   delta x   delta x   delta x     new x
+                                         (linear)    (quad)   (total)
+
+                 r1     1.84758  -0.00010  -0.00007  -0.00024  -0.00031   1.84727
+                 r2     1.84758  -0.00010  -0.00007  -0.00024  -0.00031   1.84727
+                 a1     1.92718   0.00016  -0.00004   0.00130   0.00125   1.92843
+     convergence tests:
+                          item        value    threshold  converged?
+                 maximum force     0.000160     0.000450     yes
+                     rms force     0.000122     0.000300     yes
+          maximum displacement     0.001254     0.001800     yes
+              rms displacement     0.000766     0.001200     yes
+     energy                      -76.140309
+     predicted change              0.000000
+     optimization completed.
+     -- stationary point found.
+     optimized parameters (angstroms and degrees)
+              name       value     derivative information (atomic units)
+                r1      0.977697   -de/dx=    -0.000097                          
+                r2      0.977697   -de/dx=    -0.000097                          
+                a1    110.4191     -de/dx=     0.000160                          
+ m1951:
+
+     wavefunction analysis for ci natural orbitals
+
+     root number:  1
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       1.2       0.2       0.0         0
+      101         1       0.5       0.2       0.0    156001
+      102         1       6.2       0.3       0.0    120010
+      801         4      15.4      23.5       0.0         0
+      201         4       4.7       2.7       0.0       904
+      202         3       1.8       0.5       0.0       145
+      302         3       2.3       0.8       0.0      9816
+      312         3      20.0       1.9       0.0    530834
+      330         3       1.5       1.0       0.0     79139
+      401         3       2.6       0.7       0.0         0
+      805         3       2.1       0.9       0.0         0
+      553         3      52.5      14.6       0.0  11998977
+      303         3       3.3       0.7       0.0     16530
+      323         3      45.3       7.3       0.0   1000841
+      824         3      19.0       7.9       0.0    410929
+     1003         3     183.6      39.5       0.0    393127
+      811         3       6.2       1.8       0.0     52507
+      820         3       1.7       0.9       0.0     84449
+      821         3       1.1       0.8       0.0       523
+      901         3     468.4      15.8       0.0         0
+      911         3      48.8      19.0       0.0         0
+      830         3       1.4       1.2       0.0     46515
+      812         3       5.2       1.5       0.0     75107
+      840         3       1.4       1.0       0.0     41509
+      702         3       3.3       0.6       0.0     21407
+      712         3      43.6       2.3       0.0    261114
+     1021         3       1.7       1.2       0.0     47587
+     1031         3       1.7       0.9       0.0     45277
+     1033         3       0.8       0.5       0.0      3957
+      731         3       0.7       0.5       0.0       255
+     1951         1       0.5       0.1       0.0      3327
+             total:     948.5     150.8       0.0  11998977

@@ -1,0 +1,12 @@
+*deck %W% %G%
+      subroutine trapuf(a)
+c
+c     sets real*8 underflows to zero.
+c
+c
+      real*8 a
+      a=0.0d0
+c
+c
+      return
+      end

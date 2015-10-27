@@ -1,0 +1,14 @@
+#    @(#)Makefile	5.1 11/6/94
+#
+# Makefile for M921
+#
+SOURCE = m921
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/dordr.f \
+	$(MESA_HOME)/$(SOURCE)/import.f \
+	$(MESA_HOME)/$(SOURCE)/kzero.f \
+	$(MESA_HOME)/$(SOURCE)/m921.f \
+	$(MESA_HOME)/$(SOURCE)/natorb.f \
+	$(MESA_HOME)/$(SOURCE)/onepdm.f \
+	$(MESA_HOME)/$(SOURCE)/prwalk.f 

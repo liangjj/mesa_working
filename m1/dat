@@ -1,0 +1,15 @@
+#                                                                                                                             
+# Makefile for $(SOURCE)                                                                                                     
+#                                                                                                                             
+SOURCE=m1
+
+SRCS = \
+        $(MESA_HOME)/$(SOURCE)/inirwf.f \
+        $(MESA_HOME)/$(SOURCE)/lodrte.f \
+        $(MESA_HOME)/$(SOURCE)/$(SOURCE)init.f \
+        $(MESA_HOME)/$(SOURCE)/makrte.f \
+        $(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+        $(MESA_HOME)/$(SOURCE)/phyfil.f \
+        $(MESA_HOME)/$(SOURCE)/phyold.f \
+        $(MESA_HOME)/$(SOURCE)/prtrte.f \
+        $(MESA_HOME)/$(SOURCE)/setcom.f

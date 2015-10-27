@@ -1,0 +1,48 @@
+$route
+      
+$end
+$nonstd
+11//04;
+20//01;
+$end
+$title
+well                    
+$end
+$dvrprop_basis
+ number-of-space-variables=1 propagation-order=4
+ coordinate-system=radial
+ space-variable-1=r
+ units=atomic-units kinetic-energy-type=packed
+ automate-points plot plot_step=1
+  keep-diagonals get-eigenpairs
+ print=all
+$end
+$h0(r)                  
+ print=all sector-print=sector-details
+  angular-momentum=0 parity=none
+ reuse-space-data automate weight-type=legendre
+ number-of-fixed-points=2
+ left-fixed-point drop-left-function right-fixed-point drop-right-function
+ number-of-major-blocks=1
+$end
+$block-1  
+ number-of-subregions=10 default-order=2
+  left-boundary=0. right-boundary=1.
+$end
+$v_reg_1(r)             
+ potential=well
+ well-depth=-1.0
+$end
+$time 
+ initial-time=0. number-of-time-regions=1000 time-interval=.0001
+  print=main=all
+$end
+$v0(t1)
+ potential=none
+$end
+$v_couple
+$end
+$initial-state
+ driver=perturbed-state-vector
+ initial-state=0
+$end

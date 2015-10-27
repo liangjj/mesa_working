@@ -1,0 +1,30 @@
+$route
+ print=(m6255=(xpolynomial-coefficients,xpolynomials,xpoints/weights,
+               xhamiltonian,xkinetic-energy))
+ xcheck-orthogonality to-x-representation diagonalization-procedure=direct
+ xdiagonalize-kinetic-energy=eigenvalues ci=eigenvalues
+$end
+ 
+$nonstd
+62//55;
+20//01;
+$end
+$diatom
+ maximum-order-of-r-polynomials=50  maximum-order-of-theta-polynomials=10 
+ m-value=0 maximum-number-of-r-points=60 potential=h2-plus
+ maximum-number-of-theta-points=10
+ maximum-r-value=10.d0
+$end
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

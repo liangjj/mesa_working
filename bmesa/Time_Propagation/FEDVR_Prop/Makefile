@@ -1,0 +1,99 @@
+#   @(#)Makefile	1.4   8/2/91
+#
+#  Makefile for the propagator code
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+REMOVE = NO
+MAIN = /usr/home/bis/mesa
+LIB = $(MAIN)/library
+MODDIR = $(LIB)/Modules
+MESABIN =  /usr/home/bis/mesa/bin
+MODLIB = $(LIB)/modlib_f90.a
+TIMPRP = $(MAIN)/bmesa/Time_Propagation
+FEDVR_Prop = $(TIMPRP)/FEDVR_Prop
+DVRLIB = $(LIB)/dvrlib_f90/dvrlib_f90.a
+FDLIB = $(LIB)/fdlib_f90/fdlib_f90.a
+POTLIB = $(LIB)/potlib/potlib_f90.a
+HAMLIB = $(LIB)/hamlib/hamlib.a
+MESALIB = $(LIB)/mesalib.a
+ITDVRLIB  = $(LIB)/itlib/itdvrlib.a
+TDVRLIB = $(LIB)/tdvrlib/tdvrlib.a
+TIMLIB = $(TIMPRP)/timlib_f90.a
+TPRPLIB = $(TIMPRP)/tprplib_f90.a
+MDLIB = /usr/lib/libcxml.a    
+
+FC = fort
+FFLAGS = -c -O5 
+
+LD = $(FC)
+LDFLAGS =
+
+RCS = RCS
+CO = co -l
+
+MODSRCS = \
+	propagator_driver.f90 \
+	regional_diag.f90 \
+	regional_umat.f90 \
+	v_m_v.f90 \
+	v_v_m.f90 \
+	exp_off_diagonal.f90 
+SRCS = \
+	add_absorb.f90 \
+	auto_08_1d.f90 \
+	auto_08_2d.f90 \
+	auto_08_3d.f90 \
+	chk_nrm_08_1d.f90 \
+	chk_nrm_08_2d.f90 \
+	chk_nrm_08_3d.f90 \
+	c_vect.f90 \
+	dvrprop_main.f90 \
+	fil_08.f90 \
+	gauss_paket_08.f90 \
+	initial_solution.f90 \
+	ke_reg_dvr.f90 \
+	ke_reg_fd.f90 \
+	modify_diag.f90 \
+	moment_08.f90 \
+	mom_1d.f90 \
+	mom_2d.f90 \
+	mom_3d.f90 \
+	plot_08.f90 \
+	plot_1d.f90 \
+	plot_2d.f90 \
+	plot_3d.f90 \
+        plot_propagator.f90 \
+        plot_wavefunction.f90 \
+	pert.f90 \
+	propagator_2.f90 \
+	rad_paket.f90 \
+	real_space_propagator_2_order.f90 \
+	so_prop.f90 \
+	sppose_08.f90 \
+	z_fil_08.f90 \
+	z_proj_08.f90
+
+%.mod : %.o
+	@if [! -f $@ ]; then \
+	rm $< \
+	$(MAKE) $< \
+        fi
+
+%.o : %.f90
+	$(FC) $(FFLAGS) -I$(MODDIR) $<
+
+all: $(MESABIN)/m1104
+$(MESABIN)/m1104: $(MODSRCS:.f90=.o) $(SRCS:.f90=.o)  \
+                  $(TIMLIB) $(TPRPLIB) $(DVRLIB) $(FDLIB) \
+                  $(MODLIB) $(HAMLIB) $(POTLIB) $(ITDVRLIB) \
+                  $(TDVRLIB) $(MESALIB) $(MDLIB)
+	$(LD) $(LDFLAGS) $(MODSRCS:.f90=.o) $(SRCS:.f90=.o)  \
+	$(TIMLIB) $(TPRPLIB) $(DVRLIB) $(FDLIB) $(MODLIB) \
+	$(HAMLIB) $(POTLIB) $(ITDVRLIB) $(TDVRLIB) \
+	$(MESALIB) $(MDLIB) -o $(MESABIN)/m1104     
+
+sources: $(SRCS) $(LIBSRCS)
+	$(CO) $(RCS)/*.f90
+
+clean:
+	rm *.o *.mod *~

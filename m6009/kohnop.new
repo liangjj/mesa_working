@@ -1,0 +1,320 @@
+*deck @(#)kohnop.f	1.1 9/8/91
+c***begin prologue     m6009
+c***date written       880423   (yymmdd)
+c***revision date      890620   (yymmdd)
+c***                   extensive revision to make compatible with polyatomic
+c***                   calculations. all single center matrix elements
+c***                   removed. they are now calculated in m6005 and final
+c***                   matrices assembled in m6008.             
+c***keywords           m6009, link 6009, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m6009
+c***purpose            perform kohn variational calculations
+c***description        muti-channel kohn variational calculations using
+c***                   separable exchange and optical potentials for
+c***                   molecules.
+c
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       m6009
+      program kohnop
+      implicit integer(a-z)
+      parameter (dime=100)
+      logical logkey, logky
+      real *8 z, zdum
+      complex *16 zdumc
+      real *8 energy, eau, eev, egrnd
+      character *4096 ops
+      character *8 cpass
+      character *128 filint, filtmt
+      character *1600 card
+      character *16 chrkey
+      character *24 filnm, tmpnm
+      character *15 type
+      character *3 ans
+      character *16 fptoc
+      common a(1)
+      dimension z(1)
+      common /io/ inp, iout
+      common / memory / ioff
+      dimension energy(dime), logky(10)
+      equivalence (z,a)
+      call drum
+      write (iout,1)
+c----------------------------------------------------------------------c
+c                  recover options string                              c
+c----------------------------------------------------------------------c
+      call iosys ('read character options from rwf',-1,0,0,ops)
+      logky(1)=logkey(ops,'m6009=no-partitioning',.false.,' ')
+      logky(2)=logkey(ops,'m6009=real',.false.,' ')
+      logky(3)=logkey(ops,'print=m6009=all',.false.,' ')
+      logky(4)=logkey(ops,'print=m6009=complex-rhs',.false.,' ')
+      logky(5)=logkey(ops,'print=m6009=new-rhs',.false.,' ')
+      logky(6)=logkey(ops,'print=m6009=hfull',.false.,' ')
+      logky(7)=logkey(ops,'print=m6009=full-solution',.false.,' ')
+      logky(8)=logkey(ops,'print=m6009=complex-numerator',.false.,' ')
+      logky(9)=logkey(ops,'print=m6009=rhs',.false.,' ')
+      logky(10)=logkey(ops,'m6009=complex-optical-potential',
+     1                 .false.,' ')
+      if (logky(3)) then
+          do 100 i=4,9
+             logky(i)=.true.
+  100     continue
+      endif
+c----------------------------------------------------------------------c
+c                  position input file                                 c 
+c            read in title ,  filenames and                            c
+c                   various parameters                                 c
+c----------------------------------------------------------------------c
+      call posinp ('$kohnopt',cpass)
+      call cardin (card)
+      if (logky(1)) then
+          write (iout,2)
+      else
+          write (iout,3)
+      endif
+      if (logky(2)) then
+          write (iout,4)
+      else
+          write (iout,5)
+      endif
+      call iosys ('read character "kohn integral filename" from '//
+     1            'rwf',-1,0,0,filint)
+      call iosys ('open kohnint as old',0,0,0,filint)
+      call iosys ('read character "kohn tmatrix filename" from rwf',
+     1             -1,0,0,filtmt)
+      call iosys ('open tmat as unknown',262144,0,0,filtmt) 
+c----------------------------------------------------------------------c
+c          read in information to determine memory for calculation     c
+c----------------------------------------------------------------------c
+      call iosys ('read integer "no. energies" from kohnint',1,nen,
+     1            0,' ')
+      call iosys ('read real "scatt energies" from kohnint',nen,energy,
+     1            0,' ')
+      call iosys ('read integer "total channels" from kohnint',1,ntchn,
+     1            0,' ')
+      call iosys ('read integer "total bound" from kohnint',1,matbv,0,
+     1            ' ')
+      call iosys ('read real "chan energies" from kohnint',1,egrnd,0,
+     1            ' ')
+      write (iout,6) ntchn, matbv
+c----------------------------------------------------------------------c
+c                    lets do a memory count                            c
+c----------------------------------------------------------------------c
+      hpp=1
+      hpm=hpp+2*ntchn*ntchn
+      hmm=hpm+2*ntchn*ntchn
+      hpb=hmm+2*ntchn*ntchn
+      hmb=hpb+2*ntchn*matbv
+      vrr=hmb+2*ntchn*matbv
+      vii=vrr+2*ntchn*ntchn
+      vir=vii+2*ntchn*ntchn
+      vri=vir+2*ntchn*ntchn
+      tvir=vri
+      vfrb=vri+2*ntchn*ntchn
+      vfib=vfrb+2*ntchn*matbv
+      vbfr=vfib+2*ntchn*matbv
+      vbfi=vbfr+2*ntchn*matbv
+      hambb=vbfi+2*ntchn*matbv
+      matcmp=hambb+2*matbv*matbv
+      if (logky(1)) then
+          ncomp=matbv+ntchn
+          crhs=matcmp+2*ncomp*ncomp
+          clhs=crhs+2*ncomp*ntchn
+          hld=clhs+2*ncomp*ntchn
+          ipvt=wpadti(hld)
+      else
+          hld=matcmp      
+          ipvt=wpadti(hld)
+      endif
+c     for extraction of t-matrix
+      tmat=hld+ntchn
+      seig=tmat+2*ntchn*ntchn
+      svec=seig+2*ntchn
+      dum=svec+2*ntchn*ntchn
+      weneed=wpadti(dum+3*ntchn)
+      call iosys ('read integer maxsiz from rwf',1,maxcor,0,' ')
+      if (maxcor.lt.weneed) then
+          call lnkerr ('cannot get enough memory:will quit')
+      endif
+      call iosys ('write integer maxsiz to rwf',1,weneed,0,' ')
+      call getscm(weneed,z(1),ngot,'kohn',0)
+      write (iout,7) weneed
+c----------------------------------------------------------------------c 
+c                    parcel out the arrays                             c
+c----------------------------------------------------------------------c
+      hpp=ioff
+      hpm=hpp+2*ntchn*ntchn
+      hmm=hpm+2*ntchn*ntchn
+      hpb=hmm+2*ntchn*ntchn
+      hmb=hpb+2*ntchn*matbv
+      vrr=hmb+2*ntchn*matbv
+      vrrc=vrr
+      vii=vrr+2*ntchn*ntchn
+      vir=vii+2*ntchn*ntchn
+      vri=vir+2*ntchn*ntchn
+      tvir=vri
+      vfrb=vri+2*ntchn*ntchn
+      vfrbc=vfrb
+      vfib=vfrb+2*ntchn*matbv
+      vbfr=vfib+2*ntchn*matbv
+      vbfrc=vbfr
+      vbfi=vbfr+2*ntchn*matbv
+      hambb=vbfi+2*ntchn*matbv
+      hambbc=hambb
+c----------------------------------------------------------------------c
+c    branch here depending on whether you partition off the            c
+c                        bound-bound matrix                            c
+c----------------------------------------------------------------------c
+      if (logky(1)) then
+          ncomp=matbv+ntchn
+          matcmp=hambb+2*matbv*matbv
+          crhs=matcmp+2*ncomp*ncomp
+          clhs=crhs+2*ncomp*ntchn
+          hld=clhs+2*ncomp*ntchn
+          ipvt=wpadti(hld)
+      else
+          hld=hambb+2*matbv*matbv      
+          ipvt=wpadti(hld)
+      endif
+c     for extraction of t-matrix
+      tmat=hld+ntchn
+      seig=tmat+2*ntchn*ntchn
+      svec=seig+2*ntchn
+      dum=svec+2*ntchn*ntchn
+c----------------------------------------------------------------------c
+c              memory obtained: lets do calculation                    c
+c----------------------------------------------------------------------c
+c----------------------------------------------------------------------c
+c                  begin energy dependent step                         c
+c----------------------------------------------------------------------c
+      do 20 ene=1,nen
+         eau=.5d+00*energy(ene)
+         eev=eau*27.21
+         write (iout,8) eau, eev
+c----------------------------------------------------------------------c
+c               read in the bound-bound hamiltonian matrix             c 
+c               containing exchange and correlation                    c
+c----------------------------------------------------------------------c
+         call rddeno(z(hambb),z(hambbc),energy(ene),matbv,logky(10))
+c----------------------------------------------------------------------c
+c               read in all free-free and bound-free matrix            c
+c                           elements                                   c
+c----------------------------------------------------------------------c
+         filnm='hpp-'//fptoc(energy(ene))
+         call iosys ('read real '//filnm//' from kohnint',
+     1               2*ntchn*ntchn,z(hpp),0,' ')
+         filnm='hpm-'//fptoc(energy(ene))
+         call iosys ('read real '//filnm//' from kohnint',
+     1               2*ntchn*ntchn,z(hpm),0,' ')
+         filnm='hpb-'//fptoc(energy(ene))
+         call iosys ('read real '//filnm//' from kohnint',
+     1               2*ntchn*matbv,z(hpb),0,' ')
+         if (logky(10)) then
+             filnm='hmm-'//fptoc(energy(ene))
+             call iosys('read real '//filnm//' from kohnint',
+     1                   2*ntchn*ntchn,z(hmm),0,' ')
+             filnm='hmb-'//fptoc(energy(ene))
+             call iosys('read real '//filnm//' from kohnint',
+     1                   2*ntchn*matbv,z(hmb),0,' ')
+         endif
+c----------------------------------------------------------------------c
+c                  get the derived matrices                            c
+c----------------------------------------------------------------------c
+         call mkfree(z(hpp),z(hmm),z(hpm),z(vrr),z(vrrc),z(vii),z(vri),
+     1               z(vir),ntchn,logky(10)) 
+         call mkfrbn(z(hpb),z(hmb),z(vfrb),z(vfrbc),z(vfib),z(vbfr),
+     1               z(vbfrc),z(vbfi),matbv,ntchn,logky(10))
+c----------------------------------------------------------------------c
+c           construct the final matrix and right hand side             c 
+c----------------------------------------------------------------------c
+         if (.not.logky(1)) then
+c----------------------------------------------------------------------c
+c           solve the linear equations using partitioning              c
+c----------------------------------------------------------------------c
+             if (logky(10)) then
+                 tmpnm='no write'
+                 call clvcmp(z(hambbc),a(ipvt),z(vbfi),matbv,ntchn,
+     1                       'factor',logky(4),tmpnm)
+                 call clvcmp(z(hambbc),a(ipvt),z(vbfi),matbv,ntchn,
+     1                       'no factor',logky(4),tmpnm)
+                 call clvcmp(z(hambbc),a(ipvt),z(vbfrc),matbv,ntchn,
+     1                       'no factor',logky(4),tmpnm)                           
+             else
+                 call slvlin(z(hambb),a(ipvt),zdum,z(vbfi),matbv,ntchn,
+     1                       'factor','complex',logky(9))
+                 call slvlin(z(hambb),a(ipvt),zdum,z(vbfi),matbv,ntchn,
+     1                       'no factor','complex',logky(9))
+                 call slvlin(z(hambb),a(ipvt),z(vbfr),zdumc,matbv,ntchn,
+     1                       'no factor','real',logky(9))
+             endif
+c----------------------------------------------------------------------c
+c                  make effective free-free matrix                     c 
+c----------------------------------------------------------------------c
+             call ffmat(z(vii),z(vfib),z(vbfi),zdum,ntchn,matbv,
+     1                  'complex',logky(5))
+             if (logky(10)) then
+                 call ffmat(z(vir),z(vfib),z(vbfrc),zdum,ntchn,matbv,
+     1                      'complex',logky(5))
+             else
+                 call ffmat(z(vir),z(vfib),zdumc,z(vbfr),ntchn,matbv,
+     1                      'real',logky(5))
+             endif
+             call matm(z(vir),ntchn*ntchn)
+c----------------------------------------------------------------------c
+c                    solve complex linear system                       c
+c                    to get free coefficients                          c
+c----------------------------------------------------------------------c
+             filnm='mpp-'//fptoc(energy(ene))
+             call clvcmp(z(vii),a(ipvt),z(vir),ntchn,ntchn,'factor',
+     1                   logky(4),filnm)
+             call cc2opy(z(vir),z(tvir),ntchn*ntchn)
+             filnm='rpp-'//fptoc(energy(ene))
+             call clvcmp(z(vii),a(ipvt),z(vir),ntchn,ntchn,'no factor',
+     1                   logky(4),filnm)
+c----------------------------------------------------------------------c
+c                extract non variational t matrices                    c
+c----------------------------------------------------------------------c
+             call tnonvr (z(vir),z(tmat),z(seig),z(svec),z(dum),
+     1                    logky(2),ntchn)
+c----------------------------------------------------------------------c
+c              extract variational t matrices                          c
+c----------------------------------------------------------------------c
+             type='partitioned'
+             filnm='tmat-'//fptoc(energy(ene))
+             call tvar(z(vrr),z(vrrc),z(vir),z(tvir),z(vfrb),z(vfrbc),
+     1                 z(vbfr),z(vbfrc),z(tmat),z(seig),z(svec),z(dum),
+     2                 logky(2),type,ntchn,matbv,filnm,logky(10))
+c----------------------------------------------------------------------c
+c           solve the linear equations without partitioning            c
+c           and extract required t matrices.                           c
+c----------------------------------------------------------------------c
+         else
+             call frmcmp(z(vrr),z(vrrc),z(vii),z(vir),z(vri),z(vbfr),
+     1                   z(vbfrc),z(vbfi),z(vfrb),z(vfrbc),z(vfib),
+     2                   z(hambb),z(hambbc),z(matcmp),z(crhs),
+     3                   z(clhs),a(ipvt),z(tmat),z(seig),z(svec),
+     4                   z(dum),logky(2),matbv,ntchn,ncomp,logky(6),
+     5                   logky(7),logky(8),filnm,logky(10))
+         endif 
+   20 continue
+      call iosys ('rewind all on kohnint read-and-write',0,0,0,' ')
+      call iosys ('close kohnint',0,0,0,' ')
+      call iosys ('rewind all on tmat read-and-write',0,0,0,' ')
+      call iosys ('close tmat',0,0,0,' ')
+      call iosys ('write integer maxsiz to rwf',1,maxcor,0,' ')
+      call chainx (0)
+      stop
+    1 format (//,20x,'***** m6009:kohn variational scattering program **
+     1***')
+    2 format (/,15x,'calculation performed without partitioning')
+    3 format (/,15x,'calculation performed with partitioning')
+    4 format (/,5x,'use the kohn with real boundary conditions')
+    5 format (/,5x,'use the kohn with complex boundary conditions')
+    6 format (/,5x,'no. channels',1x,i3,2x,'size of bound-bound matrix',
+     1        1x,i4)
+    7 format (/,5x,i8,1x,'words obtained by getscm')
+    8 format (/,5x,'incident electron energy',1x,f15.8,'(hartrees)',
+     1        1x,f15.8,'(ev)')
+      end

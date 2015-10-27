@@ -1,0 +1,68 @@
+$route
+ number-of-space-dimensions=1 print=(iterative-solve=xall)
+ use-atomic-units dimension-1=r number-of-time-regions=1
+ xiterative-linear-system-solve pure-time-perturbation=none
+ driver=state-vector initial-state=0 space-time-perturbation=none 
+$end
+          
+$nonstd
+80//01;
+20//01;
+$end
+
+$title
+time-propagation code
+$end
+
+$h0(r)
+ number-of-grids=1 quadrature-type=legendre
+ right-boundary-condition=0
+$end
+
+$h0(r,grid(1))
+ number-of-regions=1 region-boundaries=(0.d0,1.d0)
+ number-of-points-per-region=(10) print=(space=all)
+$end
+
+$v0(r)
+ use-atomic-units potential=well well-depth=-1.d0
+$end
+ 
+$h0(t1)
+ number-of-grids=1 quadrature-type=legendre 
+ number-of-points-per-region=(20) region-boundaries=(0.d0,1.0d0)
+ print=(space=all)
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$h0(t2)
+ number-of-grids=1 quadrature-type=legendre 
+ number-of-points-per-region=(20) region-boundaries=(2.5d0,5.d0)
+$end
+
+$v0(t2)
+ potential=none
+$end
+
+$gmres
+ overlap-tolerance=1.e-10 convergence=1.e-08
+ preconditioner=block maximum-size-of-preconditioning-block=100
+ xprint=(iterative-solve=all) maximum-number-of-iterations=400
+ maximum-number-of-vectors=400 xprint=iterative-solve=all
+$end
+
+$trials
+ type-of-trial-vectors=unit number-of-trial-vectors=1
+$end
+
+$vtnlse(1,1,t1)
+ 
+$end
+
+$vtnlse(1,1,t2)
+ 
+$end
+

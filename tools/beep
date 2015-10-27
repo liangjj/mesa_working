@@ -1,0 +1,12 @@
+
+#      script to send annoying beeps to the user.
+#      this can sometimes be useful to alert one that a job submitted
+#      in the background is over, e.g.
+#      
+#      (mesa >&mesa.log; beep) &
+#
+#      will run mesa as a background job diverting standard output
+#      and standard error into the file mesa.log.  when the job is 
+#      done, the user will be reminded with beeps.
+#
+echo -n ''; echo -n ''; echo -n ''

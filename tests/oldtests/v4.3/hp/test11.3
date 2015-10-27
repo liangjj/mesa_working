@@ -1,0 +1,172 @@
+ mesa(4.3);7/7/93;hp-ux 9.01 unix.                                              
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      8-jul-1993 21:01:15    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test11.3                                                                                                   
+     out:    /usr2/mesa/tests/out/hp/test11.3                                                                                                
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium1/rlm/tmp/rwf                                                                                                            
+     rint:   /cesium1/rlm/tmp/rint                                                                                                           
+     int:    /cesium1/rlm/tmp/int                                                                                                            
+     tint:   /cesium1/rlm/tmp/tint                                                                                                           
+     gint:   /cesium1/rlm/tmp/gint                                                                                                           
+     rdint:  /cesium1/rlm/tmp/rdint                                                                                                          
+     dint:   /cesium1/rlm/tmp/dint                                                                                                           
+     zint:   /cesium1/rlm/tmp/zint                                                                                                           
+     ham:    /cesium1/rlm/tmp/ham                                                                                                            
+     moden:  /cesium1/rlm/tmp/moden                                                                                                          
+     aoden:  /cesium1/rlm/tmp/aoden                                                                                                          
+     saoden: /cesium1/rlm/tmp/saoden                                                                                                         
+     gden:   /cesium1/rlm/tmp/gden                                                                                                           
+     fci:    /cesium1/rlm/tmp/fci                                                                                                            
+     machine size:          8000000
+     user defined maxsiz:   1000000
+ title:
+      ch2 singlet  becke-lyp 
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//11;
+     19//51;
+     20//01;
+ options:
+     dft,2s+1=1,scf=(exchf=becke,corrf=lyp,lebord=23,radgrid=51,pulay), guess=huckel,
+     print=(m511=vector)
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   c  ndzp    
+      2   2   h  olddzp      1   1.130000 r        
+      3   3   h  olddzp      1   1.130000 r         2  100.900 theta    
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    4
+     number beta electrons:     4
+ basis dimensions:
+     # primitive cartesians    44
+     # contracted cartesians   26
+     # basis functions         26
+ distance matrix (angstroms):
+                              c        h1        h2                              
+                  c      .00000
+                 h1     1.13000    .00000
+                 h2     1.13000   1.74262    .00000
+ interatomic angles:
+          h2-c1-h3 =100.9000
+ symmetry:
+     full point group:  c2v
+     utilizing group :  c2v
+     number of salcs :   a1   a2   b1   b2   
+                         13    2    4    7
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   c               .000000     .000000    -.179882
+      2   2   h               .000000     .871308     .539647
+      3   3   h               .000000    -.871308     .539647
+ rotational constants (ghz):    565.6365734    330.2619258    208.5149425
+ isotopes:
+     c       h1      h2      
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     730653
+     #primitive integrals computed     710205( 97.2%)
+     #contracted integrals possible     61776
+     #contracted integrals kept         37648( 60.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ Wrote basis for atom  1 it is  9700
+ Wrote basis for atom  2 it is  9700
+ Wrote basis for atom  3 it is  9700
+ m511:
+     memory available(bytes)             31995996
+     all integrals held in core.
+     nuclear repulsion energy:    5.923250
+     iter              energy    diis convergence
+        9       -39.113902989          .000000003
+     final vector:
+                              1         2         3         4         5    
+     eigenvalues --    -9.99932   -.59891   -.35348   -.20185   -.16860
+          c       s     -.60135   -.12344    .00000    .07026    .00000
+                  s     -.42778   -.15309    .00000    .09065    .00000
+                  s     -.03434    .44676    .00000   -.27138    .00000
+                  s      .00070    .33873    .00000   -.43206    .00000
+                  x      .00000    .00000    .00000    .00000   -.71765
+                  y      .00000    .00000   -.52974    .00000    .00000
+                  z     -.00169    .19486    .00000    .57691    .00000
+                  x      .00000    .00000    .00000    .00000   -.39877
+                  y      .00000    .00000   -.07955    .00000    .00000
+                  z      .00043    .02797    .00000    .25149    .00000
+                 xx      .00589   -.00379    .00000   -.01080    .00000
+                 yy      .00571    .00206    .00000   -.00138    .00000
+                 zz      .00575    .00335    .00000    .01824    .00000
+                 xy      .00000    .00000    .00000    .00000    .00000
+                 xz      .00000    .00000    .00000    .00000   -.02215
+                 yz      .00000    .00000   -.03802    .00000    .00000
+          h1      s      .00016    .17850   -.23947    .11492    .00000
+                  s      .00021    .06725   -.22894    .13110    .00000
+                  x      .00000    .00000    .00000    .00000   -.02017
+                  y     -.00009   -.01333    .00180   -.00622    .00000
+                  z      .00004   -.00757    .00713    .01209    .00000
+          h2      s      .00016    .17850    .23947    .11492    .00000
+                  s      .00021    .06725    .22894    .13110    .00000
+                  x      .00000    .00000    .00000    .00000   -.02017
+                  y      .00009    .01333    .00180    .00622    .00000
+                  z      .00004   -.00757   -.00713    .01209    .00000
+                              6         7         8    
+     eigenvalues --      .12325    .14841    .25314
+          c       s     -.07933    .00000    .00000
+                  s     -.10096    .00000    .00000
+                  s      .36974    .00000    .00000
+                  s     1.62533    .00000    .00000
+                  x      .00000    .00000    .00000
+                  y      .00000    .61446   -.77268
+                  z      .49679    .00000    .00000
+                  x      .00000    .00000    .00000
+                  y      .00000   1.15864   1.41313
+                  z      .87299    .00000    .00000
+                 xx      .01061    .00000    .00000
+                 yy     -.00384    .00000    .00000
+                 zz      .01239    .00000    .00000
+                 xy      .00000    .00000    .00000
+                 xz      .00000    .00000    .00000
+                 yz      .00000   -.02734   -.02132
+          h1      s     -.06747   -.13913   -.09373
+                  s    -1.45573  -1.34637   -.30000
+                  x      .00000    .00000    .00000
+                  y     -.01870   -.00047    .02421
+                  z     -.00216   -.02251    .02060
+          h2      s     -.06747    .13913    .09373
+                  s    -1.45573   1.34637    .30000
+                  x      .00000    .00000    .00000
+                  y      .01870   -.00047    .02421
+                  z     -.00216    .02251   -.02060
+ m1951:
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1       1.3        .0        .0         0
+      202         1        .2        .0        .0         0
+      302         1        .2        .0        .0         0
+      312         1       2.1        .0        .0         0
+      330         1        .3        .0        .0         0
+      401         1        .3        .0        .0         0
+      511         1     470.8        .0        .0         0
+     1951         1        .1        .0        .0         0
+             total:     475.5        .0        .0         0

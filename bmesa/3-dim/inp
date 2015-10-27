@@ -1,0 +1,36 @@
+$route
+ print=(m6275=(xpolynomial-coefficients,xpolynomials,xpoints/weights,
+        xkinetic-energy-matrix,x2d-eigenvectors,x3d-eigenvectors,
+        x2d-hamiltonian,x3d-hamiltonian,xsurface-projections,r-matrix),
+        xdavidson=(guess,final-vectors) )
+ xcheck-orthogonality xiterative-diagonalization
+ direct=(number-of-2d-roots=25,number-of-3d-roots=125)
+ davidson=(number-of-2d-roots=25,number-of-3d-roots=125,xguess=one)
+$end
+ 
+$nonstd
+62//75;
+20//01;
+$end
+$3-dim
+ x-left=-1.0d0 x-right=1.0d0 y-left=-1.0d0 y-right=1.0d0 
+ z-left=-1.0d0 z-right=1.0d0
+ order-of-leading-left-polynomial=0 order-of-leading-right-polynomial=0
+ minimum-order-of-polynomials=5 number-of-grids=1
+ xpotential=one number-of-energies=1
+$end
+$energy
+ energies=1.0d0
+$end
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

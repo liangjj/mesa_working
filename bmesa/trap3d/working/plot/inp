@@ -1,0 +1,14 @@
+$route
+
+$end
+          
+$nonstd
+70//10;
+20//01;
+$end
+$title
+plot code
+$end
+$plot
+ print-only input-plot-filename="in 1"
+$end

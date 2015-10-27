@@ -1,0 +1,23 @@
+$route
+2s+1=1,hf
+sym=off,guess=huckel
+ci drt=(rdsym,nsym=1,vexcite=2,refexcite=99)
+print=(scf=(vector=all),ci=no)
+$end
+ 
+$drt
+1cor1 4doc1 8uoc1 1vir1 
+$end
+ 
+$title
+h2o test case: single point cisd
+ 
+$geom
+o1(basis=dz)
+h2(basis=dz) o1 r1
+h3(basis=dz) o1 r2  h2 a1
+ 
+r1=0.959447
+r2=0.959447
+a1=104.8318
+$end

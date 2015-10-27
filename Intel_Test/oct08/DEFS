@@ -1,0 +1,12 @@
+SHELL = /bin/sh
+TACC_SCALAPACK_LIB = /opt/intel/mkl/10.0.1.014/lib/em64t
+LIBS = -L$(TACC_SCALAPACK_LIB) -lscalapack  \
+	$(TACC_SCALAPACK_LIB)/blacsF77init_MPI-LINUX-0.a \
+	$(TACC_SCALAPACK_LIB)/blacs_MPI-LINUX-0.a $(TACC_SCALAPACK_LIB)/blacsF77init_MPI-LINUX-0.a \
+	$(TACC_SCALAPACK_LIB)/blacsCinit_MPI-LINUX-0.a \
+	-llapack -lblas
+LIBS = $(MD_LIB)
+F90 = mpif90
+F90FLAGS = -c -O3
+CPPFLAGS =
+#LDFLAGS = $(F90FLAGS)

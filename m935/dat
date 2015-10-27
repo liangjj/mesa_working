@@ -1,0 +1,27 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M935
+#
+SOURCE = m935
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/bscattr.f \
+	$(MESA_HOME)/$(SOURCE)/getham.f \
+	$(MESA_HOME)/$(SOURCE)/hmult.f \
+	$(MESA_HOME)/$(SOURCE)/invhqq.f \
+	$(MESA_HOME)/$(SOURCE)/m935.f \
+	$(MESA_HOME)/$(SOURCE)/makem.f \
+	$(MESA_HOME)/$(SOURCE)/movegrd.f \
+	$(MESA_HOME)/$(SOURCE)/project.f \
+	$(MESA_HOME)/$(SOURCE)/rdham.f \
+	$(MESA_HOME)/$(SOURCE)/rminv.f \
+	$(MESA_HOME)/$(SOURCE)/schmit.f \
+	$(MESA_HOME)/$(SOURCE)/sethpp.f \
+	$(MESA_HOME)/$(SOURCE)/smxpy.f \
+	$(MESA_HOME)/$(SOURCE)/solver.f \
+	$(MESA_HOME)/$(SOURCE)/tcon.f \
+	$(MESA_HOME)/$(SOURCE)/tdiag.f \
+	$(MESA_HOME)/$(SOURCE)/testh.f \
+	$(MESA_HOME)/$(SOURCE)/tmult.f \
+	$(MESA_HOME)/$(SOURCE)/tstcon.f \
+	$(MESA_HOME)/$(SOURCE)/zap.f

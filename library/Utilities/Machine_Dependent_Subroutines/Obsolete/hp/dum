@@ -1,0 +1,4 @@
+c     the following suppresses all error messages from the library routines.
+c     this is to get past the annoying messages from dexp upon underflow.
+c     unfortunately, it will hide other messages if they occur.
+      on external error ignore

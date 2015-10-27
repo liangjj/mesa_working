@@ -1,0 +1,282 @@
+#!/usr/bin/avs -network
+version 4.0 (25.137 hp)
+module "Generate Limits.user.0" -xy 142,128 -ex $Path/MSI/bin/MSI_mongo
+module "Generate MOs.user.1" -xy 304,209 -ex $Path/MSI/bin/MSI_mongo
+module "MO Surface.user.2" -xy 304,290 -ex $Path/MSI/bin/MO_surface
+module "geometry viewer.user.3" -xy 304,344
+module "Mol Defaults.user.4" -xy 288,90 -ex $Path/MSI/bin/MSI_mongo
+module "Mol Connectivity.user.5" -xy 508,82 -ex $Path/MSI/bin/MSI_mongo
+module "Mol Display.user.6" -xy 508,142 -ex $Path/MSI/bin/MSI_mongo
+module "Periodic Table.user.7" -xy 88,12 -ex $Path/MSI/bin/PeriodicTable
+module "G92 Reader.user.8" -xy 298,9 -ex $Path/MSI/bin/MSI_mongo
+module "image to postscript.user.9" -xy 308,428 -ex $Path/avs_library/postscript
+port_connect "Generate Limits.user.0":1 "Generate MOs.user.1":1
+port_connect "Generate MOs.user.1":0 "MO Surface.user.2":0
+port_connect "MO Surface.user.2":0 "geometry viewer.user.3":0
+port_connect "geometry viewer.user.3":0 "image to postscript.user.9":0
+port_connect "Mol Defaults.user.4":0 "Generate Limits.user.0":0
+port_connect "Mol Defaults.user.4":0 "Generate MOs.user.1":0
+port_connect "Mol Defaults.user.4":0 "Mol Connectivity.user.5":0
+port_connect "Mol Connectivity.user.5":0 "Mol Display.user.6":0
+port_connect "Mol Display.user.6":0 "geometry viewer.user.3":0
+port_connect "Periodic Table.user.7":0 "Mol Defaults.user.4":1
+port_connect "G92 Reader.user.8":0 "Mol Defaults.user.4":0
+parm_set "Generate MOs.user.1":"Compute Type" M.O. -range HOMO!LUMO!M.O. !
+parm_set "Generate MOs.user.1":"Orbital Number" 6 -range 1 10
+parm_set "Generate MOs.user.1":Calculate false
+parm_set "MO Surface.user.2":Level 0.047149096
+parm_set "MO Surface.user.2":"Hide Surfaces" false
+parm_set "MO Surface.user.2":"Color Choice" "Default Colors"
+parm_set "Mol Display.user.6":"Main Menu" Representation
+parm_set "Mol Display.user.6":RepresentationSub Ball/Stick
+parm_set "Mol Display.user.6":"Stick Sides" 8
+parm_set "Periodic Table.user.7":"Show Table" true
+parm_set "G92 Reader.user.8":ReadFile "Formatted Checkpoint"
+parm_set "G92 Reader.user.8":ReadChkFile false
+parm_set "G92 Reader.user.8":"Choice 0" true
+parm_set "G92 Reader.user.8":"G92 ChkFile Browser" /usr8/shf/co/co.chkf
+geom_set_scene -scene "geometry viewer.user.3"
+geom_set_camera_name "Camera 1"
+geom_resize_camera -view "Camera 1" 571 571
+#
+# State for view: Camera 1
+#
+geom_set_position -view "Camera 1" 0 0 -12
+geom_set_view_modes -depth_cue 0 -view "Camera 1"
+geom_set_view_modes -z_buffer 1 -view "Camera 1"
+geom_set_camera_params -view "Camera 1" -front -88 -back 112
+geom_set_depth_cue_params "Camera 1" -scale 0.1
+#
+# Light state
+#
+geom_set_light -light 1 -type directional -state 1
+geom_set_light -type ambient -state 1
+#
+# State for object: top
+#
+geom_set_cur_cli_obj top
+geom_set_matrix   -mat \
+                  0.285191    -0.945435    0.157538    0 \
+                    -0.200463    0.101893    0.974387    0 \
+                    -0.937272    -0.309468    -0.160466    0 \
+                    0    0    0    1 
+#
+# State for object: co
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "Mol Display.user.6"
+geom_create_obj co -mod "Mol Display.user.6"
+geom_set_name_context
+#
+# State for object: Selected
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "Mol Display.user.6"
+geom_create_obj Selected -mod "Mol Display.user.6"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: UnSelected
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "Mol Display.user.6"
+geom_create_obj UnSelected -mod "Mol Display.user.6"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+geom_set_cur_cli_obj -pop
+#
+# State for object: "Pos Lobe"
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "MO Surface.user.2"
+geom_create_obj "Pos Lobe" -mod "MO Surface.user.2"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: "Neg Lobe"
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "MO Surface.user.2"
+geom_create_obj "Neg Lobe" -mod "MO Surface.user.2"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,980
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 258,933
+   panel "Generate Limits.user.0" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 255,520
+    manipulator "Generate Limits.user.0:NumGridPoints" -w text -p "Generate Limits.user.0" \
+        -xy 10,10 -wh 236,66
+    manipulator "Generate Limits.user.0:Grid Spacing" -w typein_real -p "Generate Limits.user.0" \
+        -xy 10,76 -wh 236,22
+    manipulator "Generate Limits.user.0:Dial Message" -w text -p "Generate Limits.user.0" \
+        -xy 10,98 -wh 236,22
+    manipulator "Generate Limits.user.0:MinX" -w dial -p "Generate Limits.user.0" \
+        -xy 40,120 -wh 90,130
+    manipulator "Generate Limits.user.0:MaxX" -w dial -p "Generate Limits.user.0" \
+        -xy 130,120 -wh 90,130
+    manipulator "Generate Limits.user.0:MinY" -w dial -p "Generate Limits.user.0" \
+        -xy 40,250 -wh 90,130
+    manipulator "Generate Limits.user.0:MaxY" -w dial -p "Generate Limits.user.0" \
+        -xy 130,250 -wh 90,130
+    manipulator "Generate Limits.user.0:MinZ" -w dial -p "Generate Limits.user.0" \
+        -xy 40,380 -wh 90,130
+    manipulator "Generate Limits.user.0:MaxZ" -w dial -p "Generate Limits.user.0" \
+        -xy 130,380 -wh 90,130
+   panel "Generate MOs.user.1" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 255,305
+    manipulator "Generate MOs.user.1:CalcMessage" -w text -p "Generate MOs.user.1" \
+        -xy 10,10 -wh 236,66
+    manipulator "Generate MOs.user.1:AlphaBeta" -w radio_buttons -p "Generate MOs.user.1" -hide \
+        -xy 10,76 -wh 236,22
+    manipulator "Generate MOs.user.1:Orbital Message" -w text -p "Generate MOs.user.1" \
+        -xy 10,98 -wh 236,22
+    manipulator "Generate MOs.user.1:Compute Type" -w radio_buttons -p "Generate MOs.user.1" \
+        -xy 10,121 -wh 118,66
+    manipulator "Generate MOs.user.1:Orbital Number" -w idial -p "Generate MOs.user.1" \
+        -xy 127,121 -wh 90,130
+    manipulator "Generate MOs.user.1:MO Squared" -w toggle -p "Generate MOs.user.1" \
+        -xy 10,251 -wh 118,22
+    manipulator "Generate MOs.user.1:Calculate" -w toggle -p "Generate MOs.user.1" \
+        -xy 10,273 -wh 118,22
+   panel "MO Surface.user.2" -w panel -p "Top Level Stack" -xy 0,193 -wh 226,282
+    manipulator "MO Surface.user.2:Level" -w dial -p "MO Surface.user.2" \
+        -xy 84,32 -wh 90,130
+    manipulator "MO Surface.user.2:Hide Surfaces" -w toggle -p "MO Surface.user.2" \
+        -xy 40,183 -wh 177,22
+    manipulator "MO Surface.user.2:Color Label" -w text -p "MO Surface.user.2" \
+        -xy 40,205 -wh 177,22
+    manipulator "MO Surface.user.2:Color Choice" -w radio_buttons -p "MO Surface.user.2" \
+        -xy 40,227 -wh 177,44
+   panel "Mol Defaults.user.4" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 227,42
+    manipulator "Mol Defaults.user.4:Use Element Symbols" -w toggle -p "Mol Defaults.user.4" \
+        -xy 40,10 -wh 177,22
+   panel "Mol Connectivity.user.5" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,108
+    manipulator "Mol Connectivity.user.5:Method" -w radio_buttons -p "Mol Connectivity.user.5" \
+        -xy 40,10 -wh 177,44
+    manipulator "Mol Connectivity.user.5:Distance" -w typein_real -p "Mol Connectivity.user.5" -hide \
+        -xy 10,76 -wh 236,22\
+   -P title string "Dist. Cutoff (AU)"
+   panel "Mol Display.user.6" -w panel -p "Top Level Stack" -xy 0,193 -wh 258,740
+    manipulator "Mol Display.user.6:Reset" -w toggle -p "Mol Display.user.6" \
+        -xy 10,10 -wh 118,22
+    manipulator "Mol Display.user.6:CenterRotations" -w toggle -p "Mol Display.user.6" \
+        -xy 130,10 -wh 118,22
+    manipulator "Mol Display.user.6:Main Menu" -w radio_buttons -p "Mol Display.user.6" \
+        -xy 40,32 -wh 177,66
+    manipulator "Mol Display.user.6:Submenu2 Label" -w text -p "Mol Display.user.6" \
+        -xy 40,98 -wh 177,22
+    manipulator "Mol Display.user.6:ShowDummyAtoms" -w toggle -p "Mol Display.user.6" \
+        -xy 40,120 -wh 177,22
+    manipulator "Mol Display.user.6:RepresentationSub" -w radio_buttons -p "Mol Display.user.6" \
+        -xy 40,142 -wh 177,132
+    manipulator "Mol Display.user.6:Stick Sides" -w idial -p "Mol Display.user.6" \
+        -xy 40,274 -wh 90,130
+    manipulator "Mol Display.user.6:Stick Radius" -w dial -p "Mol Display.user.6" \
+        -xy 130,274 -wh 90,130
+    manipulator "Mol Display.user.6:Ball Sides" -w idial -p "Mol Display.user.6" \
+        -xy 40,404 -wh 90,130
+    manipulator "Mol Display.user.6:Ball Radius" -w dial -p "Mol Display.user.6" \
+        -xy 130,404 -wh 90,130
+    manipulator "Mol Display.user.6:CPK Sides" -w idial -p "Mol Display.user.6" \
+        -xy 40,534 -wh 90,130
+    manipulator "Mol Display.user.6:CPK Radius" -w dial -p "Mol Display.user.6" \
+        -xy 130,534 -wh 90,130
+    manipulator "Mol Display.user.6:NameToggle" -w toggle -p "Mol Display.user.6" -hide \
+        -xy 40,120 -wh 177,22
+    manipulator "Mol Display.user.6:NumberToggle" -w toggle -p "Mol Display.user.6" -hide \
+        -xy 40,142 -wh 177,22
+    manipulator "Mol Display.user.6:HybridToggle" -w toggle -p "Mol Display.user.6" -hide \
+        -xy 40,164 -wh 177,22
+    manipulator "Mol Display.user.6:ChargeToggle" -w toggle -p "Mol Display.user.6" -hide \
+        -xy 40,186 -wh 177,22
+    manipulator "Mol Display.user.6:Label Font" -w idial -p "Mol Display.user.6" -hide \
+        -xy 40,230 -wh 90,130
+    manipulator "Mol Display.user.6:Label Height" -w dial -p "Mol Display.user.6" -hide \
+        -xy 130,230 -wh 90,130
+    manipulator "Mol Display.user.6:ColorSub" -w radio_buttons -p "Mol Display.user.6" -hide \
+        -xy 40,120 -wh 177,44
+   panel "Periodic Table.user.7" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,324
+    manipulator "Periodic Table.user.7:Show Table" -w toggle -p "Periodic Table.user.7" \
+        -xy 40,10 -wh 177,22
+    manipulator "Periodic Table.user.7:Send Table" -w toggle -p "Periodic Table.user.7" \
+        -xy 40,32 -wh 177,22
+    manipulator "Periodic Table.user.7:Read Table" -w toggle -p "Periodic Table.user.7" \
+        -xy 40,54 -wh 177,22
+    manipulator "Periodic Table.user.7:Write Table" -w toggle -p "Periodic Table.user.7" \
+        -xy 40,76 -wh 177,22
+    manipulator "Periodic Table.user.7:Read Browser" -w browser -p "Periodic Table.user.7" -hide \
+        -xy 10,120 -wh 236,194
+    manipulator "Periodic Table.user.7:Write Browser" -w browser -p "Periodic Table.user.7" -hide \
+        -xy 10,120 -wh 236,194
+   panel "G92 Reader.user.8" -w panel -p "Top Level Stack" -xy 0,193 -wh 256,684
+    manipulator "G92 Reader.user.8:ReadStatus" -w text -p "G92 Reader.user.8" \
+        -xy 10,10 -wh 236,44
+    manipulator "G92 Reader.user.8:ReadFile" -w radio_buttons -p "G92 Reader.user.8" \
+        -xy 40,76 -wh 177,66
+    manipulator "G92 Reader.user.8:ReadChkFile" -w toggle -p "G92 Reader.user.8" \
+        -xy 40,142 -wh 177,22
+    manipulator "G92 Reader.user.8:SelectItemMessage" -w text -p "G92 Reader.user.8" \
+        -xy 40,164 -wh 177,22
+    manipulator "G92 Reader.user.8:Structure" -w toggle -p "G92 Reader.user.8" \
+        -xy 40,186 -wh 177,22
+    manipulator "G92 Reader.user.8:Choice 0" -w toggle -p "G92 Reader.user.8" \
+        -xy 40,208 -wh 177,22\
+   -P title string "Molecular Orbital Coef."
+    manipulator "G92 Reader.user.8:Choice 1" -w toggle -p "G92 Reader.user.8" \
+        -xy 40,230 -wh 177,22\
+   -P title string "Total SCF Density"
+    manipulator "G92 Reader.user.8:Choice 2" -w toggle -p "G92 Reader.user.8" \
+        -xy 40,252 -wh 177,22\
+   -P title string "Cartesian Force Constants"
+    manipulator "G92 Reader.user.8:Choice 3" -w toggle -p "G92 Reader.user.8" -hide \
+        -xy 40,274 -wh 177,22
+    manipulator "G92 Reader.user.8:Choice 4" -w toggle -p "G92 Reader.user.8" -hide \
+        -xy 40,296 -wh 177,22
+    manipulator "G92 Reader.user.8:Choice 5" -w toggle -p "G92 Reader.user.8" -hide \
+        -xy 40,318 -wh 177,22
+    manipulator "G92 Reader.user.8:Choice 6" -w toggle -p "G92 Reader.user.8" -hide \
+        -xy 40,340 -wh 177,22
+    manipulator "G92 Reader.user.8:Choice 7" -w toggle -p "G92 Reader.user.8" -hide \
+        -xy 40,362 -wh 177,22
+    manipulator "G92 Reader.user.8:Choice 8" -w toggle -p "G92 Reader.user.8" -hide \
+        -xy 40,384 -wh 177,22
+    manipulator "G92 Reader.user.8:Choice 9" -w toggle -p "G92 Reader.user.8" -hide \
+        -xy 40,406 -wh 177,22
+    manipulator "G92 Reader.user.8:FormatChoice" -w radio_buttons -p "G92 Reader.user.8" -hide \
+        -xy 10,142 -wh 236,22
+    manipulator "G92 Reader.user.8:CubeDensityChoice" -w radio_buttons -p "G92 Reader.user.8" -hide \
+        -xy 10,164 -wh 236,132
+    manipulator "G92 Reader.user.8:InputDeckExtension" -w typein -p "G92 Reader.user.8" -hide \
+        -xy 10,318 -wh 236,22
+    manipulator "G92 Reader.user.8:G92 Input Deck Browser" -w browser -p "G92 Reader.user.8" -hide \
+        -xy 10,340 -wh 236,334
+    manipulator "G92 Reader.user.8:ChkFileExtension" -w typein -p "G92 Reader.user.8" \
+        -xy 10,428 -wh 236,22
+    manipulator "G92 Reader.user.8:G92 ChkFile Browser" -w browser -p "G92 Reader.user.8" \
+        -xy 10,450 -wh 236,194
+    manipulator "G92 Reader.user.8:DenFileExtension" -w typein -p "G92 Reader.user.8" -hide \
+        -xy 10,318 -wh 236,22
+    manipulator "G92 Reader.user.8:G92 DenFile Browser" -w browser -p "G92 Reader.user.8" -hide \
+        -xy 10,340 -wh 236,334
+   panel "image to postscript.user.9" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 256,174
+    manipulator "image to postscript.user.9:filename" -w typein -p "image to postscript.user.9" \
+        -xy 10,10 -wh 236,22
+    manipulator "image to postscript.user.9:mode" -w radio_buttons -p "image to postscript.user.9" \
+        -xy 10,32 -wh 118,44
+    manipulator "image to postscript.user.9:encapsulate" -w toggle -p "image to postscript.user.9" \
+        -xy 10,76 -wh 118,22
+    manipulator "image to postscript.user.9:landscape" -w toggle -p "image to postscript.user.9" \
+        -xy 10,98 -wh 118,22
+    manipulator "image to postscript.user.9:page size x" -w typein_real -p "image to postscript.user.9" \
+        -xy 10,120 -wh 236,22
+    manipulator "image to postscript.user.9:page size y" -w typein_real -p "image to postscript.user.9" \
+        -xy 10,142 -wh 236,22
+ panel "geometry viewer.user.3!display" -w container -p ui -xy 300,22 -wh 611,643\
+   -P zoom_coords string "0 0 0 0 0 <$NULL> 0 0 0 0"
+manipulator "geometry viewer.user.3":object -w none
+# End of file

@@ -1,0 +1,9 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M819
+#
+SOURCE = m819
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/fixint.f \
+	$(MESA_HOME)/$(SOURCE)/m819.f 

@@ -1,0 +1,38 @@
+ mesa(1.2);5/30/91;unix.                                                        
+     (c) 1990, the university of california.                                    
+     P.W. Saxe, B.H. Lengsfield iii, R.L. Martin, M. Page and B. I. Schneider.  
+
+      4-May-2015 09:17:02    
+     National Institute of Standards and Technology; 2.3GHz I7 Dual mac-pro laptop(fe
+ main files/memory:
+     inp:   inp.grid                                                                        
+     out:   mesa.out                                                                        
+     chk:   mesa.chk                                             dat:    /Users/bis/Sources/working_mesa_directory/mesa_w
+     rwf:   tmp/mesa.rwf                                         rint:   /Users/bis/Sources/working_mesa_directory/mesa_w
+     int:   tmp/mesa.int                                         tint:   /Users/bis/Sources/working_mesa_directory/mesa_w
+     gint:  /Users/bis/Sources/working_mesa_directory/mesa_w     rdint:  /Users/bis/Sources/working_mesa_directory/mesa_w
+     dint:  /Users/bis/Sources/working_mesa_directory/mesa_w     zint:   /Users/bis/Sources/working_mesa_directory/mesa_w
+     ham:   /Users/bis/Sources/working_mesa_directory/mesa_w     moden:  /Users/bis/Sources/working_mesa_directory/mesa_w
+     aoden: /Users/bis/Sources/working_mesa_directory/mesa_w     saoden: /Users/bis/Sources/working_mesa_directory/mesa_w
+     gden:  /Users/bis/Sources/working_mesa_directory/mesa_w     fci:    /Users/bis/Sources/working_mesa_directory/mesa_w
+
+     machine size:        200000000
+ other working files:
+     kohn:    /Users/bis/Sources/working_mesa_directory/mesa_w     kohndt: /Users/bis/Sources/working_mesa_directory/mesa_w
+     grid:    /Users/bis/Sources/working_mesa_directory/mesa_w     orbs:   /Users/bis/Sources/working_mesa_directory/mesa_w
+     vstat:   /Users/bis/Sources/working_mesa_directory/mesa_w     ylms:   /Users/bis/Sources/working_mesa_directory/mesa_w
+     bessel:  /Users/bis/Sources/working_mesa_directory/mesa_w     knints: /Users/bis/Sources/working_mesa_directory/mesa_w
+     tmat:    /Users/bis/Sources/working_mesa_directory/mesa_w     blktmat:/Users/bis/Sources/working_mesa_directory/mesa_w
+     optint:  /Users/bis/Sources/working_mesa_directory/mesa_w     atomci: /Users/bis/Sources/working_mesa_directory/mesa_w
+     fedvr:   /Users/bis/Sources/working_mesa_directory/mesa_w     bec:    /Users/bis/Sources/working_mesa_directory/mesa_w
+     hconfig: /Users/bis/Sources/working_mesa_directory/mesa_w     rmtrx:  /Users/bis/Sources/working_mesa_directory/mesa_w
+     tdse:    /Users/bis/Sources/working_mesa_directory/mesa_w
+          buflen      =       2048 maxcor      =  500000000 maxsmall    =        200
+          maxbig      =        800 maxnbfkohn  =        300 maxprimkohn =        500
+          maxchan     =         20 maxltop     =         10 maxlmtop    =         40
+ lnkerr: error opening rwf              (file: tmp/mesa.rwf                                                                         
+ lnkerr:                                                                                                                            
+ lnkerr:                                                 ) as new             
+
+
+ ######## cannot close rwf              which is unit:  10

@@ -1,0 +1,15 @@
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda5              1959832    516892   1442940  27% /
+udev                   3447404       152   3447252   1% /dev
+/dev/sda1                80284     48864     31420  61% /boot
+/dev/sda10           110041852   1433916 108607936   2% /home
+/dev/sda8              2939764    138280   2801484   5% /tmp
+/dev/sda6              9775216   8684308   1090908  89% /usr
+/dev/sda7              2939764    522260   2417504  18% /var
+/dev/sdb5              1929068   1607036    224040  88% /redhat
+/dev/sdb1                77749     19028     54707  26% /redhat/boot
+/dev/sdb6              9621848   8256100    876972  91% /redhat/usr
+/dev/sdb7              2893628   2179512    567124  80% /redhat/var
+/dev/sdb8              2893628     32868   2713768   2% /redhat/tmp
+/dev/sdb10           108578656     34504 103028640   1% /redhat/scratch
+/dev/sdc1            141383156  12840912 121360388  10% /redhat/home

@@ -1,0 +1,17 @@
+ Volume in drive C has no label.
+ Volume Serial Number is 5C68-4F57
+
+ Directory of C:\oleg\T\LIBS\BSPLINE\diff_BS
+
+12/04/2002  10:27 AM             1,212 mk.f90
+09/10/2002  06:44 PM             4,007 mmk.f90
+09/14/2002  02:37 PM             3,868 mnk.f90
+09/11/2002  09:19 AM             5,254 mtk.f90
+09/10/2002  05:52 PM             5,271 mvk.f90
+12/04/2002  11:07 AM             1,174 nk.f90
+12/07/2002  12:50 PM             1,690 rk.f90
+12/04/2002  03:58 PM             1,950 Spline_integrals.f90
+09/11/2002  11:43 AM             1,345 tk.f90
+09/10/2002  07:15 PM             1,317 vk.f90
+              10 File(s)         27,088 bytes
+               0 Dir(s)  98,261,626,880 bytes free

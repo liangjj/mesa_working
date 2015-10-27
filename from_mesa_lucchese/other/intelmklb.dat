@@ -1,0 +1,44 @@
+GetInfo $homedir/molden/co2hfdz$geom.molden  molden2006      # read information from gamess-uk outp
+
+put molden,co2dzeq.dat;
+
+eoi
+date
+cp *.dat $KEEP
+cd $TMPDIR
+rm -r molprotmp$$
+exit
+"CO2gsMCSCFDZ.job" 47L, 751C                                                     47,1          Bot
+
+
+put molden,co2mcdzeq.dat;
+
+eoi
+date
+cp *.dat $KEEP
+cd $TMPDIR
+rm -r molprotmp$$
+exit
+"CO2gsMCSCFavdz.job" 47L, 755C                                                   47,1          Bot
+
+
+ DUMP ORBITAL  1.1 AS ORBITAL    1  occ=    2.0000  eig=  -20.6040  GROUP=   2
+ DUMP ORBITAL  1.5 AS ORBITAL    2  occ=    2.0000  eig=  -20.5963  GROUP=   2
+ DUMP ORBITAL  2.1 AS ORBITAL    3  occ=    2.0000  eig=  -11.3993  GROUP=   2
+ DUMP ORBITAL  2.5 AS ORBITAL    4  occ=    1.9987  eig=   -1.3173  GROUP=   3
+ DUMP ORBITAL  3.1 AS ORBITAL    5  occ=    1.9985  eig=   -1.3260  GROUP=   3
+ DUMP ORBITAL  4.1 AS ORBITAL    6  occ=    1.9809  eig=   -1.0301  GROUP=   3
+ DUMP ORBITAL  1.3 AS ORBITAL    7  occ=    1.9787  eig=   -0.6951  GROUP=   3
+ DUMP ORBITAL  1.2 AS ORBITAL    8  occ=    1.9787  eig=   -0.6951  GROUP=   3
+ DUMP ORBITAL  3.5 AS ORBITAL    9  occ=    1.9742  eig=   -0.9329  GROUP=   3
+ DUMP ORBITAL  1.7 AS ORBITAL   10  occ=    1.9616  eig=   -0.5272  GROUP=   3
+ DUMP ORBITAL  1.6 AS ORBITAL   11  occ=    1.9616  eig=   -0.5272  GROUP=   3
+ DUMP ORBITAL  2.2 AS ORBITAL   12  occ=    0.0601  eig=    0.3274  GROUP=   3
+ DUMP ORBITAL  2.3 AS ORBITAL   13  occ=    0.0601  eig=    0.3274  GROUP=   3
+ DUMP ORBITAL  5.1 AS ORBITAL   14  occ=    0.0327  eig=    0.6350  GROUP=   3
+ DUMP ORBITAL  4.5 AS ORBITAL   15  occ=    0.0142  eig=    1.3800  GROUP=   3
+
+[rrl581a@login004 ~]$ echo $MACH
+intelmklb
+
+

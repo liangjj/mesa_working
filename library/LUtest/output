@@ -1,0 +1,57 @@
+
+
+Matrix of order   15 with      115 nonzeros
+
+
+SuperLU: factor and solve
+SuperLU: adjusting indices
+Created B
+SuperLU: getting permutation.
+Use minimum degree ordering on A'+A.
+Factor time  =     0.00
+Solve time   =     0.00
+No of nonzeros in factor L = 74
+No of nonzeros in factor U = 74
+No of nonzeros in L+U = 148
+L\U MB 0.003	total MB needed 0.007	expansions 0
+Done with factorization
+Proceeding to solve
+done with solve, info = 0
+SuperLU: delete old factorization
+Created B
+
+
+   Solution vector 
+  0.99438E-02 0.75797E-01
+ -0.60591E-01-0.89350E+00
+ -0.31182E-01 0.27238E-01
+ -0.25458E-01 0.26161E-01
+  0.18989E+00 0.12149E+00
+  0.15646E+00-0.11504E+00
+ -0.66663E-02 0.12487E-01
+ -0.15612E-02 0.12305E-01
+  0.16254E-02 0.12283E-01
+ -0.85891E-03 0.23235E-01
+  0.97904E-01-0.51107E+00
+  0.26249E-01-0.37815E-01
+  0.25391E-01-0.28206E-01
+  0.14993E+00 0.62138E-01
+  0.15116E+00-0.79147E-01
+
+
+ matrix times  solution                rhs
+ 0.10000E+01 0.00000E+00      0.10000E+01 0.00000E+00
+ 0.20000E+01 0.00000E+00      0.20000E+01 0.00000E+00
+ 0.30000E+01-0.25674E-15      0.30000E+01 0.00000E+00
+ 0.40000E+01-0.83267E-16      0.40000E+01 0.00000E+00
+ 0.50000E+01 0.11102E-15      0.50000E+01 0.00000E+00
+ 0.60000E+01-0.80491E-15      0.60000E+01 0.00000E+00
+ 0.70000E+01-0.22204E-14      0.70000E+01 0.00000E+00
+ 0.80000E+01 0.15266E-15      0.80000E+01 0.00000E+00
+ 0.90000E+01 0.19429E-15      0.90000E+01 0.00000E+00
+ 0.10000E+02-0.13323E-14      0.10000E+02 0.00000E+00
+ 0.11000E+02 0.66613E-15      0.11000E+02 0.00000E+00
+ 0.12000E+02 0.11102E-14      0.12000E+02 0.00000E+00
+ 0.13000E+02 0.66613E-15      0.13000E+02 0.00000E+00
+ 0.14000E+02 0.00000E+00      0.14000E+02 0.00000E+00
+ 0.15000E+02 0.00000E+00      0.15000E+02 0.00000E+00

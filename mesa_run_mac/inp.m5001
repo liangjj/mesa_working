@@ -1,0 +1,47 @@
+$route
+
+$end
+ 
+$nonstd
+50//1;
+$end
+ 
+$title
+Testing SIL propagator
+$end
+
+$atomic_prop_setup
+               type_calculation=imaginary_time
+    preconditioner=cholesky in_core
+    non_orthogonal_basis overlap_drop_tolerance=1.e-10
+    hamiltonian_drop_tolerance=1.e-07 cholesky_drop_tolerance=1.e-07
+    eigenvalue_convergence=1.d-10 xprint_packed_matrix xprint=all_details
+    input_matrices=packed_in_drake_format output_matrices=packed_in_iosys_format
+    file_directory=He Xinput_matrices=packed_in_iosys_format
+$end
+
+$directives
+  matrix_directive=by_channels hamiltonian_file_name=He_Mat_20
+  xprint_cc xdiagonalize_only xreformat_input_matrix_only 
+$end
+
+$time
+
+ automate maximum_number_of_time_subintervals=1000 first_time=0.d0 
+ time_interval=.1d0 xprint=(main=(xpointers,xpotentiail,
+xinitial_state,xnon_linear_potential, xh_on_initial_state))
+$end
+
+$iterative_data
+ iterative_method=preconditioned_lanczos
+ non_orthogonal_basis
+ type_matrix=general compute_energy
+ overlap_tolerance=1.e-10 convergence=1.d-10
+ xorthogonalization_procedure=full        double_schmidt
+ xprint=(iterative=all) maximum_number_of_iterations=200
+ maximum_number_of_vectors=200 number_of_trials=1
+$end
+
+$initial_state
+ xinitial_state=from_standard_disk
+$end 

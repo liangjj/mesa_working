@@ -1,0 +1,11 @@
+
+# spits out the lines greater than 72 characters in a file.
+#
+# first line intentionally left blank to invoke the Bourne shell.
+# note that comment lines are excluded.
+#
+  for file in $*
+     do
+        echo $file
+        awk 'length>72 && !/^c/ {print}' $file 
+     done

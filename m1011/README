@@ -1,0 +1,6 @@
+Note that this routine lagrng.f perhaps should replace the one of similar name
+in m501.  also i modified things so that jandks.f and gdmat.f are
+identical to the routines in m501.  since we use them many places we should
+probably have them in util someday.
+  -- another question, why is this routine here. could it be put into
+m501,m503,etc. and not have to be called.

@@ -1,0 +1,2092 @@
+*deck m6002
+c***begin prologue     m6002
+c***date written       890407   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           m6002, link 6003, direct potential
+c***author             schneider, barry (lanl)
+c***source             m6002
+c***purpose            driver for numerical direct potential
+c***description        calculates static potential on a numerical grid
+c***                   using technology of nuclear attraction integrals
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       m6002
+      program vstat
+      implicit integer (a-z)
+      parameter (dimpr=300 , dimcen=10 , dimst=25 , dimst2=325)
+      parameter (mmax=2, lmax=2, maxmom=20)
+      logical logkey, logky, grdtyp, vmom, posinp
+      character *4096 ops
+      character *1600 card
+      character *13 grdnam
+      character *8 chrkey, cpass, itp, filkne
+      character *3 itoc, ans, aosym, group, psym, sym
+      character *3 roexst
+      character *12 diag
+      real *8 z, alf, cont, rloc, pi, piterm, pitern
+      real *8 charge, fpkey, acrcy, scale, sumpot, reschg
+c----------------------------------------------------------------------c
+c                unicos memory management                              c
+      common a(1)
+      dimension z(1)
+      common /memory / ioff 
+      equivalence (z,a)
+c----------------------------------------------------------------------c
+      common /io/ inp,iout
+      common/chrpss/ itp(3), aosym(dimpr)
+      common /aosi/ npr, ncon, nxyzc(dimpr,4), nprc(dimpr), 
+     1              sncon, smllst(dimpr,2)
+      common /aosr/ alf(dimpr), cont(dimpr)
+      common /rloc/ charge(dimcen), rloc(3,dimcen)
+      common/logprt/logky(10)
+      common /nmbrs /  pi, piterm, pitern, acrcy, scale, icanon
+      dimension  psym(dimst2), sym(dimst)
+      dimension diag(dimst2), roexst(dimst2), sumpot(1200)
+      data pi /3.14159265358979323846d+00/
+      piterm=2.d+00/pi**0.5d+00
+      pitern=pi**1.5d+00
+      call drum
+      call iosys ('read character options from rwf',-1,0,0,ops)
+      call locase(ops,ops)
+      if( posinp ('$VSTAT',cpass) ) then
+          call cardin (card)
+      endif
+      call iosys ('does "kohn data filename" exist on rwf',0,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys ('read character "kohn data file" from rwf',0,0,0,
+     1                 filkne)
+      else
+          filkne=chrkey(card,'kohn-data-file-name','KOHNDT',' ')
+      endif
+      call iosys ('open kohndt as old',0,0,0,filkne)
+c----------------------------------------------------------------------c
+c                    set options                                       c
+c----------------------------------------------------------------------c 
+      logky(1)=logkey(ops,'print=m6002=vectors',.false.,' ')
+      logky(2)=logkey(ops,'print=m6002=initial-density-matrix',
+     1               .false.,' ')
+      logky(3)=logkey(ops,'print=m6002=final-density-matrix',.false.,
+     1                ' ')
+      logky(4)=logkey(ops,'no-ssd',.false.,' ')
+      logky(5)=logkey(ops,'print=m6002=potential',.false.,' ')
+      logky(6)=logkey(ops,'print=m6002=basis',.false.,' ')
+      write (iout,1020)
+c---------------------------------------------------------------------c
+c            initialize x y and z values for cartesian aos            c
+c---------------------------------------------------------------------c
+      call nlmxyz
+c---------------------------------------------------------------------c
+c                read in basic data                                   c
+c---------------------------------------------------------------------c
+      vmom=logkey(card,'long-range-moments',.false.,' ')
+      grdtyp=logkey(card,'untransformed-grid',.false.,' ')
+      grdnam='"trns grid"'
+      if (grdtyp) then
+          grdnam='"untrns grid"'
+      endif
+      call iosys ('read integer "no. channels" from kohndt',1,nsts,
+     1             0,' ')
+      nstri=nsts*(nsts+1)/2
+      call iosys ('does "grid filename" exist on rwf',0,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys ('read character "grid filename" from rwf',-1,0,0,
+     1                 itp(1))
+      else
+          itp(1)=chrkey(card,'grid-file-name','GRID',' ')
+      endif
+c----------------------------------------------------------------------c
+c               open grid file and get no. of points                   c
+c               need four arrays of dimension pntbuf                   c
+c----------------------------------------------------------------------c
+      call iosys ('open grid as old',0,0,0,itp(1))
+      call iosys ('read integer "no. grid pts" from grid',1,npnts,0,
+     1            ' ')
+      call iosys ('read integer "point buffer" from grid',1,
+     1            pntbuf,0,' ')
+      if (vmom) then
+          call iosys ('read integer ilong from grid',1,ilong,0,' ')
+      else
+          ilong=npnts+1
+      endif
+      call iosys ('does "pot file" exist on rwf',0,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys ('read character "pot file" from rwf',-1,0,0,
+     1                itp(2))
+      else
+          itp(2)=chrkey(card,'numerical-potential-file-name','VSTAT',
+     1                  ' ')
+      endif
+      call iosys ('write character "pot file" to rwf',0,0,0,itp(2))
+      call iosys ('read real charge from kohndt',1,reschg,0,' ')
+      if (reschg.ne.0.d+00) then
+          write (iout,1040) reschg
+      endif
+      itp(3)=chrkey(card,'density-matrix-input','KOHNDT',' ')
+c----------------------------------------------------------------------c
+c                read in geometry                                      c
+c----------------------------------------------------------------------c
+      call iosys ('read "number of atoms" from kohndt',1,ncen,0,' ')
+      call iosys ('read real "nuclear charges" from kohndt',ncen,charge,
+     1             0,' ')
+      call iosys ('read integer "no. primitives" from kohndt',1,
+     1             npr,0,' ')
+      call iosys ('read integer "no. contracted" from kohndt',1,
+     1             ncon,0,' ')
+      call iosys ('read integer "total no. mos" from kohndt',1,nmo,0,
+     1             ' ')
+      sumpot(1)=0.0d0      
+      do 4 i=1,ncen
+         sumpot(1)=sumpot(1)+charge(i)
+         call iosys ('read real "x-y-z atom-'//itoc(i)//'" from kohndt',
+     1               3,rloc(1,i),0,' ')
+    4 continue
+      sumpot(1)=sumpot(1)-reschg
+      nel=sumpot(1)
+      size=npnts*nstri
+      call iosys ('open vstat as new on ssd',size,0,0,itp(2))
+      if ( posinp('$GEOM',cpass) ) then
+           call cardin(card)
+           ncen=intkey(card,'no-centers',1,' ')
+           do 10 i=1,ncen
+              call fparr(card,'x-y-z-atom-'//itoc(i),rloc(1,i),3,' ')
+              charge(i)=fpkey(card,'charge-atom-'//itoc(i),1.d+00,' ')
+   10      continue
+      endif
+c----------------------------------------------------------------------c
+c                 read in basis set and density matrix                 c
+c                            information                               c
+c----------------------------------------------------------------------c
+      if ( posinp('$BASIS',cpass) ) then
+           call cardin(card)
+           group=chrkey(card,'group','c2v',' ')
+           call locase(group,group)
+           npr=intkey(card,'no-prim',1,' ')
+           ncon=intkey(card,'no-contracted',1,' ')
+           nmo=intkey(card,'no-mos',ncon,' ')
+           nel=intkey(card,'no-target-electrons',1,' ')
+           call intarr (card,'no-prim/cont',nprc,ncon,' ')
+c----------------------------------------------------------------------c
+c             old code will use someday when symmetry in               c
+c                                                                      c
+c          do 20 i=1,nsts
+c             sym(i)=chrkey(card,'symmetry-state-'//itoc(i),'a1',' ')
+c             call locase(sym(i),sym(i))
+c   20     continue
+c          ij=0
+c          do 30 i=1,nsts
+c             do 40 j=1,i
+c                ij=ij+1
+c                if (group.eq.'c2v') then
+c                    call c2v(sym(i),sym(j),psym(ij))
+c                elseif (group.eq.'d2h') then
+c                    call d2h(sym(i),sym(j),psym(ij))
+c                else
+c                    call lnkerr('group type screwed up')
+c                endif
+c                diag(ij)='off diagonal'
+c   40        continue
+c             diag(ij)='diagonal'
+c   30     continue
+c     write (iout,1030) (psym(ij),ij=1,nstri)
+      call iosys ('write character group to vstat',0,0,0,group)
+      call iosys ('write character symmetries to vstat',0,0,0,psym)
+      call iosys ('write character "diagonal ?" to vstat',0,0,0,diag)
+c----------------------------------------------------------------------c
+      endif
+      call iosys ('write character "grid type" to vstat',0,0,0,grdnam)
+      call iosys ('write integer "no. states" to vstat',1,nsts,0,' ')
+c----------------------------------------------------------------------c
+c                 read in the basis set parameters                     c
+c----------------------------------------------------------------------c
+      call rdbsis(ntot,nprmx,aosym)
+      write (iout,2000)
+      do 90 i=1,ncen
+         write (iout,2010) (rloc(j,i),j=1,3), charge(i)
+   90 continue
+      nmotri=nmo*(nmo+1)/2
+      ncntri=ncon*(ncon+1)/2
+      write (iout,2020) npr,ncon
+      write (iout,2030) (nprc(i),i=1,ncon)
+      if (logkey(ops,'print=m6002=basis',.false.,' ')) then
+          call wrtbas (ntot)
+      endif
+      if (ntot.ne.npr) call lnkerr('no. primitives error')
+c----------------------------------------------------------------------c
+c                 calculate memory requirements                        c
+c----------------------------------------------------------------------c
+      call iosys ('read integer maxsiz from rwf',1,canget,0,' ')
+c     call getscm(0,z,canget,'how much core',0)
+      if (vmom) then
+          words0=ncntri*nstri+iadtwp(3*nstri*maxmom+nstri)+nstri*maxmom
+          nadd=pntbuf
+      else
+          words0=0
+          nadd=ncntri*nstri
+      endif
+      words1=words0+nadd
+      words0=words0+nadd+ncon*nmo+nmotri+nmo*nmo+nmo*ncon+ncon*ncon
+      words1=words1+(37+nstri)*pntbuf+nstri+iadtwp(2*pntbuf)
+      words=max(words0,words1)
+      if (words.gt.canget) call lnkerr('cannot get required memory:'//
+     1                                 'will quit')
+      call iosys ('write integer maxsiz to rwf',1,words,0,' ')
+      call getscm(z,words,ngot,'m6002',0)
+      rhocn=ioff
+      if (vmom) then
+          momind=rhocn+ncntri*nstri
+          nomom=wpadti(momind+3*nstri*maxmom)
+          mom=nomom+nstri
+          ylm=iadtwp(mom+nstri*maxmom)
+          nadd=pntbuf
+      else
+          ylm=rhocn
+          nadd=ncntri*nstri
+      endif
+      vec=ylm+nadd
+      rhomo=vec+ncon*nmo
+      temp=rhomo+nmotri
+      temp1=temp+nmo*nmo
+      temp2=temp1+nmo*ncon
+      grid=vec
+      valint=grid+4*pntbuf
+      pc=valint+nstri*pntbuf
+      g=pc+3*pntbuf
+      fvec=g+21*pntbuf
+      arg=fvec+7*pntbuf
+      facr=arg+pntbuf
+      pointr=wpadti(facr+pntbuf)
+c----------------------------------------------------------------------c
+c           calculate number of passes of grid file needed             c
+c----------------------------------------------------------------------c
+      npass=npnts/pntbuf
+      nolst=npnts-npass*pntbuf
+      if (nolst.ne.0) then
+          npass=npass+1
+      else
+          nolst=pntbuf
+      endif
+c---------------------------------------------------------------------c
+c          calculate which buffer load begins long range region       c
+c---------------------------------------------------------------------c
+      iright=0
+      nwd=pntbuf
+      do 95 region=1,npass
+         if (region.eq.npass) nwd=nolst
+         iright=iright+nwd
+         if (iright.ge.ilong) go to 96
+   95 continue
+      passlr=npass+1
+      go to 97
+   96 passlr=region
+   97 write(iout,3000) pntbuf, npass, words
+      if (passlr.le.npass) then
+          write (iout,3001) passlr
+      endif     
+c----------------------------------------------------------------------c
+c        read in transformation vectors and mo density matrix          c
+c                 transform to contracted ao basis                     c
+c        when done only need rhocn for rest of calculation             c
+c----------------------------------------------------------------------c
+      call vecin(z(vec),nmo,ncon,logky(1))
+      call dmatin (z(rhocn),z(rhomo),z(vec),z(temp),z(temp1),z(temp2),
+     1             roexst,smllst,nel,ncon,nmo,nsts,nstri,nmotri,dimpr,
+     2             ncntri,itp(3),logky(2))
+c----------------------------------------------------------------------c
+c           read in long range moments if required                     c
+c----------------------------------------------------------------------c
+      if (vmom) then
+          call rdmom(z(mom),a(nomom),a(momind),nsts,nstri,maxmom)
+      endif    
+      call iosys ('create real "static potential" on vstat',size,0,
+     1            0,' ')
+c---------------------------------------------------------------------c
+c                   generate error function table                     c
+c---------------------------------------------------------------------c
+      call generf
+      write (iout,4000)
+      nwds=0
+      nwrite=0
+      call rzero(sumpot,1200)
+      cntpnt=0
+      callsr=0
+      calllr=0
+      do 200 ipass=1,npass
+         noptrg=pntbuf
+         if (ipass.eq.npass) then
+             noptrg=nolst
+         endif
+c----------------------------------------------------------------------c
+c           read in this block of grid points                          c
+c----------------------------------------------------------------------c
+         call iosys ('read real '//grdnam//' from grid without '//
+     1               'rewinding',4*noptrg,z(grid),0,' ')   
+         call rzero(z(valint),noptrg*nstri)
+         if (ipass.lt.passlr) then
+             callsr=callsr+1
+             call vints (z(valint),z(rhocn),roexst,z(grid),z(g),z(pc),
+     1                   z(fvec),z(facr),z(arg),a(pointr),reschg,diag,
+     2                   sumpot,ncen,noptrg,nsts,nstri,ncntri,noptrg)
+         elseif (ipass.eq.passlr) then
+             nop0=ilong-cntpnt-1
+             callsr=callsr+1
+             call vints (z(valint),z(rhocn),roexst,z(grid),z(g),z(pc),
+     1                   z(fvec),z(facr),z(arg),a(pointr),reschg,diag,
+     2                   sumpot,ncen,nop0,nsts,nstri,ncntri,noptrg)
+             nop1=cntpnt+noptrg-ilong+1
+             calllr=calllr+1
+             call vlr (z(valint+nop0),z(ylm),z(mom),a(nomom),a(momind),
+     1                 z(grid+4*nop0),nop1,nstri,noptrg,maxmom)
+         elseif (ipass.gt.passlr) then
+             callsr=callsr+1
+             call vints (z(valint),z(rhocn),roexst,z(grid),z(g),z(pc),
+     1                   z(fvec),z(facr),z(arg),a(pointr),reschg,diag,
+     2                   sumpot,ncen,noptrg,nsts,nstri,ncntri,noptrg)
+         endif
+         call wrtpot(z(valint),z(grid),noptrg,nstri,noptrg,nwrite,nwds,
+     1               ipass,logky(5))      
+         cntpnt=cntpnt+noptrg
+  200 continue
+      if (nwds.ne.size) call lnkerr('error in words to vstat')
+      write (iout,5000) nwrite
+      write (iout,6000) nwds
+      write (iout,7000) (sumpot(i),i=1,nstri)
+      write (iout,8050) callsr, calllr
+      call iosys ('rewind all on grid read-and-write',0,0,0,' ')
+      call iosys ('rewind all on vstat read-and-write',0,0,0,' ')
+      call iosys ('close grid',0,0,0,' ')
+      call iosys ('close vstat',0,0,0,' ')
+      call iosys ('write integer maxsiz to rwf',1,canget,0,' ')
+      call chainx(0)
+      stop
+ 1000 format(a80)
+ 1020 format(//,20x,'*****  m6002:numerical static potential program ***
+     1**')
+ 1030 format (/,5x,'symmetry of density matrices',(/,10(a3,1x)))
+ 1040 format (/,5x,'residual charge is',1x,f10.5)
+ 2000 format (//,10x,'position and charge of atomic centers',
+     1        //,7x,'x',17x,'y',17x,'z',17x,'charge')
+ 2010 format (/,1x,e15.8,3x,e15.8,3x,e15.8,3x,e15.8)
+ 2020 format (//,5x,'data on atomic orbitals',//,5x,'no. prim.',
+     1 2x,i4,5x,'no. of cont.',2x,i4)
+ 2030 format (//,5x,'no. primitives / contracted function',(/,10x,20(1x
+     1 ,i2)))
+ 3000 format (//,5x,'point buffer',2x,i6,2x,'no. passes of grid file',
+     1        1x,i3,1x,'no. words memory required',1x,i8)
+ 3001 format (/,5x,'long range region begins at pass',1x,i4)
+ 3010 format (//,5x,'no. writes to pot',2x,i4)
+ 3020 format (//,5x,'no. words written to pot',2x,i8)
+ 4000 format (/,5x,'pass',5x,'density matrix',5x,'words written')
+ 5000 format(/,5x,'no. disk writes',1x,i8)
+ 6000 format(/,5x,'no. words written',1x,i8)
+ 7000 format (/,5x,'potential sum',(/,5x,5e15.8))
+ 8050 format (/,5x,'calls to vints',1x,i3,2x,'calls to vlr',2x,i3)
+      end
+*deck nlmxyz
+c***begin prologue     nlmxyz
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           nlmxyz, link 6001, nlm 
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            nlm to xyz of cartesian gaussians through f orbitals
+c***description        fills up array with character values of cartesian
+c***                   aos up to f functions bases on their n, l, m
+c*** 
+c
+c***references       
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       nlmxyz
+      subroutine nlmxyz
+      common /ctype/ ctype(0:3,0:3,0:3)
+      character *3 ctype
+      ctype(0,0,0)='s'
+      ctype(1,0,0)='x'
+      ctype(0,1,0)='y'
+      ctype(0,0,1)='z'
+      ctype(2,0,0)='xx'
+      ctype(0,2,0)='yy'
+      ctype(0,0,2)='zz'
+      ctype(1,1,0)='xy'
+      ctype(1,0,1)='xz'
+      ctype(0,1,1)='yz'
+      ctype(3,0,0)='xxx'
+      ctype(0,3,0)='yyy'
+      ctype(0,0,3)='zzz'
+      ctype(2,1,0)='xxy'
+      ctype(2,0,1)='xxz'
+      ctype(1,2,0)='xyy'
+      ctype(0,2,1)='yyz'
+      ctype(1,0,2)='xzz'
+      ctype(0,1,2)='yzz'
+      ctype(1,1,1)='xyz'
+      return
+      end
+*deck rdbsis
+c***begin prologue     rdbsis
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           rdbsis, link 6001, bigmolli
+c***author             schneider, barry (lanl)
+c***source             m6001
+c***purpose            read in cartesian ao basis parameters
+c***description        fills up arrays with numerical values of n, l, m
+c***                   and center in old polyatom format
+c*** 
+c
+c***references       
+c
+c***routines called
+c***end prologue       rdbsis
+      subroutine rdbsis(ntot,mxprcn,aosym)
+      implicit integer (a-z)
+      parameter (dimpr=300)
+      real *8 alf, cont, eta
+      character *(*) aosym
+      character *3 ctype
+      dimension aosym(dimpr)
+      common /aosi/ npr, ncon, nxyzc(dimpr,4), nprc(dimpr), 
+     1              sncon, smllst(dimpr,2)
+      common /aosr/ alf(dimpr), cont(dimpr)
+      common /ctype/ ctype(0:3,0:3,0:3)
+      common /factr/ nfirst(dimpr), nlast(dimpr), ncntr(dimpr), 
+     1               nx(dimpr), ny(dimpr), nz(dimpr), eta(dimpr,5)
+      call iosys ('read integer "no. primitives" from kohndt',1,
+     1             npr,0,' ')
+      call iosys ('read integer "no. contracted" from kohndt',1,
+     1             ncon,0,' ')
+      call iosys ('read integer start from kohndt',ncon,nfirst,
+     1             0,' ')
+      call iosys ('read integer stop from kohndt',ncon,nlast,
+     1             0,' ')
+      call iosys ('read integer "x power" from kohndt',npr,nx,0,' ')
+      call iosys ('read integer "y power" from kohndt',npr,ny,0,' ')
+      call iosys ('read integer "z power" from kohndt',npr,nz,0,' ')
+      call iosys ('read real eta from kohndt',1500,eta,0,' ')
+      call iosys ('read integer atom from kohndt',npr,ncntr,0,' ')
+      mxprcn=0
+      ntot=0
+      do 10 i=1,ncon
+         nprc(i)=nlast(i)-nfirst(i)+1
+         mxprcn=max(mxprcn,nprc(i))
+         do 20 j=nfirst(i),nlast(i)
+            ntot=ntot+1
+            nxyzc(ntot,1)=nx(ntot)
+            nxyzc(ntot,2)=ny(ntot)
+            nxyzc(ntot,3)=nz(ntot)
+            nxyzc(ntot,4)=ncntr(ntot)
+            alf(ntot)=eta(ntot,4)
+            cont(ntot)=eta(ntot,5)
+            aosym(ntot)=ctype(nx(ntot),ny(ntot),nz(ntot))
+   20    continue
+   10 continue    
+      return
+      end
+*deck wrtbas
+c***begin prologue     wrtbas
+c***date written       890404   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           wrtbas, link 6003, basis
+c***author             schneider, barry (lanl)
+c***source             m6002
+c***purpose            output basis information
+c*** 
+c
+c***references       
+c
+c***routines called  
+c***end prologue       wrtbas
+      subroutine wrtbas (ntot)
+      implicit integer (a-z)
+      parameter (dimpr=300)
+      real *8 alf, cont
+      character *3 aosym
+      character *8 itp
+      common /io/ inp, iout
+      common /aosi/ npr, ncon, nxyzc(dimpr,4), nprc(dimpr), 
+     1              sncon, smllst(dimpr,2)
+      common /aosr/ alf(dimpr), cont(dimpr)
+      common/chrpss/ itp(3), aosym(dimpr)
+      write (iout,30)
+      ntot=0
+      do 10 i=1,ncon
+         do 10 j=1,nprc(i)
+            ntot=ntot+1
+      write (iout,20) i,ntot,aosym(i),nxyzc(ntot,4),alf(ntot),cont(ntot)
+   10 continue
+      return
+c
+   30 format(/,5x,'con fn',3x,'ao',2x,'sym',4x,'cen',9x,'exp',11x,'coef'
+     1      )
+   20 format(/,7x,i3,3x,i3,3x,a3,4x,i2,3x,f12.5,2x,f12.5)
+      end
+*deck generf
+c***begin prologue     generf
+c***date written                (yymmdd)
+c***revision date      890417   (yymmdd)
+c***keywords           generf, link 6003, error function
+c***author             unknown
+c***source             m6002
+c***purpose            special functions for gaussian integrals
+c*** 
+c
+c***references       
+c
+c***routines called    fmch
+c***end prologue       generf
+      subroutine generf
+      parameter (maxt=8 , maxr=350)
+      implicit real *8 (a-h,o-z)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+      x1 = 1.d0
+      x3 = 1.d0/3.d0
+      x5 = 1.d0/5.d0
+      x7 = 1.d0/7.d0
+      x9 = 1.d0/9.d0
+      x11= 1.d0/11.d0
+      x13= 1.d0/13.d0
+      x15= 1.d0/15.d0
+      x17= 1.d0/17.d0
+      x19= 1.d0/19.d0
+      t=0.d0
+      do 779 i=1,maxr
+         y= exp(-t)
+         u=2.d0*t
+         str10(i) = fmch(10,t,y)
+         str9(i)=(u*str10(i)+y)*x19
+         str8(i)=(u*str9(i)+y)*x17
+         str7(i)=(u*str8(i)+y)*x15
+         str6(i)=(u*str7(i)+y)*x13
+         str5(i)=(u*str6(i)+y)*x11
+         str4(i)=(u*str5(i)+y)*x9
+         str3(i)=(u*str4(i)+y)*x7
+         str2(i)=(u*str3(i)+y)*x5
+         str1(i)=(u*str2(i)+y)*x3
+         str0(i)=(u*str1(i)+y)
+         t=t+0.1d0
+  779 continue
+      return
+      end 
+*deck fmch
+c***begin prologue     fmch
+c***date written                (yymmdd)
+c***revision date      890417   (yymmdd)
+c***keywords           fmch, link 6003, error function
+c***author             unknown
+c***source             m6002
+c***purpose            special functions for gaussian integrals
+c*** 
+c
+c***references       
+c
+c***routines called    
+c***end prologue       fmch
+      function fmch(m,x,y)
+      common /io/ inp, iout
+      if (x-10.d0) 10,10,20
+   10 a=m
+      a=a+0.5d0
+      term=1.0d0/a
+      ptlsum=term
+      do 11 i=2,50
+         a=a+1.0d0
+         term=term*x/a
+         ptlsum=ptlsum+term
+         if (term/ptlsum-0.00000001d0) 12, 11, 11
+   11 continue
+      write (iout,999) m,x
+      call lnkerr('error in fmch')
+   12 fmch=0.5d0*ptlsum*y
+      go to 150
+   20 a=m
+      b=a+0.5d0
+      a=a-0.5d0
+      xd=1.d0/x
+      approx=0.88622692d0*( sqrt(xd)*xd**m)
+      if (m) 21, 23, 21
+   21 do 22 i=1,m
+         b=b-1.0d0
+         approx=approx*b
+   22 continue
+   23 fimult=0.5d0*y*xd
+      ptlsum=0.d0
+      if (fimult) 421,25,421
+  421 continue
+      fiprop=fimult/approx
+      term=1.0d0
+      ptlsum=term
+      notrms=x
+      notrms=notrms+m
+      do 24 i=2,notrms
+         term=term*a*xd
+         ptlsum=ptlsum+term
+         if ( (abs(term*fiprop/ptlsum)-0.00000001d0).gt.0.d+00) then
+              a=a-1.0d0
+         else
+              go to 25
+         endif
+   24 continue
+      write (iout,999) m,x
+      call lnkerr('error in fmch')      
+   25 fmch=approx-fimult*ptlsum
+  150 return
+  999 format (/,5x,'no convergence for fmch', i6, e16.9)
+      end
+*deck vecin
+c***begin prologue     vecin
+c***date written       880814   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           vecin, link 2703
+c***author             schneider, barry (lanl)
+c***source             m2703
+c***purpose            input scf vectors
+c***                   
+c***references         none
+c
+c***routines called
+c***end prologue       vecin
+      subroutine vecin (trans,nmo,ncon,prnt)
+      implicit integer (a-z)
+      logical tstvec, logkey, prnt, posinp
+      character *8 cpass
+      character *3 itoc 
+      character *32 xform
+      character *800 card 
+      character *80 title
+      real *8 trans
+      common/io/ inp, iout
+      dimension trans(ncon,nmo)
+      if ( posinp('$VECTORS',cpass) ) then
+           call cardin(card)
+           tstvec=logkey(card,'unit-matrix',.false.,' ')
+           if (.not.tstvec) then
+                do 10 i=1,nmo
+                    call fparr(card,'vector-'//itoc(i),trans(1,i),
+     1                         ncon,' ')
+   10           continue
+           else
+                call rzero(trans,ncon*nmo)
+                do 20 i=1,nmo
+                   trans(i,i)=1.d+00
+   20           continue
+          endif
+          if (prnt) then
+              title='transformation matrix'
+              call prntrm(title,trans,ncon,nmo,ncon,nmo,iout)
+          endif
+          return
+      endif
+      call iosys('read character "transformation vector" from '//
+     1           'kohndt',0,0,0,xform)
+      call iosys('read real '//xform//' from kohndt',nmo*ncon,
+     1            trans,0,' ')      
+      if (prnt) then
+          title='transformation matrix'
+          call prntrm(title,trans,ncon,nmo,ncon,nmo,iout)
+      endif
+      return
+      end
+*deck dmatin
+c***begin prologue     dmatin
+c***date written       880814   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           dmatin, link 2703
+c***author             schneider, barry (lanl)
+c***source             m2703
+c***purpose            input density matrices and transform
+c***                   to ao basis
+c***references         none
+c
+c***routines called
+c***end prologue       dmatin
+      subroutine dmatin (rhocn,rhomo,trans,temp,temp1,temp2,roexst,
+     1                   smllst,nel,ncon,nmo,nsts,ndim,nmotri,dimpr,
+     2                   ncntri,file,prnt)
+      implicit integer (a-z)
+      character *800 card
+      character *4 itoc
+      character *20 cpass
+      character *(*) file, roexst
+      logical prnt, test, logkey
+      real *8 rhocn, rhomo, trans, temp, temp1, temp2, sumro
+      dimension trans (ncon,nmo), rhomo(nmotri), rhocn(ncntri,ndim)
+      dimension temp(nmo,nmo), temp1(ncon,nmo), temp2(ncon,ncon)
+      dimension roexst(ndim), smllst(dimpr,2)
+      common /io/ inp, iout
+      call rzero(rhomo,nmotri)
+      call rzero(rhocn,ncntri*ndim)
+      if (file.eq.'KOHNDT') then
+c----------------------------------------------------------------------c
+c              temp and temp2 can be equivalenced in call              c
+c----------------------------------------------------------------------c
+c----------------------------------------------------------------------c
+c           get density matrix from disk in ao representation          c
+c----------------------------------------------------------------------c
+          ij=0
+          do 10 is=1,nsts
+             do 20 js=1,is
+                ij=ij+1
+                call iosys ('read real "ao t1pdm:'//itoc(is)//itoc(js)
+     1                      //'" from kohndt',ncon*ncon,temp2,0,' ')
+c----------------------------------------------------------------------c
+c        in general the density matrix is not symmetric when           c
+c        the two states are different. however from the point of       c
+c        view of the final integral, where we sum over the orbital     c
+c        indices, it is sufficient to take the average of the          c
+c        elements and then treat the density matrix as upper           c
+c        triangular.                                                   c
+c----------------------------------------------------------------------c
+                count=0
+                do 21 i=1,ncon
+                   do 22 j=1,i
+                      count=count+1
+                      rhocn(count,ij)=temp2(i,j) + temp2(j,i)
+   22              continue
+                   rhocn(count,ij)=rhocn(count,ij)*.5d+00
+   21           continue
+                sumro=0.0d+00
+                do 45 itest=1,ncntri
+                   sumro=sumro+rhocn(itest,ij)
+   45           continue
+                if (sumro.eq.0.0d+00) then
+                    roexst(ij)='no'
+                else
+                    roexst(ij)='yes'
+                endif                    
+   20        continue
+   10     continue
+c----------------------------------------------------------------------c
+c          get density matrix from input in mo representation          c
+c----------------------------------------------------------------------c
+      else
+          ij=0
+          do 30 is=1,nsts
+             do 40 js=1,is
+                ij=ij+1
+                call posinp('$DENMAT-'//itoc(is)//itoc(js),cpass)
+                call cardin(card)
+                test=logkey(card,'not-present',.false.,' ')
+                roexst(ij)='yes'
+                if (test) then
+                    roexst(ij)='no'
+                endif
+                if (roexst(ij).eq.'yes') then
+                    sumro=0.d+00
+                    do 100 i=1,nmo
+                       call fparr(card,'density-matrix-row-'//itoc(i),
+     1                            rhomo,nmo,' ')
+                       do 101 j=1,nmo
+                          temp(i,j)=rhomo(j)
+  101                  continue
+                       sumro=sumro+temp(i,i)
+  100               continue
+c----------------------------------------------------------------------c
+c                    normalize density matrix                          c
+c----------------------------------------------------------------------c
+                    sumro=nel/sumro
+                    do 200 i=1,nmo
+                       do 210 j=1,nmo
+                          temp(i,j)=temp(i,j)*sumro
+  210                  continue
+  200               continue
+c----------------------------------------------------------------------c
+c               transform to ao basis                                  c
+c----------------------------------------------------------------------c
+                    call ebc(temp1,trans,temp,ncon,nmo,nmo)
+                    call ebct(temp2,temp1,trans,ncon,nmo,ncon)
+                    count=0
+                    do 201 i=1,ncon
+                       do 202 j=1,i
+                          count=count+1
+                          rhocn(count,ij)=temp2(i,j) + temp2(j,i)
+  202                  continue
+                       rhocn(count,ij)=rhocn(count,ij)*.5d+00
+  201               continue
+                endif
+   40        continue  
+   30     continue
+      endif 
+      if (prnt) then
+          ii=0 
+          do 50 is=1,nsts
+             do 60 js=1,is
+                ii=ii+1
+                write (iout,70) is, js
+                call print(rhocn(1,ii),ncntri,ncon,iout)
+   60        continue
+   50     continue
+      endif
+      call izero(smllst,2*dimpr)
+      do 110 i=1,ncon
+         sumro=0.d+00
+         do 220 j=1,ncon
+            itri=i*(i-1)/2+j
+            if ( i.lt.j) then
+                 itri=j*(j-1)/2+i
+            endif
+            ij=0  
+            do 310 is=1,nsts
+               do 410 js =1,is
+                  ij=ij+1
+                  sumro=sumro+abs(rhocn(itri,ij))
+  410          continue
+  310       continue
+  220    continue
+         if (sumro.gt.1.d-08) then
+             smllst(i,1)=i
+         endif
+  110 continue
+      itri=0
+      do 120 i=1,ncon
+         if (smllst(i,1).eq.0) then
+             do 230 j=1,i
+                itri=itri+1
+                ij=0
+                do 330 is=1,nsts
+                   do 430 js=1,is
+                      ij=ij+1
+                      rhocn(itri,ij)=0.d+00
+  430              continue
+  330           continue    
+  230        continue
+         else
+             itri=itri+i
+         endif
+  120 continue
+      nsmall=0
+      do 510 i=1,ncon
+         if(smllst(i,1).ne.0) then
+            nsmall=nsmall+1
+            smllst(nsmall,2)=smllst(i,1)
+         endif
+  510 continue
+   70 format(/,5x,'density matrix i='1x,i3,2x,'j=',1x,i3)     
+      return
+      end 
+*deck d2h
+c***begin prologue     d2h
+c***date written       880814   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           m2703, link 2703, symmetry
+c***author             schneider, barry (lanl)
+c***source             m2703
+c***purpose            product symmetries in d2h
+c***description        compute d2h symmetry of orbital products
+c***                   
+c***references         none
+c
+c***routines called
+c***end prologue       d2h
+      subroutine d2h(g1,g2,g3)
+      implicit integer (a-z)
+      character *3 group, g1, g2, g3
+      dimension group(8), number(2), table(8,8)
+      data group /'a1g','b1g','b2g','b3g','a1u','b1u','b2u','b3u'/
+      data table/1,2,3,4,5,6,7,8,2,1,4,3,6,5,8,7,3,4,1,2,7,8,5,6,
+     1           4,3,2,1,8,7,6,5,5,6,7,8,1,2,3,4,6,5,8,7,2,1,4,3,
+     2           7,8,5,6,3,4,1,2,8,7,6,5,4,3,2,1/
+      do 10 i=1,8
+         if (g1.eq.group(i)) number(1)=i
+         if (g2.eq.group(i)) number(2)=i
+   10 continue
+      i1=number(1)
+      i2=number(2)
+      i3=table(i1,i2)
+      g3=group(i3)
+      return
+      end 
+*deck c2v
+c***begin prologue     c2v      
+c***date written       880814   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           m2703, link 2703, symmetry
+c***author             schneider, barry (lanl)
+c***source             m2703
+c***purpose            product symmetries in c2v
+c***description        compute c2v symmetry of orbital products
+c***                   
+c***references         none
+c
+c***routines called
+c***end prologue       c2v
+      subroutine c2v(g1,g2,g3)
+      implicit integer (a-z)
+      character *3 group, g1, g2, g3
+      dimension group(4), number(2), table(4,4)
+      data group /'a1','a2','b1','b2'/ 
+      data table/1,2,3,4,2,1,4,3,3,4,1,2,4,3,2,1/
+      do 10 i=1,4
+         if (g1.eq.group(i)) number(1)=i
+         if (g2.eq.group(i)) number(2)=i
+   10 continue
+      i1=number(1)
+      i2=number(2)
+      i3=table(i1,i2)
+      g3=group(i3)
+      return
+      end
+*deck vints
+c***begin prologue     vints
+c***date written       xxxxxx   (yymmdd)
+c***revision date      890409   (yymmdd)
+c***keywords           m6002, link 6003, v integral
+c***authors            rescigno, tom (llnl), mccurdy, bill (ohio state)
+c***                   schneider, barry (lanl)
+c***source             m6002
+c***purpose            numerical direct potential integrals
+c***description        calculates static potential on a numerical grid
+c***                   using technology of nuclear attraction integrals
+c***                   thus we calculate the integral of 1/abs(r-r') 
+c***                   times two primitive basis functions with r 
+c***                   treated as a nuclear center.
+c***references       
+c
+c***routines called    
+c***end prologue       vints
+      subroutine vints(valint,rhocn,roexst,grid,g,pc,fvec,facr,arg,
+     1                 pointr,reschg,diag,sumpot,ncen,npnts,nsts,
+     2                 nstri,ncntri,nptmx)
+      implicit integer (a-z)
+      parameter (dimpr=300 , dimcen=10)
+      real *8 valint, rhocn, grid, g, pc, fvec, facr, arg, alf, cont
+      real *8 charge, rloc, pi, piterm, pitern, acrcy, scale, pa
+      real *8 t, t1, p1, p2, p3, exfac, pre, pcsq, nuccat, dist, sumpot
+      real *8 reschg
+      character *(*) diag, roexst
+      dimension valint(nptmx,nstri), g(nptmx,7,3), pa(2,3)
+      dimension grid(4,nptmx), pc(nptmx,3), fvec(nptmx,7)
+      dimension rhocn(ncntri,nstri), facr(nstri), arg(nptmx)
+      dimension diag(nstri), sumpot(nstri), roexst(nstri)
+      dimension pointr(nptmx,2)
+      common /aosi/ npr, ncon, nxyzc(dimpr,4), nprc(dimpr), 
+     1              sncon, smllst(dimpr), junk(dimpr)
+      common /aosr/ alf(dimpr), cont(dimpr)
+      common /rloc/ charge(dimcen), rloc(3,dimcen)
+      common /nmbrs /  pi, piterm, pitern, acrcy, scale, icanon
+      common /io/ inp, iout
+c----------------------------------------------------------------------c
+c               loop over contracted functions                         c
+c----------------------------------------------------------------------c
+      frsto=0
+      lsto=0
+      do 10 cono=1,ncon
+         frsto=frsto+1
+         lsto=lsto+nprc(cono)
+         if (smllst(cono).ne.0) then
+             frsti=0
+             lsti=0
+             do 20 coni=1,cono
+                cntcon=cono*(cono-1)/2+coni
+                frsti=frsti+1
+                lsti=lsti+nprc(coni)
+                if (smllst(coni).ne.0) then
+                    do 30 prmo=frsto,lsto
+                       ceno=nxyzc(prmo,4)
+                        do 40 prmi=frsti,lsti
+                          ceni=nxyzc(prmi,4)
+                          mx=nxyzc(prmo,1)+nxyzc(prmi,1)+1
+                          my=nxyzc(prmo,2)+nxyzc(prmi,2)+1
+                          mz=nxyzc(prmo,3)+nxyzc(prmi,3)+1
+                          t1=alf(prmo)+alf(prmi)
+                          t=1.d0/t1
+                          p1=(alf(prmo)*rloc(1,ceno)
+     1                       +alf(prmi)*rloc(1,ceni))*t
+                          p2=(alf(prmo)*rloc(2,ceno)
+     1                       +alf(prmi)*rloc(2,ceni))*t
+                          p3=(alf(prmo)*rloc(3,ceno)
+     1                       +alf(prmi)*rloc(3,ceni))*t
+                          exfac=(rloc(1,ceno)-rloc(1,ceni))*
+     1                          (rloc(1,ceno)-rloc(1,ceni))+
+     2                          (rloc(2,ceno)-rloc(2,ceni))*
+     3                          (rloc(2,ceno)-rloc(2,ceni))+
+     4                          (rloc(3,ceno)-rloc(3,ceni))*
+     5                          (rloc(3,ceno)-rloc(3,ceni))
+                          exfac=exfac*t*alf(prmo)*alf(prmi)
+                          exfac=exp(-exfac)
+                          pre=2.d+00*pi*t*cont(prmo)*cont(prmi)*exfac
+                          do 50 ist=1,nstri
+                             facr(ist)=rhocn(cntcon,ist)*pre
+   50                     continue
+c----------------------------------------------------------------------c
+c                 now loop over grid points                            c
+c----------------------------------------------------------------------c 
+                          do 60 grpt=1,npnts
+                             pc(grpt,1)=p1-grid(1,grpt)
+                             pc(grpt,2)=p2-grid(2,grpt)
+                             pc(grpt,3)=p3-grid(3,grpt)
+                             pcsq=pc(grpt,1)*pc(grpt,1)
+     1                            +pc(grpt,2)*pc(grpt,2)
+     2                            +pc(grpt,3)*pc(grpt,3)
+                             arg(grpt)=t1*pcsq
+   60                     continue
+                          call izero(pointr,2*npnts)
+                          nlt0=0
+                          nge0=0
+                          do 500 grpt=1,npnts
+                             switch=arg(grpt)-34.9d+00
+                             if (switch.lt.0.d+00) then
+                                 nlt0=nlt0+1
+                                 pointr(nlt0,1)=grpt
+                             else
+                                 nge0=nge0+1
+                                 pointr(nge0,2)=grpt
+                             endif
+  500                     continue
+c----------------------------------------------------------------------c
+c                compute the f functions                               c
+c----------------------------------------------------------------------c
+                          maxtyp=mx+my+mz-2
+                          if(maxtyp.eq.1) then
+                             call stuff0(npnts,nlt0,nge0,arg,
+     1                                   pointr,fvec)
+                          elseif (maxtyp.eq.2) then
+                             call stuff1(npnts,nlt0,nge0,arg,
+     1                                   pointr,fvec)
+                          elseif (maxtyp.eq.3) then
+                             call stuff2(npnts,nlt0,nge0,arg,
+     1                                   pointr,fvec)
+                          elseif (maxtyp.eq.4) then
+                             call stuff3(npnts,nlt0,nge0,arg,
+     1                                   pointr,fvec)
+                          elseif (maxtyp.eq.5) then
+                             call stuff4(npnts,nlt0,nge0,arg,
+     1                                   pointr,fvec)
+                          elseif (maxtyp.eq.6) then
+                             call stuff5(npnts,nlt0,nge0,arg,
+     1                                   pointr,fvec)
+                          elseif (maxtyp.eq.7) then
+                             call stuff6(npnts,nlt0,nge0,arg,
+     1                                   pointr,fvec)
+                          else
+                             call lnkerr('error in call to stuff'//
+     1                                   'routine')
+                          endif
+                          pa(1,1)=p1-rloc(1,ceno)
+                          pa(2,1)=p1-rloc(1,ceni)
+                          pa(1,2)=p2-rloc(2,ceno)
+                          pa(2,2)=p2-rloc(2,ceni)
+                          pa(1,3)=p3-rloc(3,ceno)
+                          pa(2,3)=p3-rloc(3,ceni)
+                          call  gfunct(nxyzc(prmo,1),nxyzc(prmi,1),
+     1                                 pa(1,1),pa(2,1),pc(1,1),t,g,1,
+     2                                 npnts)
+                          call  gfunct(nxyzc(prmo,2),nxyzc(prmi,2),
+     1                                 pa(1,2),pa(2,2),pc(1,2),t,g,2,
+     2                                 npnts)
+                          call  gfunct(nxyzc(prmo,3),nxyzc(prmi,3),
+     1                                 pa(1,3),pa(2,3),pc(1,3),t,g,3,
+     2                                 npnts)
+                          do 70 ix=1,mx
+                             do 80 jy=1,my
+                                do 90 kz=1,mz
+                                   mxyz=ix+jy+kz-2
+                                   do 100 ist=1,nstri
+                                      if (roexst(ist).eq.'yes') then
+                                          do 200 grpt=1,npnts
+                                             valint(grpt,ist)=
+     1                                              valint(grpt,ist)+
+     2                                                   g(grpt,ix,1)*
+     3                                                   g(grpt,jy,2)*
+     4                                                   g(grpt,kz,3)*
+     5                                                fvec(grpt,mxyz)*
+     6                                                facr(ist)
+  200                                     continue
+                                      endif  
+  100                              continue
+   90                           continue
+   80                        continue
+   70                     continue
+   40                  continue
+   30               continue
+                endif
+                frsti=lsti 
+   20        continue
+         endif
+         frsto=lsto
+   10 continue
+      ist=0
+      do 300 is=1,nsts
+         do 305 js=1,is
+            ist=ist+1
+            if (roexst(ist).eq.'yes') then
+                if (is.eq.js) then
+c----------------------------------------------------------------------c
+c                   add in nuclear contribution                        c
+c----------------------------------------------------------------------c
+                    do 310 icen=1,ncen
+                       do 320 grpt=1,npnts
+                          dist=(rloc(1,icen)-grid(1,grpt))**2 +
+     1                         (rloc(2,icen)-grid(2,grpt))**2 +
+     2                         (rloc(3,icen)-grid(3,grpt))**2
+                          nuccat= charge(icen)/sqrt(dist)
+                          valint(grpt,ist)=valint(grpt,ist) - nuccat
+  320                  continue
+  310               continue
+                    if (reschg.ne.0.d+00) then
+                        do 330 grpt=1,npnts      
+                           dist=grid(1,grpt)**2 +
+     1                               grid(2,grpt)**2 +
+     2                                    grid(3,grpt)**2
+                           nuccat= reschg/sqrt(dist)
+                           valint(grpt,ist)=valint(grpt,ist) + nuccat
+  330                   continue
+                    endif
+                endif
+            endif
+c----------------------------------------------------------------------c
+c                calculate test integral                               c
+c----------------------------------------------------------------------c
+            do 350 grpt=1,npnts
+               sumpot(ist)=sumpot(ist)+valint(grpt,ist)*grid(4,grpt)
+  350       continue
+  305    continue
+  300 continue
+      return
+      end 
+*deck wrtpot
+c***begin prologue     wrtpot
+c***date written       xxxxxx   (yymmdd)
+c***revision date      890409   (yymmdd)
+c***keywords           m6002, link 6003, v integral
+c***authors            schneider, barry (lanl)
+c***source             m6002
+c***purpose            write and print out static potential
+c***references       
+c***routines called    iosys
+c***end prologue       wrtpot
+      subroutine wrtpot(valint,grid,npnts,nstri,nptmx,nwrite,
+     1                 nwds,ipass,prnt)
+      implicit integer (a-z)
+      real *8 valint, grid
+      logical prnt
+      dimension valint(nptmx,nstri), grid(4,nptmx)
+      common /io/ inp, iout
+      do 10 ist=1,nstri
+         call iosys ('write real "static potential" to vstat without '//
+     1               'rewinding',npnts,valint(1,ist),0,' ')
+         write (iout,100) ipass, ist, npnts
+         nwds=nwds+npnts
+         nwrite=nwrite+1
+   10 continue
+      if (prnt) then
+          call prntv(valint,grid,nstri,npnts,ipass)
+      endif
+  100 format(5x,i3,11x,i2,10x,i8,8x,i8)
+      return
+      end
+*deck prntv
+c***begin prologue     prntv
+c***date written       890412   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           prntv, link 6003
+c***authors            schneider, barry (lanl)
+c***                   
+c***source             m6002
+c***purpose            print static potential
+c***references       
+c
+c***routines called    
+c***end prologue       prntv
+      subroutine prntv(pot,grid,nstri,npt,pass)
+      implicit integer (a-z)
+      real *8 pot, grid
+      character *80 title
+      character *3 itoc
+      dimension pot(npt,nstri), grid(4,npt)
+      common /io/ inp, iout
+      write (iout,10) pass
+      title='static potential'
+      do 20 i=1,nstri
+         title='triangle label-'//itoc(i)
+         write (iout,30) title
+         write (iout,40)
+         do 50 j=1,npt
+            write (iout,60) grid(1,j), grid(2,j), grid(3,j), pot(j,i)
+   50    continue
+   20 continue
+      return
+   10 format(/,5x,'potential matrix for pass',1x,i3)
+   30 format(5x,a80)
+   40 format(/,11x,'x',13x,'y',13x,'z',12x,'potential')
+   60 format(3x,f12.6,2x,f12.6,2x,f12.6,2x,f15.8)
+      end
+*deck gfunct
+c***begin prologue     gfunct
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           gfunct, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            special functions for static potential
+c***references       
+c
+c***routines called    
+c***end prologue       gfunct
+      subroutine gfunct (l,m,a,b,p,t,g,n,narg)
+      dimension p(narg), g(narg,7,3)
+      ll=l+1
+      mm=m+1
+      if (ll.eq.1) then
+          if (mm.eq.1) then
+              do 210 ig=1,narg
+                 g(ig,1,n)=1.d0
+  210         continue
+          elseif (mm.eq.2) then
+              do 211 ig=1,narg
+                 g(ig,1,n)=b
+                 g(ig,2,n)=-p(ig)
+  211         continue
+          elseif (mm.eq.3) then
+              do 212 ig=1,narg
+                 g(ig,1,n)=b*b+0.5d0*t
+                 g(ig,2,n)=-2.d0*b*p(ig)-0.5d0*t
+                 g(ig,3,n)=p(ig)*p(ig)
+  212         continue 
+          elseif (mm.eq.4) then
+              temp=a
+              a=b
+              b=temp
+              do 240 i=1,narg
+                 g(i,1,n)=a*(a*a+1.5d0*t)
+                 g(i,2,n)=-3.d0*(a*(a*p(i)+0.5d0*t)+0.5d0*p(i)*t)
+                 g(i,3,n)=3.d0*p(i)*(a*p(i)+0.5d0*t)
+                 g(i,4,n)=-p(i)*p(i)*p(i)
+240           continue
+           else
+              call lnkerr('error in gfunct routine. ll=1')
+           endif 
+      elseif (ll.eq.2) then
+          if (mm.eq.1) then         
+              do 220 ig=1,narg
+                 g(ig,1,n)=a
+                 g(ig,2,n)=-p(ig)
+220           continue
+          elseif (mm.eq.2) then
+              do 221 ig=1,narg
+                 g(ig,1,n)=a*b+0.5d0*t
+                 g(ig,2,n)=-p(ig)*(a+b)-0.5d0*t
+                 g(ig,3,n)=p(ig)*p(ig)
+221           continue
+          elseif (mm.eq.3) then
+              do 222 ig=1,narg
+                 g(ig,1,n)=b*b*a+0.5d0*t*(a+2.d0*b)
+                 g(ig,2,n)=-p(ig)*b*(2.d0*a+b)-0.5d0*t*((a+2.d0*b)+
+     1                      3.d0*p(ig))
+                 g(ig,3,n)=p(ig)*(p(ig)*(a+2.d0*b)+1.5d0*t)
+                 g(ig,4,n)=-p(ig)*p(ig)*p(ig)
+222           continue
+          elseif(mm.eq.4) then
+              temp=a
+              a=b
+              b=temp
+              t2=t*t
+              a2=a*a
+              ab=a*b
+              f0=a2*ab
+              f1=a2*(a+3.d0*b)
+              f2=3.d0*a*(a+b)
+              f3=3.d0*a+b
+              do 241 i=1,narg
+                 p2=p(i)*p(i)
+                 g(i,1,n)=f0+.5d0*t*f2+.75d0*t2
+                 g(i,2,n)=-(p(i)*f1+.5d0*t*f2+1.5d0*p(i)*t*f3+1.5d0*t2)
+                 g(i,3,n)=p2*f2+1.5d0*p(i)*t*f3+3.d0*t*p2+.75d0*t2
+                 g(i,4,n)=-(p(i)*p2*f3+3.d0*t*p2)
+241           continue
+          else
+             call lnkerr('error in gfunct routine. ll=2')
+          endif 
+      elseif(ll.eq.3) then
+          if (mm.eq.1) then
+              do 230 ig=1,narg
+                 g(ig,1,n)=a*a+0.5d0*t
+                 g(ig,2,n)=-2.d0*a*p(ig)-0.5d0*t
+                 g(ig,3,n)=p(ig)*p(ig)
+230           continue
+          elseif (mm.eq.2) then
+              do 231 ig=1,narg
+                 g(ig,1,n)=a*a*b+0.5d0*t*(2.d0*a+b)
+                 g(ig,2,n)=-p(ig)*a*(a+2.d0*b)-0.5d0*t*((2.d0*a+b)+
+     1                      3.d0*p(ig))
+                 g(ig,3,n)=p(ig)*(p(ig)*(2.d0*a+b)+1.5d0*t)
+                 g(ig,4,n)=-p(ig)*p(ig)*p(ig)
+231           continue
+          elseif (mm.eq.3) then
+              aa=a*a
+              bb=b*b
+              ab=4.d0*a*b
+              do 232 i=1,narg
+                 pp=p(i)*p(i)
+                 g(i,1,n)=aa*bb+t*(0.5d0*(aa+ab+bb)+0.75d0*t)
+                 g(i,2,n)=-(2.d0*p(i)*(aa*b+a*bb)+t*(0.5d0*(aa+ab+bb)+
+     1                      3.d0*(a+b)*p(i)+1.5d0*t))
+                 g(i,3,n)=pp*((aa+ab+bb)+3.d0*t)+t*(3.d0*p(i)*(a+b)+
+     1                        0.75d0*t)
+                 g(i,4,n)=-(pp*(2.d0*p(i)*(a+b)+3.d0*t))
+                 g(i,5,n)=pp*pp
+232           continue
+          elseif (mm.eq.4) then
+              temp=a
+              a=b
+              b=temp
+              a2=a*a
+              b2=b*b
+              ab=a*b
+              t2=t*t
+              a3=3.d0*a2+6.d0*ab+b2
+              a1=a2+6.d0*ab+3.d0*b2
+              do 242 i=1,narg
+                 p2=p(i)*p(i)
+                 g(i,1,n)=a*a2*b2+0.5d0*t*a1*a+0.75d0*t2*(3.d0*a+
+     1                    2.d0*b)
+                 g(i,2,n)=-(ab*p(i)*(2.d0*a2+3.d0*ab)+0.5d0*t*a*a1+
+     1                      1.5d0*t*a3*p(i)+1.5d0*t2*(3.d0*a+2.d0*b)+
+     2                      3.75d0*p(i)*t2)
+                 g(i,3,n)=p2*a*a1+1.5d0*p(i)*t*a3+3.d0*(3.d0*a+2.d0*b)*
+     1                    (t*p2+.25d0*t2)+7.5d0*p(i)*t2
+                 g(i,4,n)=-(p2*(p(i)*a3+t*(9.d0*a+6.d0*b)+5.d0*p(i)*t)+
+     1                      3.75d0*p(i)*t2)
+                 g(i,5,n)=p(i)*p2*(p(i)*(3.d0*a+2.d0*b)+5.d0*t)
+                 g(i,6,n)=-p(i)*p2*p2
+242           continue
+          else
+             call lnkerr('error in gfunct routine. ll=3')
+          endif 
+      elseif(ll.eq.4) then
+          if (mm.eq.1) then
+              do 340 i=1,narg
+                 g(i,1,n)=a*(a*a+1.5d0*t)
+                 g(i,2,n)=-3.d0*(a*(a*p(i)+0.5d0*t)+0.5d0*p(i)*t)
+                 g(i,3,n)=3.d0*p(i)*(a*p(i)+0.5d0*t)
+                 g(i,4,n)=-p(i)*p(i)*p(i)
+340           continue
+          elseif (mm.eq.2) then
+              t2=t*t
+              a2=a*a
+              ab=a*b
+              f0=a2*ab
+              f1=a2*(a+3.d0*b)
+              f2=3.d0*a*(a+b)
+              f3=3.d0*a+b
+              do 341 i=1,narg
+                 p2=p(i)*p(i)
+                 g(i,1,n)=f0+.5d0*t*f2+.75d0*t2
+                 g(i,2,n)=-(p(i)*f1+.5d0*t*f2+1.5d0*p(i)*t*f3+1.5d0*t2)
+                 g(i,3,n)=p2*f2+1.5d0*p(i)*t*f3+3.d0*t*p2+.75d0*t2
+                 g(i,4,n)=-(p(i)*p2*f3+3.d0*t*p2)
+                 g(i,5,n)=p2*p2      
+341           continue
+          elseif (mm.eq.3) then 
+              a2=a*a
+              b2=b*b
+              ab=a*b
+              t2=t*t
+              a3=3.d0*a2+6.d0*ab+b2
+              a1=a2+6.d0*ab+3.d0*b2
+              do 342 i=1,narg
+                 p2=p(i)*p(i)
+                 g(i,1,n)=a*a2*b2+0.5d0*t*a1*a+0.75d0*t2*(3.d0*a+
+     1                    2.d0*b)
+                 g(i,2,n)=-(ab*p(i)*(2.d0*a2+3.d0*ab)+0.5d0*t*a*a1+
+     1                      1.5d0*t*a3*p(i)+1.5d0*t2*(3.d0*a+2.d0*b)+
+     2                      3.75d0*p(i)*t2)
+                 g(i,3,n)=p2*a*a1+1.5d0*p(i)*t*a3+3.d0*(3.d0*a+2.d0*b)*
+     1                    (t*p2+.25d0*t2)+7.5d0*p(i)*t2
+                 g(i,4,n)=-(p2*(p(i)*a3+t*(9.d0*a+6.d0*b)+5.d0*p(i)*t)+
+     1                      3.75d0*p(i)*t2)
+                 g(i,5,n)=p(i)*p2*(p(i)*(3.d0*a+2.d0*b)+5.d0*t)
+                 g(i,6,n)=-p(i)*p2*p2
+342           continue
+          elseif (mm.eq.4) then
+              a2=a*a
+              b2=b*b
+              t2=t*t
+              ab=a*b
+              f0=a2*b2*ab
+              f1=3.d0*a2*b2*(a+b)
+              f2=3.d0*ab*(a2+3.d0*ab+b2)
+              f3=a2*(a+9.d0*b)+b2*(b+9.d0*a)
+              f4=3.d0*(a2+3.d0*ab+b2)
+              f5=3.d0*(a+b)
+              do 343 i=1,narg
+                 p2=p(i)*p(i)
+                 g(i,1,n)=f0+.5d0*t*f2+.75d0*t2*f4+1.875d0*t*t2
+                 g(i,2,n)=-(p(i)*f1+.5d0*t*f2+1.5d0*t*p(i)*f3+
+     1                      1.5d0*t2*f4+3.75d0*p(i)*t2*f5+
+     2                      5.625d0*t*t2)
+                 g(i,3,n)=p2*f2+1.5d0*p(i)*t*f3+3.d0*f4*(t*p2+
+     1                   .25d0*t2)+7.5d0*p(i)*t2*f5+11.25d0*t2*
+     2                    (.5d0*t+p2)
+                 g(i,4,n)=-(p2*(p(i)*f3+3.d0*t*f4)+5.d0*f5*p(i)*t*
+     1                     (p2+.75d0*t)+t2*(22.5d0*p2+1.875d0*t))
+                 g(i,5,n)=p2*(f4*p2+5.d0*p(i)*t*f5+7.5d0*p2*t+
+     1                    11.25d0*t2)
+                 g(i,6,n)=-(p2*p2*(p(i)*f5+7.5d0*t))
+                 g(i,7,n)=p2*p2*p2
+343           continue
+          else
+             call lnkerr('error in gfunct routine. ll=4')
+          endif 
+      else
+          call lnkerr('error in gfunct routine. ll out of range')
+      endif
+      return
+      end 
+*deck stuff0
+c***begin prologue     stuff0
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           stuff0, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            interpolating taylor series for f functions
+c***references       
+c
+c***routines called    
+c***end prologue       stuff0
+      subroutine stuff0(n,nlt0,nge0,arg,pointr,fvec)
+      parameter ( maxr=350)
+      implicit real *8 (a-h,o-z)
+      integer pointr
+      dimension arg(n), fvec(1:n,0:6), pointr(n,2)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+c
+c  interpolating taylor series for f integrals
+c  vectorizable algorithm
+c
+c         
+      do 1000 i = 1,nlt0
+         iii=pointr(i,1)
+         t=arg(iii)
+         x= 10.d0*(t+0.05d0)
+         iit=x
+         ti=iit
+         it=iit+1
+         delt=t-0.1d0*ti
+         delt2=0.5d0*delt
+         delt3=-.33333333d0*delt
+         delt4=-0.25d0*delt
+         ft0=str0(it)
+         ft1=str1(it)
+         ft2=str2(it)
+         ft3=str3(it)
+         ft4=str4(it)
+         fvec(iii,0)=ft0+delt*(-ft1+delt2*(ft2+delt3*(ft3+delt4* ft4)))
+ 1000  continue
+c
+      do 2000 i = 1,nge0
+         iii=pointr(i,2)
+         t=arg(iii)
+         xd=1.d0/t
+         fvec(iii,0) = .88622692d0* sqrt(xd)
+2000  continue
+      return
+      end 
+*deck stuff1
+c***begin prologue     stuff1
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           stuff1, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            interpolating taylor series for f functions
+c***references       
+c
+c***routines called    
+c***end prologue       stuff1
+      subroutine stuff1(n,nlt0,nge0,arg,pointr,fvec)
+      parameter (maxr=350)
+      implicit real *8 (a-h,o-z)
+      integer pointr
+      dimension arg(n), fvec(1:n,0:6), pointr(n,2)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+c
+c  interpolating taylor series for f integrals
+c  vectorizable algorithm
+c
+c
+      do 1000 i = 1,nlt0
+         iii=pointr(i,1)
+         t=arg(iii)
+         x= 10.d0*(t+0.05d0)
+         iit=x
+         ti=iit
+         it=iit+1
+         delt=t-0.1d0*ti
+         delt2=0.5d0*delt
+         delt3=-.33333333d0*delt
+         delt4=-0.25d0*delt
+         ft0=str0(it)
+         ft1=str1(it)
+         ft2=str2(it)
+         ft3=str3(it)
+         ft4=str4(it)
+         ft5=str5(it)
+         fvec(iii,1)=ft1+delt*(-ft2+delt2*(ft3+delt3*(ft4+delt4* ft5)))
+         fvec(iii,0)=ft0+delt*(-ft1+delt2*(ft2+delt3*(ft3+delt4* ft4)))
+1000  continue
+c
+      do 2000 i = 1,nge0
+         iii=pointr(i,2)
+         t=arg(iii)
+         xd=1.d0/t
+         fvec(iii,0) = .88622692d0* sqrt(xd)
+         fvec(iii,1) = 0.5d0*xd*fvec(iii,0)
+2000  continue
+      return
+      end
+*deck stuff2
+c***begin prologue     stuff2
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           stuff2, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            interpolating taylor series for f functions
+c***references       
+c
+c***routines called    
+c***end prologue       stuff2
+      subroutine stuff2(n,nlt0,nge0,arg,pointr,fvec)
+      parameter (maxr=350)
+      implicit real *8 (a-h,o-z)
+      integer pointr
+      dimension arg(n), fvec(1:n,0:6), pointr(n,2)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+c
+c  interpolating taylor series for f integrals
+c  vectorizable algorithm
+c
+c
+      do 1000 i = 1,nlt0
+         iii=pointr(i,1)
+         t=arg(iii)
+         x= 10.d0*(t+0.05d0)
+         iit=x
+         ti=iit
+         it=iit+1
+         delt=t-0.1d0*ti
+         delt2=0.5d0*delt
+         delt3=-.33333333d0*delt
+         delt4=-0.25d0*delt
+         ft0=str0(it)
+         ft1=str1(it)
+         ft2=str2(it)
+         ft3=str3(it)
+         ft4=str4(it)
+         ft5=str5(it)
+         ft6=str6(it)
+         fvec(iii,2)=ft2+delt*(-ft3+delt2*(ft4+delt3*(ft5+delt4* ft6)))
+         fvec(iii,1)=ft1+delt*(-ft2+delt2*(ft3+delt3*(ft4+delt4* ft5)))
+         fvec(iii,0)=ft0+delt*(-ft1+delt2*(ft2+delt3*(ft3+delt4* ft4)))
+1000  continue
+c
+      do 2000 i = 1,nge0
+         iii=pointr(i,2)
+         t=arg(iii)
+         xd=1.d0/t
+         fvec(iii,0) = .88622692d0* sqrt(xd)
+         fvec(iii,1) = 0.5d0*xd*fvec(iii,0)
+         fvec(iii,2) = 1.5d0*xd*fvec(iii,1)
+2000  continue
+      return
+      end
+*deck stuff3
+c***begin prologue     stuff3
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           stuff3, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            interpolating taylor series for f functions
+c***references       
+c
+c***routines called    
+c***end prologue       stuff3
+      subroutine stuff3(n,nlt0,nge0,arg,pointr,fvec)
+      parameter (maxr=350)
+      implicit real *8 (a-h,o-z)
+      integer pointr
+      dimension arg(n), fvec(1:n,0:6), pointr(n,2)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+c
+c  interpolating taylor series for f integrals
+c  vectorizable algorithm
+c
+c
+      do 1000 i = 1,nlt0
+         iii=pointr(i,1)
+         t= arg(iii)
+         x= 10.d0*(t+0.05d0)
+         iit=x
+         ti=iit
+         it=iit+1
+         delt=t-0.1d0*ti
+         delt2=0.5d0*delt
+         delt3=-.33333333d0*delt
+         delt4=-0.25d0*delt
+         ft0=str0(it)
+         ft1=str1(it)
+         ft2=str2(it)
+         ft3=str3(it)
+         ft4=str4(it)
+         ft5=str5(it)
+         ft6=str6(it)
+         ft7=str7(it)
+         fvec(iii,3)=ft3+delt*(-ft4+delt2*(ft5+delt3*(ft6+delt4* ft7)))
+         fvec(iii,2)=ft2+delt*(-ft3+delt2*(ft4+delt3*(ft5+delt4* ft6)))
+         fvec(iii,1)=ft1+delt*(-ft2+delt2*(ft3+delt3*(ft4+delt4* ft5)))
+         fvec(iii,0)=ft0+delt*(-ft1+delt2*(ft2+delt3*(ft3+delt4* ft4)))
+1000  continue 
+c
+      do 2000 i=1,nge0
+         iii=pointr(i,2)
+         t=arg(iii)
+         xd=1.d0/t
+         fvec(iii,0) = .88622692d0* sqrt(xd)
+         fvec(iii,1) = 0.5d0*xd*fvec(iii,0)
+         fvec(iii,2) = 1.5d0*xd*fvec(iii,1)
+         fvec(iii,3) = 2.5d0*xd*fvec(iii,2)
+2000  continue
+      return
+      end
+*deck stuff4
+c***begin prologue     stuff4
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           stuff4, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            interpolating taylor series for f functions
+c***references       
+c
+c***routines called    
+c***end prologue       stuff4
+      subroutine stuff4(n,nlt0,nge0,arg,pointr,fvec)
+      parameter (maxr=350)
+      implicit real *8 (a-h,o-z)
+      integer pointr
+      dimension arg(n), fvec(1:n,0:6), pointr(n,2)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+c
+c  interpolating taylor series for f integrals
+c  vectorizable algorithm
+c
+c
+      do 1000 i = 1,nlt0
+         iii=pointr(i,1)
+         t=arg(iii)
+         x= 10.d0*(t+0.05d0)
+         iit=x
+         ti=iit
+         it=iit+1
+         delt=t-0.1d0*ti
+         delt2=0.5d0*delt
+         delt3=-.33333333d0*delt
+         delt4=-0.25d0*delt
+         ft0=str0(it)
+         ft1=str1(it)
+         ft2=str2(it)
+         ft3=str3(it)
+         ft4=str4(it)
+         ft5=str5(it)
+         ft6=str6(it)
+         ft7=str7(it)
+         ft8=str8(it)
+         fvec(iii,4)=ft4+delt*(-ft5+delt2*(ft6+delt3*(ft7+delt4* ft8)))
+         fvec(iii,3)=ft3+delt*(-ft4+delt2*(ft5+delt3*(ft6+delt4* ft7)))
+         fvec(iii,2)=ft2+delt*(-ft3+delt2*(ft4+delt3*(ft5+delt4* ft6)))
+         fvec(iii,1)=ft1+delt*(-ft2+delt2*(ft3+delt3*(ft4+delt4* ft5)))
+         fvec(iii,0)=ft0+delt*(-ft1+delt2*(ft2+delt3*(ft3+delt4* ft4)))
+1000  continue
+c
+      do 2000 i = 1,nge0
+         iii=pointr(i,2)
+         t=arg(iii)
+         xd=1.d0/t
+         fvec(iii,0) = .88622692d0* sqrt(xd)
+         fvec(iii,1) = 0.5d0*xd*fvec(iii,0)
+         fvec(iii,2) = 1.5d0*xd*fvec(iii,1)
+         fvec(iii,3) = 2.5d0*xd*fvec(iii,2)
+         fvec(iii,4) = 3.5d0*xd*fvec(iii,3)
+2000  continue
+      return
+      end
+*deck stuff5
+c***begin prologue     stuff5
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           stuff5, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            interpolating taylor series for f functions
+c***references       
+c
+c***routines called    
+c***end prologue       stuff5
+      subroutine stuff5(n,nlt0,nge0,arg,pointr,fvec)
+      parameter (maxr=350)
+      implicit real *8 (a-h,o-z)
+      integer pointr
+      dimension arg(n), fvec(1:n,0:6), pointr(n,2)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+c
+c  interpolating taylor series for f integrals
+c  vectorizable algorithm
+c
+c
+      do 1000 i = 1,nlt0
+         iii=pointr(i,1)  
+         t=arg(iii)
+         x= 10.d0*(t+0.05d0)
+         iit=x
+         ti=iit
+         it=iit+1
+         delt=t-0.1d0*ti
+         delt2=0.5d0*delt
+         delt3=-.33333333d0*delt
+         delt4=-0.25d0*delt
+         ft0=str0(it)
+         ft1=str1(it)
+         ft2=str2(it)
+         ft3=str3(it)
+         ft4=str4(it)
+         ft5=str5(it)
+         ft6=str6(it)
+         ft7=str7(it)
+         ft8=str8(it)
+         ft9=str9(it)
+         fvec(iii,5)=ft5+delt*(-ft6+delt2*(ft7+delt3*(ft8+delt4* ft9)))
+         fvec(iii,4)=ft4+delt*(-ft5+delt2*(ft6+delt3*(ft7+delt4* ft8)))
+         fvec(iii,3)=ft3+delt*(-ft4+delt2*(ft5+delt3*(ft6+delt4* ft7)))
+         fvec(iii,2)=ft2+delt*(-ft3+delt2*(ft4+delt3*(ft5+delt4* ft6)))
+         fvec(iii,1)=ft1+delt*(-ft2+delt2*(ft3+delt3*(ft4+delt4* ft5)))
+         fvec(iii,0)=ft0+delt*(-ft1+delt2*(ft2+delt3*(ft3+delt4* ft4)))
+1000  continue
+c
+      do 2000 i = 1,nge0
+         iii=pointr(i,2)  
+         t=arg(iii)
+         xd=1.d0/t
+         fvec(iii,0) = .88622692d0* sqrt(xd)
+         fvec(iii,1) = 0.5d0*xd*fvec(iii,0)
+         fvec(iii,2) = 1.5d0*xd*fvec(iii,1)
+         fvec(iii,3) = 2.5d0*xd*fvec(iii,2)
+         fvec(iii,4) = 3.5d0*xd*fvec(iii,3)
+         fvec(iii,5) = 4.5d0*xd*fvec(iii,4)
+2000  continue
+      return
+      end
+*deck stuff6
+c***begin prologue     stuff6
+c***date written                (yymmdd)
+c***revision date      890411   (yymmdd)
+c***keywords           stuff6, link 6003
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            interpolating taylor series for f functions
+c***references       
+c
+c***routines called    
+c***end prologue       stuff6
+      subroutine stuff6(n,nlt0,nge0,arg,pointr,fvec)
+      parameter (maxr=350)
+      implicit real *8 (a-h,o-z)
+      integer pointr
+      dimension arg(n), fvec(1:n,0:6), pointr(n,2)
+      common/store/str0(maxr),str1(maxr),str2(maxr),str3(maxr),
+     1             str4(maxr),str5(maxr),str6(maxr),str7(maxr),
+     2             str8(maxr),str9(maxr),str10(maxr)
+c
+c  interpolating taylor series for f integrals
+c  vectorizable algorithm
+c
+c
+      do 1000 i = 1,nlt0
+         iii=pointr(i,1)  
+         t=arg(iii)
+         x= 10.d0*(t+0.05d0)
+         iit=x
+         ti=iit
+         it=iit+1
+         delt=t-0.1d0*ti
+         delt2=0.5d0*delt
+         delt3=-.33333333d0*delt
+         delt4=-0.25d0*delt
+         ft0=str0(it)
+         ft1=str1(it)
+         ft2=str2(it)
+         ft3=str3(it)
+         ft4=str4(it)
+         ft5=str5(it)
+         ft6=str6(it)
+         ft7=str7(it)
+         ft8=str8(it)
+         ft9=str9(it)
+         ft10=str10(it)
+         fvec(iii,6)=ft6+delt*(-ft7+delt2*(ft8+delt3*(ft9+delt4* ft10)))
+         fvec(iii,5)=ft5+delt*(-ft6+delt2*(ft7+delt3*(ft8+delt4* ft9)))
+         fvec(iii,4)=ft4+delt*(-ft5+delt2*(ft6+delt3*(ft7+delt4* ft8)))
+         fvec(iii,3)=ft3+delt*(-ft4+delt2*(ft5+delt3*(ft6+delt4* ft7)))
+         fvec(iii,2)=ft2+delt*(-ft3+delt2*(ft4+delt3*(ft5+delt4* ft6)))
+         fvec(iii,1)=ft1+delt*(-ft2+delt2*(ft3+delt3*(ft4+delt4* ft5)))
+         fvec(iii,0)=ft0+delt*(-ft1+delt2*(ft2+
+     1               delt3*(ft3+delt4* ft4)))
+1000  continue
+c
+      do 2000 i = 1,nge0
+         iii=pointr(i,2)  
+         t=arg(iii)
+         xd=1.d0/t
+         fvec(iii,0) = .88622692d0* sqrt(xd)
+         fvec(iii,1) = 0.5d0*xd*fvec(iii,0)
+         fvec(iii,2) = 1.5d0*xd*fvec(iii,1)
+         fvec(iii,3) = 2.5d0*xd*fvec(iii,2)
+         fvec(iii,4) = 3.5d0*xd*fvec(iii,3)
+         fvec(iii,5) = 4.5d0*xd*fvec(iii,4)
+         fvec(iii,6) = 5.5d0*xd*fvec(iii,5)
+2000  continue
+      return
+      end
+*deck lgndre
+c***begin prologue     lgndre
+c***date written                (yymmdd)
+c***revision date      901003   (yymmdd)
+c***keywords           lgndre, link 6002
+c***authors            unknown
+c***                   
+c***source             m6002
+c***purpose            cartesian spherical harmonics
+c***references       
+c
+c***routines called    
+c***end prologue      lgndre
+      subroutine lgndre(ylm,grid,npt,l,m)
+      implicit integer (a-z)
+      real*8 facd, rval, ylm, grid
+      dimension grid(4,npt), ylm(npt), facd(3)
+      common /io/ inp, iout
+      data lmax, mmax /2,2/
+      facd(1)=.5d+00
+      facd(2)=3.d+00
+      facd(3)=6.d+00
+c----------------------------------------------------------------------c
+c           calculate cartesian spherical harmonics                    c
+c                           for                                        c
+c                       small l and m                                  c
+c                    * not normalized                                  c
+c----------------------------------------------------------------------c
+ 
+      if (l.gt.lmax) then
+         call lnkerr('l greater than lmax:quit')
+      endif
+      if (l.eq.0) then
+c----------------------------------------------------------------------c
+c               s wave                                                 c
+c----------------------------------------------------------------------c
+          do 10 i=1,npt
+             ylm(i)=1.d+00
+   10     continue
+      endif   
+      if(l.eq.1) then
+c----------------------------------------------------------------------c
+c               p wave                                                 c
+c----------------------------------------------------------------------c
+         if (m.eq.0) then 
+            do 20 i=1,npt
+               rval=sqrt(grid(1,i)*grid(1,i)
+     1              +grid(2,i)*grid(2,i) 
+     2              +grid(3,i)*grid(3,i))
+               ylm(i)=grid(3,i)/rval
+   20       continue
+         endif
+         if (m.eq.-1) then
+            do 30 i=1,npt
+               rval=sqrt(grid(1,i)*grid(1,i)
+     1              +grid(2,i)*grid(2,i) 
+     2              +grid(3,i)*grid(3,i))
+               ylm(i)=grid(1,i)/rval
+   30       continue 
+         endif
+         if (m.eq.1) then                
+            do 40 i=1,npt
+               rval=sqrt(grid(1,i)*grid(1,i)
+     1              +grid(2,i)*grid(2,i) 
+     2              +grid(3,i)*grid(3,i))
+               ylm(i)=grid(2,i)/rval
+   40       continue  
+         endif 
+      endif
+      if(l.eq.2) then 
+c----------------------------------------------------------------------c 
+c            d wave                                                    c
+c----------------------------------------------------------------------c
+        if (m.eq.0) then
+           do 50 i=1,npt
+              rval=grid(1,i)*grid(1,i)
+     1             +grid(2,i)*grid(2,i) 
+     2             +grid(3,i)*grid(3,i)        
+              ylm(i)=(2.d+00*grid(3,i)*grid(3,i)
+     1                -grid(1,i)*grid(1,i)
+     2                -grid(2,i)*grid(2,i))*facd(1)/rval
+   50      continue
+        endif
+        if (m.eq.-1) then                     
+           do 60 i=1,npt
+              rval=grid(1,i)*grid(1,i)
+     1             +grid(2,i)*grid(2,i) 
+     2             +grid(3,i)*grid(3,i)        
+              ylm(i)=grid(1,i)*grid(3,i)*facd(2)/rval
+   60      continue
+        endif
+        if (m.eq.1) then                    
+           do 70 i=1,npt
+              rval=grid(1,i)*grid(1,i)
+     1             +grid(2,i)*grid(2,i) 
+     2             +grid(3,i)*grid(3,i)        
+              ylm(i)=grid(2,i)*grid(3,i)*facd(2)/rval
+   70      continue
+        endif
+        if (m.eq.-2) then
+           do 80 i=1,npt
+              rval=grid(1,i)*grid(1,i)
+     1             +grid(2,i)*grid(2,i) 
+     2             +grid(3,i)*grid(3,i)        
+              ylm(i)=(grid(1,i)*grid(1,i)-grid(2,i)*grid(2,i))
+     1                                    *facd(2)/rval
+   80      continue
+        endif
+        if (m.eq.2) then
+           do 90 i=1,npt
+              rval=grid(1,i)*grid(1,i)
+     1             +grid(2,i)*grid(2,i) 
+     2             +grid(3,i)*grid(3,i)        
+              ylm(i)=grid(1,i)*grid(2,i)*facd(3)/rval
+   90      continue
+        endif
+      endif
+      return
+      end
+*deck rdmom
+c***begin prologue     rdmom
+c***date written       901008   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           rdmom, link 6002
+c***author             schneider, barry (lanl)
+c***source             m6002
+c***purpose            input long range moments
+c***references         none
+c
+c***routines called
+c***end prologue       rdmom
+      subroutine rdmom(mom,nomom,index,nsts,ntri,mxmom)
+      implicit integer (a-z)
+      real *8 mom
+      character *3 itoc
+      character *2 ic, jc
+      character *5 code
+      character*15 cpass
+      character *1600 card
+      logical test, logkey
+      dimension mom(mxmom,ntri), index(3,mxmom,ntri), nomom(ntri)
+      common /io/ inp, iout          
+      call rzero(mom,mxmom*ntri)
+      ij=0
+      do 10 is=1,nsts
+         ic=itoc(i)
+         do 20 js=1,is
+            jc=itoc(j)
+            code=ic//','//jc
+            ij=ij+1
+            call posinp('$VLONG('//code//')',cpass)
+            call cardin(card)
+            test=logkey(card,'present',.false.,' ')
+            if (test) then
+                write (iout,1) is, js
+                nomom(ij)=intkey(card,'no-moments',0,' ')
+                if (nomom(ij).ne.0) then
+                    call fparr(card,'vlr',mom(1,ij),nomom(ij),' ')
+                    do 30 imom=1,nomom(ij)
+                       call intarr(card,'l-m-n',index(1,imom,ij),3,' ')
+   30               continue
+                    write (iout,2) (index(1,imom,ij), index(2,imom,ij),
+     1                              index(3,imom,ij), mom(imom,ij),
+     2                              imom=1,nomom(ij))
+                endif
+            endif
+   20    continue
+   10 continue
+    1 format (/,1x,'long range moments state',1x,i2,1x,'state',1x,i2)
+    2 format (/, 3(10x,'l',1x,i3,1x,'m',1x,i3,1x,'power',1x,i2,1x,
+     1                                           'moment',1x,e15.8))
+      return
+      end
+*deck vlr
+c***begin prologue     vlr
+c***date written       901008   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           vlr, link 6002
+c***author             schneider, barry (lanl)
+c***source             m6002
+c***purpose            calculate long range potential
+c***references         none
+c
+c***routines called
+c***end prologue       vlr
+      subroutine vlr (vints,ylm,mom,nomom,index,grid,npnts,nstri,
+     1                nptmx,mxmom)
+      implicit integer (a-z)
+      real *8 vints, ylm, mom, grid, rval
+      dimension vints(nptmx,nstri), mom(mxmom,nstri)
+      dimension grid(4,nptmx), ylm(npnts), nomom(nstri)
+      dimension index(3,mxmom,nstri)
+      do 10 i=1,nstri
+         do 20 mmom=1,nomom(i)
+            l=index(1,mmom,i)
+            m=index(2,mmom,i)
+            power=index(3,mmom,i)
+            if ( mom(mmom,i).ne.0.d+00) then
+                 call lgndre(ylm,grid,npnts,l,m)
+                 do 30 pt=1,npnts
+                    rval=grid(1,pt)*grid(1,pt)
+     1                   +grid(2,pt)*grid(2,pt)
+     2                   +grid(3,pt)*grid(3,pt)
+                    rval=sqrt(rval)
+                    rval=1.d+00/(rval**power)
+                    vints(pt,i)=vints(pt,i)+mom(mmom,i)*ylm(pt)
+     1                                                 *rval
+   30            continue 
+            endif                                     
+   20    continue
+   10 continue
+      return
+      end
+ 
+ 
+ 
+ 

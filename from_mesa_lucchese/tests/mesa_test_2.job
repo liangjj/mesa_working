@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# Needed environment variables
+# TMPDIR - directory for work directory
+# MESA - main mesa directory
+# ver - which compiler version (beginning with a period or blank)
+
+date
+
+echo mesa test 2 - dzp H2O casscf calculation 
+echo using version $ver
+
+PATH=$PATH:$MESA/bin$ver
+rundir=run_mesa_test_2$ver
+
+siz=4000000
+
+cd $TMPDIR
+rm -r $rundir
+mkdir $rundir
+cd $rundir
+cp $MESA/mesa.dat .
+mkdir tmp
+
+cat <<EOF | sed -e "s/#.*//" > mesa.inp 
+\$title
+dzp h2o closed shell scf
+\$end
+
+\$route
+maxsiz=900000
+2s+1=1
+hf scf=(pulay)
+guess=(huckel)
+basis=dzp,sym=off
+\$end
+
+\$geom
+o
+h1 o r1
+h2 o r2 h1 a1
+
+r1=1.949
+r2=1.949
+a1=112.3
+\$end
+
+EOF
+optmesa siz=$siz
+mv mesa.out out.scf
+mv mesa.inp inp.scf
+
+cat <<EOF | sed -e "s/#.*//" > mesa.inp 
+\$title
+   dzp h2o casscf
+\$end
+
+\$route
+maxsiz=1300000
+2s+1=1
+print=(basis,fficscf=vector) 
+mcscf=(cas,ci=(cycles=15),number-of-core-orbitals=3) 
+drtmc=(nbf=4,vexcite=99,rdsym)
+guess=(chk) 
+basis=dzp,sym=off 
+\$end
+
+\$drtmc 
+2doc1 2uoc1 
+\$end
+
+\$geom 
+o
+h1 o r1
+h2 o r2 h1 a1
+
+r1=1.249 
+r2=2.949 
+a1=112.3
+\$end
+EOF
+optmesa siz=$siz
+mv mesa.out out.cas
+mv mesa.inp inp.cas
+cat out.cas
+
+date

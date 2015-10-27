@@ -1,0 +1,26 @@
+$route
+ number-of-space-dimensions=1 coordinate-system=cylindrical
+ dimension-1=rho  directive=diagonalize
+$end
+          
+$nonstd
+62//96;
+20//01;
+$end
+
+$title
+DVR Test
+$end
+
+$h0(rho)
+ number-of-regions=1 region-boundaries=(1.d-20,8.d0) parity=even
+ polynomial-order-per-region=(33) number-of-fixed-points=2
+ left-fixed-point right-fixed-point print=all
+ drop-first-function drop-last-function weight-type=r
+ number-of-reference-quadrature-points-per-region=160
+ angular-momentum=2
+$end
+
+$v0(rho)
+ use-atomic-units potential=harmonic-oscillator angular-momentum=2
+$end

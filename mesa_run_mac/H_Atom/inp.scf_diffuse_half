@@ -1,0 +1,145 @@
+#
+# H atom calculation.  Basis set divided into compact and diffuse
+# functions for convenience.  Note that as long as the center was defined
+# one can place the diffuse functions there using the zq no charge approach.
+# Of course, there is already charge there so this just add basis functions to that 
+# center with a dummy symbol.
+$route
+2s+1=2 hf print=(guess=all,nodis,noang)
+guess=(core) geom=(coord,inau,nocrowd)
+sym=on Xint=reuse drop m330=only-one-electron
+$end
+ 
+$nonstd
+1//1,2;
+2//2;
+3//1,2,30;
+4//12;
+6//2;
+20//1;
+$end
+ 
+$title
+H atom
+$end
+ 
+$geom
+h(basis=compact)    0.0 0.0 0.0
+zq(basis=diffuse)   0.0 0.0 0.0
+zq(basis=diffuse1)  0.0 0.0 0.0
+$end
+ 
+$compact h
+/ H
+  type=s
+ 1000.00    1.00
+  type=s
+ 500.00     1.00
+  type=s
+ 250.00     1.00
+  type=s
+ 125.00     1.00
+  type=s
+ 62.00      1.00
+  type=s
+ 30.00      1.00
+  type=s
+ 15.00      1.00
+  type=s
+ 7.50       1.00
+  type=s
+ 3.75       1.00
+  type=s
+ 1.8        1.00
+  type=s
+ .90        1.00
+  type=s
+ .45        1.00
+  type=s
+ .25        1.00
+  type=s
+ .13        1.00
+  type=p
+ 1000.00    1.00
+  type=p
+ 500.00     1.00
+  type=p
+ 250.00     1.00
+  type=p
+ 125.00     1.00
+  type=p
+ 62.00      1.00
+  type=p
+ 30.00      1.00
+  type=p
+ 15.00      1.00
+  type=p
+ 7.50       1.00
+  type=p
+ 3.75       1.00
+  type=p
+ 1.8        1.00
+  type=p
+ .90        1.00
+  type=p
+ .45        1.00
+  type=p
+ .25        1.00
+  type=p
+ .13        1.00
+$end
+
+$diffuse zq
+/ added diffuse functions
+  type=s
+  .06       1.00
+  type=s
+  .05       1.00
+  type=s
+  .03       1.00
+  type=s
+  .015      1.00
+  type=s
+  .0075     1.00
+  type=p
+  .06       1.00
+  type=p
+  .05       1.00
+  type=p
+  .03       1.00
+  type=p
+  .015      1.00
+  type=p
+  .0075     1.00
+$end
+
+$diffuse1 zq
+/ added diffuse functions
+  type=s
+  .0035     1.00
+  type=s
+  .0017     1.00
+  type=s
+  .0008     1.00
+  type=s
+  .0004     1.00
+  type=s
+  .0002     1.00
+  type=p
+  .0035     1.00
+  type=p
+  .0017     1.00
+  type=p
+  .0008     1.00
+  type=p
+  .0004     1.00
+  type=p
+  .0002     1.00
+$end
+
+$drop
+ atom=1 type=p keep=(z)
+ atom=2 type=p keep=(z)
+ atom=3 type=p keep=(z)
+$end
+

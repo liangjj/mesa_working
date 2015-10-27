@@ -1,0 +1,273 @@
+!=========================================================================
+    SUBROUTINE mtk1(k)
+!=========================================================================
+!
+!   Tk matrix elements in the Spline basis with cell algorithm
+!
+!   Calling sequence:
+!
+!         mtk1
+!       ---------
+!      /        \\
+!   momentd   tk_pdiag
+!                  ||
+!               tk_triang
+!                /      \
+!             gauss   vbsplvd
+!
+!-------------------------------------------------------------------------
+!
+!   on entry
+!   --------
+!       k     the power of the slater integrals
+!
+!   on exit
+!   -------
+!      rkb    four-dimensional array of Tk integrals of power k in
+!             the Spline basis
+!-------------------------------------------------------------------------
+
+    USE spline_param
+    USE spline_grid
+    USE spline_integrals
+    USE spline_atomic
+    USE spline_moments
+
+    IMPLICIT NONE
+    INTEGER, INTENT(IN) :: k
+
+    ! .. local variables
+
+    INTEGER(4) :: iv,ih,i, ihp,ip, jv,jh,j, jhp,jp
+    REAL(8) :: c
+
+    ! .. check the need of calculations
+
+    if(itype == 'aaa') Call allocate_integrals
+    if(itype == 'tk1' .and. krk == k) Return
+
+    ! .. compute the moments in the spline basis
+
+    CALL momentd(  k   , rkt1)
+    CALL momentd(-(k+1), rkt2)
+    CALL tk_pdiag
+
+    rkb = 0.d0
+
+    DO jv=1,nv
+
+      DO jh=1,ks
+        j = jv + jh - 1
+        DO jhp=1,ks
+          jp = jhp - jh + ks
+
+          DO iv=1,nv
+
+            DO ih=1,ks
+              i = iv + ih -1
+              DO ihp=1,ks
+                ip = ihp - ih + ks
+
+        IF( iv < jv ) THEN
+
+                c = rkt1(ih,ihp,iv)*rkt2(jh,jhp,jv)
+
+        ELSE IF ( iv > jv ) THEN
+
+                c = rkt1(jh,jhp,jv)*rkt2(ih,ihp,iv)
+        ELSE
+                c = rkt(ih,jh,ihp,jhp,iv) 
+
+        END IF
+                rkb(i,j,ip,jp) = rkb(i,j,ip,jp) + c    
+
+              END DO
+            END DO
+          END DO
+
+        END DO
+      END DO
+    END DO
+
+    c = fine / (k+k+1) 
+    rkb = rkb * c
+
+    itype = 'tk1'
+    krk = k
+
+
+!-----------------------------------------------------------------------
+    CONTAINS
+!-----------------------------------------------------------------------
+
+!======================================================================
+    SUBROUTINE tk_pdiag
+!======================================================================
+!
+!   Computes the Tk matrix elements in the triangle cells
+!
+!   SUBROUTINES called:
+!       tk_triang
+!
+!----------------------------------------------------------------------
+!
+!   on entry
+!   --------
+!       k          the power of moments
+!
+!   on exit
+!   -------
+!       rkt        the four-dimensional array of pieces
+!                                                _    _
+!                  defining <B_i B_j|r^k/r^(k+1)|B_i' B_j'>
+!
+!                  over a triangle
+!
+!----------------------------------------------------------------------
+
+    IMPLICIT NONE
+
+    ! .. local variables
+
+    INTEGER :: iv
+    REAL(KIND=8) :: hp1
+
+    ! .. the first equal step region.
+
+    Do iv=1,ml+ks-1
+      CALL tk_triang(iv)
+    End do
+
+    ! .. the log region --- using scaling law.
+
+    hp1=h+1.d0
+    Do iv=ml+ks,ml+me-ks+2
+      rkt(:,:,:,:,iv) = rkt(:,:,:,:,iv-1) / hp1
+    End do
+
+    ! .. the last equal step region
+
+    DO iv=ml+me-ks+3,nv
+      CALL tk_triang(iv)
+    END DO
+
+    END SUBROUTINE tk_pdiag
+
+
+!========================================================================
+    SUBROUTINE tk_triang(iv)
+!========================================================================
+!
+!   Returns the "TK matrix element" in the diagonal cell  'iv'      
+!                                                     
+!
+!  /
+! /              k
+! |             r_<
+! | dr_1 dr_2   ---  bsp(iv,:,i)(r_1) bsp(iv,:,j)(r_2)
+! |              k+1
+! |             r_>  ___               ___
+! /                  bsp(iv,:,ip)(r_1) bsp(iv,:,jp)(r_2)
+!/
+!------------------------------------------------------------------------
+!
+!   SUBROUTINES called:
+!       gauss
+!       vbsplvd
+!
+!---------------------------------------------------------------------
+!
+!   On entry
+!   --------
+!       k:     multipole index
+!       iv:    the index of the integration region
+!
+!---------------------------------------------------------------------
+
+      IMPLICIT NONE
+
+      INTEGER, INTENT(in) :: iv
+
+! .. local variables
+
+      INTEGER :: i, j, ip, jp, m, left
+      REAL(KIND=8) :: xbase
+      REAL(KIND=8), DIMENSION(ks) :: x,w, gx,gw
+      REAL(KIND=8), DIMENSION(ks,ks) :: bspTmp, bspdTmp
+      REAL(KIND=8), DIMENSION(ks,ks,ks) :: INT
+      REAL(KIND=8), DIMENSION(nv,ks,ks) :: dbiatx
+      REAL(KIND=8), DIMENSION(ks,ks,ks,ks) :: a
+
+      left=iv+ks-1
+      xbase=t(left)
+
+! .. setup the gaussian points
+
+      CALL gauss(ks,x,w)
+
+
+! .. first integration 
+
+      DO m=1,ks
+
+! .. the absolute coordinate at the new gaussian point
+
+       gx(:) = (gr(iv,m)-xbase)*x(:) + xbase
+
+! .. the bspline values at the new gaussian points
+
+       DO i=1,ks
+        Call vbsplvd(t,left,1,gx(i),2,dbiatx)
+        bspTmp (i,:) = dbiatx(1,:,1)
+        bspdTmp(i,:) = dbiatx(1,:,2)-bspTmp(i,:)/gx(i)
+      END DO
+
+! .. and the corresponding gaussian weights
+
+       gw(:) = (gr(iv,m)-xbase)*w(:)
+       gx(:) = gx(:)**k * gw(:)
+
+!            / r(iv,m)         ___           k
+! .. INT =  |      bsp(iv,:,j) bsp(iv,:,jp) r  dr
+!           / r_iv
+
+       DO j=1,ks
+        gw(:) = gx(:) * bspTmp(:,j)
+        DO jp=1,ks
+          INT(j,jp,m)= SUM(gw(:) * bspdTmp(:,jp))
+        END DO
+       END DO
+
+      END DO    ! over m
+
+! .. second integration
+
+      gx(:) = grw(iv,:)*grm(iv,:)**(k+1)
+
+      Do ip=1,ks
+       bspTmp(:,ip) = (bspd(iv,:,ip,1)-grm(iv,:)*bsp(iv,:,ip))*gx(:)
+      End do
+
+      DO i=1,ks
+       DO ip=1,ks
+        gx(:) =  bsp(iv,:,i)*bspTmp(:,ip)
+        DO j=1,ks
+         DO jp=1,ks
+          a(i,j,ip,jp) = SUM(gx(:)*INT(j,jp,:))
+         END DO
+        END DO
+       END DO
+      END DO
+
+      Do i = 1,ks
+       Do ip = 1,ks
+         rkt(i,:,ip,:,iv) =  a(i,:,ip,:) + a(:,i,:,ip)
+       End do
+      End do
+
+
+      END SUBROUTINE tk_triang
+
+      END SUBROUTINE mtk1
+
+

@@ -1,0 +1,42 @@
+$route
+ print=(m1204=(basis-information,inverse,fitting-vector,
+        derivative-matrix,potential,effective-potential,inhomogeneity,
+        solution,grid,hamiltonian))
+ type-fitting-function=sine derivative=2 potential-type=one
+ angular-momentum=0
+$end
+$nonstd
+ 12//04;  
+ 20//01;
+$end
+$title 
+ Collocation/Integration Program
+$end
+$colloc
+ number-of-coarse-grid-collocation-points=9
+ collocation-region-boundaries=(1.d-06,1.0d0)
+ number-of-coarse-grid-finite-difference-points=0
+ finite-difference-region-boundaries=(.5d0,1.d0)       
+ number-of-coarse-grid-fitting-points=0
+ number-of-energies=1
+$end
+$funct
+type=power power=1
+type=power power=3
+type=power power=5
+type=power power=7
+type=power power=9
+type=power power=11
+type=power power=13
+type=power power=15
+type=power power=0
+type=power power=2
+type=power power=4
+type=power power=6
+type=power power=8
+type=power power=10
+
+$end
+$energy-1
+ energy=1.0d0  phase=-1.05040(exact)
+$end

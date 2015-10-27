@@ -1,0 +1,70 @@
+
+# this script loops through the MESA directories looking for files
+# which are currently being edited.
+HOMEDIR=$MESA_HOME
+
+#
+# do the home directory
+cd $HOMEDIR
+# sccs check returns a non-zero status if something is being edited
+if sccs check >/dev/null
+then
+#  echo 'nothing being edited'
+   :
+else
+   echo $HOMEDIR
+fi
+
+#
+# do the library
+cd $HOMEDIR/library
+if sccs check >/dev/null
+then
+   :
+else
+   echo $HOMEIDR/library
+fi
+for file in chr clams dpintgrl intgrl io math sym util
+  do
+    cd $file
+    if sccs check >/dev/null
+    then
+       :
+    else
+       echo $file
+    fi
+    cd ..
+  done
+
+cd $HOMEDIR/library/mdutil
+if sccs check >/dev/null
+then
+   :
+else
+   echo $HOMEDIR/library/mdutil
+fi
+for file in aix hp sgi stardent sun ultrix unicos
+  do
+    cd $file
+    if sccs check >/dev/null
+    then
+       :
+    else
+       echo $file
+    fi
+    cd ..
+  done
+
+#
+# do the links
+for file in $HOMEDIR/m[0-9]*
+  do
+    cd $file
+    if sccs check >/dev/null
+    then
+       :
+    else
+       echo $file
+    fi
+    cd ..
+  done

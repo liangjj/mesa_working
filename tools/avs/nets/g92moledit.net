@@ -1,0 +1,279 @@
+#!/usr/bin/avs -network
+version 4.0 (25.137 hp)
+module "Mol Display.user.1" -xy 412,311 -ex $Path/MSI/bin/MSI_mongo
+module "Periodic Table.user.2" -xy 151,38 -ex $Path/MSI/bin/PeriodicTable
+module "Mol Defaults.user.3" -xy 313,65 -ex $Path/MSI/bin/MSI_mongo
+module "geometry viewer.user.4" -xy 556,236
+port_vis "geometry viewer.user.4":"Geometric Info" -on
+module "Mol Editor.user.5" -xy 313,131 -ex $Path/MSI/bin/MOL_editor
+module "G92 Setup.user.6" -xy 205,257 -ex $Path/MSI/bin/G92_setup
+module "G92 Reader.user.7" -xy 308,12 -ex $Path/MSI/bin/MSI_mongo
+port_connect "Mol Display.user.1":0 "geometry viewer.user.4":0
+port_connect "Mol Display.user.1":1 "Mol Editor.user.5":1
+port_connect "Periodic Table.user.2":0 "Mol Defaults.user.3":1
+port_connect "Periodic Table.user.2":0 "Mol Editor.user.5":2
+port_connect "Mol Defaults.user.3":0 "Mol Editor.user.5":0
+port_connect "geometry viewer.user.4":2 "Mol Display.user.1":1
+port_connect "Mol Editor.user.5":0 "Mol Display.user.1":0
+port_connect "Mol Editor.user.5":0 "G92 Setup.user.6":0
+port_connect "G92 Reader.user.7":0 "Mol Defaults.user.3":0
+parm_set "Mol Editor.user.5":EditMess Zmatrix
+parm_set "G92 Setup.user.6":G92File ""
+geom_set_scene -scene "geometry viewer.user.4"
+geom_set_camera_name "Camera 1"
+geom_resize_camera -view "Camera 1" 571 571
+#
+# State for view: Camera 1
+#
+geom_set_position -view "Camera 1" 0 0 -12
+geom_set_view_modes -depth_cue 0 -view "Camera 1"
+geom_set_view_modes -z_buffer 1 -view "Camera 1"
+geom_set_camera_params -view "Camera 1" -front -88 -back 112
+geom_set_depth_cue_params "Camera 1" -scale 0.1
+#
+# Light state
+#
+geom_set_light -light 1 -type directional -state 1
+geom_set_light -type ambient -state 1
+#
+# State for object: top
+#
+geom_set_cur_cli_obj top
+geom_set_matrix   -mat \
+                  0.963917    0.170821    0.204166    0 \
+                    -0.140139    -0.326453    0.934767    0 \
+                    0.226329    -0.92965    -0.290735    0 \
+                    0    0    0    1 
+#
+# State for object: edit_mol
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "Mol Display.user.1"
+geom_create_obj edit_mol -mod "Mol Display.user.1"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: "No Molecule"
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "Mol Display.user.1"
+geom_create_obj "No Molecule" -mod "Mol Display.user.1"
+geom_set_name_context
+#
+# State for object: Selected
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "Mol Display.user.1"
+geom_create_obj Selected -mod "Mol Display.user.1"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+#
+# State for object: UnSelected
+#
+geom_set_cur_cli_obj -push
+geom_set_name_context "Mol Display.user.1"
+geom_create_obj UnSelected -mod "Mol Display.user.1"
+geom_set_name_context
+geom_set_cur_cli_obj -pop
+geom_set_cur_cli_obj -pop
+shell "ui" shell
+ panel Application -w app_panel -p ui -xy 0,0 -wh 260,980
+  panel "Top Level Stack" -w master_stack -p Application -xy 2,100 -wh 258,933
+   panel "Mol Display.user.1" -w panel -p "Top Level Stack" -xy 0,193 -wh 257,740
+    manipulator "Mol Display.user.1:Reset" -w toggle -p "Mol Display.user.1" \
+        -xy 10,10 -wh 118,22
+    manipulator "Mol Display.user.1:CenterRotations" -w toggle -p "Mol Display.user.1" \
+        -xy 130,10 -wh 118,22
+    manipulator "Mol Display.user.1:Main Menu" -w radio_buttons -p "Mol Display.user.1" \
+        -xy 40,32 -wh 177,66
+    manipulator "Mol Display.user.1:Submenu2 Label" -w text -p "Mol Display.user.1" -hide \
+        -xy 40,97 -wh 177,22
+    manipulator "Mol Display.user.1:ShowDummyAtoms" -w toggle -p "Mol Display.user.1" -hide \
+        -xy 40,120 -wh 177,22
+    manipulator "Mol Display.user.1:RepresentationSub" -w radio_buttons -p "Mol Display.user.1" -hide \
+        -xy 40,142 -wh 177,132
+    manipulator "Mol Display.user.1:Stick Sides" -w idial -p "Mol Display.user.1" -hide \
+        -xy 40,273 -wh 90,130
+    manipulator "Mol Display.user.1:Stick Radius" -w dial -p "Mol Display.user.1" -hide \
+        -xy 130,273 -wh 90,130
+    manipulator "Mol Display.user.1:Ball Sides" -w idial -p "Mol Display.user.1" -hide \
+        -xy 40,403 -wh 90,130
+    manipulator "Mol Display.user.1:Ball Radius" -w dial -p "Mol Display.user.1" -hide \
+        -xy 130,403 -wh 90,130
+    manipulator "Mol Display.user.1:CPK Sides" -w idial -p "Mol Display.user.1" -hide \
+        -xy 40,533 -wh 90,130
+    manipulator "Mol Display.user.1:CPK Radius" -w dial -p "Mol Display.user.1" -hide \
+        -xy 130,533 -wh 90,130
+    manipulator "Mol Display.user.1:NameToggle" -w toggle -p "Mol Display.user.1" -hide \
+        -xy 40,120 -wh 177,22
+    manipulator "Mol Display.user.1:NumberToggle" -w toggle -p "Mol Display.user.1" -hide \
+        -xy 40,142 -wh 177,22
+    manipulator "Mol Display.user.1:HybridToggle" -w toggle -p "Mol Display.user.1" -hide \
+        -xy 40,164 -wh 177,22
+    manipulator "Mol Display.user.1:ChargeToggle" -w toggle -p "Mol Display.user.1" -hide \
+        -xy 40,185 -wh 177,22
+    manipulator "Mol Display.user.1:Label Font" -w idial -p "Mol Display.user.1" -hide \
+        -xy 40,230 -wh 90,130
+    manipulator "Mol Display.user.1:Label Height" -w dial -p "Mol Display.user.1" -hide \
+        -xy 130,230 -wh 90,130
+    manipulator "Mol Display.user.1:ColorSub" -w radio_buttons -p "Mol Display.user.1" -hide \
+        -xy 40,120 -wh 177,44
+   panel "Periodic Table.user.2" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 255,324
+    manipulator "Periodic Table.user.2:Show Table" -w toggle -p "Periodic Table.user.2" \
+        -xy 40,10 -wh 177,22
+    manipulator "Periodic Table.user.2:Send Table" -w toggle -p "Periodic Table.user.2" \
+        -xy 40,32 -wh 177,22
+    manipulator "Periodic Table.user.2:Read Table" -w toggle -p "Periodic Table.user.2" \
+        -xy 40,54 -wh 177,22
+    manipulator "Periodic Table.user.2:Write Table" -w toggle -p "Periodic Table.user.2" \
+        -xy 40,75 -wh 177,22
+    manipulator "Periodic Table.user.2:Read Browser" -w browser -p "Periodic Table.user.2" -hide \
+        -xy 10,120 -wh 235,194
+    manipulator "Periodic Table.user.2:Write Browser" -w browser -p "Periodic Table.user.2" -hide \
+        -xy 10,120 -wh 235,194
+   panel "Mol Defaults.user.3" -w panel -p "Top Level Stack" \
+       -xy 0,193 -wh 226,42
+    manipulator "Mol Defaults.user.3:Use Element Symbols" -w toggle -p "Mol Defaults.user.3" \
+        -xy 40,10 -wh 177,22
+   panel "Mol Editor.user.5" -w panel -p "Top Level Stack" -xy 0,193 -wh 258,724
+    manipulator "Mol Editor.user.5:Prompts" -w text -p "Mol Editor.user.5" \
+        -xy 10,10 -wh 236,22
+    manipulator "Mol Editor.user.5:Undo" -w toggle -p "Mol Editor.user.5" \
+        -xy 10,54 -wh 118,22
+    manipulator "Mol Editor.user.5:Clean" -w toggle -p "Mol Editor.user.5" \
+        -xy 130,54 -wh 118,22
+    manipulator "Mol Editor.user.5:Clear" -w toggle -p "Mol Editor.user.5" \
+        -xy 10,75 -wh 118,22
+    manipulator "Mol Editor.user.5:Center" -w toggle -p "Mol Editor.user.5" \
+        -xy 130,75 -wh 118,22
+    manipulator "Mol Editor.user.5:EditMess" -w radio_buttons -p "Mol Editor.user.5" \
+        -xy 40,97 -wh 177,330
+    manipulator "Mol Editor.user.5:Submenu2 Label" -w text -p "Mol Editor.user.5" \
+        -xy 40,428 -wh 177,22
+    manipulator "Mol Editor.user.5:MoveSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,88
+    manipulator "Mol Editor.user.5:DeleteSelectedOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,22
+    manipulator "Mol Editor.user.5:DeleteSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,472 -wh 177,66
+    manipulator "Mol Editor.user.5:AtomTypeSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,264
+    manipulator "Mol Editor.user.5:BondTypeSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,88
+    manipulator "Mol Editor.user.5:AllHydrogensOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,22
+    manipulator "Mol Editor.user.5:NoHydrogensOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,472 -wh 177,22
+    manipulator "Mol Editor.user.5:HydrogensSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,493 -wh 177,44
+    manipulator "Mol Editor.user.5:HybridizationSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,88
+    manipulator "Mol Editor.user.5:GeometrySub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,220
+    manipulator "Mol Editor.user.5:MoleculeCenterOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,22
+    manipulator "Mol Editor.user.5:MoleculeReflectOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,472 -wh 177,22
+    manipulator "Mol Editor.user.5:OrientMoleculeSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,493 -wh 177,198
+    manipulator "Mol Editor.user.5:OrientFragmentSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,220
+    manipulator "Mol Editor.user.5:AllSelectOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,22
+    manipulator "Mol Editor.user.5:AllUnSelectOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,472 -wh 177,22
+    manipulator "Mol Editor.user.5:SelectionSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,493 -wh 177,176
+    manipulator "Mol Editor.user.5:CopySelectedOneShot" -w toggle -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,22
+    manipulator "Mol Editor.user.5:Copy/PasteSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,472 -wh 177,22
+    manipulator "Mol Editor.user.5:Fuse/JoinSub" -w radio_buttons -p "Mol Editor.user.5" -hide \
+        -xy 40,450 -wh 177,44
+    manipulator "Mol Editor.user.5:ZmatrixShowMatrixToggle" -w toggle -p "Mol Editor.user.5" \
+        -xy 40,450 -wh 177,22
+    manipulator "Mol Editor.user.5:ZmatrixResetOneShot" -w toggle -p "Mol Editor.user.5" \
+        -xy 40,472 -wh 177,22
+    manipulator "Mol Editor.user.5:ZmatrixAutoFillOneShot" -w toggle -p "Mol Editor.user.5" \
+        -xy 40,493 -wh 177,22
+    manipulator "Mol Editor.user.5:ZmatrixSub" -w radio_buttons -p "Mol Editor.user.5" \
+        -xy 40,515 -wh 177,44
+    manipulator "Mol Editor.user.5:UserInput" -w typein -p "Mol Editor.user.5" -hide \
+        -xy 10,32 -wh 236,22
+    manipulator "Mol Editor.user.5:UserOutput" -w text -p "Mol Editor.user.5" -hide \
+        -xy 10,32 -wh 236,22
+   panel "G92 Setup.user.6" -w panel -p "Top Level Stack" -xy 0,193 -wh 255,554
+    manipulator "G92 Setup.user.6:Undo" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,10 -wh 177,22
+    manipulator "G92 Setup.user.6:SaveZmatrix" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,54 -wh 177,22
+    manipulator "G92 Setup.user.6:Save/ClearZmatrix" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,75 -wh 177,22
+    manipulator "G92 Setup.user.6:RestoreZmatrix" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,97 -wh 177,22
+    manipulator "G92 Setup.user.6:TableChoice" -w radio_buttons -p "G92 Setup.user.6" \
+        -xy 10,142 -wh 177,66
+    manipulator "G92 Setup.user.6:ShortOptions" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,207 -wh 177,22
+    manipulator "G92 Setup.user.6:FullOptions" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,230 -wh 177,22
+    manipulator "G92 Setup.user.6:WriteFile" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,273 -wh 177,22
+    manipulator "G92 Setup.user.6:EditFile" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,295 -wh 177,22
+    manipulator "G92 Setup.user.6:SubmitG92" -w toggle -p "G92 Setup.user.6" \
+        -xy 10,317 -wh 177,22
+    manipulator "G92 Setup.user.6:G92File" -w browser -p "G92 Setup.user.6" -hide \
+        -xy 10,350 -wh 235,194
+   panel "G92 Reader.user.7" -w panel -p "Top Level Stack" -xy 0,193 -wh 256,684
+    manipulator "G92 Reader.user.7:ReadStatus" -w text -p "G92 Reader.user.7" \
+        -xy 10,10 -wh 236,44
+    manipulator "G92 Reader.user.7:ReadFile" -w radio_buttons -p "G92 Reader.user.7" \
+        -xy 40,76 -wh 177,66
+    manipulator "G92 Reader.user.7:ReadChkFile" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,142 -wh 177,22
+    manipulator "G92 Reader.user.7:SelectItemMessage" -w text -p "G92 Reader.user.7" -hide \
+        -xy 40,164 -wh 177,22
+    manipulator "G92 Reader.user.7:Structure" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,186 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 0" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,208 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 1" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,230 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 2" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,252 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 3" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,274 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 4" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,296 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 5" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,318 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 6" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,340 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 7" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,362 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 8" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,384 -wh 177,22
+    manipulator "G92 Reader.user.7:Choice 9" -w toggle -p "G92 Reader.user.7" -hide \
+        -xy 40,406 -wh 177,22
+    manipulator "G92 Reader.user.7:FormatChoice" -w radio_buttons -p "G92 Reader.user.7" -hide \
+        -xy 10,142 -wh 236,22
+    manipulator "G92 Reader.user.7:CubeDensityChoice" -w radio_buttons -p "G92 Reader.user.7" -hide \
+        -xy 10,164 -wh 236,132
+    manipulator "G92 Reader.user.7:InputDeckExtension" -w typein -p "G92 Reader.user.7" -hide \
+        -xy 10,318 -wh 236,22
+    manipulator "G92 Reader.user.7:G92 Input Deck Browser" -w browser -p "G92 Reader.user.7" -hide \
+        -xy 10,340 -wh 236,334
+    manipulator "G92 Reader.user.7:ChkFileExtension" -w typein -p "G92 Reader.user.7" -hide \
+        -xy 10,428 -wh 236,22
+    manipulator "G92 Reader.user.7:G92 ChkFile Browser" -w browser -p "G92 Reader.user.7" -hide \
+        -xy 10,450 -wh 236,194
+    manipulator "G92 Reader.user.7:DenFileExtension" -w typein -p "G92 Reader.user.7" -hide \
+        -xy 10,318 -wh 236,22
+    manipulator "G92 Reader.user.7:G92 DenFile Browser" -w browser -p "G92 Reader.user.7" -hide \
+        -xy 10,340 -wh 236,334
+ panel "geometry viewer.user.4!display" -w container -p ui -xy 300,22 -wh 611,643\
+   -P zoom_coords string "0 0 0 0 0 <$NULL> 0 0 0 0"
+manipulator "geometry viewer.user.4":object -w none
+# End of file

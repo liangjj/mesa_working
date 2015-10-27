@@ -1,0 +1,35 @@
+c      call cgeev(smat,nsmall,nfree,seig,svec,nsmall,swork,job,inform)
+	write(6,*)' S-matrix'
+      do 670 i=1,nfree
+670   write(6,777) i,(smat(j,i),j=1,nfree)
+      jobvl='n'
+      jobvr='v'
+      lwork=2*nbig
+      call zgeev(jobvl,jobvr,nfree,smat,nsmall,seig,svec,nsmall,
+     &           svec,nsmall,swork,lwork,srwork,inform)
+      if(inform.ne.0) write(6,1299) inform
+1299  format(//,' *** S-matrix diagonalization failed, inform =',i5)
+      phasesum = 0.0
+      do 573 i = 1,nfree
+         arg1=imag(seig(i))
+         arg2=dble(seig(i))
+      phase = atan2(arg1,arg2)
+      phase=phase*0.5
+      rtest = abs(seig(i))
+      phasesum=phasesum + phase
+      write(6,574) i, phase,rtest
+574   format(' eigenphase #',i3,' =',f12.5,' modulus =',f12.5)
+573   continue
+      write(63,587) eept,crpt,phasesum
+ 587  format(3f15.7)
+      write(6,576)phasesum,(kchan(i),i=1,nopen)
+  576 format(' eigenphase sum =',f12.5,
+     # ' for channel momenta:', (6f12.5))
+      if (ibcondx.ne.0) then
+      eincidnt = kchan(1)**2/2.
+884   format(' incident energy =',f15.10)
+      endif
+1000  continue
+c
+      stop
+      end

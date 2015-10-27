@@ -1,0 +1,9 @@
+#PBS -N mesa_test
+#PBS -S /bin/bash
+#PBS -j oe
+#PBS -l walltime=1:00:00,nodes=1:ppn=1,mem=6gb
+
+$MESA/tests/mesa_test_${test}.job
+
+
+

@@ -1,0 +1,16 @@
+$route
+2s+1=1 print=(basis,scf=(vector=all))
+hf scf=(convergence=6,pulay)
+guess=huckel
+basis=(3s2p1d)
+sym=off
+$title
+o3
+$geom
+o1
+o2 o1 r1
+o3 o1 r1 o2 a1
+ 
+r1=1.278
+a1=116.8
+$end

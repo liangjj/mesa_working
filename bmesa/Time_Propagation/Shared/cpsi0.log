@@ -1,0 +1,118 @@
+This is TeX, Version 3.14159 (Web2c 7.0) (format=latex 97.7.11)  28 JAN 2002 07:45
+**cpsi0
+(cpsi0.tex
+LaTeX2e <1996/12/01>
+(/usr/local/texmf/tex/latex/base/article.cls
+Document Class: article 1996/10/31 v1.3u Standard LaTeX document class
+(/usr/local/texmf/tex/latex/base/size10.clo
+File: size10.clo 1996/10/31 v1.3u Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 1999/02/16 v1.0l Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texmf/tex/latex/config/graphics.cfg)
+Package graphics Info: Driver file: dvips.def on input line 80.
+
+(/usr/local/texmf/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+) (cpsi0.aux)
+\openout1 = `cpsi0.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 10.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 10.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 10.
+
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 61--61
+[]\OT1/cmtt/m/n/10 ***purpose            calculate the spatial part of the init
+ial wavepacket.[] 
+ []
+
+
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 61--61
+[]     \OT1/cmtt/m/n/10 1                 wt1,wt2,wt3,psi0,energy,t0,n,nd,dim,c
+oord,tim,[] 
+ []
+
+[1
+
+]
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 61--61
+[]                \OT1/cmtt/m/n/10 call nrpaket(norm,q1,q2,q3,wt1,wt2,wt3,sigma
+,x_0,beta,[] 
+ []
+
+[2]
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 110--110
+[]         \OT1/cmtt/m/n/10 call iosys ('read real solution from bec',n*2,psi0,
+0,' ')[] 
+ []
+
+
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 110--110
+[] \OT1/cmtt/m/n/10 1    format(/,1x,'initial state construction at first time 
+= ',e15.8,[] 
+ []
+
+
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 110--110
+[]     \OT1/cmtt/m/n/10 1       /,1x,'driver                                   
+= ',a24)[] 
+ []
+
+
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 110--110
+[] \OT1/cmtt/m/n/10 2    format(/,1x,'initial state from input file at time = '
+,e15.8)[] 
+ []
+
+[3] (cpsi0.aux) ) 
+Here is how much of TeX's memory you used:
+ 521 strings out of 10980
+ 5592 string characters out of 73771
+ 53027 words of memory out of 263001
+ 3418 multiletter control sequences out of 10000+0
+ 6843 words of font info for 25 fonts, out of 100000 for 500
+ 14 hyphenation exceptions out of 1000
+ 25i,6n,19p,210b,298s stack positions out of 300i,100n,500p,3000b,4000s
+
+Output written on cpsi0.dvi (3 pages, 4372 bytes).

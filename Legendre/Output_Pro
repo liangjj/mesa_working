@@ -1,0 +1,22 @@
+           ******************************************************************************
+               Begin Prolate Test Calculation =                                 test_legendre                                   
+           ******************************************************************************
+
+          Maximum L                             =     50 Maximum M                      =     50
+          Number of Points                      =      1
+          Continued Fraction Convergence =  1.00000000E-15 Backward Recurrence Method            = Miller                  
+
+               Testing Spheroidal Expansion at Internuclear Distance =  1.40000000E+00
+
+          Coordinates: x_1  =   1.00000000E+01 y_1   =  -2.00000000E+00 z_1  =  -5.00000000E+01
+                       x_2  =   5.00000000E+00 y_2   =   1.00000000E+00 z_2  =  -3.00000000E+00
+                       xi_1 =   7.28994215E+01 eta_1 =   9.79823570E-01
+                       xi_2 =   8.49553322E+00 eta_2 =   5.04466780E-01
+ downward recursion
+ l =  50 m =   0 Iteration Count =     5
+ Convergence =   0.00000000000E+00 Final Value of Continued Fraction =   6.79117594357E-03
+ l =  50 m =   1 Iteration Count =     5
+ Convergence =   0.00000000000E+00 Final Value of Continued Fraction =   6.92699933713E-03
+ 1/r_12 (Neuman) real =  2.111472177657530E-02
+ 1/r_12 (Neuman) imag =  7.985712207514141E-22
+ 1/r_12 (direct)      =  2.111472177657533E-02

@@ -1,0 +1,35 @@
+!***********************************************************************
+! Mathematics_Utilities_Module                                                                                   
+!**begin prologue     Mathematics_Utilities_Module                                                        
+!**date written       090119   (yymmdd)                                                                              
+!**revision date               (yymmdd)                                                                             
+!**keywords                                                            
+!**                                                                                                                 
+!**author             schneider, b. i.(nsf)                                                                          
+!**source             Utilities                                                                               
+!**purpose                                                 
+!***                                                                                               
+!***references                                                                                                       
+!***comments                                                                                                         
+!***                                                                                                                 
+!***                                                                                                                 
+!***end prologue      Mathematics_Utilities_Module                                                                  
+!***********************************************************************                                             
+!***********************************************************************                                             
+                           MODULE Mathematics_Utilities_Module                                                       
+                           USE input_output
+                           USE accuracy
+!***********************************************************************                                             
+!***********************************************************************                                             
+!                          Explicit Interfaces                                                                       
+!***********************************************************************                                             
+                            INTERFACE LaGrange_Polynomials
+                       MODULE PROCEDURE Polynomials,                    &
+                                        Fourier_Polynomials
+                            END INTERFACE LaGrange_Polynomials
+!                                                                                                                    
+!***********************************************************************                                             
+!***********************************************************************                                             
+                              CONTAINS
+!***********************************************************************                                             
+!***********************************************************************                        

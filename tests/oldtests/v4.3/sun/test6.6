@@ -1,0 +1,496 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      8-Jul-1993 17:53:16    
+     los alamos national laboratory;sun 4/280s(vivaldi);                             
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test6.6                                                                                                    
+     out:    /usr2/mesa/tests/out/sun/test6.6                                                                                                
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf                                                                                                                
+     rint:   /vivaldi/tmp/rint                                                                                                               
+     int:    /vivaldi/tmp/int                                                                                                                
+     tint:   /vivaldi/tmp/tint                                                                                                               
+     gint:   /vivaldi/tmp/gint                                                                                                               
+     rdint:  /vivaldi/tmp/rdint                                                                                                              
+     dint:   /vivaldi/tmp/dint                                                                                                               
+     zint:   /vivaldi/tmp/zint                                                                                                               
+     ham:    /vivaldi/tmp/ham                                                                                                                
+     moden:  /vivaldi/tmp/moden                                                                                                              
+     aoden:  /vivaldi/tmp/aoden                                                                                                              
+     saoden: /vivaldi/tmp/saoden                                                                                                             
+     gden:   /vivaldi/tmp/gden                                                                                                               
+     fci:    /vivaldi/tmp/fci                                                                                                                
+     machine size:          4000000
+     user defined maxsiz:    125000
+ title:
+      h2o test case:  casscf(903) geometry/vectors from optimization run.            
+                      forceconstantsinternal/two-point formula       
+ route:
+     1//1,2;
+     8//5;
+     :d2e;
+     2//5(:endd2e);
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//53;
+     8//12,40;
+     7//1,2,12,31(:d2e);
+     :endd2e;
+     20//01;
+ options:
+     maxsiz=125000,basis=dz,sym=off mcscf=(cas,cycles=10,number-of-core-orbitals=3,co
+     nvergence=12) drtmc=(rdsym,nsym=1,nbf=4,vexcite=99), guess=(chk=mcscf) geom=rdch
+     k print=(gradient=total) frequencies force-constants=(numerical=(two-point))
+
+ m101:  process geometry input.
+    z-matrix read from checkpoint file 
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   0.953358 r1      
+      3   3   h  dz          1   0.977056 r2        2  110.863 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ m805:mcscf drt generation
+     number of symmetries:         1
+     number of basis functions:    4
+     number of references:         1
+     number of groups:             0
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  2   2        doubly occupied    0
+             3-  4   2        unoccupied         0
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+     integral information:
+         number of integrals:      113
+         number of groups:           1
+         group size:               113
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1             20            20        20       F
+         number of intermediate walks:        20
+ m205:numerical second derivatives
+     initialization pass
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     0.95336   0.00000
+                 h2     0.97706   1.58966   0.00000
+ interatomic angles:
+          h2-o1-h3 =110.8634
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    0.953358
+      3   3   h              0.912993    0.000000   -0.347970
+ rotational constants (ghz):    942.1636361    396.6765092    279.1477262
+ isotopes:
+     o       h1      h2      
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262665( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055898851      1.406E-15
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    2
+
+ active  one-electron energy       -10.317742676798
+         h(1)         energy       -27.533294127577
+         2j-k         energy        17.215551450778
+ active  two-electron energy         3.812214358303
+ active  electronic   energy        -6.505528318495
+ core    electronic   energy       -78.656619552592
+         h(1)         energy       -95.239011160845
+         2j-k         energy        16.582391608253
+ total   electronic   energy       -85.162147871087
+         h(1)         energy      -122.772305288422
+         g(2)         energy        37.610157417335
+ nuclear repulsion    energy         9.106249019684
+ *total* mcscf        energy       -76.055898851403
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.56E-15
+     memory use                            75007
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                       770933(280.5%)
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1     0.0000286  -0.0000037  -0.0000250
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0000194   0.0000137   0.0000057
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8       -0.000029    0.000000    0.000019
+       2          1        0.000004    0.000000   -0.000014
+       3          1        0.000025    0.000000   -0.000006
+     max     0.000029     rms     0.000015
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1  -0.000014 (  1)
+           3   h     1   0.000025 (  2)   2  -0.000007 (  3)
+ m205:numerical second derivatives
+     d2e cycle    0
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055859392      4.706E-06
+          second order option invoked .. 
+             2       -76.055868957      5.314E-08
+          second order option invoked .. 
+             3       -76.055869014      4.502E-14
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.316140884551
+         h(1)         energy       -27.525233815913
+         2j-k         energy        17.209092931362
+ active  two-electron energy         3.811986927348
+ active  electronic   energy        -6.504153957203
+ core    electronic   energy       -78.632546929286
+         h(1)         energy       -95.202473509903
+         2j-k         energy        16.569926580617
+ total   electronic   energy       -85.136700886489
+         h(1)         energy      -122.727707325816
+         g(2)         energy        37.591006439327
+ nuclear repulsion    energy         9.080831872267
+ *total* mcscf        energy       -76.055869014222
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.89E-15
+     memory use                            75007
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1     0.0003948  -0.0001957  -0.0001991
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0057881   0.0059177  -0.0001296
+ m205:numerical second derivatives
+     d2e cycle    1
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055829881      1.873E-05
+          second order option invoked .. 
+             2       -76.055868318      2.208E-07
+          second order option invoked .. 
+             3       -76.055868554      6.574E-13
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.319385735252
+         h(1)         energy       -27.541460486245
+         2j-k         energy        17.222074750993
+ active  two-electron energy         3.812456097631
+ active  electronic   energy        -6.506929637622
+ core    electronic   energy       -78.680882443787
+         h(1)         energy       -95.275810858953
+         2j-k         energy        16.594928415166
+ total   electronic   energy       -85.187812081409
+         h(1)         energy      -122.817271345198
+         g(2)         energy        37.629459263789
+ nuclear repulsion    energy         9.131943527578
+ *total* mcscf        energy       -76.055868553831
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.13E-14
+     memory use                            75007
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1    -0.0003399   0.0001906   0.0001493
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0059695  -0.0061105   0.0001410
+ m205:numerical second derivatives
+     d2e cycle    2
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055857450      1.447E-05
+          second order option invoked .. 
+             2       -76.055874137      3.739E-07
+          second order option invoked .. 
+             3       -76.055874177      4.838E-14
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.297296868220
+         h(1)         energy       -27.500227331955
+         2j-k         energy        17.202930463735
+ active  two-electron energy         3.805536074171
+ active  electronic   energy        -6.491760794049
+ core    electronic   energy       -78.646106226865
+         h(1)         energy       -95.228748403883
+         2j-k         energy        16.582642177018
+ total   electronic   energy       -85.137867020915
+         h(1)         energy      -122.728975735839
+         g(2)         energy        37.591108714924
+ nuclear repulsion    energy         9.081992843639
+ *total* mcscf        energy       -76.055874177275
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.11E-14
+     memory use                            75007
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1    -0.0042875  -0.0002365   0.0045240
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0020708  -0.0001009  -0.0019698
+ m205:numerical second derivatives
+     d2e cycle    3
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055842319      2.902E-05
+          second order option invoked .. 
+             2       -76.055872692      1.917E-06
+          second order option invoked .. 
+             3       -76.055873035      5.885E-12
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.338316532683
+         h(1)         energy       -27.566586706982
+         2j-k         energy        17.228270174299
+ active  two-electron energy         3.818928823900
+ active  electronic   energy        -6.519387708782
+ core    electronic   energy       -78.667248625313
+         h(1)         energy       -95.249395781524
+         2j-k         energy        16.582147156210
+ total   electronic   energy       -85.186636334095
+         h(1)         energy      -122.815982488505
+         g(2)         energy        37.629346154410
+ nuclear repulsion    energy         9.130763298950
+ *total* mcscf        energy       -76.055873035146
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.92E-15
+     memory use                            75007
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1     0.0045220   0.0002293  -0.0047513
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0021800   0.0001284   0.0020516
+ m205:numerical second derivatives
+     d2e cycle    4
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055875316      2.836E-05
+          second order option invoked .. 
+             2       -76.055890073      5.940E-08
+          second order option invoked .. 
+             3       -76.055890104      5.217E-14
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.320121809845
+         h(1)         energy       -27.535595631398
+         2j-k         energy        17.215473821553
+ active  two-electron energy         3.812910107020
+ active  electronic   energy        -6.507211702825
+ core    electronic   energy       -78.653788888571
+         h(1)         energy       -95.237098758156
+         2j-k         energy        16.583309869585
+ total   electronic   energy       -85.161000591396
+         h(1)         energy      -122.772694389555
+         g(2)         energy        37.611693798158
+ nuclear repulsion    energy         9.105110486987
+ *total* mcscf        energy       -76.055890104409
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.67E-15
+     memory use                            75007
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1     0.0009443  -0.0009654   0.0000212
+   2     0.0000000   0.0000000   0.0000000
+   3     0.0006601   0.0003603  -0.0010203
+ m205:numerical second derivatives
+     d2e cycle    5
+ m553:  second order mcscf by b. lengsfield, b. liu and m. yoshimine
+     using m903 for casscf of    20 configurations
+       iteration   mcscf energy        convergence
+             1       -76.055856626      1.167E-04
+          second order option invoked .. 
+             2       -76.055890102      9.399E-07
+          second order option invoked .. 
+             3       -76.055890168      3.649E-13
+
+ ** mcscf converged -- computing final energy and hessian **
+ ao core  fock operator used to rotate orbitals
+ 1pdm matrix used to rotate active orbitals
+
+
+ **** energy computed from the density in iteration    4
+
+ active  one-electron energy       -10.315357458092
+         h(1)         energy       -27.531005842548
+         2j-k         energy        17.215648384456
+ active  two-electron energy         3.811517810622
+ active  electronic   energy        -6.503839647470
+ core    electronic   energy       -78.659454291620
+         h(1)         energy       -95.240924518189
+         2j-k         energy        16.581470226569
+ total   electronic   energy       -85.163293939090
+         h(1)         energy      -122.771930360738
+         g(2)         energy        37.608636421647
+ nuclear repulsion    energy         9.107403771028
+ *total* mcscf        energy       -76.055890168063
+ m812: density matrix transformation
+     vector used:                   "mcscf vector"  
+     number of basis functions:                14
+     orthonormality deviation           0.98E-15
+     memory use                            75007
+
+     the mcscf first derivatives
+             1           2           3
+  ------------------------------------------
+   1    -0.0008785   0.0009695  -0.0000910
+   2     0.0000000   0.0000000   0.0000000
+   3    -0.0007066  -0.0003357   0.0010422
+ m205:numerical second derivatives
+     d2e cycle    6
+     finite difference second derivative calculation:
+     double point difference formula: stepsize = 0.010
+     the internal coordinate force constant matrix
+                             r1        r2        a1                              
+                 r1     0.60141  -0.01146   0.03480
+                 r2    -0.01146   0.50497   0.04197
+                 a1     0.03480   0.04196   0.17430
+     calculation of vibrational frequencies
+
+     zero point vibrational energy:    13.64 kcal/mole
+     ***** normal modes of vibration *****
+     cartesian normal modes 
+                              1         2         3         4         5
+     frequencies --         0.0       0.0       0.0       0.0       0.0
+         1             -0.08520   0.21582   0.50736   0.00002  -0.00013
+         2             -0.23220   0.56375   0.56329   0.00000  -0.00013
+         3             -0.65262  -0.63417   0.27236   0.00005  -0.00011
+         4             -0.56921   0.27057  -0.26864  -0.00003   0.00009
+         5              0.00000   0.00000   0.00018   0.65953   0.75168
+         6             -0.16382  -0.15919   0.06837   0.00001  -0.00003
+         7              0.17857  -0.02481   0.27189   0.00002  -0.00008
+         8              0.00000  -0.00007   0.00023  -0.75168   0.65953
+         9              0.36081  -0.36642   0.44760   0.00004  -0.00014
+                              6         7         8         9
+     frequencies --         0.0    1698.5    3730.5    4111.0
+         1             -0.76614  -0.23962  -0.20282   0.05678
+         2              0.55765   0.00000   0.00000   0.00000
+         3              0.09425  -0.15659   0.03947  -0.25055
+         4             -0.23919   0.68533  -0.05716  -0.02154
+         5              0.00000   0.00000   0.00000   0.00000
+         6              0.02366   0.01083   0.23220   0.94263
+         7             -0.17520   0.26926   0.86515  -0.20468
+         8              0.00000   0.00000   0.00000   0.00000
+         9              0.06855   0.61300  -0.38942   0.05552
+     internal coordinate normal modes 
+                              1         2         3
+     frequencies --      1698.5    3730.5    4111.0
+                 r1     0.02977   0.23800   0.97578
+                 r2     0.09150   0.97077  -0.21846
+                 a1    -0.99536   0.03096   0.01178
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       2.4       0.4       0.0         0
+      101         1       1.2       0.5       0.0         0
+      102         1      15.0       0.6       0.0         0
+      805         1       1.7       0.5       0.0         0
+      205         8      19.9      32.9       0.0         0
+      202         7      11.5       2.5       0.0         0
+      302         7      15.0       2.3       0.0         0
+      312         7     121.8       7.6       0.0         0
+      330         7       7.7       4.4       0.0         0
+      401         7      13.6       2.7       0.0         0
+      553         7     361.9      75.1       0.0         0
+      812         7      10.1       4.0       0.0         0
+      840         7       5.6       3.4       0.0         0
+      701         7       4.9       1.9       0.0         0
+      702         7      23.0       2.4       0.0         0
+      712         7     502.2      14.7       0.0         0
+      731         7       3.8       1.8       0.0         0
+             total:    1121.3     157.7       0.0         0

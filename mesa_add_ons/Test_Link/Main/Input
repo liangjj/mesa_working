@@ -1,0 +1,23 @@
+$data
+ title=test_legendre l_max=5 m_max=5
+ number_of_points=2 input_values 
+ upper_limit=1.0 lower_limit=-1.0 
+ points=(.5d0,1.001d0) type=irregular 
+ Downward_Recurance=B normalize Method=F90 precision=1.d-20
+$end
+
+&input_data
+title='test_legendre', l_max=10, m_max=5,
+n_points=2, input_values=.true., upper=1.0,
+lower=-1.0, directive='irregular', normalize=.true., 
+Method='F90' recur='B' eps=1.d-10 /
+&input_data
+x= .5d0 1.00000001d0 /		 
+
+
+
+
+
+
+
+

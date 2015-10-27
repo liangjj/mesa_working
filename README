@@ -1,0 +1,67 @@
+***Installing MESA****
+
+  1. Set environment variables in .cshrc or appropriate bash file.
+
+           MESA_HOME =  /xxx/mesa_working
+           * Location of your copy of mesa sources
+           * the mesa.dat file should reside there or soft link to where it actually resides
+           MESA_BIN =  /xxx/mesa/bin
+           * Location of mesa executables and also where the run scripts
+             look for the executables.  MESA_HOME has a bin subdirectory
+             where one usually stores them but it can be anywhere.
+           MESA_TMP  = /xxx/user/tmp
+           * This is used by the Makefiles and scripts to set up the directory for the
+             rwf, rint, int, etc. files. it should point to a place where you
+             have plenty of room such as a large disk or SSD. It is essential to have a separate directory of
+             this sort for each user, and perhaps even for each user on each machine that they use so
+             that one users rwf file wont accidentally overwrite anothers.  While overwriting file names
+             can be prevented by setting unique names, the default name is fixed.  Note also,
+             When you set this, dont forget to actually create the /xxx/user/tmp
+             directory.  I usually have a run directory on each machine and create a soft link to
+             a directory with lots of space on that machine.  One certainly does not want MESA_TMP to
+             be physically on another machine as one can imagine the time it will take to move large files
+             to and from that space.
+           * It has been shown useful for each user to set up a small directory in which they run mesa.  
+             For example, I have a /xxx/mesa_working/run where I run the code and also create 
+             the softlink to the MESA_TMP directory.  There are subdirectories of this directory
+             such as  inp/    out/   chk/ to store needed input,output and check files.  
+             I also keep my runmesa script there which runs the mesa jobs.  If run in the 
+             background, there is a log file produced with timing statistics.
+
+
+  2. Makefiles.
+
+           *A lot of the original way in which the Makefiles were set up are now moot.
+            The way things are set up currently, which may not be to everyones liking,
+            is to use environment variables that are created at log in time.  These
+            are either defined in your .cshrc or .bash_profile file or defined by scripts
+            which are executed from the .cshrc or .bash_profile file.  The needed
+            scripts are located in a directory /xxx/scripts.  Here is a snippet from
+            my .bash_profile file;
+
+                     SOURCES=/home/bis/Sources
+
+                     COMPILER_VERSION=intel
+
+                     MPI_VERSION=mvapich2
+
+                     export $COMPILER_VERSION
+
+                     echo '                       Information on Compiler'
+
+                     echo 'Fortran Compiler = ' $COMPILER_VERSION
+
+                   . $SOURCES/scripts/c_env.sh $COMPILER_VERSION
+
+                   . $SOURCES/scripts/fortran_env.sh $COMPILER_VERSION
+
+                   . $SOURCES/scripts/math_env.sh $COMPILER_VERSION
+
+                   . $SOURCES/scripts/mpi_env.sh $MPI_VERSION
+
+These scripts contain directives to create the environmental variables;
+
+                      * F90                 the fortran compiler
+
+                      * F90FLAGS            the compiler flags
+

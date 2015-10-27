@@ -1,0 +1,869 @@
+*Deck M6008
+c***begin prologue     M6008
+c***date written       890524   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           m6008, link 6008, Kohn
+c***author             Schneider, Barry (LANL)
+c***source             m6008
+c***purpose            Hamiltonian Matrix Elements For Kohn
+c***                   Variational Calculations.
+c***description        Bound-Bound, Free-Free And Bound-Free Kohn
+c***                   One-Body Matrix Elements Assembled Into Form
+c***                   Needed In Kohn Method. Input Matrices In MO
+c***                   Representation.
+c***references       
+c
+c***routines called    IOsys, Util and MDutil
+c***end prologue       M6008
+      program kohnmt
+      implicit integer (a-z)
+      parameter (dimc=30 , dimmo=200, dime=100)
+      real*8 z, e0, dele, eshft, echan, energy, ecore
+      common z(1)
+      dimension a(1)
+      equivalence (z,a)
+      common /io / inp, iout
+c----------------------------------------------------------------------c
+c        The Small Arrays Below Are The Only Explicitly Dimensioned    c
+c             Arrays In The Code (See Parameter Statement)             c
+c----------------------------------------------------------------------c
+      dimension  nlm(dimc), ntrgt(dimc), nbscat(dimc), echan(dimc)
+      dimension orblst(dimmo,dimc), finlst(dimmo,dimc), energy(dime)
+      dimension nbtot(dimc), zeroc(dimc)
+      logical logkey, ptest, bsym, noeng, zeroc
+      logical prntbb, prntbf, prntff, prntop, prntov, prntfn
+      character *4096 ops
+      character *1600 card
+      character *16 filnm
+      character *3 ans
+      character *8 chrkey, filone, filint, filopt
+      character *10 cpass, fptoc
+      character *3 itoc
+      character *80 title
+      call drum
+      call iosys ('read character options from rwf',-1,0,0,ops)
+      ptest=logkey(ops,'PRINT=M6008=ALL',.false.,' ')
+      noeng=logkey(ops,'M6008=NO-ENERGY-DEPENDENCE',.false.,' ')
+      if (ptest) then
+          prntbf=.true.
+          prntff=.true.
+          prntbb=.true.
+          prntop=.true.
+          prntov=.true.
+          prntfn=.true.
+      else
+          prntbf=logkey(ops,'PRINT=M6008=BOUND-FREE',.false.,' ')
+          prntff=logkey(ops,'PRINT=M6008=FREE-FREE',.false.,' ')
+          prntbb=logkey(ops,'PRINT=M6008=BOUND-BOUND',.false.,' ')
+          prntov=logkey(ops,'PRINT=M6008=OVERLAPS',.false.,' ')
+          prntop=logkey(ops,'PRINT=M6008=OPTICAL-POTENTIAL',.false.,' ')
+          prntfn=logkey(ops,'PRINT=M6008=FINAL-INTS',.false.,' ')
+      endif
+      call posinp('$KOHNMT',cpass)
+      read (inp,11) title
+      call cardin(card)
+      write (iout,1)
+      write (iout,2) title
+      write (iout,1)
+c----------------------------------------------------------------------c
+c                     Some Comments:                                   c
+c           1. Full Hamiltonian Matrix Elements Are Gotten From        c
+c              The Optical Potential File Even If Energy Independent   c
+c           2. Direct Terms Come From The One Body File                c
+c----------------------------------------------------------------------c
+      call iosys ('does "opt pot file" exist on rwf',-1,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys ('read character "opt pot file" from rwf',-1,
+     1                0,0,filopt)
+      else
+          filopt=chrkey(card,'optical-potential-file-name',
+     1                  'optfle',' ')
+      endif
+      call iosys ('open optical as old',0,0,0,filopt)
+      call iosys ('read real repnuc from optical',1,ecore,0,' ')
+      call iosys ('does "one body file" exist on rwf',-1,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys('read character "one body file" from rwf',-1,0,0,
+     1               filone)
+      else
+          filone=chrkey(card,'one-body-hamiltonian-file-name',
+     1                  'vints',' ')
+      endif
+      call iosys ('does "kohn intg file" exist on rwf',-1,0,0,ans)
+      if (ans.ne.'no') then
+          call iosys('read character "kohn intg file" from rwf',-1,0,0,
+     1               filint)
+      else
+          filint=chrkey(card,'kohn-integral-file-name','ffbfnt',' ')
+      endif
+      call iosys ('open onel as old',0,0,0,filone)
+      call iosys ('open kohnint as old',0,0,0,filint)
+      call iosys ('read integer "no. energies" from kohnint',1,
+     1            nener,0,' ')
+      call iosys ('read real "scatt energies" from kohnint',nener,
+     1             energy,0,' ')
+      call iosys ('read integer "no. channels" from kohnint',1,
+     1            nchan,0,' ')
+      call iosys ('read integer "lm-vals-chan" from kohnint',nchan,
+     1            nlm,0,' ')
+      call iosys ('read real "chan energies" from kohnint',nchan,echan,
+     1            0,' ')
+      call iosys ('read integer "no aos" from onel',1,naot,0,' ')
+      call iosys ('read integer "no mos" from onel',1,nmot,0,' ')
+c----------------------------------------------------------------------c
+c                  Channel Information                                 c
+c----------------------------------------------------------------------c
+      maxlm=0                   
+      matbf=0
+      matbv=0
+      ntchn=0
+      do 10 ch1=1,nchan
+         echan(ch1)=echan(ch1)-ecore
+         call posinp ('$CHAN-'//itoc(ch1),cpass)
+         call cardin(card)
+         maxlm=max(maxlm,nlm(ch1))
+         ntchn=ntchn+nlm(ch1)
+         if (.not.bsym) then
+             nbscat(ch1)=intkey(card,'no-expansion-mos',1,' ')
+             call intarr(card,'expansion-mos',orblst(1,ch1),
+     1                   nbscat(ch1),' ')
+             ntrgt(ch1)=intkey(card,'no-target-mos',1,' ')
+             ii=nbscat(ch1)+1
+             call intarr(card,'target-mos',orblst(ii,ch1),
+     1                   ntrgt(ch1),' ')
+         else
+             nbscat(ch1)=nmot
+             ntrgt(ch1)=0
+             do 20 orb=1,nmot
+                orblst(orb,ch1)=orb
+   20        continue
+         endif
+         nbtot(ch1)=nbscat(ch1)+ntrgt(ch1)
+         matbv=matbv+nbscat(ch1)
+         matbf=matbf+nbtot(ch1)
+         write(iout,30) ch1
+         write (iout,40) (orblst(i,ch1),i=1,nbscat(ch1))
+         if (ntrgt(ch1).ne.0) then
+             write (iout,50) (orblst(i,ch1),i=ii,nbscat(ch1)+ntrgt(ch1))
+         endif
+         zeroc(ch1)=logkey(card,'zero-channel',.false.,' ')
+   10 continue
+      call iosys ('write integer "total channels" to kohnint',1,ntchn,
+     1            0,' ')
+      call iosys ('write integer "total bound" to kohnint',1,matbv,
+     1            0,' ')
+c----------------------------------------------------------------------c
+c             Newlst Makes Finlst Which Gives Finder Array             c
+c                For Bound Portion Of Matrix                           c
+c----------------------------------------------------------------------c 
+      call newlst (nbtot,nbscat,ntrgt,orblst,finlst,nchan,dimc,dimmo)
+c----------------------------------------------------------------------c
+c               Get Memory And Begin Calculation One Energy            c
+c                           At A Time                                  c
+c----------------------------------------------------------------------c
+      call getscm(0,z,canget,'How Much Core',0)
+      nstri=nchan*(nchan+1)/2
+      ovbfwd=2*maxlm*nmot*nchan
+      hpvbwd=ovbfwd*nchan
+      hpvhpw=2*maxlm*maxlm*nstri
+      hpvhmw=2*maxlm*maxlm*nchan*nchan 
+      hamnum=1
+      hambb=hamnum+matbf*matbf
+      hpvhp=hambb+matbv*matbv
+      hpvhm=hpvhp+hpvhpw
+      hpvb=hpvhm+hpvhmw
+      ovbf=hpvb+hpvbwd
+      hpp=ovbf+ovbfwd
+      hpm=hpp+2*ntchn*ntchn
+      hpb=hpm+2*ntchn*ntchn
+      hmb=hpb+2*ntchn*matbf
+      ovpb=hmb+ntchn*matbf
+      ovmb=ovpb+2*matbf*ntchn
+      tonow=ovmb+matbf*ntchn
+      lrg=max(matbf,nmot*nmot)
+      hamin=tonow
+      rd=tonow
+      diag=tonow
+      scrc=tonow+lrg
+      words=scrc+2*ntchn*matbf
+      if (words.gt.canget) then
+          call lnkerr('Not Enough Memory For Calculation:Quit')
+      endif
+      call getscm(words,z,ngot,'M6008',0)
+      write (iout,100) words
+c----------------------------------------------------------------------c
+c           Read In The Direct (Non-Exchange) Bound-Bound Matrices     c
+c           They Are Energy Independent And Can Be Calculated Once.    c
+c----------------------------------------------------------------------c
+      call bbnum(z(hamin),z(hamnum),echan,zeroc,nchan,nmot,matbf,nbtot,
+     1           orblst,finlst,dimmo,dimc,prntbb)
+c----------------------------------------------------------------------c
+c           Write Out Numerator Bound-Bound Matrix To IOsys File       c
+c----------------------------------------------------------------------c
+      call wrnum(z(hamnum),matbf)             
+c----------------------------------------------------------------------c
+c       If Full Bound-Bound Hamiltonian Energy Independent             c
+c       Read It In Once And For All With Energy Set To Zero            c
+c----------------------------------------------------------------------c
+      e0=0.e+00
+      if (noeng) then
+          call rdham (z(hambb),z(rd),e0,nbscat,nchan,matbv,1,prntop)
+          call iosys ('rewind all on optical read-and-write',0,0,0,' ')
+          call iosys ('close optical',0,0,0,' ')
+      endif
+c----------------------------------------------------------------------c
+c                      Loop Over Energies                              c
+c----------------------------------------------------------------------c
+      do 500 ene=1,nener
+            eshft=echan(1)+.5e+00*energy(ene)
+            dele=eshft-e0
+            e0=eshft
+c----------------------------------------------------------------------c
+c           Read In Bound-Bound Hamiltonian Or Modify Energy           c
+c                         Denominator                                  c
+c----------------------------------------------------------------------c
+            if(noeng) then
+               call modden(z(hambb),dele,nbscat,nchan,nstri,matbv)
+            else
+               call rdham(z(hambb),z(rd),eshft,nbscat,nchan,matbv,ene,
+     1                    prntop)
+            endif
+c----------------------------------------------------------------------c
+c              Write Denominator Matrix To IOsys File                  c
+c----------------------------------------------------------------------c
+            call wrdeno(z(hambb),energy(ene),matbv)        
+c----------------------------------------------------------------------c
+c             Modify Bound-Bound Numerator Matrix                      c
+c----------------------------------------------------------------------c
+            call modnum(z(hamnum),z(diag),eshft,matbf)
+c----------------------------------------------------------------------c
+c            Read In Bound-Free Integrals                              c
+c----------------------------------------------------------------------c
+            filnm='ovlp-'//fptoc(energy(ene))
+            call iosys ('read real '//filnm//' from kohnint',ovbfwd,
+     1                  z(ovbf),0,' ')
+            filnm='bf-'//fptoc(energy(ene))
+            call iosys ('read real '//filnm//' from kohnint',hpvbwd,
+     1                  z(hpvb),0,' ')
+c----------------------------------------------------------------------c
+c            Read In Free-Free Integrals                               c
+c----------------------------------------------------------------------c
+            filnm='ffp-'//fptoc(energy(ene))
+            call iosys ('read real '//filnm//' from kohnint',hpvhpw,
+     1                  z(hpvhp),0,' ')
+            filnm='ffm-'//fptoc(energy(ene))
+            call iosys ('read real '//filnm//' from kohnint',hpvhmw,
+     1                  z(hpvhm),0,' ')
+c----------------------------------------------------------------------c
+c                  Transform Free-Free Integrals                       c
+c----------------------------------------------------------------------c
+         call finff(z(hpvhp),z(hpvhm),z(hpvb),z(ovbf),z(ovpb),
+     1               z(ovmb),z(hpb),z(hmb),z(hpp),z(hpm),z(hamnum),
+     2               z(scrc),nbtot,orblst,finlst,zeroc,nlm,nchan,ntchn,
+     3               matbf,maxlm,nstri,nmot,dimmo,dimc,prntff,prntbf,
+     4               prntov,prntfn)
+         call finbf (z(hpb),z(ovpb),z(hamnum),ntchn,matbf,prntfn)
+c----------------------------------------------------------------------c
+c             Re-Arrange Bound-Free Integrals Keeping Only             c
+c             The Variational Orbitals                                 c
+c----------------------------------------------------------------------c
+         call rearrg(z(hpb),z(ovpb),matbf,matbv,ntchn)
+c----------------------------------------------------------------------c
+c            Restore Bound-Bound Numerator Diagonal Elements           c
+c----------------------------------------------------------------------c
+         call resnum(z(hamnum),z(diag),matbf)
+c----------------------------------------------------------------------c
+c            Write Out The Matrices                                    c
+c----------------------------------------------------------------------c
+         filnm='hpp-'//fptoc(energy(ene))
+         call iosys ('write real '//filnm//' to kohnint',2*ntchn*ntchn,
+     1               z(hpp),0,' ')
+         filnm='hpm-'//fptoc(energy(ene))
+         call iosys ('write real '//filnm//' to kohnint',2*ntchn*ntchn,
+     1               z(hpm),0,' ')
+         filnm='hpb-'//fptoc(energy(ene))
+         call iosys ('write real '//filnm//' to kohnint',2*ntchn*matbv,
+     1               z(hpb),0,' ')
+  500 continue
+      if (.not.noeng) then
+          call iosys ('rewind all on optical read-and-write',
+     1                0,0,0,' ')
+          call iosys ('close optical',0,0,0,' ')
+      endif
+      call iosys ('rewind all on kohnint read-and-write',0,0,0,' ')
+      call iosys ('close kohnint',0,0,0,' ')
+    1 format(/,20x,'***********************************************')
+    2 format(//,20x,'Link M6008:Kohn Variational Matrix Elements',
+     1       //,20x,'Title:',a80)
+   30 format(/,5x,'Information For Channel',1x,i3)
+   40 format(/,5x,'Expansion Molecular Orbitals',(/,17x,10(i3,1x)))
+   50 format(/,5x,'Target Molecular Orbitals',(/,17x,10(i3,1x)))
+   11 format(a80)
+  100 format(/,5x,'Need',1x,i8,1x,'Words For Calculation')
+      call chainx(0)
+      stop
+      end
+*Deck BBnum
+c***begin prologue     BBnum
+c***date written       890524   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           Kohn Integrals
+c***author             Schneider Barry (LANL)
+c***source             m6008
+c***purpose            Read Bound-Bound One Body Integrals And
+c***                   Form Final Bound-Bound Matrix
+c***references       
+c
+c***routines called
+c***end prologue       BBnum  
+      subroutine bbnum(hamin,hamnum,echan,zeroc,nchan,nmo,matbb,nbtot,
+     1                 orblst,finlst,dimmo,dimc,prnt)
+      implicit integer (a-z)
+      real *8 hamin, hamnum, echan, rowv
+      character *80 title
+      character *8 colt, rowt
+      logical prnt, zeroc
+      common /io/ inp, iout
+      dimension hamin(nmo,nmo), hamnum(matbb,matbb)
+      dimension nbtot(dimc), finlst(dimmo,dimc), orblst(dimmo,dimc)
+      dimension echan(dimc), zeroc(dimc)
+      call rzero(hamnum,matbb*matbb)
+      do 3 i=1,nchan
+         if (.not.zeroc(i)) then
+             do 4 j=1,i
+                if (.not.zeroc(j)) then
+                    call iosys ('read real "mo one-el ints" from onel '
+     1                          //'without rewinding',nmo*nmo,hamin,
+     2                          0,' ')
+                    do 5 i1=1,nbtot(i)
+                       icnt=finlst(i1,i)
+                       ipnt=orblst(i1,i)
+                       do 6 j1=1,nbtot(j)
+                          jcnt=finlst(j1,j)
+                          jpnt=orblst(j1,j)
+                          hamnum(icnt,jcnt)=hamnum(icnt,jcnt)
+     1                                      +hamin(ipnt,jpnt)
+    6                  continue
+    5               continue
+                endif
+    4        continue
+         endif
+    3 continue
+c----------------------------------------------------------------------c
+c             Put Echan(i) On Diagonal It Is Needed Later              c
+c----------------------------------------------------------------------c
+      do 1 i=1,nchan
+         do 2 i1=1,nbtot(i)
+              count=finlst(i1,i)
+            hamnum(count,count)=hamnum(count,count)+echan(i)
+    2    continue
+    1 continue    
+      call iosys ('rewind all on onel read-and-write',0,0,0,0)
+      call iosys ('close onel',0,0,0,0)
+c----------------------------------------------------------------------c     
+c           Transpose To Get Full Bound-Bound Matrix                   c        
+c           This is OK For ALL Bound-Bound Matrix Elements             c
+c----------------------------------------------------------------------c        
+      do 7 i=1,matbb
+         do 8 j=1,i
+            hamnum(j,i)=hamnum(i,j)
+    8    continue
+    7 continue
+      if (prnt) then
+          title='Bound-Bound Numerator Matrix'
+          rowv=-99.
+          colv=-99
+          call mprir(hamnum,rowv,colv,matbb,matbb,matbb,matbb,
+     1               title,rowt,colt,iout)
+      endif
+      return
+      end
+*Deck Wrnum
+c***begin prologue     Wrnum
+c***date written       890528   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           Write, Bound
+c***author             Schneider, Barry (LANL)
+c***source             M6008
+c***purpose            Write Out Kohn Numerator Matrix
+c*** 
+c
+c***references         None      
+c
+c***routines called    IOsys
+c***end prologue       Wrnum
+      subroutine wrnum(hambb,mxb)
+      implicit integer (a-z)
+      real *8 hambb
+      dimension hambb(mxb,mxb)
+      call iosys ('write real "bnd bnd num" to kohnint',mxb*mxb,hambb,
+     1            0,' ')
+      return
+      end
+*Deck Rdham
+c***begin prologue     Rdham
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           Rdham, link 1106, Kohn Variational
+c***author             Schneider, Barry (LANL), Rescigno, Tom(LLNL)  
+c***source             m1106
+c***purpose            Read Non-Local Optical Potential
+c***description        Read in Non-Local Optical Potential Matrices or
+c***                   Exchange Matrices Formed In M1204
+c***              
+c
+c***references         Schneider and Rescigno, Physical Review
+c
+c***routines called    IOsys, Util and MDutil
+c***end prologue       Rdham
+      subroutine rdham (hambb,rd,energy,nbscat,nchan,mxb,ien,prnt)
+      implicit integer(a-z)
+      character *3 itoc
+      logical prnt
+      character *8 colt, rowt
+      character *80 title,rddag,rdodag
+      real*8 energy, hambb, rd, rowv
+      dimension hambb(mxb,mxb), rd(mxb), nbscat(nchan)
+      data title/'Bound-Bound Optical Potential'/
+      common /io/ inp, iout
+      rddag(n1,n2)='read real "optdg'//itoc(n1)//itoc(n2)//'" from optic
+     1al without rewinding'
+      rdodag(n1,n2,n3)='read real "optodg'//itoc(n1)//itoc(n2)//itoc(n3)
+     1 //'" from optical without rewinding'
+      call rzero(hambb,mxb*mxb)
+      pntr=0
+      do 50 i=1,nchan
+         do 30 j=1,nbscat(i)
+            j1=j+pntr
+            call iosys (rddag(ien,i),nbscat(i),rd,0,' ')
+            do 20 k=1,j
+               k1=k+pntr
+               hambb(j1,k1)=rd(k)
+               hambb(k1,j1)=rd(k)
+   20       continue
+   30    continue
+         pntr=pntr+nbscat(i)
+   50 continue
+      pntri=0
+      do 100 i=1,nchan
+         pntrj=0
+         do 90 j=1,i
+            if (i.ne.j) then
+                do 70 k=1,nbscat(j)
+                   k1=pntrj+k 
+                   call iosys (rdodag(ien,i,j),nbscat(i),rd,0,' ')
+                   do 60 l=1,nbscat(i)
+                      l1=l+pntri
+                      hambb(l1,k1)=rd(l)
+                      hambb(k1,l1)=hambb(l1,k1)
+   60              continue
+   70           continue
+            endif
+            pntrj=pntrj+nbscat(j)   
+   90    continue
+         pntri=pntri+nbscat(i)
+  100 continue
+      do 110 i=1,mxb
+         hambb(i,i)=hambb(i,i)-energy
+  110 continue
+      if (prnt) then
+          title='Bound-Bound Denominator Matrix'
+          rowv=-99.
+          colv=-99
+          call mprir (hambb,rowv,colv,mxb,mxb,mxb,mxb,title,rowt,colt,
+     1                iout)
+      endif
+      return
+      end
+*Deck Modden
+c***begin prologue     Modden
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           Modden, link 1106, Kohn Variational
+c***author             Schneider, Barry (LANL)
+c***source             m6008
+c***purpose            Modify Optical Potential Denominator
+c***              
+c
+c***references         
+c
+c***routines called    IOsys, Util and MDutil
+c***end prologue       Modden
+      subroutine modden (hambb,energy,nbscat,nchan,nstri,mxb)
+      implicit integer(a-z)
+      real*8 energy, hambb
+      dimension hambb(mxb,mxb,nstri), nbscat(nchan)
+      do 10 i=1,nchan
+         itri=i*(i+1)/2
+         do 20 j=1,nbscat(i)
+            hambb(j,j,itri)=hambb(j,j,itri)-energy
+   20    continue
+   10 continue
+      return
+      end
+*Deck Wrdeno
+c***begin prologue     Wrdeno
+c***date written       890528   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           Write, Bound
+c***author             Schneider, Barry (LANL)
+c***source             M6008
+c***purpose            Write Out Kohn Energy Dependent
+c***                   Denominator Matrix
+c*** 
+c
+c***references         None      
+c
+c***routines called    IOsys
+c***end prologue       Wrdeno
+      subroutine wrdeno(hambb,energy,mxb)
+      implicit integer (a-z)
+      real *8 energy, hambb
+      character *16 ftit
+      character*10 fptoc
+      dimension hambb(mxb,mxb)
+      ftit='bbdn-'//fptoc(energy)
+      call iosys ('write real '//ftit//' to kohnint',mxb*mxb,hambb,
+     1             0,' ')
+      return
+      end
+*Deck Newlst
+c***begin prologue     Newlst
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           Newlst, link 1106, Kohn Variational
+c***author             Schneider, Barry (LANL), Rescigno, Tom(LLNL)  
+c***source             m1106
+c***purpose            Index For Bound Matrix
+c***description        Forms Index Array For Bound-Bound And Bound-Free
+c***                   Matrix Elements. Variational Orbitals First
+c***                   For Each Channel. Target Orbitals At End By Channel.
+c***references         Schneider and Rescigno, Physical Review
+c
+c***routines called    IOsys, Util and MDutil
+c***end prologue       Newlst
+      subroutine newlst (nbtot,nbscat,ntrgt,orblst,finlst,nchan,
+     1                   dimc,dimmo)
+      implicit integer(a-z)
+      dimension nbtot(dimc), orblst(dimmo,dimc), finlst(dimmo,dimc)
+      dimension nbscat(dimc), ntrgt(dimc)
+      nscat=0
+      do 100 i=1,nchan
+  100 nscat=nscat+nbscat(i)
+      orbcnt=0
+      scatcn=nscat
+      do 40 i=1,nchan
+         do 30 j=1,nbscat(i)
+            orbcnt=orbcnt+1
+            finlst(j,i)=orbcnt
+   30    continue
+         if(ntrgt(i).ne.0) then     
+            do 10 k=nbscat(i)+1,nbtot(i)
+               scatcn=scatcn+1
+               finlst(k,i)=scatcn
+   10       continue
+         endif
+   40 continue
+      return
+      end
+*Deck Finff
+c***begin prologue     Finff
+c***date written       890605   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           finff, link 6008, Kohn Variational
+c***author             Schneider, Barry (LANL)  
+c***source             m6008
+c***purpose            Final Free-Free Integrals
+c***                   
+c***description        The Free-Free Integrals Are Transformed To A
+c***                   Free Basis Orthogonal To All Bound Molecular
+c***                   Orbitals.
+c***references         Schneider and Rescigno, Physical Review
+c
+c***routines called    IOsys, Util and MDutil
+c***end prologue       Finff
+      subroutine finff (hpvhp,hpvhm,hpvb,ovbf,ovpb,ovmb,hpb,hmb,hpp,
+     1                  hpm,hambb,scrc,nbtot,orblst,finlst,zeroc,nlm,
+     2                  nchan,ntchn,matbb,maxlm,nstri,nmo,dimmo,dimc,
+     3                  prntff,prntbf,prntov,prntfn)
+      implicit integer(a-z)
+      character *80 title
+      logical prntff, prntbf, prntov, prntfn, zeroc
+      real*8 ovmb, hmb, hambb, rowv
+      complex*16 ovpb, hpb, hpp, hpm, scrc
+      complex *16 hpvhp, hpvhm, ovbf, hpvb
+      character *3 itoc
+      character *8 rowt, colt
+      dimension hpvhp(1:maxlm,1:maxlm,nstri)
+      dimension hpvhm(1:maxlm,1:maxlm,nchan,nchan)
+      dimension ovbf(1:maxlm,nmo,nchan), hpvb(1:maxlm,nmo,nchan,nchan)
+      dimension ovpb(ntchn,matbb), ovmb(ntchn,matbb)
+      dimension hpb(ntchn,matbb), hmb(ntchn,matbb)
+      dimension hpp(ntchn,ntchn), hpm(ntchn,ntchn)
+      dimension hambb(matbb,matbb), nbtot(dimc), orblst(dimmo,dimc)
+      dimension finlst(dimmo,dimc), nlm(dimc), zeroc(dimc)
+      dimension scrc(ntchn,matbb)
+      common /io/ inp,iout
+c----------------------------------------------------------------------c
+c          Set Up Matrix Elements In Channel Form                      c
+c----------------------------------------------------------------------c    
+      rowv=-99.
+      colv=-99
+      call czero(ovpb,ntchn*matbb)
+      call rzero(ovmb,ntchn*matbb)
+      call czero(hpb,ntchn*matbb)
+      call rzero(hmb,ntchn*matbb) 
+      cntch1=0
+      do 10 ch1=1,nchan
+         if (.not.zeroc(ch1)) then
+             do 20 bfn=1,nbtot(ch1)
+                cntb=finlst(bfn,ch1)
+                orb=orblst(bfn,ch1)
+                cntf=cntch1
+                do 30 nolm1=1,nlm(ch1)
+                   cntf=cntf+1
+                   ovpb(cntf,cntb)=ovbf(nolm1,orb,ch1)
+                   ovmb(cntf,cntb)=aimag(ovpb(cntf,cntb))
+   30           continue
+   20        continue
+         endif
+         cntch1=cntch1+nlm(ch1)
+   10 continue
+      cntch1=0
+      do 40 ch1=1,nchan
+         if (.not.zeroc(ch1)) then 
+             do 50 nolm1=1,nlm(ch1)
+                cntch1=cntch1+1
+                do 60 ch2=1,nchan
+                   if (.not.zeroc(ch2)) then
+                       do 70 bfn=1,nbtot(ch2)
+                          cntb=finlst(bfn,ch2)
+                          orb=orblst(bfn,ch2)
+                          hpb(cntch1,cntb)=hpvb(nolm1,orb,ch1,ch2)
+                          hmb(cntch1,cntb)=aimag(hpb(cntch1,cntb))
+   70                  continue
+                   endif
+   60           continue                  
+   50        continue
+         else
+             cntch1=cntch1+nlm(ch1)
+         endif  
+   40 continue
+c----------------------------------------------------------------------c
+c               Same For Free-Free Integrals                           c
+c----------------------------------------------------------------------c
+      call czero(hpp,ntchn*ntchn)
+      call czero(hpm,ntchn*ntchn) 
+      cntch1=0
+      do 100 ch1=1,nchan
+         if (.not.zeroc(ch1)) then
+             cntch2=0
+             do 200 ch2=1,ch1
+                if (.not.zeroc(ch2)) then
+                    ist=ch1*(ch1-1)/2+ch2
+                    cntf1=cntch1
+                    do 300 nolm1=1,nlm(ch1)
+                       cntf1=cntf1+1
+                       cntf2=cntch2
+                       do 400 nolm2=1,nlm(ch2)
+                          cntf2=cntf2+1            
+                          hpp(cntf1,cntf2)=hpvhp(nolm1,nolm2,ist)
+                          hpp(cntf2,cntf1)=hpp(cntf1,cntf2)
+                          hpm(cntf1,cntf2)=hpvhm(nolm1,nolm2,ch1,ch2)
+                          hpm(cntf2,cntf1)=hpvhm(nolm2,nolm1,ch2,ch1)
+  400                  continue
+  300               continue
+                endif
+                cntch2=cntch2+nlm(ch2)
+  200        continue
+         endif  
+         cntch1=cntch1+nlm(ch1)
+  100 continue
+c----------------------------------------------------------------------c
+c                Now We Have The Unique Matrices                       c
+c                    Print If Desired                                  c
+c----------------------------------------------------------------------c 
+      if (prntov) then
+          title='OVPB'
+          call cmprir(ovpb,rowv,colv,ntchn,matbb,ntchn,matbb,title,
+     1                rowt,colt,iout)
+          title='OVMB'
+          call mprir(ovmb,rowv,colv,ntchn,matbb,ntchn,matbb,title,
+     1               rowt,colt,iout)
+      endif
+      if (prntbf) then
+          title='HPB-NO'
+          call cmprir(hpb,rowv,colv,ntchn,matbb,ntchn,matbb,title,
+     1                rowt,colt,iout)
+          title='HMB-NO'
+          call mprir(hmb,rowv,colv,ntchn,matbb,ntchn,matbb,title,
+     1                rowt,colt,iout)
+      endif
+      if (prntff) then
+          title='HPP-NO'
+          call cmprir(hpp,rowv,colv,ntchn,ntchn,ntchn,ntchn,title,
+     1                rowt,colt,iout)
+          title='HPM-NO'
+          call cmprir(hpm,rowv,colv,ntchn,ntchn,ntchn,ntchn,title,
+     1                rowt,colt,iout)
+      endif
+c----------------------------------------------------------------------c
+c              Calculate The New Matrix Elements                       c
+c                    The Form Is                                       c
+c----------------------------------------------------------------------c
+c                                                                      c 
+c    M(f,f') = M(f0,f0') -Sum <f0,B> M(B,f0') -Sum M(f0,B) <B,f0')     c
+c                           +                                          c
+c                          Sum Sum <f0,B> M(B,B') <B',f0'>             c
+c                                                                      c
+c                            M = H - E                                 c
+c                                                                      c
+c----------------------------------------------------------------------c
+c----------------------------------------------------------------------c
+c                    Hpp First                                         c
+c----------------------------------------------------------------------c
+c     ----- First Sum -----
+      call cambct(hpp,ovpb,hpb,ntchn,matbb,ntchn)
+c     ----- Second Sum -----
+      call cambct(hpp,hpb,ovpb,ntchn,matbb,ntchn)
+c     ----- First Matrix Multiply Of Double Sum -----
+      call ecbc(scrc,ovpb,hambb,ntchn,matbb,matbb)
+c     ----- Final Result Back In Original Matrix -----
+      call capbct(hpp,scrc,ovpb,ntchn,matbb,ntchn)
+c----------------------------------------------------------------------c
+c                    Hpm Now                                           c
+c----------------------------------------------------------------------c
+c     ----- First Sum -----
+      call amcbct(hpm,ovpb,hmb,ntchn,matbb,ntchn)
+c     ----- Second Sum -----
+      call amcbct(hpm,hpb,ovmb,ntchn,matbb,ntchn)
+c     ----- First Matrix Multiply Of Double Sum -----
+c     ----- Already Done Above  -------------------
+c     ----- Final Result Back In Original Matrix -----
+      call apcbct(hpm,scrc,ovmb,ntchn,matbb,ntchn)
+      if (prntfn) then
+          title='HPP-O'
+          call cmprir(hpp,rowv,colv,ntchn,ntchn,ntchn,ntchn,title,
+     1                rowt,colt,iout)
+          title='HPM-O'
+          call cmprir(hpm,rowv,colv,ntchn,ntchn,ntchn,ntchn,title,
+     1                rowt,colt,iout)
+      endif
+      return
+      end
+*Deck Finbf
+c***begin prologue     Finbf
+c***date written       890605   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           Finbf, link 6008, Kohn Variational
+c***author             Schneider, Barry (LANL)  
+c***source             m6008
+c***purpose            Final Bound-Free Integrals
+c***                   
+c***description        The Free-Free Integrals Are Transformed To A
+c***                   Free Basis Orthogonal To All Bound Molecular
+c***                   Orbitals.
+c***references         Schneider and Rescigno, Physical Review
+c
+c***routines called    IOsys, Util and MDutil
+c***end prologue       Finbf
+      subroutine finbf (hpb,ovpb,hambb,ntchn,matbb,prntfn)
+      implicit integer(a-z)
+      character *80 title
+      logical prntfn
+      real*8 hambb, rowv
+      complex*16 hpb, ovpb
+      character *3 itoc
+      character *8 colt, rowt
+      dimension hpb(ntchn,matbb), ovpb(ntchn,matbb), hambb(matbb,matbb)
+      common /io/ inp,iout
+c----------------------------------------------------------------------c
+c             Lets Do Bound-Free Integrals                             c
+c----------------------------------------------------------------------c
+c----------------------------------------------------------------------c
+c                                                                      c
+c            M(f,b) = M(f0,b) - Sum <f0,b> M(b,b)                      c
+c----------------------------------------------------------------------c
+      call amcbc(hpb,ovpb,hambb,ntchn,matbb,matbb)
+      if (prntfn) then
+          rowv=-99.
+          colv=-99
+          title='HPB-O'
+          call cmprir(hpb,rowv,colv,ntchn,matbb,ntchn,matbb,title,
+     1                rowt,colt,iout)
+      endif
+      return
+      end
+*Deck Modnum
+c***begin prologue     Modnum
+c***date written       890605   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           Modnum , M6008
+c***author             Schneider, Barry (LANL)
+c***source             M6008
+c***purpose            Modify Bound-Bound Numerator Matrix
+c
+c***references         None
+c
+c***routines called    Modnum
+c***end prologue      
+      subroutine modnum(hamnum,diag,eng,matbb)
+      implicit integer (a-z)
+      real *8 hamnum, diag, eng
+      dimension hamnum(matbb,matbb), diag(matbb)
+c----------------------------------------------------------------------c
+c              Subtract Energy And Store Diagonal                      c
+c----------------------------------------------------------------------c
+      do 10 i=1,matbb
+         diag(i)=hamnum(i,i)
+         hamnum(i,i)=hamnum(i,i)-eng
+   10 continue
+      return
+      end
+*Deck Resnum
+c***begin prologue     Resnum
+c***date written       890605   (yymmdd)
+c***revision date               (yymmdd)
+c***keywords           Resnum , M6008
+c***author             Schneider, Barry (LANL)
+c***source             M6008
+c***purpose            Restore Diagonal Bound-Bound Numerator Matrix
+c
+c***references         None
+c
+c***routines called    None
+c***end prologue       Resnum
+      subroutine resnum(hamnum,diag,matbb)
+      implicit integer (a-z)
+      real *8 hamnum, diag
+      dimension hamnum(matbb,matbb), diag(matbb)
+      do 10 i=1,matbb
+         hamnum(i,i)=diag(i)
+   10 continue
+      return
+      end
+*Deck Rearrg
+c***begin prologue     Rearrg
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           Rearrg, link 1106, Kohn Variational
+c***author             Schneider, Barry (LANL), Rescigno, Tom(llnl)  
+c***source             m1106
+c***purpose            Re-arrange Free-Bound Integrals
+c***description        Free-Bound Integrals Re-ordered Keeping
+c***                   Only Variational Orbitals.
+c***references         Schneider and Rescigno, Physical Review
+c***routines called    IOsys, Util and MDutil
+c***end prologue       Rearrg
+      subroutine rearrg(hpb,thpb,ndim,n,m)
+      implicit integer (a-z)
+      complex*16 hpb, thpb
+      dimension hpb(m,ndim), thpb(m,n)
+      do 10 i=1,m
+         do 20 j=1,n
+            thpb(i,j)=hpb(i,j)
+   20    continue
+   10 continue
+      call ccopy(thpb,hpb,n*m)
+      return
+      end

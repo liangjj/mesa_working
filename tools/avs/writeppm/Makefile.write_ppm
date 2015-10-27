@@ -1,0 +1,19 @@
+#
+# Makefile for write_ppm
+#
+
+INC_FILE=$(ROOT)/usr/avs/include/Makeinclude
+include $(INC_FILE)
+
+AVS_LIBS = $(ROOT)/usr/avs/lib
+INC = $(ROOT)/usr/include
+BASELIBS=-lgeom -lutil -lm $(LASTLIBS)
+CFLAGS = -I$(INC) $(AOPTCFLAGS) $(LOCAL_CFLAGS) $(G)
+CFLOWLIBS=-L$(AVS_LIBS) -lflow_c $(BASELIBS)
+CSIMLIBS=-L$(AVS_LIBS) -lsim_c $(BASELIBS)
+
+write_ppm:	write_ppm.o
+	$(CC) $(CFLAGS) -o write_ppm write_ppm.o $(CFLOWLIBS)
+
+write_ppm.o:	write_ppm.c
+	$(CC) $(CFLAGS) -g -c write_ppm.c

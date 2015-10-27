@@ -1,0 +1,63 @@
+*deck @(#)slvlin.f	1.1 9/8/91
+c***begin prologue     slvlin
+c***date written       880423   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           slvlin, link 1106, kohn variational
+c***author             schneider, barry (lanl), rescigno, tom(llnl)  
+c***source             m1106
+c***purpose            solve complex linear systems
+c***description        solve a set(s) of linear equations in which
+c***                   the matrix and the right hand side are
+c***                   real or complex.
+c***                  
+c***references         schneider and rescigno, physical review
+c
+c***routines called    iosys, util and mdutil
+c***end prologue       slvlin
+      subroutine slvlin (hambb,hambbc,ipvt,hambfr,hambfc,n,m,ifac,
+     1                   type,prnt,optc)
+      implicit integer(a-z)
+      real*8 hambb, hambfr
+      complex*16  hambfc, hambbc
+      character *(*) ifac, type
+      character *80 title
+      logical prnt, optc
+      dimension hambb(n,n), hambfr(n,m), hambfc(n,m), hambbc(n,n)
+      dimension ipvt(n)
+      common /io/ inp, iout
+c----------------------------------------------------------------------c
+c     compute lu factorization of bound bound matrix                   c
+c----------------------------------------------------------------------c
+      if (ifac.eq.'factor') then
+          if(opt) then
+             call cgefa(hambbc,n,n,ipvt,info)
+          else
+             call sgefa (hambb,n,n,ipvt,info)
+          endif
+      else
+c----------------------------------------------------------------------c
+c                solve equations                                       c
+c----------------------------------------------------------------------c
+         if (type.eq.'real') then
+            if (opc) then
+                do 20 i=1,m
+                   call cgesl(hambbc,n,n,ipvt,hambfr(1,i),0)
+            do 20 i=1,m
+               call sgesl (hambb,n,n,ipvt,hambfr(1,i),0)
+   20       continue
+            if (prnt) then
+                title='real right hand side'
+                call prntrm(title,hambfr,n,m,n,m,iout)
+            endif
+         else
+            do 30 i=1,m
+               call cgsl(hambb,n,n,ipvt,hambfc(1,i))
+   30       continue
+            if (prnt) then
+                title='complex right hand side'
+                call prntcm(title,hambfc,n,m,n,m,iout)
+            endif
+         endif
+      endif
+      return
+      end

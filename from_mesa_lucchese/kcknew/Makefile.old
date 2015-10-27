@@ -1,0 +1,104 @@
+#   %W%   %G%
+#
+# Makefile for cknew
+#
+FC = f77
+FFLAGS = -c
+
+LD = f77
+LDFLAGS =
+
+BINDIR = ../bin
+BLASLIB = /usr/local/lib/libblas.a
+GET = sccs get
+REL = 
+
+SRCS = \
+	../cknew/bbtrans.f \
+	../cknew/bforthog.f \
+	../cknew/cgeco.f \
+	../cknew/cgefa.f \
+	../cknew/cgefs.f \
+	../cknew/cgesl.f \
+	../cknew/cknew.f \
+	../cknew/denom.f \
+	../cknew/dlabad.f \
+	../cknew/dladiv.f \
+	../cknew/dlamc1.f \
+	../cknew/dlamc2.f \
+	../cknew/dlamc3.f \
+	../cknew/dlamc4.f \
+	../cknew/dlamc5.f \
+	../cknew/dlamch.f \
+	../cknew/dlapy2.f \
+	../cknew/dlapy3.f \
+	../cknew/fdump.f \
+	../cknew/fforth1.f \
+	../cknew/fforth2.f \
+	../cknew/hbftrans.f \
+	../cknew/i1mach.f \
+	../cknew/ilaenv.f \
+	../cknew/j4save.f \
+	../cknew/lsame.f \
+	../cknew/obftrans.f \
+	../cknew/ovtrans.f \
+	../cknew/r1mach.f \
+	../cknew/rdbinsqr.f \
+	../cknew/rdbintri.f \
+	../cknew/top.f \
+	../cknew/wrbinsqr.f \
+	../cknew/xerbla.f \
+	../cknew/xercnt.f \
+	../cknew/xerhlt.f \
+	../cknew/xermsg.f \
+	../cknew/xerprn.f \
+	../cknew/xersve.f \
+	../cknew/xgetua.f \
+	../cknew/zgebak.f \
+	../cknew/zgebal.f \
+	../cknew/zgeev.f \
+	../cknew/zgehd2.f \
+	../cknew/zgehrd.f \
+	../cknew/zhseqr.f \
+	../cknew/zlacgv.f \
+	../cknew/zlacpy.f \
+	../cknew/zladiv.f \
+	../cknew/zlahqr.f \
+	../cknew/zlahrd.f \
+	../cknew/zlange.f \
+	../cknew/zlanhs.f \
+	../cknew/zlarf.f \
+	../cknew/zlarfb.f \
+	../cknew/zlarfg.f \
+	../cknew/zlarft.f \
+	../cknew/zlarfx.f \
+	../cknew/zlascl.f \
+	../cknew/zlaset.f \
+	../cknew/zlassq.f \
+	../cknew/zlatrs.f \
+	../cknew/ztrevc.f \
+	../cknew/zung2r.f \
+	../cknew/zunghr.f \
+	../cknew/zungqr.f 
+
+.f.o:
+	$(FC) $(FFLAGS) $<
+
+all: $(BINDIR)/xcknew
+
+$(BINDIR)/xcknew: $(SRCS:.f=.o) $(BLASLIB)
+	$(LD) $(LDFLAGS) $(SRCS:.f=.o) $(BLASLIB) -o $(BINDIR)/xcknew
+
+sources: $(SRCS)
+$(SRCS):
+	$(GET) $(REL) $@
+
+link: sources	
+	rm -f ../source/cknew.f
+	cat $(SRCS) > ../source/cknew.f
+
+print: link
+	lpr ../source/cknew.f
+
+clean:
+	rm -f *.o core

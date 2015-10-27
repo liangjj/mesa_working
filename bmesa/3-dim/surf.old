@@ -1,0 +1,93 @@
+*deck surf.f
+c***begin prologue     surf
+c***date written       951229   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           three-dim
+c***author             schneider, barry (nsf)
+c***source             3-dim
+c***purpose            surface functions
+c***                   
+c***                   
+c***references         
+c
+c***routines called    
+c***end prologue       surf
+      subroutine surf(v3d,v2d,p,prj,srf,nply,n3,nv,n2,nc,q,prnprj,
+     1                prn2v,prn3v)
+      implicit integer (a-z)
+      real*8 v3d, v2d, prj, p, srf
+      character*80 title
+      character*2 q
+      logical prnprj, prn2v, prn3v
+      dimension v3d(n3,nv), v2d(n2,nc), p(nply)
+      dimension prj(n2,nv), srf(nc,nv)
+      common/io/inp, iout 
+c     the character variable q can be q1, q2 or q3 depending on which
+c     coordinate is normal to the surface.
+      if(prn2v) then
+         title='2d-eigenvectors'
+         call prntrm(title,v2d,n2,nc,n2,nc,iout)
+      endif
+      if(prn3v) then
+         title='3d-eigenvectors'
+         call prntrm(title,v3d,n3,nv,n3,nv,iout)
+      endif
+      call rzero(prj,n2*nv)
+      if(q.eq.'q1') then
+         cnt=0
+         do 10 j=1,nply
+            jj=nply*(j-1)
+            do 20 k=1,nply
+               cnt=cnt+1
+               do 30 i=1,nply
+                  ind = n2*(i-1) + jj + k
+                  do 40 l=1,nv
+                     prj(cnt,l) = prj(cnt,l) + v3d(ind,l)*p(i)
+ 40               continue
+ 30            continue
+ 20         continue
+ 10      continue
+      elseif(q.eq.'q2') then
+         cnt=0
+         do 50 i=1,nply
+            ii=n2*(i-1)
+            do 60 k=1,nply
+               cnt=cnt+1
+               do 70 j=1,nply
+                  ind = ii + nply*(j-1) + k
+                  do 80 l=1,nv
+                     prj(cnt,l) = prj(cnt,l) + v3d(ind,l)*p(j)
+ 80               continue
+ 70            continue
+ 60         continue
+ 50      continue
+      elseif(q.eq.'q3') then
+         cnt=0
+         do 100 i=1,nply
+            ii=n2*(i-1)
+            do 110 j=1,nply
+               jj=nply*(j-1)
+               cnt=cnt+1
+               do 120 k=1,nply
+                  ind=ii + jj + k
+                  do 130 l=1,nv
+                     prj(cnt,l)=prj(cnt,l) + v3d(ind,l)*p(k)
+ 130              continue
+ 120           continue
+ 110        continue
+ 100     continue   
+      else
+         call lnkerr('coordinate error')
+      endif
+      if(prnprj) then
+         title='primitive surface functions'   
+         call prntrm(title,prj,n2,nv,n2,nv,iout)
+      endif
+      call ebtc(srf,v2d,prj,nc,n2,nv)
+      if(prnprj) then
+         title='surface functions'   
+         call prntrm(title,srf,nc,nv,nc,nv,iout)
+      endif                  
+      return
+      end       
+

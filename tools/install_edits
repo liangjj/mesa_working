@@ -1,0 +1,45 @@
+
+#MESA_HOME='/usr2/mesa'
+#LIBDIR='usr2/mesa/library'
+ VERSION='2.2'
+#
+#  do main section first
+ for file in $*
+    if test -d $file
+    then
+#      a directory
+       :
+    else
+       sccs edit $MESA_HOME/$file 
+       cp $file $MESA_HOME/$file
+       echo "release $VERSION" | sccs delget $MESA_HOME/$file
+    fi
+#
+#  now look for library sections
+    if test -d 'library'
+    then
+#      changes to library are there
+       cd 'library'
+       for parts in $*
+          if test -d $parts
+          then
+          else
+          for f in * 
+             do
+                sccs edit $MESA_HOME/$file/$f
+                cp $f $MESA_HOME/$file/$f
+                echo "release $VERSION" | sccs delget $MESA_HOME/$FILE/$f
+             done 
+          fi
+    else
+       :
+    fi
+#
+#   now do main sections
+       cd $file
+#      sccs check returns a nonzero exit status if something is being edited
+#something wrong here
+       fi
+       cd ..
+    done
+ 

@@ -1,0 +1,134 @@
+
+
+ pde solution by product formula
+
+
+
+
+
+ radial mesh
+
+ no. of pomits=      1000
+ rstart=  -0.100000E+03      rstop=   0.100000E+03
+ delr=   0.200000E+00
+
+
+ temporal mesh
+
+ no. of ponts=     20000
+ tstart=   0.00000 tstop=       10.00000
+ delt=   0.500000E-03
+
+
+
+ Potential Type
+
+
+ GP nonlinear
+
+ Number of atoms =   0.000000E+00
+ a/d0 =   1.000000E+00
+ phase =   3.141593E+00      coefficient =   5.000000E-01
+ shift =     0.00000
+
+
+
+
+
+ summary of mesh parameters
+
+ delt =   0.500000E-03
+ delr =   0.200000E+00
+ tv =   0.625000E-02
+
+
+
+
+
+ initial function overlap=
+   0.177245E+01
+
+
+
+ norm at initial time=
+   0.100000E+01
+   <r>=  -0.648065E-16
+   <r2>=   0.500000E+00
+   3.14159265358979             1001
+
+
+
+ propagation in r and t
+
+
+
+ time=        1.00000      it=      2000
+   norm=   0.100000E+01
+   <r>=   0.355109E+01
+  <r2>=   1.335070E+01      deviation=   8.604827E-01
+
+
+ time=        2.00000      it=      4000
+   norm=   0.100000E+01
+   <r>=   0.710219E+01
+  <r2>=   5.190279E+01      deviation=   1.209017E+00
+
+
+ time=        3.00000      it=      6000
+   norm=   0.100000E+01
+   <r>=   0.106533E+02
+  <r2>=   1.161563E+02      deviation=   1.632138E+00
+
+
+ time=        4.00000      it=      8000
+   norm=   0.100000E+01
+   <r>=   0.142044E+02
+  <r2>=   2.061112E+02      deviation=   2.084919E+00
+
+
+ time=        5.00000      it=     10000
+   norm=   0.100000E+01
+   <r>=   0.177555E+02
+  <r2>=   3.217674E+02      deviation=   2.551619E+00
+
+
+ time=        6.00000      it=     12000
+   norm=   0.100000E+01
+   <r>=   0.213066E+02
+  <r2>=   4.631251E+02      deviation=   3.025805E+00
+
+
+ time=        7.00000      it=     14000
+   norm=   0.100000E+01
+   <r>=   0.248577E+02
+  <r2>=   6.301842E+02      deviation=   3.504439E+00
+
+
+ time=        8.00000      it=     16000
+   norm=   0.100000E+01
+   <r>=   0.284087E+02
+  <r2>=   8.229446E+02      deviation=   3.985919E+00
+
+
+ time=        9.00000      it=     18000
+   norm=   0.100000E+01
+   <r>=   0.319598E+02
+  <r2>=   1.041406E+03      deviation=   4.469325E+00
+
+
+ time=       10.00000      it=     20000
+   norm=   0.100000E+01
+   <r>=   0.355109E+02
+  <r2>=   1.285570E+03      deviation=   4.954094E+00
+
+
+
+
+
+
+ timimg information 
+
+ number of time steps =     20000
+ total time(sec) =           14.237887
+ average time/step =      0.000711894369
+

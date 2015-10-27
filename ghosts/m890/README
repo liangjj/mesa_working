@@ -1,0 +1,4 @@
+This is a corruption of m811 which was used to create a formatted list
+of two-electron integrals to send to Karl Freed. It must run first in place
+of m811, and then be followed by m890 which actually writes the integrals
+out.

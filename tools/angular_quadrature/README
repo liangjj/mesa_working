@@ -1,0 +1,8 @@
+This program evaluates overlap integrals between spherical harmonics.
+It was used to test the angular quadratures used in the DFT code.
+Both Lebedev and Gauss-Legendre quadratures are available.
+Lebedev quadratures have been tested against orthonormality of
+ylm for 9,11,13,15,17,19,23.  the best we get is ~10**-7, it is not
+known whether this is a problem in ylm or the quadratures, but it seems
+like something is being done in single precision that shouldn't be.
+

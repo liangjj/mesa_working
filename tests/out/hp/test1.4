@@ -1,0 +1,265 @@
+ mesa(4.4);10/27/94;hp-ux 9.01 unix.                                            
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      2-nov-1994 14:39:00    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test1.4                                                                                                    
+     out:    /usr2/mesa/tests/out/hp/test1.4                                                                                                 
+     chk:    /usr2/rlm/mesa/mchk.hp                                                                                                          
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_29223                                                                                                       
+     rint:   /cesium/rlm/tmp/rint_29223                                                                                                      
+     int:    /cesium/rlm/tmp/int_29223                                                                                                       
+     tint:   /cesium/rlm/tmp/tint_29223                                                                                                      
+     gint:   /cesium/rlm/tmp/gint_29223                                                                                                      
+     rdint:  /cesium/rlm/tmp/rdint_29223                                                                                                     
+     dint:   /cesium/rlm/tmp/dint_29223                                                                                                      
+     zint:   /cesium/rlm/tmp/zint_29223                                                                                                      
+     ham:    /cesium/rlm/tmp/ham_29223                                                                                                       
+     moden:  /cesium/rlm/tmp/moden_29223                                                                                                     
+     aoden:  /cesium/rlm/tmp/aoden_29223                                                                                                     
+     saoden: /cesium/rlm/tmp/saoden_29223                                                                                                    
+     gden:   /cesium/rlm/tmp/gden_29223                                                                                                      
+     fci:    /cesium/rlm/tmp/fci_29223                                                                                                       
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+      h2o test case: closed shell scf/properties     
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     19//2,51;
+     20//01;
+ options:
+     maxsiz=900000 2s+1=1 print=(basis,scf=vector) hf scf=(pulay) guess=(huckel) basi
+     s=dz,sym=off,properties=(e4,v1,fermi,del,mv)
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   1.949000 r1       
+      3   3   h  dz          1   1.949000 r2        2  112.300 a1       
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     $ primitive cartesians    32
+     $ contracted cartesians   14
+     $ basis functions         14
+
+
+ basis set information.
+
+ atom  1  o 
+ charge:  8.00
+ basis: dz              
+ type:s          exponent    coefficient     9 primitives,    4 contracted functions.
+              7816.540000        .002031   .000000   .000000   .000000
+              1175.820000        .015436   .000000   .000000   .000000
+               273.188000        .073771   .000000   .000000   .000000
+                81.169600        .247606   .000000   .000000   .000000
+                27.183600        .611831   .000000   .000000   .000000
+                 3.413600        .241205   .000000   .000000   .000000
+                 9.532200        .000000  1.000000   .000000   .000000
+                  .939800        .000000   .000000  1.000000   .000000
+                  .284600        .000000   .000000   .000000  1.000000
+ type:p          exponent    coefficient     5 primitives,    2 contracted functions.
+                35.183200        .019580   .000000
+                 7.904000        .124189   .000000
+                 2.305100        .394727   .000000
+                  .717100        .627374   .000000
+                  .213700        .000000  1.000000
+
+ atom  2  h 
+ charge:  1.00
+ basis: dz              
+ type:s          exponent    coefficient     4 primitives,    2 contracted functions.
+                19.240600        .032828   .000000
+                 2.899200        .231209   .000000
+                  .653400        .817240   .000000
+                  .177600        .000000  1.000000
+
+ atom  3  h 
+ charge:  1.00
+ basis: dz              
+ basis same as on atom   2
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o      .00000
+                 h1     1.94900    .00000
+                 h2     1.94900   3.23728    .00000
+ interatomic angles:
+          h2-o1-h3 =112.3000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o               .000000     .000000     .000000
+      2   2   h               .000000     .000000    1.949000
+      3   3   h              1.803234     .000000    -.739560
+ rotational constants (ghz):    239.5418320     95.6974862     68.3796617
+ isotopes:
+     o-16    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     $primitive integrals possible     274866
+     $primitive integrals computed     241446( 87.8%)
+     $contracted integrals possible      5565
+     $contracted integrals kept          4111( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+ m501:
+     memory use                   12000000
+     all integrals held in core.
+     nuclear repulsion energy:    4.507658
+     iter              energy    diis convergence
+       14       -75.595336979          .000000006
+     rotating scf orbitals under core fock operator
+ m1951:
+
+     wavefunction analysis for hartree-fock orbitals
+     scf vector:
+                              1         2         3         4         5    
+     eigenvalues --   -20.65653  -1.19062   -.50179   -.42369   -.41749
+          o       s     -.58136    .14396    .00000    .01672    .00000
+                  s     -.46136    .19918    .00000    .02403    .00000
+                  s      .00132   -.58118    .00000   -.08960    .00000
+                  s     -.00179   -.52711    .00000   -.05578    .00000
+                  x     -.00055    .00064    .00000    .47295    .26343
+                  y      .00000    .00000    .76503    .00000    .00000
+                  z     -.00037    .00043    .00000    .31721   -.39277
+                  x      .00018   -.00560    .00000    .27347    .16131
+                  y      .00000    .00000    .36428    .00000    .00000
+                  z      .00012   -.00376    .00000    .18342   -.24050
+          h1      s     -.00009   -.01901    .00000    .12872   -.15845
+                  s      .00010   -.02578    .00000    .25179   -.30114
+          h2      s     -.00009   -.01901    .00000    .12872    .15845
+                  s      .00010   -.02578    .00000    .25179    .30114
+                              6         7         8         9    
+     eigenvalues --     -.04141    .01920    .87274    .91719
+          o       s     -.02177    .00000    .00000   -.02253
+                  s     -.03024    .00000    .00000   -.03615
+                  s      .08694    .00000    .00000    .20291
+                  s      .15160    .00000    .00000   -.07522
+                  x      .35243   -.28157    .00000   -.72137
+                  y      .00000    .00000    .87114    .00000
+                  z      .23638    .41982    .00000   -.48383
+                  x      .26449   -.23727    .00000    .91881
+                  y      .00000    .00000  -1.10066    .00000
+                  z      .17739    .35376    .00000    .61625
+          h1      s     -.18370   -.17095    .00000    .27284
+                  s     -.50106   -.49817    .00000   -.40252
+          h2      s     -.18370    .17095    .00000    .27284
+                  s     -.50106    .49817    .00000   -.40252
+     bond-order matrix:
+                              o        h1        h2                              
+                  o     8.12619    .16259    .16259
+                 h1      .16259    .61383   -.00212
+                 h2      .16259   -.00212    .61383
+     total mulliken charges:
+          o             8.45138
+          h1             .77431
+          h2             .77431
+     origin centered properties:
+        component       electronic      nuclear    total(au)  total(esu-ang**)
+        monopole    
+           e0            -10.00000     10.00000       .00000            .00000
+        dipole      
+           e1x            -2.62274      3.40762       .78488           1.99498
+           e1y              .00000       .00000       .00000            .00000
+           e1z            -1.75909      2.28551       .52642           1.33805
+        quadrupole  
+           e2xx          -14.31344     11.61186     -2.70158          -3.63375
+           e2yy           -6.34873       .00000     -6.34873          -8.53933
+           e2zz          -17.00252     15.51824     -1.48429          -1.99643
+           e2xy             .00000       .00000       .00000            .00000
+           e2xz            3.27833     -4.76237     -1.48404          -1.99610
+           e2yz             .00000       .00000       .00000            .00000
+        octupole    
+           e3xxx         -35.18088     39.56877      4.38790           3.12316
+           e3yyy            .00000       .00000       .00000            .00000
+           e3zzz         -37.83037     47.23139      9.40102           6.69134
+           e3xyy          -2.62148       .00000     -2.62148          -1.86588
+           e3xxy            .00000       .00000       .00000            .00000
+           e3xxz           9.38360    -16.22834     -6.84474          -4.87186
+           e3xzz          -7.23229      6.65573      -.57657           -.41038
+           e3yzz            .00000       .00000       .00000            .00000
+           e3yyz          -1.75824       .00000     -1.75824          -1.25146
+           e3xyz            .00000       .00000       .00000            .00000
+        hexadecapole
+           e4xxxx       -155.44842    134.83525    -20.61317          -7.76397
+           e4xxxy           .00000       .00000       .00000            .00000
+           e4xxyy        -14.17294       .00000    -14.17294          -5.33825
+           e4xyyy           .00000       .00000       .00000            .00000
+           e4yyyy        -18.95186       .00000    -18.95186          -7.13824
+           e4xxxz         46.03899    -55.29997     -9.26098          -3.48816
+           e4xxyz           .00000       .00000       .00000            .00000
+           e4xyyz          3.16231       .00000      3.16231           1.19109
+           e4yyyz           .00000       .00000       .00000            .00000
+           e4xxzz        -39.53380     22.68017    -16.85363          -6.34794
+           e4xyzz           .00000       .00000       .00000            .00000
+           e4yyzz        -16.76685       .00000    -16.76685          -6.31525
+           e4xzzz         15.43881     -9.30182      6.13699           2.31150
+           e4yzzz           .00000       .00000       .00000            .00000
+           e4zzzz       -205.87618    187.82549    -18.05069          -6.79881
+        mass-v             -.01261       .00000      -.01261
+        darwin             7.83590       .00000      7.83590
+        cowan              7.82329       .00000      7.82329
+     atom centered properties:
+        component       electronic      nuclear    total(au)  total(esu**2/ang**)
+
+        atom 1
+        potential     
+           v0            -22.80107       .54302    -22.25805        -970.40909
+        field         
+           v1x              .00589      -.06821      -.06231          -5.13384
+           v1y              .00000       .00000       .00000            .00000
+           v1z              .00395      -.04575      -.04179          -3.44330
+        fermi               .00000       .00000       .00000
+
+        atom 2
+        potential     
+           v0             -3.15262      2.33556      -.81706         -35.62234
+        field         
+           v1x              .01633      -.01488       .00145            .11913
+           v1y              .00000       .00000       .00000            .00000
+           v1z             -.68174       .61194      -.06980          -5.75047
+        fermi               .00000       .00000       .00000
+
+        atom 3
+        potential     
+           v0             -3.15262      2.33556      -.81706         -35.62234
+        field         
+           v1x             -.62456       .56053      -.06403          -5.27519
+           v1y              .00000       .00000       .00000            .00000
+           v1z              .27380      -.24598       .02782           2.29227
+        fermi               .00000       .00000       .00000
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .1        .0        .0         0
+      101         1        .1        .0        .0    156001
+      102         1       1.1        .0        .0    120010
+      202         1        .1        .0        .0       145
+      302         1        .1        .0        .0      9816
+      312         1        .9        .0        .0    530834
+      330         1        .1        .0        .0     79139
+      401         1        .3        .0        .0         0
+      501         1       2.5        .0        .0     31319
+     1902         1       1.3        .0        .0         0
+     1951         1        .4        .0        .0      2625
+             total:       7.0        .0        .0    530834

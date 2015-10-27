@@ -1,0 +1,78 @@
+ \documentclass{article}
+ \usepackage{graphicx}
+ \setkeys{Gin}{width=\linewidth}
+ \title{Generalized Kinetic Energy Matrix Elements}
+ \author{Barry I. Schneider}
+ \date{}
+ \def \<{\langle}
+ \def \>{\rangle}
+ \begin{document}
+ \maketitle    
+\begin{verbatim}
+*deck kemel.f
+c***begin prologue     kemel
+c***date written       022202   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c***keywords           coordinate eigenfunctions
+c***author             schneider, barry (nsf)
+c***source
+c***purpose            generate kinetic energy matrix elements with singularities
+c***                   removed and bloch operators added.
+c***           
+c***description
+c***references         
+c
+c***routines called    
+c***end prologue       kemel
+      subroutine kemel(kmat,p,dp,ddp,pt,wt,edge,n,
+     1                 cordsys,coord,typarg)
+      implicit integer (a-z)
+      real*8 p, dp, ddp, pt, wt, kmat, edge
+      character*(*) cordsys, coord, typarg
+      character*80 title
+      dimension p(n,n), dp(n,n), ddp(n,n), kmat(n,n)
+      dimension pt(n), wt(n), edge(2)
+      common/io/inp, iout 
+      call rzero(kmat,n*n)
+      if(cordsys.eq.'cartesian') then
+         if(coord.eq.'x'.or.
+     1      coord.eq.'y'.or.
+     2      coord.eq.'z') then
+\end{verbatim}
+ The kinetic energy operator is assumed to be,
+ \begin{equation}
+         T = - \frac{1}{2M} \frac{d^2}{dx^2}
+ \end{equation}
+ $x$ can be the transformed radial equation as well as cartesian coordinates.
+\begin{verbatim}
+            call kinxyz(kmat,p,dp,ddp,wt,
+     1                  pt(1),edge(1),pt(n),edge(2),n)
+         elseif(coord.eq.'r') then
+            call kinxyz(kmat,p,dp,ddp,wt,
+     1                  pt(1),edge(1),pt(n),edge(2),n)
+         else
+            call lnkerr('error in axis type')
+         endif
+      elseif(cordsys.eq.'spherical') then
+\end{verbatim}
+ The kinetic energy operator is assumed to be,
+ \begin{equation}
+    T =- \frac{1}{2M} \frac{1}{r^2} \frac{d}{dr} \big (  r^2 \frac{d} {dr} \big )
+ \end{equation}
+\begin{verbatim}
+         call kinrad(kmat,p,dp,ddp,pt,wt,edge(1),edge(2),n,typarg)
+      elseif(cordsys.eq.'cylindrical') then
+\end{verbatim}
+ The kinetic energy operator is assumed to be,
+ \begin{equation}
+    T =- \frac{1}{2M} \frac{1}{\rho} \frac{d}{d \rho} \big (  \rho \frac{d} {d \rho} \big )
+ \end{equation}
+\begin{verbatim}
+         call kincyl(kmat,p,dp,ddp,pt,wt,edge(1),edge(2),n,typarg)
+      else
+         call lnkerr('quit')
+      endif
+      return
+      end       
+\end{verbatim}
+\end{document}

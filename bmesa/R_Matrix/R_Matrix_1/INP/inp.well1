@@ -1,0 +1,61 @@
+$route
+ print=(r-matrix-1=all)
+ number-of-dimensions=2 space-dimension-1=x space-dimension-2=y 
+ symmetry=unsymmetric
+$end
+          
+$nonstd
+71//01;
+20//01;
+$end
+
+$title
+DVR Code
+$end
+
+$h(x)
+ number-of-regions=1 number-of-points-per-region=(3) 
+ left-boundary-condition=0 right-boundary-condition=1 
+ region-boundaries=(0.d0,1.d0)
+$end
+
+$v(x)
+ use-atomic-units potential=well well-depth=-2.d0
+$end
+
+$h0(x)
+ number-of-regions=1 number-of-points-per-region=(3) 
+ left-boundary-condition=0 right-boundary-condition=1 
+ region-boundaries=(0.d0,1.d0)
+$end
+
+$v0(x)
+ use-atomic-units potential=none
+$end
+
+$h(y)
+ number-of-regions=1 number-of-points-per-region=(3) 
+ left-boundary-condition=0 right-boundary-condition=1 
+ region-boundaries=(0.d0,1.d0)
+$end
+
+$v(y)
+ use-atomic-units potential=well  well-depth=-2.d0
+$end
+
+$h0(y)
+ number-of-regions=1 number-of-points-per-region=(3) 
+ left-boundary-condition=0 right-boundary-condition=1 
+ region-boundaries=(0.d0,1.d0)
+$end
+
+$v0(y)
+ use-atomic-units potential=none
+$end
+
+$vpert
+ potential=none
+ d12=0.d0 d21=0.d0 
+$end
+
+

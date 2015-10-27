@@ -1,0 +1,11 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M402
+#
+SOURCE = m402
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/aosym.f \
+	$(MESA_HOME)/$(SOURCE)/nsalc.f \
+	$(MESA_HOME)/$(SOURCE)/symprj.f \
+	$(MESA_HOME)/$(SOURCE)/$(SOURCE).f

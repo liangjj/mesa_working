@@ -1,0 +1,889 @@
+      program m822
+c
+c***begin prologue     m822
+c***date written       871027   (yymmdd)
+c***revision date      yymmdd   (yymmdd)
+c
+c***keywords           guga integral ordering
+c***author             saxe, paul (lanl)
+c***source             %W%   %G%
+c
+c***purpose            to sort mo ordered mo integrals to guga order.
+c
+c***description        
+c
+c***references         
+c
+c***routines called    (none)
+c
+c***end prologue       m822
+c
+      implicit integer (a-z)
+c
+      character*496 ops
+      character*128 namint
+      logical logkey
+      integer icore(1)
+c
+      common // rcore(1)
+c
+      equivalence (icore,rcore)
+c
+c     ----- open the read-write file -----
+c
+      call drum
+c
+c     ----- recover the options string -----
+c
+      call iosys('read character options from rwf',-1,0,0,ops)
+c
+c     ----- enable timing routines if requested -----
+c
+c
+c     ----- call the routines to make the supermatrices -----
+c
+      call iosys('read character "integral filename" from rwf',
+     $     0,0,0,namint)
+      call iosys('open ints as old',0,0,0,namint)
+c
+      call mn822(rcore,icore,maxcor,'ints','ci','ci')
+c
+      call iosys('close ints',0,0,0,' ')
+c
+c     ----- stop timing -----
+c
+c
+c     ----- and exit with grace -----
+c
+      call chainx(0)
+c
+c
+      stop
+      end
+*deck guglab
+      integer function guglab(it,istt,jt,jstt,kt,kstt,lt,lstt,ijadd,
+     $     numij,kadd,ladd,norbs,nsym)
+c
+      implicit integer (a-z)
+c
+      integer ijadd(numij),kadd(norbs,nsym),ladd(norbs,nsym)
+      integer temp(4,2)
+c
+      equivalence (temp(1,1),i),(temp(2,1),j)
+      equivalence (temp(3,1),k),(temp(4,1),l)
+      equivalence (temp(1,2),is),(temp(2,2),js)
+      equivalence (temp(3,2),ks),(temp(4,2),ls)
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- make sure we have a canonical representation -----
+c
+      ic=it
+      jc=jt
+      kc=kt
+      lc=lt
+      ist=istt
+      jst=jstt
+      kst=kstt
+      lst=lstt
+c
+      if (jc.gt.ic) then
+         t=ic
+         ic=jc
+         jc=t
+         t=ist
+         ist=jst
+         jst=t
+      end if
+      if (lc.gt.kc) then
+         t=kc
+         kc=lc
+         lc=t
+         t=kst
+         kst=lst
+         lst=t
+      end if
+      if (kc.gt.ic.or.(ic.eq.kc.and.lc.gt.jc)) then
+         t=ic
+         ic=kc
+         kc=t
+         t=jc
+         jc=lc
+         lc=t
+         t=ist
+         ist=kst
+         kst=t
+         t=jst
+         jst=lst
+         lst=t
+      end if
+c
+      temp(1,1)=it
+      temp(2,1)=jt
+      temp(3,1)=kt
+      temp(4,1)=lt
+      temp(1,2)=ist
+      temp(2,2)=jst
+      temp(3,2)=kst
+      temp(4,2)=lst
+c
+      pass=0
+    1 continue
+         diff=0
+         do 3 n=2,4
+            if (temp(n,1).gt.temp(n-1,1)) then
+               t=temp(n,1)
+               temp(n,1)=temp(n-1,1)
+               temp(n-1,1)=t
+               t=temp(n,2)
+               temp(n,2)=temp(n-1,2)
+               temp(n-1,2)=t
+               diff=diff+1
+            end if
+    3    continue
+         pass=pass+1
+         if (pass.gt.50) call lnkerr('bubble sort')
+      if (diff.gt.0) go to 1
+c
+      ijs=xor(is-1,js-1)+1
+      ijks=xor(ijs-1,ks-1)+1
+      if (ijks.ne.ls) then
+         guglab=-9999999
+         go to 1000
+      end if
+      ij=ioff(i,j)
+c
+      guglab=ijadd(ij)+kadd(k,ijs)+ladd(l,ijks)+1
+      if (i.eq.l) then
+         go to 1000
+      else if (i.eq.k) then
+         go to 1000
+      else if (i.eq.j) then
+         if (ic.eq.jc) guglab=guglab+1
+         go to 1000
+      else
+         if (j.eq.l) then
+c
+c          ----- special case: [il;ll] -----
+c
+            ij=ioff(i,i)
+            if (is.ne.js) then
+               guglab=-9999998
+               go to 1000
+            end if
+            guglab=ijadd(ij)+kadd(i,1)+ladd(l,is)+2
+         else if (j.eq.k) then
+            if (kc.eq.lc) guglab=guglab+1
+            go to 1000
+         else if (k.eq.l) then
+            if (kc.eq.lc) guglab=guglab+1
+            go to 1000
+         else
+            if (j.eq.jc) then
+               guglab=guglab+1
+               go to 1000
+            else if (l.eq.jc) then
+               guglab=guglab+2
+               go to 1000
+            end if
+         end if
+         go to 1000
+      end if
+c
+c 
+ 1000 continue
+c      write (0,1001) ic,jc,kc,lc,it,jt,kt,lt,ist,jst,kst,lst,
+c     #               i,j,k,l,is,js,ks,ls,guglab
+c 1001 format (1x,4i2,2x,4i2,2x,4i1,5x,4i2,2x,4i1,5x,i10)
+c
+c
+      return
+      end
+*deck mn822
+      subroutine mn822(a,z,maxcor,tunit,calc,type)
+c
+      implicit integer (a-z)
+c
+      character*(*) type
+      character*(*) calc
+      character*(*) tunit
+      character*16 unit
+      character*496 ops
+      integer a(maxcor)
+      real*8 z(*)
+c
+      common /io/ inp,iout
+c
+      parameter (minbin=1024)
+      parameter (minbuf=30000)
+c
+c
+      call iosys('read character options from rwf',-1,0,0,ops)
+c
+      unit=tunit
+c
+c     ----- read dimensions etc from the drt -----
+c
+      call iosys('read integer "number of drt functions" from rwf',
+     $     1,nbf,0,' ')
+      call iosys('read integer "symmetries in ci" from rwf',
+     $     1,nsymci,0,' ')
+      call iosys('read integer "number of symmetries" from rwf',
+     $     1,nsym,0,' ')
+      call iosys('read integer norbs from rwf',1,norbs,0,' ')
+      call iosys('read integer symorb from rwf',1,symorb,0,' ')
+      call iosys('read integer numij from rwf',1,numij,0,' ')
+      call iosys('read integer ngroup from rwf',1,ngroup,0,' ')
+      call iosys('read integer nmax from rwf',1,nmax,0,' ')
+c
+      nnpsym=nsym*(nsym+1)/2
+      nnqsym=nnpsym*(nnpsym+1)/2
+      nnp=nbf*(nbf+1)/2
+c
+c     ----- allocate core for the drt and other arays -----
+c
+      kadd=1
+      ladd=kadd+symorb
+      ijadd=ladd+symorb
+      ijgrp=ijadd+numij
+      bfsym=ijgrp+numij
+      orbtbf=bfsym+nbf
+      bftorb=orbtbf+norbs
+      orbsym=bftorb+nbf
+      nso=orbsym+norbs
+      ijpt=nso+nsym
+      ijklpt=ijpt+numij
+      isym=ijklpt+nnqsym
+      jsym=isym+nnpsym
+      ijsym=jsym+nnpsym
+      symoff=ijsym+nnpsym
+      need=symoff+nsym
+c
+      call getscm(need,a,maxcor,'drt arrays',0)
+c
+      call iosys('read integer kadd from rwf',symorb,a(kadd),0,' ')
+      call iosys('read integer ladd from rwf',symorb,a(ladd),0,' ')
+      call iosys('read integer ijadd from rwf',numij,a(ijadd),0,' ')
+      call iosys('read integer ijgrp from rwf',numij,a(ijgrp),0,' ')
+      call iosys('read integer iout from rwf',nbf,a(bftorb),0,' ')
+      call iosys('read integer orbsym from rwf',norbs,a(orbsym),0,' ')
+      call iosys('read integer bfsym from rwf',nbf,a(bfsym),0,' ')
+      call iosys('read integer orbtbf from rwf',norbs,a(orbtbf),0,' ')
+c
+c     ----- retrieve parameters we'll need -----
+c
+c      call iosys('read integer "number of symmetries" from rwf',1,junk,
+c     #             0,' ')
+c      if (junk.ne.nsymci) then
+c         call lnkerr('inconsistency in the number of symmetries')
+c      end if
+      call iosys('read integer "number 1 ints" from rwf',1,n1int,0,' ')
+      call iosys('read integer "number 2 ints" from rwf',1,n2int,0,' ')
+c
+c
+      call iosys('read integer "number of so" from rwf',nsym,
+     #            a(nso),0,' ')
+      call iosys('read integer "symmetry pointer" from rwf',nnqsym,
+     #            a(ijklpt),0,' ')
+      call iosys('read integer "pair i symmetry" from rwf',nnpsym,
+     #            a(isym),0,' ')
+      call iosys('read integer "pair j symmetry" from rwf',nnpsym,
+     #            a(jsym),0,' ')
+      call iosys('read integer "pair symmetry" from rwf',nnpsym,
+     #            a(ijsym),0,' ')
+      call iosys('read integer "pair pointer" from rwf',numij,
+     #            a(ijpt),0,' ')
+c
+c     ----- work out some sizes we need for scratch arrays -----
+c
+      maxblk=0
+      do 1 i=1,nsym
+         maxblk=max(maxblk,a(nso+i-1))
+    1 continue
+c
+c     ----- allocate core for sorting the integrals -----
+c
+      call getscm(0,a,maxcor,'?',0)
+c
+      h=wpadti(need)
+      in=h+n1int
+      lenbuf=max(minbuf,maxblk**2)
+      lenbuf=min(lenbuf,maxblk**4)
+      val=in+lenbuf
+      lenbin=minbin
+      lab=wpadti(val+lenbin)
+      bin=lab+lenbin
+      rsort=iadtwp(bin+lenbin)
+      isort=wpadti(rsort)
+      lnsort=min(wptoin(ngroup*nmax),maxcor-isort+1)
+      need=isort+lnsort
+c
+      call getscm(need,a,maxcor,'sort',0)
+c
+c     ----- if a ci calculation, the orbitals have been reordered
+c
+c      if (calc.eq.'ci') then
+c         do 2 i=1,nbf
+c            a(bftorb+i-1)=i
+c 2       continue
+c      end if
+c
+      call toguga(z(h),n1int,z(in),lenbuf,z(val),a(lab),a(bin),lenbin,
+     #            z(rsort),a(isort),lnsort,
+     #            a(isym),a(jsym),a(ijsym),nsymci,nnpsym,
+     #            a(ijklpt),nnqsym,a(nso),a(symoff),
+     #            a(kadd),a(ladd),a(ijgrp),a(ijadd),
+     #            norbs,numij,a(bftorb),nbf,nmax,ngroup,ops,
+     #            a(ijpt),unit,type,nsym,a(bfsym))
+c
+c      call iosys('read real guga-integrals from guga',nmax,z,0,' ')
+c
+c
+      return
+      end
+*deck sriiii
+      subroutine sriiii(ni,in,nin,val,lab,bin,lenbin,nbin,
+     #     nii,pt,ops,is,bftorb,ijadd,kadd,ladd,
+     #     numij,norbs,nsym,isort,rsort,lnsort,unit,calc,bfsym)
+c
+      implicit integer (a-z)
+c
+      character*(*) calc
+      character*16 unit
+      real*8 in(nii,nin),val(lenbin),rsort(*)
+      integer bfsym(ni)
+      integer lab(lenbin),bin(lenbin),bftorb(ni),ijadd(numij)
+      integer kadd(norbs,nsym),ladd(norbs,nsym),isort(lnsort)
+      character*(*) ops
+      logical logkey
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- loop over buffer loads of so integrals -----
+c
+      k=0
+      l=0
+      maxkl=0
+ 1000 continue
+         minkl=maxkl+1
+         maxkl=min(nii,maxkl+nin)
+         numkl=maxkl-minkl+1
+         if (calc.eq.'ci') then
+            call iosys('read real "mo two-electron integrals" from '//
+     $           unit,nii*numkl,in,pt+(minkl-1)*nii,' ')
+         else if (calc.eq.'mcscf') then
+            call iosys('read real "g mcscf" from '//unit,nii*numkl,in,
+     $           pt+(minkl-1)*nii,' ')
+         end if
+c
+c
+         if (logkey(ops,'print=m820=two-electron-integrals',
+     $        .false.,' ')) then
+            write (iout,9001)
+ 9001       format (5x,'m820: two-electron integrals (mo)')
+            call matout(in,nii,numkl,nii,numkl,iout)
+         end if
+         
+c
+c        ----- sift through a canonical list -----
+c
+         do 10 kl=1,numkl
+c
+            l=l+1
+            if (l.gt.k) then
+               k=k+1
+               l=1
+            end if
+            korb=bftorb(k)
+            ksym=bfsym(k)+1
+            lorb=bftorb(l)
+            lsym=bfsym(l)+1
+c
+            ij=0
+            do 2 i=1,ni
+               iorb=bftorb(i)
+               isym=bfsym(i)+1
+               if (nbin+i.gt.lenbin) then
+                  call sorter('with bin',isort,rsort,0,nbin,lab,
+     #                         bin,val,0,0,0,0)
+                  nbin=0
+               end if
+               do 1 j=1,i
+                  ij=ij+1
+                  if (ij.lt.minkl+kl-1) go to 1
+                  jorb=bftorb(j)
+                  jsym=bfsym(j)+1
+                  lb=guglab(iorb,isym,jorb,jsym,korb,ksym,lorb,lsym,
+     #                 ijadd,numij,kadd,ladd,norbs,nsym)
+                  if (lb.gt.0) then
+                     nbin=nbin+1
+                     lab(nbin)=lb
+                     val(nbin)=in(ij,kl)
+                  end if
+    1          continue
+    2       continue
+   10    continue
+      if (maxkl.lt.nii) go to 1000
+c
+c  
+      return
+      end
+*deck sriijj
+      subroutine sriijj(ni,nj,in,nin,val,lab,bin,lenbin,nbin,
+     #                  nii,njj,pt,ops,is,js,ibforb,jbforb,
+     #                  ijadd,kadd,ladd,numij,norbs,nsym,
+     #                  isort,rsort,lnsort,unit,calc,ibfsym,jbfsym)
+c
+      implicit integer (a-z)
+c
+      character*(*) calc
+      character*16 unit
+      real*8 in(nii,nin),val(lenbin),rsort(*)
+      integer isort(lnsort)
+      integer ibfsym(ni)
+      integer jbfsym(nj)
+      integer lab(lenbin),bin(lenbin),ibforb(ni),jbforb(nj)
+      integer ijadd(numij),kadd(norbs,nsym),ladd(norbs,nsym)
+      character*(*) ops
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- loop over buffer loads of so integrals -----
+c
+      k=0
+      l=0
+      maxkl=0
+ 1000 continue
+         minkl=maxkl+1
+         maxkl=min(njj,maxkl+nin)
+         numkl=maxkl-minkl+1
+         if (calc.eq.'ci') then
+            call iosys('read real "mo two-electron integrals" from '//
+     $           unit,nii*numkl,in,pt+(minkl-1)*nii,' ')
+         else if (calc.eq.'mcscf') then
+            call iosys('read real "g mcscf" from '//unit,nii*numkl,in,
+     $           pt+(minkl-1)*nii,' ')
+         end if
+c
+c        ----- sift through a canonical list -----
+c
+         do 10 kl=1,numkl
+c
+            l=l+1
+            if (l.gt.k) then
+               k=k+1
+               l=1
+            end if
+            korb=jbforb(k)
+            ksym=jbfsym(k)+1
+            lorb=jbforb(l)
+            lsym=jbfsym(l)+1
+c
+            ij=0
+            do 2 i=1,ni
+               iorb=ibforb(i)
+               isym=ibfsym(i)+1
+               if (nbin+i.gt.lenbin) then
+                  call sorter('with bin',isort,rsort,0,nbin,lab,
+     #                         bin,val,0,0,0,0)
+                  nbin=0
+               end if
+               do 1 j=1,i
+                  ij=ij+1
+                  jorb=ibforb(j)
+                  jsym=ibfsym(j)+1
+                  lb=guglab(iorb,isym,jorb,jsym,korb,ksym,lorb,lsym,
+     #                 ijadd,numij,kadd,ladd,norbs,nsym)
+                  if (lb.gt.0) then
+                     nbin=nbin+1
+                     lab(nbin)=lb
+                     val(nbin)=in(ij,kl)
+                  end if
+    1          continue
+    2       continue
+   10    continue
+      if (maxkl.lt.njj) go to 1000
+c
+c  
+      return
+      end
+*deck srijij
+      subroutine srijij(ni,nj,in,nin,val,lab,bin,lenbin,nbin,
+     #                  nij,pt,ops,is,js,ibforb,jbforb,
+     #                  ijadd,kadd,ladd,numij,norbs,nsym,
+     #                  isort,rsort,lnsort,unit,calc,ibfsym,jbfsym)
+c
+      implicit integer (a-z)
+c
+      character*(*) calc
+      character*16 unit
+      real*8 in(nij,nin),val(lenbin),rsort(*)
+      integer isort(lnsort)
+      integer ibfsym(ni)
+      integer jbfsym(nj)
+      integer lab(lenbin),bin(lenbin),ibforb(ni),jbforb(nj)
+      integer ijadd(numij),kadd(norbs,nsym),ladd(norbs,nsym)
+      character*(*) ops
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- loop over buffer loads of so integrals -----
+c
+      k=0
+      l=1
+      maxkl=0
+ 1000 continue
+         minkl=maxkl+1
+         maxkl=min(nij,maxkl+nin)
+         numkl=maxkl-minkl+1
+         if (calc.eq.'ci') then
+            call iosys('read real "mo two-electron integrals" from '//
+     $           unit,nij*numkl,in,pt+(minkl-1)*nij,' ')
+         else if (calc.eq.'mcscf') then
+            call iosys('read real "g mcscf" from '//unit,nij*numkl,in,
+     $           pt+(minkl-1)*nij,' ')
+         end if
+c
+c        ----- sift through a canonical list -----
+c
+         do 10 kl=1,numkl
+c
+            k=k+1
+            if (k.gt.ni) then
+               l=l+1
+               k=1
+            end if
+            korb=ibforb(k)
+            ksym=ibfsym(k)+1
+            lorb=jbforb(l)
+            lsym=jbfsym(l)+1
+c
+            ij=0
+            do 2 j=1,nj
+               jorb=jbforb(j)
+               jsym=jbfsym(j)+1
+               if (nbin+ni.gt.lenbin) then
+                  call sorter('with bin',isort,rsort,0,nbin,lab,
+     #                         bin,val,0,0,0,0)
+                  nbin=0
+               end if
+               do 1 i=1,ni
+                  ij=ij+1
+                  if (ij.lt.minkl+kl-1) go to 1
+                  iorb=ibforb(i)
+                  isym=ibfsym(i)+1
+                  lb=guglab(iorb,isym,jorb,jsym,korb,ksym,lorb,lsym,
+     #                 ijadd,numij,kadd,ladd,norbs,nsym)
+                  if (lb.gt.0) then
+                     nbin=nbin+1
+                     lab(nbin)=lb
+                     val(nbin)=in(ij,kl)
+                  end if
+    1          continue
+    2       continue
+   10    continue
+      if (maxkl.lt.nij) go to 1000
+c
+c  
+      return
+      end
+*deck srijkl
+      subroutine srijkl(ni,nj,nk,nl,in,nin,val,lab,bin,lenbin,nbin,
+     #     nij,nkl,pt,ops,is,js,ks,ls,ibforb,jbforb,
+     #     kbforb,lbforb,ijadd,kadd,ladd,numij,norbs,nsym,
+     #     isort,rsort,lnsort,unit,calc,ibfsym,jbfsym,kbfsym,lbfsym)
+c
+      implicit integer (a-z)
+c
+      character*(*) calc
+      character*16 unit
+      real*8 in(nij,nin),val(lenbin),rsort(*)
+      integer isort(lnsort)
+      integer ibfsym(ni)
+      integer jbfsym(nj)
+      integer kbfsym(nk)
+      integer lbfsym(nl)
+      integer lab(lenbin),bin(lenbin),ibforb(ni),jbforb(nj)
+      integer kbforb(nk),lbforb(nl)
+      integer ijadd(numij),kadd(norbs,nsym),ladd(norbs,nsym)
+      character*(*) ops
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- loop over buffer loads of so integrals -----
+c
+      k=0
+      l=1
+      maxkl=0
+ 1000 continue
+         minkl=maxkl+1
+         maxkl=min(nkl,maxkl+nin)
+         numkl=maxkl-minkl+1
+         if (calc.eq.'ci') then
+            call iosys('read real "mo two-electron integrals" from '//
+     $           unit,nij*numkl,in,pt+(minkl-1)*nij,' ')
+         else if (calc.eq.'mcscf') then
+            call iosys('read real "g mcscf" from '//unit,nij*numkl,in,
+     $           pt+(minkl-1)*nij,' ')
+         end if
+c
+c        ----- sift through a canonical list -----
+c
+         do 10 kl=1,numkl
+c
+            k=k+1
+            if (k.gt.nk) then
+               l=l+1
+               k=1
+            end if
+            korb=kbforb(k)
+            ksym=kbfsym(k)+1
+            lorb=lbforb(l)
+            lsym=lbfsym(l)+1
+c
+            ij=0
+            do 2 j=1,nj
+               jorb=jbforb(j)
+               jsym=jbfsym(j)+1
+               if (nbin+ni.gt.lenbin) then
+                  call sorter('with bin',isort,rsort,0,nbin,lab,
+     #                         bin,val,0,0,0,0)
+                  nbin=0
+               end if
+               do 1 i=1,ni
+                  ij=ij+1
+                  if (ij.lt.minkl+kl-1) go to 1
+                  iorb=ibforb(i)
+                  isym=ibfsym(i)+1
+                  lb=guglab(iorb,isym,jorb,jsym,korb,ksym,lorb,lsym,
+     #                 ijadd,numij,kadd,ladd,norbs,nsym)
+                  if (lb.gt.0) then
+                     nbin=nbin+1
+                     lab(nbin)=lb
+                     val(nbin)=in(ij,kl)
+                  end if
+    1          continue
+    2       continue
+   10    continue
+      if (maxkl.lt.nkl) go to 1000
+c
+c  
+      return
+      end
+*deck srone
+      subroutine srone(ni,is,bftorb,h,nii,ijadd,numij,kadd,ladd,
+     #                 norbs,val,lab,bin,lenbin,nbin,isort,rsort,
+     #                 lnsort,ops,bfsym)
+c
+      implicit integer (a-z)
+c
+      real*8 h(nii),val(lenbin),rsort(*)
+      integer isort(lnsort)
+      integer bfsym(ni)
+      integer bftorb(ni),ijadd(numij),kadd(norbs),ladd(norbs,*)
+      integer lab(lenbin),bin(lenbin)
+      logical logkey
+      character*(*) ops
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c
+      if (logkey(ops,'print=m820=one-electron-integrals',.false.,' '))
+     $     then
+         write (iout,9001)
+ 9001    format (5x,'m820: one-electron integrals (mo)')
+         call print(h,nii,ni,iout)
+      end if
+c
+c     ----- disperse the one-electron integrals -----
+c
+      ij=0
+      do 20 i=1,ni
+         iorb=bftorb(i)
+         isym=bfsym(i)+1
+         if (nbin+i.gt.lenbin) then
+            call sorter('with bin',isort,rsort,0,nbin,lab,
+     #                   bin,val,0,0,0,0)
+            nbin=0
+         end if
+         do 10 j=1,i
+            ij=ij+1
+            jorb=bftorb(j)
+            jsym=bfsym(j)+1
+            if (jsym.ne.isym) go to 10
+            ijorb=ioff(max(iorb,jorb),max(iorb,jorb))
+            nbin=nbin+1
+            val(nbin)=h(ij)
+            if (j.ne.i) then
+               lab(nbin)=ijadd(ijorb)+kadd(max(iorb,jorb))+
+     #                                ladd(min(iorb,jorb),jsym)+3
+            else
+               lab(nbin)=ijadd(ijorb)+kadd(iorb)+ladd(iorb,jsym)+2
+            end if
+   10    continue
+   20 continue
+c
+c
+      return 
+      end
+*deck toguga
+      subroutine toguga(h,n1int,in,lenbuf,val,lab,bin,lenbin,rsort,
+     #                  isort,lnsort,isym,jsym,ijsym,nsymci,nnpsym,
+     #                  ijklpt,nnqsym,nso,symoff,kadd,ladd,ijgrp,
+     #                  ijadd,norbs,numij,bftorb,nbf,nmax,ngroup,
+     #                  ops,ijpt,unit,calc,nsym,bfsym)
+c
+      implicit integer (a-z)
+c
+      character*(*) calc
+      character*16 unit
+      real*8 h(n1int),in(lenbuf),val(lenbin),rsort(*)
+      integer lab(lenbin),bin(lenbin),isym(nnpsym),jsym(nnpsym)
+      integer ijsym(nnpsym),ijklpt(nnqsym),nso(nsym),symoff(nsym)
+      integer kadd(norbs,nsymci),ladd(norbs,nsymci),ijgrp(numij)
+      integer ijadd(numij),bftorb(nbf),ijpt(numij)
+      integer bfsym(nbf)
+      character*(*) ops
+      integer isort(lnsort)
+      logical logkey
+c
+      common /io/ inp,iout
+c
+      ioff(i,j)=i*(i-1)/2+j
+c
+c     ----- set up the symmetry offset array -----
+c
+      symoff(1)=1
+      do 1 i=2,nsym
+         symoff(i)=symoff(i-1)+nso(i-1)
+    1 continue
+c
+c     ----- combine 'ijadd' and 'ijgrp' into a single offset -----
+c
+      do 2 i=1,numij
+         ijadd(i)=ijadd(i)+(ijgrp(i)-1)*nmax
+    2 continue
+c
+c     ----- fetch the one-electron integrals -----
+c
+      if (calc.eq.'ci') then
+         call iosys('read real "mo one-electron integrals" from '
+     $        //unit,n1int,h,0,' ')
+      else if (calc.eq.'mcscf') then
+         call iosys('read real "h mcscf" from '//unit,n1int,h,0,' ')
+      end if
+c
+c
+c     ----- initalize the sorting routines -----
+c
+      call sorter('start',isort,rsort,lnsort,nmax*ngroup,0,0,0,0,
+     #             'guga integrals',unit,.false.)
+c
+      nbin=0
+      pt1=1
+      do 200 ijs=1,nnpsym
+         is=isym(ijs)
+         ni=nso(is)
+         js=jsym(ijs)
+         nj=nso(js)
+         if (is.eq.js) then
+            nij=ioff(ni,nj)
+         else
+            nij=ni*nj
+         end if
+c
+c        ----- deal with one-electron integrals -----
+c
+         if (is.eq.js) then
+            call srone(ni,is,bftorb(symoff(is)),h(pt1),ioff(ni,ni),
+     #           ijadd,numij,kadd,ladd,norbs,val,lab,bin,lenbin,nbin,
+     $           isort,rsort,lnsort,ops,bfsym(symoff(is)))
+            pt1=pt1+ioff(ni,ni)
+         end if
+c
+         do 100 kls=1,ijs
+c
+c           ----- check for totally symmetric integrals -----
+c
+            if (ijsym(ijs).ne.ijsym(kls)) go to 100
+            ks=isym(kls)
+            nk=nso(ks)
+            ls=jsym(kls)
+            nl=nso(ls)
+            if (ks.eq.ls) then
+               nkl=ioff(nk,nl)
+            else
+               nkl=nk*nl
+            end if
+            if (nij*nkl.eq.0) go to 100
+            maxblk=max(ni,nj,nk,nl)
+            ijkl=ioff(ioff(is,js),ioff(ks,ls))
+            pt=ijklpt(ijkl)
+c
+c
+c            write (0,10) ijkl,is,js,ks,ls,pt,ni,nj,nk,nl
+c   10       format (' symmetry block ',i3,5x,4i1,i8,5x,4i3)
+c
+c
+c           ----- divide up input buffer appropriately -----
+c
+            nin=lenbuf/nij
+c
+            if (nin.le.0) then
+               call lnkerr('allocation error for input buffer')
+            end if
+c
+c           ----- grab the two-electron integrals -----
+c
+            if (is.eq.js.and.ks.eq.ls.and.is.eq.ls) then
+               call sriiii(ni,in,nin,val,lab,bin,lenbin,nbin,
+     #              nij,pt,ops,is,bftorb(symoff(is)),
+     #              ijadd,kadd,ladd,numij,norbs,nsymci,
+     #              isort,rsort,lnsort,unit,calc,bfsym(symoff(is)))
+            else if (is.eq.js.and.ks.eq.ls) then
+               call sriijj(ni,nk,in,nin,val,lab,bin,lenbin,nbin,
+     #              nij,nkl,pt,ops,is,ks,bftorb(symoff(is)),
+     #              bftorb(symoff(ks)),
+     #              ijadd,kadd,ladd,numij,norbs,nsymci,
+     #              isort,rsort,lnsort,unit,calc,bfsym(symoff(is)),
+     $              bfsym(symoff(ks)))
+            else if (is.eq.ks.and.js.eq.ls) then
+               call srijij(ni,nj,in,nin,val,lab,bin,lenbin,nbin,
+     #              nij,pt,ops,is,js,bftorb(symoff(is)),
+     #              bftorb(symoff(js)),
+     #              ijadd,kadd,ladd,numij,norbs,nsymci,
+     #              isort,rsort,lnsort,unit,calc,bfsym(symoff(is)),
+     $              bfsym(symoff(js)))
+            else 
+               call srijkl(ni,nj,nk,nl,in,nin,val,lab,bin,lenbin,nbin,
+     #              nij,nkl,pt,ops,is,js,ks,ls,
+     #              bftorb(symoff(is)),bftorb(symoff(js)),
+     #              bftorb(symoff(ks)),bftorb(symoff(ls)),
+     #              ijadd,kadd,ladd,numij,norbs,nsymci,
+     #              isort,rsort,lnsort,unit,calc,
+     #              bfsym(symoff(is)),bfsym(symoff(js)),
+     #              bfsym(symoff(ks)),bfsym(symoff(ls)))
+            end if
+  100    continue
+  200 continue
+c
+c     ----- flush the last bin and finish the sort -----
+c
+  933 format (10x,i3,i10,e20.6)
+cend
+      call sorter('with bin',isort,rsort,0,nbin,lab,bin,val,0,0,0,0)
+      call sorter('end',isort,rsort,0,0,0,0,0,0,0,0,0)
+c
+c      call iosys('read real "guga integrals" from '//unit,-1,rsort,
+c     $     0,' ')
+c      write (iout,435) (rsort(i),i=1,nmax)
+c 435  format (1x,5f12.6)
+c
+c
+      return
+      end
+ 

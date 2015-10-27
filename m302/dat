@@ -1,0 +1,14 @@
+#
+SOURCE=m302
+
+SRCS = \
+        $(MESA_HOME)/$(SOURCE)/fixone.f \
+        $(MESA_HOME)/$(SOURCE)/ghermi.f \
+        $(MESA_HOME)/$(SOURCE)/lpints.f \
+        $(MESA_HOME)/$(SOURCE)/ltab.f \
+        $(MESA_HOME)/$(SOURCE)/$(SOURCE).f \
+        $(MESA_HOME)/$(SOURCE)/nucrep.f \
+        $(MESA_HOME)/$(SOURCE)/oneint.f \
+        $(MESA_HOME)/$(SOURCE)/p$(SOURCE).f \
+        $(MESA_HOME)/$(SOURCE)/tints.f \
+        $(MESA_HOME)/$(SOURCE)/vints.f

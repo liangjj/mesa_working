@@ -1,0 +1,32 @@
+$route
+ print=(m6203=(xylm,lm-decomposition,xyukawa,xgrid,xpartial-integrals))
+ m6200=(scattering-grid-cutoff=10.d0,yukawa=on,no-scattering-center) 
+ m6203=(test-normalization xno-spline,bare-yukawa)
+ xprint=(m6200=grid) 
+$end
+$nonstd
+     62//00,03;
+     20//01;
+$end
+$title
+ Test Of Grid Codes
+$end
+$centers
+ no-atomic-centers=2
+ position-center-1=(0.,0.,-.7) charge-center-1=1.0 exponent-center-1=1.5
+ position-center-2=(0.,0.,.7) charge-center-2=1.0 exponent-center-2=1.5
+$end
+$quadrature-atom-1
+ xangular-quadrature=lebedev lebedev-quadrature-order=11
+ maximum-radial-point=20.0  interval-size=1.  default-quadrature-size=5
+ maximum-l-value=5 maximum-m-value=4 phi-quadrature-order=11
+ theta-quadrature-order=6 type-radial-quadrature=newton-cotes
+$end
+$quadrature-atom-2
+ xangular-quadrature=lebedev lebedev-quadrature-order=11
+ maximum-radial-point=20.0  interval-size=1.  default-quadrature-size=5
+ maximum-l-value=1 maximum-m-value=1 phi-quadrature-order=11
+ theta-quadrature-order=6 type-radial-quadrature=newton-cotes
+$end
+
+

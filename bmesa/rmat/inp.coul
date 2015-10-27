@@ -1,0 +1,50 @@
+$route
+ print=(xm6234,m6235=(r-matrix,k-matrix,hamiltonian-eigenvalues),
+ m6236=(r-matrix,k-matrix,debug))
+ potential-type=coulomb                                               
+$end
+$nonstd
+62//34,35;
+20//01;
+$end
+$bsroot
+maximum-l-value=0 number-of-zeros=100 right-boundary=500.d0
+$end
+$grid
+r-matrix-radius=10.0d0
+number-of-integration-regions=5 
+number-of-points-region-1=30 
+starting-r-region-1=0.d0 final-r-region-1=1.0d0 
+number-of-points-region-2=30 
+starting-r-region-2=1.0d0 final-r-region-2=2.0d0 
+number-of-points-region-3=30 
+starting-r-region-3=2.0d0 final-r-region-3=4.0d0 
+number-of-points-region-4=30 
+starting-r-region-4=4.0d0 final-r-region-4=7.0d0 
+number-of-points-region-5=20 
+starting-r-region-5=7.0d0 final-r-region-5=10.0d0 
+final-r=10.d0 potential-range=10.d0
+$end
+$channels
+number-of-channels=1 channel-l-values=(0) channel-energies=(0.d0)
+number-of-basis-functions-per-channel=(50) v11=-1.0d0
+number-of-zero-value-basis-functions-per-channel=(49) 
+xnumber-of-zero-derivative-basis-functions-per-channel=(1) 
+$end
+$energy
+number-of-energies=1 energies=(3.0)
+$end
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

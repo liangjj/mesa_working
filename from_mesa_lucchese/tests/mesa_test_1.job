@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Needed environment variables
+# TMPDIR - directory for work directory
+# MESA - main mesa directory
+# ver - which compiler version (beginning with a period or blank)
+
+date
+
+echo mesa test 1 - dzp H2O scf calculation 
+echo using version $ver
+
+PATH=$PATH:$MESA/bin$ver
+rundir=run_mesa_test_1$ver
+
+siz=4000000
+
+cd $TMPDIR
+rm -r $rundir
+mkdir $rundir
+cd $rundir
+cp $MESA/mesa.dat .
+mkdir tmp
+
+cat <<EOF | sed -e "s/#.*//" > mesa.inp 
+\$title
+dzp h2o closed shell scf
+\$end
+
+\$route
+maxsiz=900000 
+2s+1=1 
+print=(basis.scf=vector) 
+hf scf=(pulay) 
+guess=(huckel) 
+basis=dzp,sym=off 
+\$end
+
+\$geom
+o
+h1 o r1
+h2 o r2 h1 a1
+
+r1=1.949 
+r2=1.949 
+a1=112.3 
+\$end
+EOF
+optmesa siz=$siz
+cat mesa.out
+
+date

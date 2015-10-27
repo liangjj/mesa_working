@@ -1,0 +1,3 @@
+This is still in development stage, and may not be worth doing anyway. There
+is a fundamental problem in making it portable, because some machines don't
+let you pass negative relative addresses.

@@ -1,0 +1,27 @@
+$route
+2s+1=1,maxsiz=1500000
+hf scf=(pulay)
+guess=(huckel)
+basis=dz,sym=off,force-constants
+opt=(berny,srcd2e=analytic)
+$nonstd
+     1//1,2;
+     :opt;
+        2//1(:endopt);
+        2//2; 3//2,12,30; 4//1; 5//1; 10//11; 7//1,2,12; 8//11; 3//3,23;
+        8//24; 10//12,13,14,20,22; 7//31,32(:opt);
+     :endopt
+     19//51; 20//01;
+$end
+$title
+ h2o test case: scf/analytic second derivative optimization
+$end
+$geom
+o
+h1 o r1
+h2 o r2 h1 a1
+ 
+r1=1.1
+r2=1.1
+a1=104.0
+$end

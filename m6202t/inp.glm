@@ -1,0 +1,31 @@
+$route
+ m6202=(test-normalization,xoverride-angular-momentum,lmax=2,mmax=1)
+ print=(m6202=(xylm,lm-decomposition,gaussian,xgrid))
+ scattering-grid-cutoff=20.d0 no-spline yukawa=on
+ xno-scattering-center only-one-grid
+$end
+$nonstd
+     62//00,02;
+     20//01;
+$end
+$title
+decomposition of gaussians
+$end
+$centers
+ no-atomic-centers=1
+ position-center-1=(0.,0.,1.) charge-center-1=1.0 exponent-center-1=1.0
+$end
+$quadrature-scattering center
+ xinput-shell-information
+ no-radial-shells=10 radial-boundaries=(0.,.25,.5,.75,1.,2.,3.,4.,5.,7.,
+                                       10.) 
+ radial-quadrature-orders=(9,9,9,9,9,9,9,9,9,9)
+ angular-quadrature=lebedev lebedev-quadrature-order=9
+ maximum-radial-point=10.0  interval-size=1.0  default-quadrature-size=7
+ maximum-l-value=2 maximum-m-value=1 phi-quadrature-order=7
+ theta-quadrature-order=5 type-radial-quadrature=legendre
+$end
+$gaussians
+number-of-gaussians=1 x-powers(0) y-powers(0) z-powers(0) position=(1)
+exponents=.01
+$end

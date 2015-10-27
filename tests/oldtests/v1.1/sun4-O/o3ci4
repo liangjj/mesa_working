@@ -1,0 +1,395 @@
+ mesa(1.2);5/30/91;bsd 4.2 unix.                                                
+     (c) 1990, the university of california.                                    
+     p.w. saxe, b.h. lengsfield iii, r.l. martin, and m. page.                  
+
+     16-Sep-1991 11:29:32    
+     los alamos national laboratory;unknown(iron);                                   
+ files/memory:
+     inp:   /usr2/mesa/tests/input/o3     out:    /usr2/mesa/tests/output/s
+     chk:   mesa.chk                      dat:    /usr2/mesa/mesa.dat      
+     rwf:   tmp/mesa.rwf                  rint:   tmp/mesa.rint            
+     int:   tmp/mesa.int                  tint:   tmp/mesa.tint            
+     gint:  tmp/mesa.gint                 rdint:  tmp/mesa.rdint           
+     dint:  tmp/mesa.dint                 zint:   tmp/mesa.zint            
+     ham:   tmp/mesa.ham                  moden:  tmp/mesa.moden           
+     aoden: tmp/mesa.aoden                saoden: tmp/mesa.saoden          
+     gden:  tmp/mesa.gden                 fci:    tmp/mesa.fci             
+     machine size:          4000000
+     user defined maxsiz:   2000000
+ title:
+     o3      
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     8//2,11;
+     9//2,21;
+     19//2,51;
+     20//01;
+ options:
+     2s+1=1,basis=3s2p1d,print=(basis) guess=(chk=mcscf),sym=off ci=(nroots=3,toleran
+     ce=4,tvector="guess vector") drt=(vexcite=3),int=reuse properties=(transition=(1
+     ,*),e1)
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  3s2p1d  
+      2   2   o  3s2p1d      1   1.278000 r1      
+      3   3   o  3s2p1d      1   1.278000 r1        2  116.800 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:   12
+     number beta electrons:    12
+ basis dimensions:
+     # primitive cartesians    90
+     # contracted cartesians   45
+     # basis functions         45
+
+
+ basis set information.
+
+ atom  1  o 
+ charge:  8.00
+ basis: 3s2p1d          
+ type:s          exponent    coefficient     9 primitives,    3 contracted functions.
+              7817.000000       0.001176  0.000000  0.000000
+              1176.000000       0.008968  0.000000  0.000000
+               273.200000       0.042868  0.000000  0.000000
+                81.170000       0.143930  0.000000  0.000000
+                27.180000       0.355630  0.000000  0.000000
+                 9.532000       0.461248 -0.154153  0.000000
+                 3.414000       0.140206  0.000000  0.000000
+                 0.939800       0.000000  1.056915  0.000000
+                 0.284600       0.000000  0.000000  1.000000
+ type:p          exponent    coefficient     5 primitives,    2 contracted functions.
+                35.180000       0.019580  0.000000
+                 7.904000       0.124200  0.000000
+                 2.305000       0.394714  0.000000
+                 0.717100       0.627376  0.000000
+                 0.213700       0.000000  1.000000
+ type:d          exponent    coefficient     1 primitives,    1 contracted functions.
+                 0.850000       1.000000
+
+ atom  2  o 
+ charge:  8.00
+ basis: 3s2p1d          
+ basis same as on atom   1
+
+ atom  3  o 
+ charge:  8.00
+ basis: 3s2p1d          
+ basis same as on atom   1
+ distance matrix (angstroms):
+                             o1        o2        o3                              
+                 o1     0.00000
+                 o2     1.27800   0.00000
+                 o3     1.27800   2.17701   0.00000
+ interatomic angles:
+          o2-o1-o3 =116.8000
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   o              0.000000    0.000000    1.278000
+      3   3   o              1.140725    0.000000   -0.576221
+ rotational constants (ghz):    105.6879898     13.3334591     11.8397692
+ isotopes:
+     o-16    o-16    o-16    
+ m302: skip one-electron integrals
+ m312: skip two-electron integrals 
+ m330: skip integral sort 
+ m401:initial guess
+     read from the chk.
+ m802:
+     number of symmetries:     1
+     number basis functions:  45
+     number references:        1
+     number groups:            0
+     orbital information:
+         basis fcts  # key    type of orbital  sym
+         ----------  - ---    ---------------  ---
+             1-  6   6        frozen core        1
+             7-  7   1        doubly occupied    1
+             8-  9   2        doubly occupied    1
+            10- 12   3        doubly occupied    1
+            13- 15   3        unoccupied         1
+            16- 45  30        frozen virtual     1
+     symmetry 1;        
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1            770           770       770       F
+     integral information:
+         number of integrals:     1584
+         number of groups:           1
+         group size:              1584
+ m811:transformation
+     guga order
+     orbital set:"guess vector"  
+     number of symmetries                 1
+     orbitals transformed                 9
+     orbitals frozen                     36
+     orthonormality deviation      0.80E-14
+     frozen core energy      -253.539377532
+     memory use                     1154883
+ m902: hamiltonian construction
+     forming the entire hamiltonian of   770 configurations
+     total number of matrix elements:      296835
+     effective zero cutoff          :     0.1E-08
+     number exceeding cutoff        :       47855( 16.1%)
+      incore diagonalization
+
+      root   reference  guess energy    ci energy    c(0)
+       1       770   -224.281757       -224.518503     -0.9148
+       2       650   -224.153130       -224.412992      0.8722
+       3       515   -224.090014       -224.377869      0.8301
+      ci energies have been stored on rwf file
+ m921:wfn and density codes
+
+    most important configurations for root  1
+
+    1  -0.9148   0.9148    770
+          7-  12a  x  
+         13-  15a     
+    2   0.2946   0.9611    766
+        12a  x--> 13a  x
+    3   0.1014   0.9664    304
+         7a  /--> 13a  /
+    4   0.0817   0.9699    690
+        10a  /--> 15a  /
+        11a  --> 14a   
+    5   0.0703   0.9724    753
+        11a  /--> 14a  /
+        12a  --> 13a   
+    6   0.0678   0.9748    669
+        10a  x--> 14a  x
+    7  -0.0669   0.9771    283
+         7a  /--> 13a  /
+        11a  /--> 15a  /
+    8   0.0646   0.9792    757
+        11a  /--> 13a  /
+        12a  /--> 14a  /
+    9   0.0633   0.9813    270
+         7a  /--> 15a  /
+        11a  --> 13a   
+   10   0.0623   0.9832    228
+         7a  /--> 14a  /
+        10a  --> 13a   
+   11   0.0610   0.9851    735
+        11a  x--> 15a  x
+   12  -0.0589   0.9869    250
+         7a  /--> 13a  /
+        10a  /--> 14a  /
+   13   0.0580   0.9886     46
+         7a  x--> 13a  x
+   14   0.0490   0.9898    718
+        10a  /--> 15a  /
+        12a  --> 13a   
+   15   0.0442   0.9908    722
+        10a  /--> 13a  /
+        12a  /--> 15a  /
+     number of electrons:   12.000000000000
+
+    most important configurations for root  2
+
+    1   0.8722   0.8722    650
+          7-   8a  x  
+          9a  \  
+         10-  12a  x  
+         13a  /  
+         14-  15a     
+    2   0.3473   0.9388    509
+         8a  /-->  9a  /
+        12a  --> 13a   
+    3   0.2149   0.9631    760
+        11a  /-->  9a  /
+    4  -0.1257   0.9713    169
+         7a  /-->  9a  /
+         9a  --> 13a   
+    5   0.0705   0.9738    579
+        10a  /--> 15a  /
+        11a  --> 14a   
+    6   0.0689   0.9763    154
+         7a  /-->  9a  /
+        11a  /--> 15a  /
+         9a  --> 13a   
+    7   0.0683   0.9786    550
+        10a  x--> 14a  x
+    8   0.0635   0.9807    147
+         7a  /-->  9a  /
+        10a  /--> 14a  /
+         9a  --> 13a   
+    9   0.0613   0.9826    599
+        11a  x--> 15a  x
+   10   0.0537   0.9841    482
+         8a  /-->  9a  /
+        13a  /--> 14a  /
+        11a  --> 13a   
+   11  -0.0528   0.9855    495
+         8a  /-->  9a  /
+        11a  /--> 14a  /
+   12   0.0491   0.9867    720
+        10a  /-->  9a  /
+        12a  --> 13a   
+   13  -0.0465   0.9878    410
+         8a  /--> 14a  /
+   14  -0.0441   0.9888    272
+         7a  /-->  9a  /
+        11a  --> 13a   
+   15   0.0425   0.9897     78
+         7a  /-->  9a  /
+        11a  /--> 14a  /
+         8a  --> 13a   
+     number of electrons:   12.000000000001
+
+    most important configurations for root  3
+
+    1   0.8301   0.8301    515
+          7a  x  
+          8a  \  
+          9-  12a  x  
+         13a  /  
+         14-  15a     
+    2   0.4400   0.9395    644
+         9a  /-->  8a  /
+        12a  --> 13a   
+    3   0.2450   0.9709    726
+        10a  /-->  8a  /
+    4  -0.0885   0.9750     92
+         7a  /-->  8a  /
+         8a  --> 13a   
+    5   0.0673   0.9773    444
+        10a  /--> 15a  /
+        11a  --> 14a   
+    6   0.0663   0.9795    415
+        10a  x--> 14a  x
+    7   0.0619   0.9815     77
+         7a  /-->  8a  /
+        11a  /--> 15a  /
+         8a  --> 13a   
+    8   0.0599   0.9833     70
+         7a  /-->  8a  /
+        10a  /--> 14a  /
+         8a  --> 13a   
+    9   0.0567   0.9849    464
+        11a  x--> 15a  x
+   10   0.0518   0.9863    617
+         9a  /-->  8a  /
+        13a  /--> 14a  /
+        11a  --> 13a   
+   11   0.0470   0.9874    754
+        11a  /-->  8a  /
+        12a  --> 13a   
+   12   0.0427   0.9883    155
+         7a  /-->  8a  /
+        11a  /--> 14a  /
+         9a  --> 13a   
+   13   0.0405   0.9892    422
+        11a  /--> 15a  /
+        10a  --> 14a   
+   14   0.0376   0.9899    466
+        11a  x--> 14a  x
+   15   0.0361   0.9905    409
+         9a  /--> 15a  /
+     number of electrons:   12.000000000001
+ m1951:
+
+     wavefunction analysis for ci natural orbitals
+
+     root number:  1
+     bond-order matrix:
+                             o1        o2        o3                              
+                 o1     7.51721   0.13336   0.13336
+                 o2     0.13336   8.05523  -0.08056
+                 o3     0.13336  -0.08056   8.05523
+     total atomic charges:
+          o1            7.78394
+          o2            8.10803
+          o3            8.10803
+     origin centered properties:
+        component        electronic     nuclear   total(au)   total(esu-ang**)
+        monopole    
+           e0            -24.000000   24.000000    0.000000        0.000000
+        dipole      
+           e1x           -17.438223   17.245263   -0.192960       -0.490460
+           e1y             0.000000    0.000000    0.000000        0.000000
+           e1z           -10.728066   10.609356   -0.118710       -0.301733
+
+     root number:  2
+     bond-order matrix:
+                             o1        o2        o3                              
+                 o1     7.75644   0.06447   0.06447
+                 o2     0.06447   8.02790  -0.03507
+                 o3     0.06447  -0.03507   8.02790
+     total atomic charges:
+          o1            7.88539
+          o2            8.05731
+          o3            8.05731
+     origin centered properties:
+        component        electronic     nuclear   total(au)   total(esu-ang**)
+        monopole    
+           e0            -24.000000   24.000000    0.000000        0.000000
+        dipole      
+           e1x           -17.351009   17.245263   -0.105746       -0.268783
+           e1y             0.000000    0.000000    0.000000        0.000000
+           e1z           -10.674412   10.609356   -0.065056       -0.165356
+
+     root number:  3
+     bond-order matrix:
+                             o1        o2        o3                              
+                 o1     7.75502   0.08148   0.08148
+                 o2     0.08148   8.03688  -0.07736
+                 o3     0.08148  -0.07736   8.03688
+     total atomic charges:
+          o1            7.91799
+          o2            8.04100
+          o3            8.04100
+     origin centered properties:
+        component        electronic     nuclear   total(au)   total(esu-ang**)
+        monopole    
+           e0            -24.000000   24.000000    0.000000        0.000000
+        dipole      
+           e1x           -17.384450   17.245263   -0.139187       -0.353781
+           e1y             0.000000    0.000000    0.000000        0.000000
+           e1z           -10.694985   10.609356   -0.085628       -0.217647
+     transition analysis for ci roots:   1   2
+
+     origin centered properties:
+        component        electronic     nuclear   total(au)   total(esu-ang**)
+        monopole    
+           e0              0.000000    0.000000    0.000000        0.000000
+        dipole      
+           e1x             0.000000    0.000000    0.000000        0.000000
+           e1y             0.000000    0.000000    0.000000        0.000000
+           e1z             0.000000    0.000000    0.000000        0.000000
+     transition analysis for ci roots:   1   3
+
+     origin centered properties:
+        component        electronic     nuclear   total(au)   total(esu-ang**)
+        monopole    
+           e0              0.000000    0.000000    0.000000        0.000000
+        dipole      
+           e1x             0.000000    0.000000    0.000000        0.000000
+           e1y            -0.122265    0.000000   -0.122265       -0.310769
+           e1z             0.000000    0.000000    0.000000        0.000000
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       0.6       0.2       0.0         0
+      101         1       0.6       0.1       0.0         0
+      102         1       3.4       0.3       0.0         0
+      202         1       0.6       0.2       0.0         0
+      302         1       0.3       0.1       0.0         0
+      312         1       0.2       0.1       0.0         0
+      330         1       0.2       0.1       0.0         0
+      401         1       1.5       0.2       0.0         0
+      802         1       0.6       0.3       0.0         0
+      811         1     103.9       4.6       0.0         0
+      902         1    1343.1     410.3       0.0         0
+      921         1      10.8       0.5       0.0         0
+     1902         1       2.1       0.2       0.0         0
+     1951         1       3.4       0.3       0.0         0
+             total:    1471.4     417.5       0.0         0

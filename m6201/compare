@@ -1,0 +1,388 @@
+1,2c1,2
+< *deck wave.f
+< c***begin prologue     m6201
+---
+> *deck poissson.f
+> c***begin prologue     m6203
+5c5
+< c***keywords           m6201, link 6201, spherical harmonics
+---
+> c***keywords           m6203, link 6203, spherical harmonics
+7,8c7,8
+< c***source             m6201
+< c***purpose            solve inhomogeneous wave equation by expansion
+---
+> c***source             m6203
+> c***purpose            solve poisson equation by expansion
+10c10
+< c***description        solution of the equation ( Del**2 + k**2 ) V = Rho
+---
+> c***description        solution of the equation  Del**2  V = Rho
+12d11
+< c***                   we allow k to be zero to handle the poisson equation.
+18,19c17,18
+< c***end prologue       m6201
+<       program wave 
+---
+> c***end prologue       m6203
+>       program poisson
+21c20
+<       parameter ( dimcen=10 , dimshl=300, dimene=50, acc=30)
+---
+>       parameter ( dimcen=10 , dimshl=100)
+26d24
+<       character*16 fptoc
+29d26
+<       character*1600 card
+32c29
+<       logical logkey, prnty, prntlm, posinp, tstnrm, tstint, ylmon
+---
+>       logical logkey, prnty, prntlm, tstnrm, tstint, ylmon
+34,35c31,32
+<       logical spln, onlysp
+<       real*8 z, energy, znuc, eta, center, tmp, k
+---
+>       logical spln, onlysp, nodisk
+>       real*8 z, znuc, eta, center
+37c34
+<       dimension z(1), energy(dimene)
+---
+>       dimension z(1)
+50,52c47,49
+<       prnty=logkey(ops,'print=m6201=ylm',.false.,' ')
+<       prntlm=logkey(ops,'print=m6201=lm-decomposition',.false.,' ')
+<       prntyu=logkey(ops,'print=m6201=yukawa',.false.,' ')
+---
+>       prnty=logkey(ops,'print=m6203=ylm',.false.,' ')
+>       prntlm=logkey(ops,'print=m6203=lm-decomposition',.false.,' ')
+>       prntyu=logkey(ops,'print=m6203=yukawa',.false.,' ')
+54c51,52
+<       prntg=logkey(ops,'print=m6201=grid',.false.,' ')
+---
+>       prntg=logkey(ops,'print=m6203=grid',.false.,' ')
+>       nodisk=logkey(ops,'no-disk-output',.false.,' ')
+59c57
+<       prntnt=logkey(ops,'print=m6201=partial-integrals',.false.,' ')
+---
+>       prntnt=logkey(ops,'print=m6203=partial-integrals',.false.,' ')
+63c61
+<       tstnrm=logkey(ops,'m6201=test-normalization',.false.,' ')
+---
+>       tstnrm=logkey(ops,'m6203=test-normalization',.false.,' ')
+68c66
+<       tstint=logkey(ops,'m6201=test-yukawa-integral',.false.,' ')
+---
+>       tstint=logkey(ops,'m6203=test-yukawa-integral',.false.,' ')
+97c95
+<       endif                        
+---
+>       endif    
+149,154d146
+<       if ( posinp ('$energy',cpass) ) then
+<            call cardin(card)
+<            nen=intkey(card,'number-of-energies',1,' ')
+<            call fparr(card,'energies',energy,nen,' ')
+<            write(iout,5) nen, (energy(ii),ii=1,nen)
+<       endif
+159c151
+<       ovride=logkey(ops,'m6201=override-angular-momentum',.false.,' ')
+---
+>       ovride=logkey(ops,'m6203=override-angular-momentum',.false.,' ')
+161,162c153,154
+<           lmax=intkey(ops,'m6201=lmax',lmax,' ')
+<           mumax=intkey(ops,'m6201=mmax',mumax,' ')
+---
+>           lmax=intkey(ops,'m6203=lmax',lmax,' ')
+>           mumax=intkey(ops,'m6203=mmax',mumax,' ')
+172d163
+< c     compute the default accuracy for the bessel functions
+177a169
+>       tlsize=lsize+lsize
+182,185d173
+<       tmp=lmax*acc
+<       ltop=lmax+sqrt(tmp)
+<       ltop=max(ltop,lmax)
+<       ltop1=ltop+1
+189c177
+<       maxscr=max(nthmax,2*totr*nthmax,2*totr*lplus)
+---
+>       maxscr=max(nthmax,2*totr*nthmax,2*totr*lplus,4*totr)
+191c179
+<           maxscr=max(maxscr,lsq)
+---
+>           maxscr=max(maxscr,tlsize*tlsize)
+204c192
+<              wtang=angle+maxleb+maxleb
+---
+>              wtang=phi+maxleb
+206c194
+<              cphi=sphi+nphmax
+---
+>              cphi=sphi+maxleb
+209c197
+<              ylm=cphi+nphmax
+---
+>              ylm=cphi+maxleb
+235,244c223,226
+<               y=j+totr*ltop1
+<               wron=y+totr*ltop1
+<               flm=wron+ltop1
+<               psilm=flm+totr*lsize
+< c
+< c         starting at jp storage can be overlapped.
+< c          
+<               jp=psilm+totr*lsize
+<               yp=jp+totr*ltop1
+<               scr=yp+totr*ltop1
+---
+>               y=j+totr*lplus
+>               flm=y+totr*lplus
+>               psilm=flm+totr*tlsize
+>               scr=psilm+totr*tlsize
+263c245
+<               call getscm(words,z,ngot,'m6201',0)
+---
+>               call getscm(words,z,ngot,'m6203',0)
+329c311
+<          endif
+---
+>          endif     
+333c315
+<      1                str//'" from lamdat',1,mval,0,' ')
+---
+>      1               str//'" from lamdat',1,mval,0,' ')
+337c319
+<          endif    
+---
+>          endif         
+351a334
+>              nwgts=0
+359a343
+>                     nwgts=nwgts+nwts
+364c348
+<                     endif
+---
+>                     endif     
+366c350
+<                     if (.not.spln) then                
+---
+>                     if (.not.spln) then
+369c353
+<                     endif
+---
+>                     endif     
+370a355
+>                     nwgts=nwgts+nwts
+384,388c369,380
+<              call iosys ('create real '//str1//' on lamdat',
+<      1                    nwds,0,0,' ')
+<              nwds=(2*mval+1)*nphi
+<              call iosys ('create real '//str2//' on lamdat',
+<      1                    nwds,0,0,' ')
+---
+>              if (.not.nodisk) then
+>                   call iosys ('create real '//str1//' on lamdat',
+>      1                         nwds,0,0,' ')
+>                   nwds=(2*mval+1)*nphi
+>                   call iosys ('create real '//str2//' on lamdat',
+>      1                         nwds,0,0,' ')
+>              endif
+>          else
+>              call iosys ('rewind '//str1//' on lamdat '//
+>      1                   'read-and-write',0,0,0,' ')
+>              call iosys ('rewind '//str2//' on lamdat '//
+>      1                   'read-and-write',0,0,0,' ')
+390,393d381
+<          call iosys ('rewind '//str1//' on lamdat '//
+<      1               'read-and-write',0,0,0,' ')
+<          call iosys ('rewind '//str2//' on lamdat '//
+<      1               'read-and-write',0,0,0,' ')
+406c394
+< c----------------------------------------------------------------------c
+---
+> c----------------------------------------------------------------------c 
+425,426c413
+< c----------------------------------------------------------------------c
+< 
+---
+> c----------------------------------------------------------------------c     
+430,437c417,435
+<                 call iosys ('write real '//str1//' to lamdat '//
+<      1                      'without rewinding',wds,z(locplm),0,' ')
+<                 chvr1=itoc(m) 
+<                 len=length(chvr1)
+<                 title='"p(l,'//chvr1(1:len)//')"'
+<                 lentit=length(title)
+<                 write(iout,*) 'writing iosys file ', title(1:lentit)
+<                 write(iout,*) 'words written = ',wds
+---
+>                 if (.not.nodisk) then
+>                      chvr1=itoc(m) 
+>                      len=length(chvr1)
+>                      title='"p(l,'//chvr1(1:len)//')"'
+>                      lentit=length(title)
+>                      write(iout,*) 'writing iosys file ', 
+>      1                              title(1:lentit)
+>                      write(iout,*) 'words written = ',wds
+>                      call iosys ('write real '//str1//' to lamdat '//
+>      1                           'without rewinding',wds,
+>      2                            z(locplm),0,' ')
+>                      title='"phi('//chvr1(1:len)//')"'
+>                      lentit=length(title)
+>                      write(iout,*) 'writing iosys file ', 
+>      1                              title(1:lentit)
+>                      write(iout,*) 'words written = ',wds1
+>                      call iosys ('write real '//str2//' to lamdat '//
+>      1                      'without rewinding',wds1,z(locphm),0,' ')
+>                 endif
+444,449d441
+<                 call iosys ('write real '//str2//' to lamdat '//
+<      1                      'without rewinding',wds1,z(locphm),0,' ')
+<                 title='"phi('//chvr1(1:len)//')"'
+<                 lentit=length(title)
+<                 write(iout,*) 'writing iosys file ', title(1:lentit)
+<                 write(iout,*) 'words written = ',wds1
+495c487
+<          else
+---
+>          else    
+500,502c492,494
+<               call nrmylm(z(plm),z(phifn),z(ylm),z(wtthe),
+<      1                    z(wtphi),z(wtang),z(scr),nthet,nphi,
+<      2                    nang,lval,mval,totplm,totylm,totphm,nonsep)
+---
+>              call nrmylm(z(plm),z(phifn),z(ylm),z(wtthe),
+>      1                   z(wtphi),z(wtang),z(scr),nthet,nphi,
+>      2                   nang,lval,mval,totplm,totylm,totphm,nonsep)
+503a496,507
+> c----------------------------------------------------------------------c
+> c              now on to the main business.  in what follows we        c
+> c              actually calculate radial functions which are           c
+> c              eventually r times the functions we want.  this         c
+> c              simplifies the calculation of the green's function      c
+> c              and leads to better numerical behavior of the           c
+> c              functions which are spline fit.                         c
+> c                                                                      c
+> c      G(r;l,m)'' -[ l*(l+1)/(r*r) ] G(r;l,m) = -4*pi*rho(r;l,m)       c
+> c                   G(r;l,m) = V(r;l,m)*r                              c
+> c----------------------------------------------------------------------c
+> c----------------------------------------------------------------------c
+507,512c511
+< c             product of a multicenter yukawa potential and a          c 
+< c             bessel function.  this would simulate the first          c
+< c             iteration of a born series and look like the variation   c
+< c             iteration method.                                        c
+< c                                                                      c
+< c             do the yukawa first.                                     c  
+---
+> c             multicenter yukawa potential.                            c  
+543,545d541
+< c    
+< c----------------------------------------------------------------------c   
+< c             begin energy loop                                        c
+547,552d542
+<              do 70 ien=1,nen
+<                 k=sqrt(energy(ien))
+<                 if (k.eq.0.d0) then
+<                     k=1.d-10
+<                 endif    
+< c----------------------------------------------------------------------c
+556,561c546,547
+< c             calculate bessel's of kr                                 c
+< c----------------------------------------------------------------------c 
+<                 call vscale(z(rad+nrtot),z(rad),k,nrtot)
+<                 call rcbes(z(rad+nrtot),z(j),z(jp),z(y),z(yp),
+<      1                     z(wron),z(scr),nrtot,lval,ltop,
+<      2                     'derivatives',.false.)
+---
+> c             calculate regular and irregular solutions to             c
+> c             homogeneous equation.                                    c
+563,583c549,554
+< c          the next bit of monkey business converts derivatives        c
+< c          wrt k*r to derivatives wrt r, recomputes the wronskian      c
+< c          which is needed for the green's function and then           c       
+< c          scales the both functions so that the proper factor         c
+< c          will be incorporated into the radial integral.              c
+< c----------------------------------------------------------------------c  
+<                 call mscale(k,z(jp),nrtot,lv1)
+<                 call mscale(k,z(yp),nrtot,lv1)
+<                 call sscal(lv1,k,z(wron),1)
+<                 call vinv(z(wron),z(wron),lv1)
+<                 call vsqrt(z(wron),z(wron),lv1)
+<                 call mvmul(z(wron),z(j),z(j),nrtot,lv1)
+<                 call mvmul(z(wron),z(y),z(y),nrtot,lv1)
+<                 call mvmul(z(wron),z(jp),z(jp),nrtot,lv1)
+<                 call mvmul(z(wron),z(yp),z(yp),nrtot,lv1)
+< c----------------------------------------------------------------------c
+< c             multiply the yukawa in this shell by the zeroth order    c
+< c             spherical bessel function.                               c
+< c----------------------------------------------------------------------c
+<                 call scalyu(z(yuk),z(rho),z(j),nrtot,nthet,nphi,nang,
+<      1                      nonsep,noscal,prntyu)
+---
+>              call homog(z(rad),z(j),z(y),nrtot,lval)
+>              ncpy=nrtot*nthet*nphi
+>              if ( nonsep ) then
+>                   ncpy=nrtot*nang
+>              endif
+>              call copy(z(yuk),z(rho),ncpy)
+586,592c557,563
+< c----------------------------------------------------------------------c      
+<                 call lmdcmp(z(rho),z(plm),z(phifn),z(ylm),z(flm),
+<      1                      z(wtthe),z(wtphi),z(wtang),z(scr),lval,mval,
+<      2                      nrtot,nthet,nphi,nang,nonsep,prntlm)
+<                 call plmtof(z(rho),z(plm),z(phifn),z(ylm),z(flm),z(scr),
+<      1                      z(rad),lval,mval,nrtot,nthet,nphi,nang,
+<      2                      nonsep,prntlm)
+---
+> c----------------------------------------------------------------------c 
+>              call lmdcmp(z(rho),z(plm),z(phifn),z(ylm),z(flm),
+>      1                   z(wtthe),z(wtphi),z(wtang),z(scr),lval,mval,
+>      2                   nrtot,nthet,nphi,nang,nonsep,prntlm)
+>              call plmtof(z(rho),z(plm),z(phifn),z(ylm),z(flm),z(scr),
+>      1                   z(rad),lval,mval,nrtot,nthet,nphi,nang,
+>      2                   nonsep,prntlm)
+602,607c573,578
+<                 call drvint(z(flm),z(psilm),z(rad),z(j),z(y),z(wtrad),
+<      1                      z(scr),nrtot,lval,mval,nshell,nr,nints,
+<      2                      rtyp,prntnt)
+<                 call plmtof(z(rho),z(plm),z(phifn),z(ylm),z(psilm),
+<      1                      z(scr),z(rad),lval,mval,nints,nthet,nphi,
+<      2                      nang,nonsep,prntlm)
+---
+>              call drvint(z(flm),z(psilm),z(rad),z(j),z(y),z(wtrad),
+>      1                   z(scr),nrtot,lval,mval,nshell,nr,nints,nwgts,
+>      2                   rtyp,prntnt)
+>              call plmtof(z(rho),z(plm),z(phifn),z(ylm),z(psilm),
+>      1                   z(scr),z(rad),lval,mval,nints,nthet,nphi,
+>      2                   nang,nonsep,prntlm)
+611,623c582,592
+<                 if (.not.spln) then
+<                     str1='"spline coefficients '//str//
+<      1                   ' energy-'//fptoc(energy(ien))//'"'
+<                     wrds=(mval+1)*(lval+1)*order*nbk 
+<                     call iosys ('create real '//str1//' on lamdat',wrds,
+<      1                           0,0,' ')
+<                     call mkspln(z(psilm),z(break),z(c),z(sc),mval,lval,
+<      1                          nints,order,nbk,nspls,str1)
+<                     call caspln(z(psilm),z(xtmp),z(break),z(c),a(ind),
+<      1                          mval,lval,nints,order,nbk,nspls,str1,
+<      2                          prntlm)
+<                 endif  
+<    70        continue
+---
+>              if (.not.spln) then
+>                  str1='"spline coefficients '//str//'"'
+>                  wrds=(mval+1)*(lval+1)*order*nbk 
+>                  call iosys ('create real '//str1//' on lamdat',wrds,
+>      1                        0,0,' ')
+>                  call mkspln(z(psilm),z(break),z(c),z(sc),mval,lval,
+>      1                       nints,order,nbk,nspls,str1)
+>                  call caspln(z(psilm),z(xtmp),z(break),z(c),a(ind),
+>      1                       mval,lval,nints,order,nbk,nspls,str1,
+>      2                       prntlm)
+>              endif  
+629c598
+<     1 format (//,20x,'***** m6201: solve wave equation *****')
+---
+>     1 format (//,20x,'***** m6203: solve wave equation *****')

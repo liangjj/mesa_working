@@ -1,0 +1,40 @@
+*deck msta2
+        function msta2(x,n,mp)
+c
+c       ===================================================
+c       purpose: determine the starting point for backward
+c                recurrence such that all jn(x) has mp
+c                significant digits
+c       input :  x  --- argument of jn(x)
+c                n  --- order of jn(x)
+c                mp --- significant digit
+c       output:  msta2 --- starting point
+c       ===================================================
+c
+        implicit integer (a-z)
+        real*8 x, a0, hmp, envj, ejn, obj, f0, f1, f
+        a0=dabs(x)
+        hmp=0.5d0*mp
+        ejn=envj(n,a0)
+        if (ejn.le.hmp) then
+           obj=mp
+           n0=int(1.1*a0)
+        else
+           obj=hmp+ejn
+           n0=n
+        endif
+        f0=envj(n0,a0)-obj
+        n1=n0+5
+        f1=envj(n1,a0)-obj
+        do 10 it=1,20
+           nn=n1-(n1-n0)/(1.0d0-f0/f1)
+           f=envj(nn,a0)-obj
+           if (abs(nn-n1).lt.1) go to 20
+           n0=n1
+           f0=f1
+           n1=nn
+10         f1=f
+20      msta2=nn+10
+        return
+        end
+

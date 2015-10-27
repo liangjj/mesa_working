@@ -1,0 +1,118 @@
+$route
+ number-of-dimensions=1 coordinate-system=spherical use-atomic-units
+ print=(m6285=(all)) diagonalize-h0 xm6285=check-orthogonality
+$end
+          
+$nonstd
+62//85;
+20//01;
+$end
+$title
+time-propagation code
+$end
+
+$time
+ pure-time-perturbation=none number-of-time-regions=1 driver=one
+ no-spatial-hamiltonian space-time-perturbation=t
+$end
+
+
+$q1-polynomials
+ number-of-points-grid-1=3 coordinate-type=r fix-end-points
+ fix-left-end-point fix-right-end-point xcheck-q1-orthogonality
+ left-end-point=0.d0 right-end-point=1.d0 left-boundary-condition=0
+ right-boundary-condition=0 xprint=(m6285=(q1-polynomials))
+$end
+
+$t1-polynomials
+ number-of-points-grid-1=20 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=0.d0 right-end-point=1.0d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t2-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.1d0 right-end-point=.2d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t3-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.2d0 right-end-point=.3d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t4-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.3d0 right-end-point=.4d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t5-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.4d0 right-end-point=.5d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t6-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.5d0 right-end-point=.6d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t7-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.6d0 right-end-point=.7d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t8-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.7d0 right-end-point=.8d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t9-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.8d0 right-end-point=.9d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+
+$t10-polynomials
+ number-of-points-grid-1=3 coordinate-type=t
+ fix-end-points fix-left-end-point fix-right-end-point 
+ xprint=m6285=t-polynomials xcheck-t-orthogonality 
+ left-end-point=.9d0 right-end-point=1.0d0
+ left-boundary-condition=0 right-boundary-condition=1
+$end
+$v0-1
+ potential-type=none
+$end 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

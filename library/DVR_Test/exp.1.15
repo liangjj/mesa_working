@@ -1,0 +1,167 @@
+ mesa(1.2);5/30/91;unix.                                                        
+     (c) 1990, the university of california.                                    
+     P.W. Saxe, B.H. Lengsfield iii, R.L. Martin, M. Page and B. Schneider.     
+
+     23-jun-1900 16:16:31    
+     National Science Foundation;Dec Alpha 600MHz(bohr);B. Schneider                 
+ main files/memory:
+     inp:   inp.exp                       out:    mesa.out                 
+     chk:   mesa.chk                      dat:    ../mesa.dat              
+     rwf:   tmp/mesa.rwf                  rint:   tmp/mesa.rint            
+     int:   tmp/mesa.int                  tint:   tmp/mesa.tint            
+     gint:  tmp/mesa.gint                 rdint:  tmp/mesa.rdint           
+     dint:  tmp/mesa.dint                 zint:   tmp/mesa.zint            
+     ham:   tmp/mesa.ham                  moden:  tmp/mesa.moden           
+     aoden: tmp/mesa.aoden                saoden: tmp/mesa.saoden          
+     gden:  tmp/mesa.gden                 fci:    tmp/mesa.fci             
+
+     machine size:        100000000
+ kohn and bec files:
+     kohn:  tmp/mesa.kohn                 kohndt: tmp/mesa.kohndt          
+     grid:  tmp/mesa.grid                 orbs:   tmp/mesa.orbs            
+     vstat: tmp/mesa.vstat                ylms:   tmp/mesa.ylms            
+     bessel:tmp/mesa.bessel               knints: tmp/mesa.knints          
+     tmat:  tmp/mesa.tmat                 blktmat:tmp/mesa.blktmt          
+     optint:tmp/mesa.optint               atomci: tmp/mesa.atomci          
+     lamdat:tmp/mesa.lamdat               bec:    tmp/mesa.bec             
+
+     user defined maxsiz:  10000000
+ title:
+     DVR Code
+ route:
+     62//94;
+     20//01;
+ options:
+     xprint=(m6294=(points,polynomials,matrix-elements)) generate-matrix-elements tes
+     t-function=sine number-of-dimensions=1 xconvert=(left-endpoint=0.d0,right-endpoi
+     nt=5.d0) space-dimension-1=x
+
+
+                    grid and lobatto basis code
+
+ first call to memory in link =     ptwt
+
+ link            =     ptwt
+ words requested =         91
+ words available =   80000000
+ words gotten    =         91
+
+ link            =     poly
+ words requested =       1351
+ words available =   79999909
+ words gotten    =       1351
+
+ link            =  scratch
+ words requested =        451
+ words available =   79998558
+ words gotten    =        451
+
+ free memory link =  scratch
+ words released   =        451
+
+ link            =      mat
+ words requested =       2251
+ words available =   79998558
+ words gotten    =       2251
+
+ number-of-regions =    1
+ left boundary condition = 0
+ right boundary condition = 1
+
+ edges =  0.00000000E+00  0.15000000E+02
+
+ link            =     hmat
+ words requested =        393
+ words available =   79996307
+ words gotten    =        393
+
+ link            =     norm
+ words requested =         57
+ words available =   79995914
+ words gotten    =         57
+
+ link            =        v
+ words requested =         29
+ words available =   79995857
+ words gotten    =         29
+
+ potential type = exponential                     
+    using atomic units
+
+     size of global basis set =   14
+
+     region =   1 number of functions =  14
+     starting function =   2 ending function =  15
+     global starting function =   1 global ending function =  14
+     bridge function = F
+
+ link            =     diag
+ words requested =        421
+ words available =   79995828
+ words gotten    =        421
+eigenvalues                                                                     
+ col          1
+        -0.01079486
+         0.01711512
+         0.09538764
+         0.22109387
+         0.39244556
+         0.60878242
+         0.86954071
+         1.17757139
+         1.48933547
+         1.99736476
+         2.56988993
+         4.75077934
+         9.53636244
+        40.03164849
+
+ link            =     ramp
+ words requested =         29
+ words available =   79995407
+ words gotten    =         29
+
+       energy         k value       r-matrix       tan phase       phase     
+  0.10000000E-04 0.44721360E-02 0.63110599E+01-0.38885193E-01-0.38865612E-01
+  0.10000000E-03 0.14142136E-01 0.63479120E+01-0.12321697E+00-0.12259901E+00
+  0.10000000E-01 0.14142136E+00 0.14355211E+02-0.15859200E+01-0.10082168E+01
+  0.50000000E-01 0.31622777E+00-0.12397721E-01 0.28602296E+02 0.15358483E+01
+  0.10000000E+00 0.44721360E+00-0.15872007E+02 0.34125137E+01 0.12857378E+01
+  0.20000000E+00 0.63245553E+00 0.32249136E+01 0.17550592E+01 0.10528928E+01
+  0.30000000E+00 0.77459667E+00-0.26447147E-01 0.13323403E+01 0.92693757E+00
+  0.50000000E+00 0.10000000E+01 0.72323842E-01 0.98958094E+00 0.78016140E+00
+  0.80000000E+00 0.12649111E+01 0.78451505E+00 0.77201793E+00 0.65744431E+00
+  0.10000000E+01 0.14142136E+01-0.11465941E+00 0.70967748E+00 0.61719143E+00
+  0.15000000E+01 0.17320508E+01-0.35141464E+01 0.12235875E+01 0.88561389E+00
+  0.20000000E+01 0.20000000E+01-0.68324293E+02-0.14863210E+00-0.14755188E+00
+  0.50000000E+01 0.31622777E+01-0.24476888E+01 0.54400500E+01 0.13890040E+01
+
+ free memory link =     diag
+ words released   =        421
+
+ free memory link =     ramp
+ words released   =         29
+
+ free memory link =     hmat
+ words released   =        393
+
+ free memory link =     norm
+ words released   =         57
+
+ free memory link =        v
+ words released   =         29
+
+ free memory link =      mat
+ words released   =       2251
+
+ free memory link =     ptwt
+ words released   =         91
+
+ free memory link =     poly
+ words released   =       1351
+ summary:
+     link   entries               charges          core use      
+                          cpu       sys      io         
+        1         1       0.1       0.0       0.0         0
+     6294         1       0.1       0.0       0.0  80000000
+             total:       0.1       0.0       0.0  80000000

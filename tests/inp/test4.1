@@ -1,0 +1,22 @@
+$route
+2s+1=1,ciopt hf,scf=(core-fock),ci,transformation=(canonical,keep-ints)
+m812=(check-energy),guess=(huckel),basis=dz,sym=off,m702=(check-energy)
+drt=(rdsym,nsym=1,refexcite=99,vexcite=2) 
+opt=(berny,cycles=10,convf=1.e-4)
+$end
+ 
+$drt
+1cor1 2doc1 2doc1 8uoc1 1vir1
+$end
+ 
+$title
+ h2o test case: srci optimization
+$geom
+o
+h1 o r1
+h2 o r2 h1 a1
+ 
+r1=.949
+r2=.949
+a1=112.3
+$end

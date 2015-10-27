@@ -1,0 +1,3 @@
+This program writes and reads random access records to disk.
+It should be run in a mesa sequence after m1 sets up
+the disk files.

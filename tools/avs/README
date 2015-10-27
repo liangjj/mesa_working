@@ -1,0 +1,31 @@
+This directory contains the source files for the mesa checkfile reader
+module for ChemistryViewer on AVS.
+
+Mesa checkfile reader may be used in much the same way as MSI's gaussian 
+readers.
+
+Also included are two little C hacks.  molvoyeur is something I wrote out
+of frustration --- it simply dumps the contents of the molecule data structure
+to a file.  "Write PPM" takes the output of the geometry viewer and writes
+a Portable PixMap file.  The ppm file can be manipulated by the PBMPlus 
+utilities, and converted to any image format imaginable.
+
+To use these, the easiest thing to do is to copy dotavsrc to a file called
+.avsrc in your home directory.  The networks will then show up when you 
+use the network editor's "read network" command.  The mesa modules will also
+show up at the top of the network editor.
+
+These only work on the HP, and require that you build the iosys subset in
+the io subdirectory first.  cd io and make there.  Then cd back to here and 
+make mesareader2.  The 2 is historical artifact.
+
+
+The nets I use most (and therefore which stand the greatest chance of actually
+working out-of-the-box) are:
+
+mos.net  --- network to display molecule and its MOs from a mesa check file.
+
+ibmelsta.net --- network to display isosurface of density and the paint it
+ based on the electrostatic potential at points on that surface.
+
+

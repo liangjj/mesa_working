@@ -1,0 +1,254 @@
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+DC_DIAG            00000000008C2CBC  Unknown               Unknown  Unknown
+DC_DIAG            00000000004230F0  Unknown               Unknown  Unknown
+DC_DIAG            00000000004224DC  Unknown               Unknown  Unknown
+libc.so.6          0000003B39A1D994  Unknown               Unknown  Unknown
+DC_DIAG            00000000004223E9  Unknown               Unknown  Unknown
+ ns,mhm,nhm=          81       26244       12640
+--------------------------------------------------------------------------
+mpiexec has exited due to process rank 15 with PID 31635 on
+node rocks-fe.cise.nsf.gov exiting without calling "finalize". This may
+have caused other processes in the application to be
+terminated by signals sent by mpiexec (as reported here).
+--------------------------------------------------------------------------
+% time     seconds  usecs/call     calls      function
+------ ----------- ----------- --------- --------------------
+ 32.89   94.835653       13518      7015 SYS_poll
+ 26.08   75.210782     4700673        16 MPI_Init
+ 16.24   46.838195     1170954        40 MPI_Comm_split
+  5.53   15.933735      796686        20 MPI_Bcast
+  4.07   11.727595         470     24919 memcpy
+  3.65   10.526126        1169      9001 memset
+  3.46    9.976979      311780        32 MPI_Comm_create
+  1.49    4.298261      214913        20 MPI_Comm_dup
+  0.88    2.539696         702      3613 SYS_mmap
+  0.77    2.226539        2106      1057 SYS_getdents
+  0.75    2.157766        2238       964 SYS_fcntl
+  0.74    2.146249      126249        17 SYS_nanosleep
+  0.74    2.144644         960      2232 memcmp
+  0.70    2.013925        9776       206 SYS_brk
+  0.16    0.471864          23     19953 SYS_close
+  0.13    0.381419          57      6630 SYS_open
+  0.13    0.371508          82      4488 fgets
+  0.11    0.329939        2114       156 SYS_writev
+  0.11    0.309276          67      4580 strlen
+  0.10    0.300819          67      4488 strstr
+  0.10    0.278398         173      1601 malloc
+  0.09    0.257441          57      4508 feof
+  0.08    0.236380          62      3758 SYS_read
+  0.06    0.177235         127      1389 free
+  0.06    0.170582        4873        35 memmove
+  0.06    0.167597        3990        42 SYS_wait4
+  0.05    0.139810        6990        20 MPI_Barrier
+  0.04    0.125371      125371         1 orte_session_dir_cleanup
+  0.04    0.114940         250       459 SYS_write
+  0.04    0.111857         188       592 SYS_ioctl
+  0.04    0.106629         330       323 SYS_readv
+  0.04    0.105825        3307        32 catopen
+  0.04    0.105081        6567        16 _Unwind_ForcedUnwind
+  0.03    0.096327          48      2006 SYS_fstat
+  0.03    0.085579        1782        48 orte_daemon_recv
+  0.02    0.065183         192       339 getenv
+  0.02    0.062633          53      1180 SYS_munmap
+  0.02    0.060866         253       240 sigaction
+  0.02    0.060691        1264        48 SYS_clone
+  0.02    0.056950         241       236 fread
+  0.02    0.054491          46      1169 SYS_mprotect
+  0.02    0.045246          47       951 SYS_stat
+  0.01    0.041768         294       142 SYS_sched_yield
+  0.01    0.039203        5600         7 isatty
+  0.01    0.034642         184       188 _Unwind_GetIP
+  0.01    0.033919         190       178 SYS_pipe
+  0.01    0.029625        3703         8 SYS_kill
+  0.01    0.029616          62       473 SYS_rt_sigaction
+  0.01    0.027470         190       144 fseek
+  0.01    0.026294        2921         9 fileno
+  0.01    0.025369          68       368 __xpg_basename
+  0.01    0.025359         124       204 strncpy
+  0.01    0.023169          62       373 sprintf
+  0.01    0.022474        1123        20 SYS_accept
+  0.01    0.022353       22353         1 orte_init
+  0.01    0.022312        5578         4 __fxstat64
+  0.01    0.022128          81       272 SYS_madvise
+  0.01    0.020427         182       112 _Unwind_GetRegionStart
+  0.01    0.020270         158       128 catgets
+  0.01    0.020064          51       393 SYS_setsockopt
+  0.01    0.019827          35       562 SYS_bind
+  0.01    0.019204        4801         4 getcwd
+  0.01    0.019191        6397         3 open64
+  0.01    0.019054        1732        11 write
+  0.01    0.018955        9477         2 lseek64
+  0.01    0.018615         103       180 SYS_lseek
+  0.01    0.016036         471        34 SYS_recvfrom
+  0.01    0.015382         961        16 opal_os_path
+  0.01    0.015174         135       112 fclose
+  0.00    0.014367         224        64 MPI_Group_free
+  0.00    0.012820         114       112 fopen
+  0.00    0.012148          44       276 strcpy
+  0.00    0.011057          76       144 dlsym
+  0.00    0.010761        3587         3 memchr
+  0.00    0.010376        3458         3 read
+  0.00    0.009829         153        64 MPI_Comm_free
+  0.00    0.009392         102        92 readlink
+  0.00    0.008910         247        36 MPI_Comm_rank
+  0.00    0.008764          47       184 getpid
+  0.00    0.008622         344        25 SYS_getcwd
+  0.00    0.008332        2083         4 MPI_Allreduce
+  0.00    0.007464          81        92 dladdr
+  0.00    0.006920         187        37 SYS_sendto
+  0.00    0.006655         369        18 strdup
+  0.00    0.006071         505        12 vsprintf
+  0.00    0.005154         156        33 SYS_statfs
+  0.00    0.005013          37       133 SYS_socket
+  0.00    0.004819        4819         1 ftruncate64
+  0.00    0.004671          57        81 SYS_rt_sigprocmask
+  0.00    0.004587          49        92 strcmp
+  0.00    0.004331         135        32 __sigsetjmp
+  0.00    0.004316         215        20 MPI_Attr_get
+  0.00    0.003877          77        50 SYS_connect
+  0.00    0.003495          67        52 MPI_Type_commit
+  0.00    0.003165         143        22 SYS_mkdir
+  0.00    0.002979         148        20 SYS_rmdir
+  0.00    0.002914          31        93 SYS_readlink
+  0.00    0.002677          54        49 SYS_sched_getaffinity
+  0.00    0.002562         854         3 SYS_ftruncate
+  0.00    0.002539          25       100 SYS_getrlimit
+  0.00    0.002536          79        32 MPI_Type_contiguous
+  0.00    0.002453          50        49 SYS_futex
+  0.00    0.002287          34        66 SYS_listen
+  0.00    0.002248          22       102 SYS_uname
+  0.00    0.002233         446         5 SYS_-1
+  0.00    0.002231          69        32 MPI_Group_incl
+  0.00    0.002180         136        16 getrusage
+  0.00    0.002058          64        32 MPI_Comm_group
+  0.00    0.002027         101        20 MPI_Type_free
+  0.00    0.002023          59        34 SYS_access
+  0.00    0.001923        1923         1 orte_finalize
+  0.00    0.001819          56        32 MPI_Comm_f2c
+  0.00    0.001769          26        66 SYS_getsockname
+  0.00    0.001743         108        16 MPI_Comm_size
+  0.00    0.001732        1732         1 opal_init_util
+  0.00    0.001528         109        14 fputs
+  0.00    0.001433          71        20 MPI_Type_vector
+  0.00    0.001264          79        16 setenv
+  0.00    0.001160          24        48 SYS_geteuid
+  0.00    0.001156          23        49 SYS_getuid
+  0.00    0.001128          66        17 SYS_socketpair
+  0.00    0.001097          68        16 MPI_Initialized
+  0.00    0.001089          68        16 gettimeofday
+  0.00    0.001046          65        16 sigemptyset
+  0.00    0.000878         878         1 orte_show_help
+  0.00    0.000733          15        48 SYS_dup2
+  0.00    0.000728          45        16 SYS_getsockopt
+  0.00    0.000670          39        17 SYS_sched_setaffinity
+  0.00    0.000587          36        16 SYS_getrusage
+  0.00    0.000576          33        17 SYS_set_tid_address
+  0.00    0.000411         411         1 opal_basename
+  0.00    0.000404         101         4 opal_event_add_i
+  0.00    0.000385         192         2 opal_cmd_line_create
+  0.00    0.000352          20        17 SYS_mremap
+  0.00    0.000333          19        17 SYS_273
+  0.00    0.000295         295         1 orte_pre_condition_transports
+  0.00    0.000293          73         4 opal_event_del_i
+  0.00    0.000277         138         2 opal_argv_copy
+  0.00    0.000268          15        17 SYS_arch_prctl
+  0.00    0.000233         233         1 orte_register_params
+  0.00    0.000222         111         2 orte_wait_event
+  0.00    0.000215          53         4 opal_class_initialize
+  0.00    0.000210          52         4 opal_argv_append
+  0.00    0.000206          51         4 SYS_unlink
+  0.00    0.000200          50         4 opal_event_set
+  0.00    0.000182         182         1 realloc
+  0.00    0.000173         173         1 ttyname
+  0.00    0.000169          56         3 opal_cmd_line_is_taken
+  0.00    0.000157          52         3 opal_cmd_line_get_ninsts
+  0.00    0.000148          74         2 opal_cmd_line_parse
+  0.00    0.000135          67         2 mca_base_cmd_line_setup
+  0.00    0.000126         126         1 __xstat64
+  0.00    0.000106         106         1 opal_getcwd
+  0.00    0.000066          33         2 SYS_chdir
+  0.00    0.000062          62         1 mca_base_cmd_line_process_args
+  0.00    0.000056          56         1 orte_data_server_init
+  0.00    0.000055          55         1 opal_progress_set_event_flag
+  0.00    0.000054          54         1 opal_cmd_line_get_tail
+  0.00    0.000053          53         1 opal_argv_free
+  0.00    0.000053          53         1 opal_pointer_array_add
+  0.00    0.000053          53         1 opal_progress_set_yield_when_idle
+  0.00    0.000053          53         1 strtoul
+  0.00    0.000052          52         1 opal_argv_count
+  0.00    0.000050          50         1 orte_data_server_finalize
+  0.00    0.000042          42         1 orte_get_job_data_object
+  0.00    0.000006           6         1 SYS_getpgrp
+------ ----------- ----------- --------- --------------------
+100.00  288.336059                115278 total

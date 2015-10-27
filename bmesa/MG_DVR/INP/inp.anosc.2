@@ -1,0 +1,24 @@
+$route
+ number-of-space-dimensions=1 coordinate-system=cartesian
+ dimension-1=x  directive=diagonalize
+$end
+          
+$nonstd
+62//96;
+20//01;
+$end
+
+$title
+DVR Test
+$end
+
+$h0(x)
+ number-of-regions=2 region-boundaries=(-10.d0,0.d0,10.d0) 
+ polynomial-order-per-region=(35,35) number-of-fixed-points=2
+ left-fixed-point right-fixed-point print=all
+ drop-first-function drop-last-function angular-momentum=0
+$end
+
+$v0(x)
+ use-atomic-units potential=anharmonic-oscillator
+$end

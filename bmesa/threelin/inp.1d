@@ -1,0 +1,23 @@
+$route
+ print=(convergence,xiterations)
+$end
+$nonstd
+ 80//00;  
+ 20//01;
+$end
+
+$title 
+ One Dimensional Scattering Program
+$end
+
+$diffit
+ maximum-r-value=1.d0 number-of-points=100
+ potential-type=one boundary-condition=log-derivative
+ driving-term=kohn xreference-energy-method reference-energy=1.d0
+ variation-iteration=(precondition=diagonal,method=one-minus-matrix,
+                      grid=single-grid) 
+$end
+
+$energy-1
+ energy=1.0d0  phase=-1.05040(exact)
+$end

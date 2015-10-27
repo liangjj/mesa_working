@@ -1,0 +1,10 @@
+
+#
+#   expects the mail message to come in as argument 1
+#
+#
+for user in rlm@vivaldi pjh@t12 mob@vivaldi
+  do
+    mail -s MESANEWS $user <$1
+    echo 'mailed to:' $user
+  done

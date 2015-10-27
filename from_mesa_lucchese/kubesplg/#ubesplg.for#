@@ -1,0 +1,144 @@
+      PROGRAM ubesplg
+c
+c bessel fuction spline code WITH NEW prescription for
+c the outgoing wave continuum FUNCTION.
+c
+      IMPLICIT REAL*8 (a-h,o-z)
+      REAL*8 mu
+      PARAMETER (nbig=15000,lbig=#maxltop,nsmall=4015)
+      PARAMETER (nchmx=#maxchan,nemx=200)
+      PARAMETER (nsmall2=2*nsmall)
+      DIMENSION ipow(0:lbig),echan(nchmx),energy(nemx)
+      COMMON /integ/ xstart,ystart,ypstart,al,mu,h,xmax
+      COMMON /energy/ e,eta,ak
+      COMMON/spl/rd,r(nsmall),w(nsmall,0:lbig),cs(nsmall),rd26,l
+      COMPLEX*16 csc(nsmall,0:lbig),scc(nsmall)
+      REAL*8 aj(0:(lbig+1)),ay(0:(lbig+1))
+      REAL*8 aj1(0:(lbig+1)),ay1(0:(lbig+1))
+      REAL*8 csl(nsmall,0:lbig),derl(nsmall,0:lbig)
+      COMPLEX*16 x1,x2,f1,f2,f,fp,gp,sig(0:lbig),tv
+      COMPLEX*16 yc1,yc2,zl
+      REAL*8 css(nsmall)
+      COMPLEX*16 c1,c2,ai,ww(nsmall),wwl(nsmall,0:lbig)
+      EXTERNAL zero,gg
+      DIMENSION der(nsmall),xx(nbig),yy(nbig),zz(nbig)
+      DIMENSION scr(nsmall)
+      DIMENSION wwlr(nsmall2,0:lbig),cscr(nsmall2,0:lbig)
+      EQUIVALENCE (wwl(1,0),wwlr(1,0)),(csc(1,0),cscr(1,0))
+      ai=CMPLX(0.,1.)
+c
+c..unicos
+c      CALL link ("unit5=infreeg,unit6=(outfree,hc,create)
+c..unicos     1,unit8=bessplr//")
+c
+      OPEN(5,file='infree')
+      OPEN(6,file='outfree')
+      OPEN(8,file='bessplr',form='unformatted')
+c
+      ipow(0)=0
+      DO 66 i=1,lbig
+   66 ipow(i)=1
+c     CALL keep80(4hwave)
+c     CALL frid(10hxerox+film,1,4,1)
+c     CALL dders(-1)
+      eta=0.
+      znuc=0.
+      mu=1.
+c
+c lmax=max. l VALUE desired
+c nper=no. of points per unit a.u. for splined functions
+c xstart = first r-point (.00001 is o.k.)
+c xmax = last r-point(r=k*x!)
+c nint = multiple of nper for integration(3 or 4 is reasonable)
+c alpha = exponential PARAMETER in test FUNCTION
+c
+      READ(5,*)lmax,nper,xstart,xmax,nint,alpha
+      WRITE(6,*)' Greens Function Code '
+      WRITE(6,101)lmax,nper,xstart,xmax,nint,alpha
+ 101  FORMAT(/,' L-Max  = ',i5,/,
+     2         ' Nper   = ',i5,/,
+     3         ' XStart = ',f20.12,/,
+     4         ' XMax   = ',f20.12,/,
+     5         ' Nint   = ',i5,/,
+     6         ' Alpha  = ',f20.12)
+      np=nper*xmax+1
+      IF(np.GT.nsmall)THEN
+      WRITE(6,100)
+100   FORMAT(" np.gt.nsmall")
+      STOP
+      ENDIF
+      rd=(xmax-xstart)/(np-1)
+      rd26=rd*rd/6.
+      DO 1 i=1,np
+1     r(i)=rd*(i-1.)+xstart
+      aint=nint
+      h=rd/aint
+      nl=lmax+1
+      DO 668 i=1,np
+      x=r(i)
+      CALL sjymec(x,aj,ay,ncomp,lmax)
+      DO 668 j=0,lmax
+668   w(i,j)=EXP(-x*alpha)*aj(j)*x
+c668   w(i,j)=EXP(-x*x*alpha)*x
+c668   w(i,j)=EXP(-x*x*alpha)*x**(1+j)
+667   CONTINUE
+      DO 33 l=0,lmax
+      al=l
+      ystart=xstart**(l+1)
+      ypstart=(al+1.)*xstart**l
+      yp1=(w(2,l)-w(1,l))/rd
+      yp2=(w(np,l)-w(np-1,l))/rd
+      CALL spline(r,w(1,l),np,yp1,yp2,scr,cs)
+      CALL outward(xx,yy,index,zero)
+      CALL outward(xx,zz,index,gg)
+      i1=index
+      i2=index-1./h
+      x1=xx(i1)
+      x2=xx(i2)
+      det=yy(i1)*zz(i2)-yy(i2)*zz(i1)
+      CALL sjymec(x1,aj,ay,ncomp,l)
+      CALL sjymec(x2,aj1,ay1,ncomp,l)
+      f1=x1*(-ay(l)+ai*aj(l))
+      f2=x2*(-ay1(l)+ai*aj1(l))
+      c1=f1*zz(i2)-f2*zz(i1)
+      c1=c1/det
+      c2=f2*yy(i1)-f1*yy(i2)
+      c2=c2/det
+      j=0
+      DO 3 i=1,index,nint
+      j=j+1
+      ww(j)=c1*yy(i)+c2*zz(i)
+      ww(j)=ww(j)/xx(i)
+      wwl(j,l)=ww(j)
+3     CONTINUE
+      yc1=(ww(2)-ww(1))/rd
+      yc2=(ww(np)-ww(np-1))/rd
+      CALL splinec(r,ww,np,yc1,yc2,scc,csc(1,l))
+      c2r=c2
+      DO 5 i=1,np
+      der(i)=w(i,l)*c2r
+      der(i)=der(i)/r(i)**ipow(l)
+      derl(i,l)=der(i)
+5     CONTINUE
+      yp1=(der(2)-der(1))/rd
+      yp2=(der(np)-der(np-1))/rd
+      CALL spline(r,der,np,yp1,yp2,scr,csl(1,l))
+33    CONTINUE
+      WRITE(8)lmax,np,xstart,rd,alpha
+      WRITE(8)(r(i),i=1,np)
+      np2=2*np
+c      WRITE(6,*)"wwl"
+c      WRITE(6,"(6f12.5)")((wwlr(i,k),i=1,np2),k=0,lmax)
+c      WRITE(6,*)"derl"
+c      WRITE(6,"(6f12.5)")((derl(i,k),i=1,np),k=0,lmax)
+c      WRITE(6,*)"csc"
+c      WRITE(6,"(6f12.5)")((cscr(i,k),i=1,np2),k=0,lmax)
+c      WRITE(6,*)"csl"
+c      WRITE(6,"(6f12.5)")((csl(i,k),i=1,np),k=0,lmax)
+      WRITE(8)((wwlr(i,k),i=1,np2),k=0,lmax)
+      WRITE(8)((derl(i,k),i=1,np),k=0,lmax)
+      WRITE(8)((cscr(i,k),i=1,np2),k=0,lmax)
+      WRITE(8)((csl(i,k),i=1,np),k=0,lmax)
+      WRITE(6,*)' BessplG Finished '
+      STOP
+      END

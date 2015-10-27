@@ -1,0 +1,276 @@
+ mesa(5.1);11/6/94;hp-ux 9.01 unix.                                             
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     g.j. tawa,b. schneider,m.o. braunstein,p.j. hay,a.k. rappe              
+
+     17-apr-1995 18:15:50    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/rlm/mesa/test11.4                                                                                                         
+     out:    /usr2/rlm/mesa/otest11.4                                                                                                        
+     chk:    /usr2/rlm/mesa/ctest11.4                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium/rlm/tmp/rwf_19503                                                                                                       
+     rint:   /cesium/rlm/tmp/rint_19503                                                                                                      
+     int:    /cesium1/rlm/int                                                                                                                
+     tint:   /cesium/rlm/tmp/tint_19503                                                                                                      
+     gint:   /cesium/rlm/tmp/gint_19503                                                                                                      
+     rdint:  /cesium/rlm/tmp/rdint_19503                                                                                                     
+     dint:   /cesium/rlm/tmp/dint_19503                                                                                                      
+     zint:   /cesium/rlm/tmp/zint_19503                                                                                                      
+     ham:    /cesium/rlm/tmp/ham_19503                                                                                                       
+     moden:  /cesium/rlm/tmp/moden_19503                                                                                                     
+     aoden:  /cesium/rlm/tmp/aoden_19503                                                                                                     
+     saoden: /cesium/rlm/tmp/saoden_19503                                                                                                    
+     gden:   /cesium/rlm/tmp/gden_19503                                                                                                      
+     fci:    /cesium/rlm/tmp/fci_19503                                                                                                       
+     machine size:          8000000
+     user defined maxsiz:   6000000
+ title:
+      ch2 triplet  becke/lyp 
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//11;
+     19//51;
+     20//01;
+ options:
+     dft,2s+1=3,scf=(exchf=becke,corrf=lyp,lebord=23,radgrid=51,pulay, density-cutoff
+     =1.0d-20) guess=(huckel),print=(guess,m511=vector),grid=general
+
+ m101:  process geometry input.
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   c  ndzp    
+      2   2   h  olddzp      1   1.092000 r        
+      3   3   h  olddzp      1   1.092000 r         2  134.400 theta    
+ molecular parameters:
+     charge:                    0
+     multiplicity:              3
+     number alpha electrons:    5
+     number beta electrons:     3
+ basis dimensions:
+     $ primitive cartesians    44
+     $ contracted cartesians   26
+     $ basis functions         26
+ distance matrix (angstroms):
+                              c        h1        h2                              
+                  c      .00000
+                 h1     1.09200    .00000
+                 h2     1.09200   2.01335    .00000
+ interatomic angles:
+          h2-c1-h3 =134.4000
+ symmetry:
+     full point group:  c2v 
+     utilizing group :  c2v 
+     number of salcs :   a1   a2   b1   b2   
+                         13    2    4    7
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   c               .000000     .000000    -.105792
+      2   2   h               .000000    1.006675     .317375
+      3   3   h               .000000   -1.006675     .317375
+ rotational constants (ghz):   1635.3491438    247.4138040    214.9011658
+ isotopes:
+     c-12    h-1     h-1     
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     730653
+     #primitive integrals computed     707970( 96.9%)
+     #contracted integrals possible     61776
+     #contracted integrals kept         37648( 60.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     projected huckel.
+     original huckel guess orbitals
+                         
+     eigenvalues --  
+         1           
+         2           
+         3           
+         4           
+         5           
+         6           
+         7           
+     initial guess vector.
+                              1         2         3         4         5    
+     eigenvalues --     -.99975   -.99945   -.99918   -.99623   -.99554
+          c       s      .37447    .49277    .00000   -.01749    .00000
+                  s      .26344    .40903    .00000   -.00346    .00000
+                  s      .12220   -.34687    .00000   -.11333    .00000
+                  s      .18664   -.36391    .00000   -.16708    .00000
+                  x      .00000    .00000    .00000    .00000    .90196
+                  y      .00000    .00000   -.41956    .00000    .00000
+                  z      .01826   -.02680    .00000    .83826    .00000
+                  x      .00000    .00000    .00000    .00000    .16045
+                  y      .00000    .00000   -.06866    .00000    .00000
+                  z      .00697   -.01135    .00000    .14449    .00000
+                 xx      .01099   -.01216    .00000   -.00717    .00000
+                 yy      .01117   -.01323    .00000   -.02169    .00000
+                 zz      .01110   -.01245    .00000   -.01090    .00000
+                 xy      .00000    .00000    .00000    .00000    .00000
+                 xz      .00000    .00000    .00000    .00000   -.00136
+                 yz      .00000    .00000    .01245    .00000    .00000
+          h1      s      .17919   -.05902   -.29254    .07322    .00000
+                  s      .12401   -.02186   -.22402    .06524    .00000
+                  x      .00000    .00000    .00000    .00000    .00575
+                  y      .00118   -.00295    .01357   -.01713    .00000
+                  z      .00017   -.00079    .00587   -.00227    .00000
+          h2      s      .17919   -.05902    .29254    .07322    .00000
+                  s      .12401   -.02186    .22402    .06524    .00000
+                  x      .00000    .00000    .00000    .00000    .00575
+                  y     -.00118    .00295    .01357    .01713    .00000
+                  z      .00017   -.00079   -.00587   -.00227    .00000
+                              6         7         8         9        10    
+     eigenvalues --      .00000    .00000    .00000    .00000    .00000
+          c       s     -.20996   -.13757    .04662   -.08982   -.11072
+                  s      .08946    .24564    .04813    .21694    .06760
+                  s      .35430   -.55097   -.43895   -.58770    .31858
+                  s     -.41536    .00054    .78640    .16802   -.89465
+                  x      .09740    .11052   -.10308   -.31547   -.09836
+                  y      .49939   -.04484    .30684    .23029    .89231
+                  z     -.31094   -.57208    .10291   -.05665    .27458
+                  x      .06250   -.17641   -.01248    .43942    .10190
+                  y     -.10530    .78542    .17001   -.23907   1.52694
+                  z     -.04927    .67450   -.14008    .28041   -.41174
+                 xx      .03435    .00483    .27127    .03616   -.21764
+                 yy     -.29179    .00808   -.22518    .18872    .47686
+                 zz     -.18022    .11671    .05262    .15135    .03140
+                 xy     -.09734    .02100    .07091   -.03143    .01004
+                 xz      .03893   -.00370   -.03030   -.00030   -.00579
+                 yz      .20311   -.09147    .03678    .11753    .32146
+          h1      s      .04513    .37315    .83709   -.22518   -.35442
+                  s      .32878   -.83014  -1.27949    .29035  -1.36104
+                  x      .00645   -.06006    .02005    .17297    .04033
+                  y     -.08549   -.47010    .15061    .89241    .61549
+                  z     -.03960   -.04275   -.02129    .13773    .26858
+          h2      s     1.18861   -.08930    .72254   -.01876   -.25500
+                  s     -.38600    .97753   -.41002   -.05840   2.19009
+                  x     -.65904    .08354    .50483   -.04188    .10895
+                  y      .36928   -.40962   -.01782   -.20863    .23949
+                  z     -.09375   -.09352   -.12214    .02302   -.01891
+     project symmetry vectors
+     symprj found symmetry contamination
+ m511:
+     memory available(bytes)             48000000
+     diis convergence:                    1.0E-08
+     energy convergence:                  1.0E-09
+     exchange-correlation functional: becke -lyp 
+     shell 1 occupations by symmetry
+           a1   a2   b1   b2   
+            2    0    0    1
+     shell 2 occupations by symmetry
+           a1   a2   b1   b2   
+            1    0    1    0
+     shell 3 occupations by symmetry
+           a1   a2   b1   b2   
+           10    2    3    6
+     maximum block size                      9700
+        grid size; atom  1:general           9700    1 blocks
+        grid size; atom  2:general           9700    1 blocks
+        grid size; atom  3:general           9700    1 blocks
+        density-matrix cutoff:            1.0E-20
+        density cutoff:                   1.0E-16
+     all integrals held in core.
+     nuclear repulsion energy:           6.077969
+     iter              energy    diis convergence
+        8       -39.133042843          .000000787     scf converged
+     final vector:
+                              1         2         3         4         5    
+                             a1        a1        b2        a1        b1          
+     eigenvalues --    -9.95897   -.56796   -.38909   -.17083   -.14134
+          c       s      .60148    .12656    .00000   -.05134    .00000
+                  s      .42733    .15688    .00000   -.06662    .00000
+                  s      .03542   -.45116    .00000    .20824    .00000
+                  s     -.00133   -.32825    .00000    .30854    .00000
+                  x      .00000    .00000    .00000    .00000    .74480
+                  y      .00000    .00000   -.52145    .00000    .00000
+                  z      .00036   -.12677    .00000   -.67924    .00000
+                  x      .00000    .00000    .00000    .00000    .36746
+                  y      .00000    .00000   -.08768    .00000    .00000
+                  z      .00004   -.02012    .00000   -.29103    .00000
+                 xx     -.00607    .00540    .00000    .00495    .00000
+                 yy     -.00614   -.00794    .00000   -.00662    .00000
+                 zz     -.00608    .00172    .00000    .00144    .00000
+                 xy      .00000    .00000    .00000    .00000    .00000
+                 xz      .00000    .00000    .00000    .00000    .00209
+                 yz      .00000    .00000   -.02132    .00000    .00000
+          h1      s      .00028   -.18477   -.24595   -.08603    .00000
+                  s      .00007   -.08586   -.17489   -.10074    .00000
+                  x      .00000    .00000    .00000    .00000    .01730
+                  y     -.00036    .01402    .00635    .00361    .00000
+                  z     -.00016    .00410    .00493   -.01343    .00000
+          h2      s      .00028   -.18477    .24595   -.08603    .00000
+                  s      .00007   -.08586    .17489   -.10074    .00000
+                  x      .00000    .00000    .00000    .00000    .01730
+                  y      .00036   -.01402    .00635   -.00361    .00000
+                  z     -.00016    .00410   -.00493   -.01343    .00000
+                              6         7         8         9    
+                             a1        b2        b2        a1                    
+     eigenvalues --      .10442    .22369    .23821    .28806
+          c       s     -.07980    .00000    .00000   -.01073
+                  s     -.10294    .00000    .00000   -.00879
+                  s      .32423    .00000    .00000    .16976
+                  s     1.72111    .00000    .00000   -.51334
+                  x      .00000    .00000    .00000    .00000
+                  y      .00000   -.09837   -.96397    .00000
+                  z      .26773    .00000    .00000    .86394
+                  x      .00000    .00000    .00000    .00000
+                  y      .00000   2.59445   -.26788    .00000
+                  z      .62263    .00000    .00000  -1.19942
+                 xx      .00869    .00000    .00000    .01073
+                 yy     -.01200    .00000    .00000    .01697
+                 zz      .00955    .00000    .00000    .01530
+                 xy      .00000    .00000    .00000    .00000
+                 xz      .00000    .00000    .00000    .00000
+                 yz      .00000   -.03446    .02637    .00000
+          h1      s     -.13838   -.11327    .00535    .07668
+                  s    -1.32743  -1.75932   1.06924    .16028
+                  x      .00000    .00000    .00000    .00000
+                  y     -.01533    .02098    .03137   -.01929
+                  z      .00984   -.01356    .03139   -.00334
+          h2      s     -.13838    .11327   -.00535    .07668
+                  s    -1.32743   1.75932  -1.06924    .16028
+                  x      .00000    .00000    .00000    .00000
+                  y      .01533    .02098    .03137    .01929
+                  z      .00984    .01356   -.03139   -.00334
+     total integrated charge:        8.0000002768
+     time for j-matrix:                        .7
+     time for k-matrix:                     164.5
+ m1951:
+     wavefunction analysis for kohn-sham orbitals
+     bond-order matrix:
+                              c        h1        h2                              
+                  c     5.63530    .37200    .37200
+                 h1      .37200    .45649   -.01813
+                 h2      .37200   -.01813    .45649
+     spin-density matrix:
+                              c        h1        h2                              
+                  c     1.96371   -.00808   -.00808
+                 h1     -.00808    .02988    .00442
+                 h2     -.00808    .00442    .02988
+     total mulliken charges and spins:
+            c          6.379291   1.947549
+            h1          .810354    .026226
+            h2          .810354    .026226
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .2        .0        .0         0
+      101         1        .1        .0        .0    156001
+      102         1       1.3        .0        .0    120010
+      202         1        .2        .0        .0     10079
+      302         1        .2        .0        .0     19874
+      312         1       2.2        .0        .0    530853
+      330         1        .3        .0        .0    191321
+      401         1        .4        .0        .0         0
+      511         1     166.9        .0        .0         0
+     1951         1        .2        .0        .0     12141
+             total:     171.9        .0        .0    530853

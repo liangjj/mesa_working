@@ -1,0 +1,225 @@
+NEWS*** March 1,1991
+    NEW CI CAPABILITY
+    NEW SCRIPT TO RUN MESA
+    NEW UTILITY TO BEEP THE TERMINAL AT THE END OF A RUN
+
+
+  1.  There is a new script available for running MESA.  It is found
+      on /usr2/mesa/bin/mesa. In order to use it, you may either copy 
+      it to your local space, or modify your .cshrc file to include the
+      destinations /usr2/mesa/bin in the PATH variable. It is probably
+      reasonable to do the latter in order to keep up with the current
+      version.  On the Titan, you should copy it to your local space and
+      modify the paths appropriately.
+
+      It has two new command line parameters:
+         start=mxxx
+         stop=mxxx
+      These can be useful to begin or terminate a job at a given link.
+      For example, suppose your route looks like
+         $nonstd
+            1//1,2;
+            2//2;
+            3//2,12,30;
+            4//1;
+            5//1;
+            8//1,11,21;
+            9//1,21;
+            19//51;
+            20//01;
+     and you want to stop the job before the DRT(m801) to examine the 
+     SCF vectors before proceeding. This will do it:
+         mesa stop=m801
+     In order to start things back up where you left off, execute
+         mesa start=m801
+     This should be familiar from the way the mesaccl script runs on 
+     the Cray.
+
+
+     It is also possible to execute a production job in the background.
+     Both the standard output and standard error must be redirected to
+     some file in order to avoid messages coming to your screen every
+     time a new link is executed (this is because the time utility
+     reports to standard error). To submit a background job:
+        mesa inp=o3ci stop=m801 >&mesa.log &
+     If a mesa.log file is around from a previous run, the script will
+     object and abort.  You can get around this via the append
+     redirection:
+        mesa inp=o3ci start=m801 >>&mesa.log &
+     but periodically remove this file, it might get long.
+
+
+2.   There is another little script available on /usr2/mesa/bin which
+     can be used in a number of situations.  All it does is send 3 beeps
+     to your terminal. Try
+        beep
+
+     Annoying isn't it?
+     This can be useful to signal when a background job is finished -- if
+     you happen to be around to hear it.  For example, the command
+        (mesa inp=o3ci >>&mesa.log; beep) &
+     will run your job and then beep the terminal when it's done.
+
+3.   There is a new version of m802 compliments of bhl. The old version
+     could not be used to generate a drt list compatible with m901.  The
+     new version can run either m902 or m901.  In those cases where it
+     is possible, m901 should be used because it is much faster. This code
+     will be very useful for first and second-order CI's.  In order
+     to signal m802 that you are going to run m901, use the keyword
+        drt=vtype
+     in the route. 
+ 
+     In order for the $groups type of m802 input to be used with m901, you 
+     must define the virtual space as orbital typ1.  This is because m901
+     vectorizes over the typ1 space and for efficient application those
+     should be the virtual orbitals. The examples below should make this
+     more clear.
+     
+
+     Example 1:  h2 second order ci using m801/m901.
+ 
+     $title
+       H2 Test-CI
+     $route
+       2s+1=1 
+       hf scf=pulay
+       maxsiz=1200000
+       guess=core
+       basis=small
+       sym=norotate
+       geom=(coord,inau)
+       drt=(rdsym,refexcite=99,vexcite=2,nsym=1) ci
+       print=(drt=all,scf=vector)
+     $nonstd
+       1//1,2;
+       2//2;
+       3//2,12,30;
+       4//1;
+       5//1;
+       8//1,11,21;
+       9//1,21;
+       20//1;
+     $drt
+       1%doc1 1%uoc1 6uoc1
+     $geom
+       H              0.000000    0.000000    .93185
+       H              0.0         0.0        -.93185
+     $small H
+       / HYDROGEN       SCALED BY 1.49
+        TYPE=S
+         74.69       0.025374
+         11.23       0.189684
+          2.546      0.852933
+        TYPE=S
+           .7130     1.0
+        TYPE=S
+           .2249     1.0
+        TYPE=S
+           .08       1.0
+     $end
+
+
+     Here is the same job using groups and m802.  Note that in the route
+     we still have to run m821, the sort of transformed integrals 
+     to guga order. Also note the virtuals are defined as typ1. 
+   
+
+
+     $title
+       H2 Test-CI
+     $route
+       2s+1=1 
+       hf scf=pulay
+       maxsiz=1200000
+       guess=core
+       basis=small
+       sym=norotate
+       geom=(coord,inau)
+       drt=(rdsym,nrefs=3,vtype,ngroups=2,nsym=1) ci
+       print=(drt=all,scf=vector)
+     $nonstd
+       1//1,2;
+       2//2;
+       3//2,12,30;
+       4//1;
+       5//1;
+       8//2,11,21;
+       9//1,21;
+       20//1;
+     $drt
+       2typ2;1 6typ1;1
+       na=1 nb=0 ns=1
+     $groups
+       numel=(0,2)
+       numel=(1,1)
+       numel=(2,0)
+     $geom
+       H              0.000000    0.000000    .93185
+       H              0.0         0.0        -.93185
+     $small H
+       / HYDROGEN       SCALED BY 1.49
+        TYPE=S
+         74.69       0.025374
+         11.23       0.189684
+          2.546      0.852933
+        TYPE=S
+           .7130     1.0
+        TYPE=S
+           .2249     1.0
+        TYPE=S
+           .08       1.0
+     $end
+
+
+     Example 2:
+     The business about the virtuals being listed as typ1 may be seen
+     more easily in the following examples. I have only included those
+     sections of the input which are pertinent.  
+ 
+     $route
+       drt=(rdsym,refexcite=99,vexcite=2,nsym=1,noint) ci
+     $nonstd
+       1//1,2;
+       2//2;
+       3//2,12,30;
+       4//1;
+       5//1;
+       8//1,11,21;
+       9//1,21;
+       20//1;
+    $drt
+       1doc1 1%doc1 1%uoc1 13uoc1
+    $end
+ 
+vs..
+ 
+     $route
+       drt=(rdsym,vtype,nrefs=9,ngroups=3,nsym=1) ci
+     $nonstd
+       1//1,2;
+       2//2;
+       3//2,12,30;
+       4//1;
+       5//1;
+       8//2,11,21;
+       9//1,21;
+       20//1;
+     $drt
+       1typ2;1 2typ3;1 13typ1;1
+       na=2 nb=0 ns=1
+     $groups
+       numel=(0,2,2)
+       numel=(0,1,3)
+       numel=(0,0,4)
+       numel=(1,1,2)
+       numel=(1,2,1)
+       numel=(1,0,3)
+       numel=(2,0,2)
+       numel=(2,1,1)
+       numel=(2,2,0)
+     $end
+
+     We have tested these on a number of problems and everything seems to
+     be OK.  Let me know if you have problems.
+
+     rlm

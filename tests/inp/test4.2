@@ -1,0 +1,19 @@
+$route
+2s+1=1,ciopt
+hf guess=huckel,basis=dz,sym=off,
+ci 
+m702=(check-energy) m812=check-energy,transformation=keep-ints,
+drt=(rdsym,nsym=1,vexcite=2,refexcite=99)
+frequencies force-constants=numerical geom=(rdchk)
+$end
+
+drt for ci
+$drt
+1cor1 4doc1 8uoc1 1vir1 
+$end
+
+
+$title
+ h2o test case:  srci 
+                 forceconstantsinternal
+$end

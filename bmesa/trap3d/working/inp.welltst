@@ -1,0 +1,51 @@
+$route
+ print=(m7000=all) m7000=check-orthogonality number-of-dimensions=1
+ use-atomic-units xiterative-diagonalization xto-atomic-units
+ number-of-roots=50 xin-coordinate-space coordinate-system=spherical 
+ calculation=diagonalize-h0 atom=cs plot=off xparity=on xparity-type=odd
+$end
+          
+$nonstd
+70//00;
+20//01;
+$end
+$title
+3-d trap code
+$end
+$diis
+ number-of-diis-cycles=5 number-of-diis-iterations-per-cycle=20
+ diis-switch=off  diis-convergence=5.d-07 xtruncate
+ xtruncation-size-of-diis-space=40
+$end
+$xiteration
+ number-of-iteration-cycles=1 number-of-iterations-per-cycle=20
+ iteration-convergence=1.d-05
+$end
+$trap
+ xminimum-number-of-atoms=3623.d0 xmaximum-number-of-atoms=3623.d0 
+ xminimum-number-of-atoms=500.d0 xmaximum-number-of-atoms=500.d0
+ xminimum-number-of-atoms=0.d0 xmaximum-number-of-atoms=5000.d0 
+ minimum-number-of-atoms=0.d0 maximum-number-of-atoms=10000.d0 
+ number-of-steps=5
+$end
+$q1-polynomials
+ number-of-regions=5 number-of-points-per-region=(2,2,2,2,2) fix-end-points
+ left-end-point-for-each-region=(0.d0,.2d0,.4d0,.6d0,.8d0)
+ right-end-point-for-each-region=(.2d0,.4d0,.6d0,.8d0,1.d0)
+ left-fixed-point-region-1=0.d0 right-fixed-point-region-5=1.d0
+ left-boundary-condition=0 right-boundary-condition=0
+$end
+$davidson
+ number-of-roots=5 number-of-trial-vectors=6 xto-h0 convergence=1.d-05
+ print=(davidson=iteration-information)  
+$end
+$v0
+ unperturbed-potential-type=none  
+ xunperturbed-potential-type=harmonic-oscillator diagonal-potential
+ omega-11=50.d0 s11=1.d0 
+$end
+$v1
+ interaction-potential-type=well diagonal-potential
+ no-off-diagonal-potential v11=-1.d0  
+$end 
+ 

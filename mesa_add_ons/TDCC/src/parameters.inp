@@ -1,0 +1,15 @@
+2
+1.e-45  15.52   0.40   0.0   2   0.8
+2.d0
+0  3  3  3
+30  30  30.0  2.0
+0.0  0.5d0  50000  100  50000
+2  1 
+
+read(1,*)ntmp ! used to be ndim, ignored now - program only works in 2 dimensions anyway
+read(1,*)intensity_x, wavelx, durationx, phasex
+read(1,*)Z1
+read(1,*)LLmax,nnp,l1max,l2max      
+read(1,*)nabx, naby, VRi, alphai
+read(1,*)tstart, tstop, ntim, ntrec, ntprob 
+read(1,*)ncpux, ncpuy

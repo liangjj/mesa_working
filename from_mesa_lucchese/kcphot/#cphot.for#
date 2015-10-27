@@ -1,0 +1,532 @@
+      PROGRAM phot
+c*tnr**modified to handle closed channels October, 2008
+c*tnr**modified to fix phase of x and y dipole amplitudes 9/19/2011
+      IMPLICIT REAL*8(a-h,o-z)
+      PARAMETER (nbig=7500, msmall=#maxsmall,nchnl=#maxchan)
+      PARAMETER (lmtop=#maxlmtop)
+      PARAMETER (lm2=2*lmtop)
+      PARAMETER (nbfmax=#maxnbfkohn)
+      PARAMETER (maxene=200)
+c
+      INTEGER nscat(nchnl),nhole(nchnl),iclosed(nchnl)
+      INTEGER nsch(nbfmax,nchnl)
+      REAL*8 echan(nchnl), energy(maxene)
+      REAL*8 kchan(nchnl),crz(maxene,nchnl)
+      DIMENSION nlm(nchnl),lch(lmtop,nchnl),mch(lmtop,nchnl)
+c
+      DIMENSION denp(nbfmax,nchnl),rdenq(nbfmax*nbfmax)
+      DIMENSION cdenq(2,nbfmax,nbfmax)
+      COMPLEX*16 denq(nbfmax,nbfmax),tmat(3,lmtop)
+        DIMENSION hbx(nbfmax,nbfmax),aip(nchnl)
+        DIMENSION hby(nbfmax,nbfmax),ome(maxene,nchnl)
+        DIMENSION hbz(nbfmax,nbfmax),cry(maxene,nchnl)
+        DIMENSION cs(nchnl,3),phase(nchnl),crx(maxene,nchnl)
+        COMPLEX*16 htop(nbig,msmall),c(nbig),csum
+        COMPLEX*16 hpvbx(lmtop,nbfmax,nchnl),amp(nchnl)
+        COMPLEX*16 hpvby(lmtop,nbfmax,nchnl)
+        COMPLEX*16 hpvbz(lmtop,nbfmax,nchnl)
+        COMPLEX*16 ampx(nchnl),ampy(nchnl),ampz(nchnl),temp
+        COMPLEX*16 ai,aa,bb,cp,cgamma
+        EXTERNAL carg
+        REAL*8 carg
+                INTEGER iww(3)
+        CHARACTER*6 cart(3),ylm(3)
+        DATA cart/'   X  ','   Y  ','   Z  '/
+        DATA  ylm/' 1 -1 ',' 1  1 ',' 1  0 '/
+        DATA iww/1,2,3/
+c
+       EQUIVALENCE(cdenq,denq)
+c
+       DATA  pi/3.14159265358/
+c
+      ai=(0.,1.) 
+c
+      DO i=1,maxene
+         DO j=1,nchnl
+            crx(i,j)=0.0
+            cry(i,j)=0.0
+            crz(i,j)=0.0
+         ENDDO
+      ENDDO
+      OPEN(5,file='inphot')
+      OPEN(6,file='outphot')
+      OPEN(7,file='pltphot')
+      OPEN(8,file='dipbf',form='unformatted')
+      OPEN(9,file='bcoef',form='unformatted')
+      OPEN(10,file='denphot',form='unformatted')
+      OPEN(11,file='punphot',form='unformatted')
+c
+
+c
+       READ(8) nener,nchan,(nlm(ic),ic=1,nchan)
+     $ ,(nscat(ic),ic=1,nchan)
+      READ(8) ((lch(j,ic),mch(j,ic),j=1,nlm(ic)),ic=1,nchan)
+      READ(8)((nsch(j,ic),j=1,nscat(ic)),ic=1,nchan)
+      READ(8) eground
+      READ(8) nmotot
+      READ(8)((hbx(ig,jg),ig=1,nmotot),jg=1,nmotot)
+      READ(8)((hby(ig,jg),ig=1,nmotot),jg=1,nmotot)
+      READ(8)((hbz(ig,jg),ig=1,nmotot),jg=1,nmotot)
+      READ(9)nchan,nall,nfree
+c
+      READ(10) nsmall,nbf,nen,nchn
+c
+      IF (nsmall .GT. nbfmax .OR. nen .GT. maxene 
+     $ .OR. nbf .GT. nbfmax .OR. nchn .GT. nchnl) THEN
+         WRITE (6,*) 'Error Bad dimension'
+         WRITE (6,*) 'nsmall', nsmall, '  nbfmax', nbfmax
+         WRITE (6,*) 'nen', nen, '  maxene', maxene
+         WRITE (6,*) 'nbf', nbf, '  nbfmax', nbfmax
+         WRITE (6,*) 'nchn', nchn, '  nchnl', nchnl
+         STOP
+      END IF
+      ignd=ismin(nchan,echan,1)
+      eground=echan(ignd)
+      WRITE(6,77001) nsmall,nbf,nen,nchn
+77001 FORMAT(//,' MESA Input ',/,
+     $' nsmall = ',i5,/,
+     $' nbf    = ',i5,/,
+     $' nen    = ',i5,/,
+     $' nchn   = ',i5,//)
+c
+      IF(nchn.NE.nchan .OR. nener.NE.nen 
+     $ .OR. nbf.NE.nmotot) THEN
+       WRITE(6,*)' Error Consistency Error in Tape Input'
+       WRITE(6,*)' nchan nener nmotot ',nchan,nener,nmotot
+       WRITE(6,*)' nchn nen nbf ',nchn,nen,nbf
+       STOP
+      END IF
+c
+c READ in hole states
+c
+c     READ in IP in eV
+c
+      READ(5,*) iprt,nww
+      IF(nww.NE.0) THEN 
+         READ(5,*) (iww(i),i=1,nww) 
+      ELSE
+         nww=3
+      END IF
+      READ(5,*)(aip(i),i=1,nchan)
+      WRITE(6,*)' IP is ',(aip(i),i=1,nchan)
+      WRITE(6,109)(cart(iww(i)),i=1,nww)
+      WRITE(6,110)(ylm(iww(i)),i=1,nww)
+ 109  FORMAT(/,' The Following Transition Amplitudes Will Be Stored ',/
+     $       ' Cartesian ',3(2x,a6))
+ 110  FORMAT(' Y(lm)     ',3(2x,a6)) 
+c
+c      READ(5,*)(nhole(i),i=1,nchan)
+c      READ(5,*)(phase(i),i=1,nchan)
+c      WRITE(6,101) (nhole(i),i=1,nchan)
+c      WRITE(6,301) (phase(i),i=1,nchan)
+cc
+c 101  FORMAT(' holes in orbital number ',10i3//)
+c 301  FORMAT(' state phases: ',10f5.1//)
+c
+c  READ in P-Space Density
+c
+      DO 101 ii=1,nchan
+c
+         READ(10)(denp(iq,ii),iq=1,nsmall)
+c     
+      IF(iprt.GT.0) THEN 
+      WRITE(6,*)' Reading P-Density ',ii
+       IF(iprt.GT.1) THEN
+          WRITE(6,1044)(denp(iq,ii),iq=1,nsmall)
+ 1044     FORMAT(5(2x,f12.8))
+       END IF
+      END IF
+c
+ 101  CONTINUE
+c
+      icx=0
+c
+c OPEN a loop on energies
+c
+      DO 1000 iene=1,nener
+c
+c      IF(iprt.GT.0) WRITE(6,*)' Energy ',iene
+         WRITE(6,*)' Energy ',iene
+c
+      tx=0.
+      ty=0.
+      tz=0.
+c
+c***tnr**
+c      READ(9) (kchan(ic),ic=1,nchan)
+
+      READ(9)nofree,noall
+      IF (noall .GT. nbig .OR. nofree .GT. msmall) THEN
+         WRITE (6,*) 'Error Bad dimension noall', noall, ' nbig', nbig
+         WRITE (6,*) 'nofree', nofree, ' msmall', msmall
+         STOP
+      END IF
+
+      READ(9)((htop(i,j),i=1,noall),j=1,nofree)
+c*********
+
+      IF (nchan .GT. nchnl) THEN
+         WRITE (6,*) 'Error Bad dimension nchan', nchan, ' nchnl', nchnl
+         STOP
+      END IF
+
+      READ(8) (kchan(ic),ic=1,nchan)
+      READ(8) (iclosed(ic),ic=1,nchan)
+      WRITE(6,*)'kchan', (kchan(ic),ic=1,nchan)
+      WRITE(6,*)'iclosed', (iclosed(ic),ic=1,nchan)
+      nopen=0
+      DO i=1,nchan
+         IF(iclosed(i).EQ.0)nopen=nopen+1
+      ENDDO
+      DO 222 ic=1,nopen
+      nlmic=nlm(ic)
+      ngjc=nmotot
+      IF (nlmic .GT. lmtop .OR. ngjc .GT. nbfmax) THEN
+         WRITE (6,*) 'Error Bad dimension nlmic', nlmic, '  lmtop', lmtop
+         WRITE (6,*) 'ngjc', ngjc, ' nbfmax', nbfmax
+         STOP
+      END IF
+
+      READ(8)((hpvbx(il,ig,ic),il=1,nlmic),ig=1,ngjc)
+      READ(8)((hpvby(il,ig,ic),il=1,nlmic),ig=1,ngjc)
+      READ(8)((hpvbz(il,ig,ic),il=1,nlmic),ig=1,ngjc)
+c     
+      IF(iprt.GT.2) THEN
+         WRITE(6,2221) ic
+ 2221    FORMAT(//,' hpvbz:  channel  ',i5)
+        DO 2222 iu=1,nsmall,4
+           iue=MIN(iu+3,nsmall)
+           WRITE(6,2225)(io,io=iu,iue)
+ 2225      FORMAT(/,6x,4(8x,i5,9x))
+ 2223      FORMAT(i4,2x,4(2x,2(2x,f8.4)))
+        DO 2224 il=1,nlmic
+           WRITE(6,2223)il,(hpvbz(il,ig,ic),ig=iu,iue)
+ 2224   CONTINUE
+ 2222 CONTINUE
+      END IF
+c     
+ 222  CONTINUE
+c
+c loop over incident channels
+c
+      jstart=1
+      WRITE(6,*)"nopen=",nopen
+      DO 504 ic=1,nopen
+c
+      IF(iprt.GT.0) WRITE(6,*)' ion channel ',ic
+      WRITE(6,*)' ion channel ',ic
+c
+      omega=aip(ic)/27.211+kchan(ic)**2/2.
+c
+      xnorm=SQRT(8.*pi*omega/3./137.*100.*.529*.529)
+c
+      nlmic=nlm(ic)
+      jstop=jstart+nlmic-1
+      ngjc=nmotot
+c
+c
+c     loop over physical l-channels
+c
+      ilm=0
+      totx=0.
+      toty=0.
+      totz=0.
+      DO 111 iph=jstart,jstop
+         ilm=ilm+1
+      IF(iprt.GT.0) THEN
+      WRITE(6,*)' physical l,m:  ',lch(ilm,ic),mch(ilm,ic)
+      END IF 
+c     
+c     load solution vector
+c
+      DO 1 i=1,noall
+      c(i)=htop(i,iph)
+ 1    CONTINUE      
+      IF(iprt.GT.2) THEN
+      WRITE(6,*)' kohn coefficient vector:',ic,ilm
+      WRITE(6,112)(c(i),i=1,noall)
+      END IF
+ 112   FORMAT(2e12.4)
+      ampx(ic)=0.
+      ampy(ic)=0.
+      ampz(ic)=0.
+      ii=0
+c**************
+c we INCLUDE bound contributions from ALL (OPEN and closed) channels
+c**************
+      DO 2 jc=1,nchan
+      njc=nscat(jc)
+cc
+c      nh=nhole(jc)
+c      ph=phase(jc)
+cc
+      DO 3 kc=1,njc
+      ii=ii+1
+      DO 33 nh=1,nsmall
+      ampx(ic)=ampx(ic)-c(ii)*hbx(nh,nsch(kc,jc))*denp(nh,jc)
+      ampy(ic)=ampy(ic)-c(ii)*hby(nh,nsch(kc,jc))*denp(nh,jc)
+      ampz(ic)=ampz(ic)-c(ii)*hbz(nh,nsch(kc,jc))*denp(nh,jc)
+ 33   CONTINUE
+c
+c      WRITE(6,986)ii,c(ii),hbz(nh,nsch(kc,jc)),ampz(ic)
+ 986  FORMAT(i5,6e12.4)
+c
+ 3     CONTINUE
+ 2      CONTINUE
+c
+        IF(iprt.GT.0) THEN
+        WRITE(6,*)' bound-bound part'
+        WRITE(6,102)ampx(ic),ampy(ic),ampz(ic)
+        END IF
+c
+c**************
+c we INCLUDE scattered wave free contributions from OPEN channels ONLY
+c**************
+        DO 4 jc=1,nopen
+           njc=nlm(jc)
+c           nh=nhole(jc)
+c           ph=phase(jc)
+
+           DO 5 kc=1,njc
+              ii=ii+1
+           DO 55 nh=1,nsmall
+              ampx(ic)=ampx(ic)-c(ii)*hpvbx(kc,nh,jc)*denp(nh,jc)
+              ampy(ic)=ampy(ic)-c(ii)*hpvby(kc,nh,jc)*denp(nh,jc)
+              ampz(ic)=ampz(ic)-c(ii)*hpvbz(kc,nh,jc)*denp(nh,jc)
+ 55           CONTINUE
+c         WRITE(6,986)ii,c(ii),hpvbz(kc,nh,jc),ampz(ic)
+ 5            CONTINUE
+ 4            CONTINUE
+c
+c              nh=nhole(ic)
+c              ph=phase(ic)
+c
+c
+c********
+c incident free wave contribution
+c********
+           DO 66 nh=1,nsmall
+              ampx(ic)=ampx(ic)+imag(hpvbx(ilm,nh,ic))*denp(nh,ic)
+              ampy(ic)=ampy(ic)+imag(hpvby(ilm,nh,ic))*denp(nh,ic)
+              ampz(ic)=ampz(ic)+imag(hpvbz(ilm,nh,ic))*denp(nh,ic)
+ 66        CONTINUE
+c   
+              IF(iprt.GT.0) THEN 
+              WRITE(6,*)' full scattered wave part'
+              WRITE(6,102)ampx(ic),ampy(ic),ampz(ic)
+              END IF
+c
+cc
+c READ the Q-Space Density
+cc
+              IF(iprt.GT.0)   WRITE(6,*)' Reading Q-Density '
+c
+      DO 67 k=1,2
+c      icx=icx+1
+c      WRITE(6,*)' Reading Q-Density ',icx 
+      READ(10)(rdenq(ii),ii=1,nsmall*nsmall) 
+      ix=0
+       DO 68 ii=1,nsmall
+        DO 69 jj=1,nsmall
+         ix=ix+1
+         cdenq(k,ii,jj)=rdenq(ix)
+ 69     CONTINUE 
+ 68    CONTINUE
+ 67   CONTINUE
+ccc
+c Q-Space Contributions
+cc
+      IF(iprt.GT.0)THEN
+         WRITE(6,*)' Q-Space Part '
+         WRITE(6,677)((denq(i,j),i=1,nsmall),j=1,nsmall)
+      ENDIF
+ 677  FORMAT(6e17.8)
+c
+      DO 71 ii=1,nsmall
+      DO 72 jj=1,nsmall
+      ampx(ic)=ampx(ic)-hbx(ii,jj)*denq(ii,jj)
+      ampy(ic)=ampy(ic)-hby(ii,jj)*denq(ii,jj)
+      ampz(ic)=ampz(ic)-hbz(ii,jj)*denq(ii,jj)
+ 72   CONTINUE
+ 71   CONTINUE
+c
+c store transition amplitudes for Differenital Cross Sections
+c 
+      aa=float(lch(ilm,ic))+1.-ai/kchan(ic)
+      bb=cgamma(aa)
+      sl=carg(bb)-float(lch(ilm,ic))*pi/2.
+      cp=EXP(+ai*sl)
+c
+c      tmat(1,ilm)=ampx(ic)*xnorm*ai**lch(ilm,ic)*cp
+c      tmat(2,ilm)=ampy(ic)*xnorm*ai**lch(ilm,ic)*cp
+c      tmat(3,ilm)=ampz(ic)*xnorm*ai**lch(ilm,ic)*cp
+c
+      tmat(1,ilm)=ampx(ic)*xnorm*cp
+      tmat(2,ilm)=ampy(ic)*xnorm*cp
+      tmat(3,ilm)=ampz(ic)*xnorm*cp
+c
+      jstart=jstop+1
+      cs(ic,1)=ABS(ampx(ic))**2
+      cs(ic,2)=ABS(ampy(ic))**2
+      cs(ic,3)=ABS(ampz(ic))**2
+c
+      tx=tx+ABS(tmat(1,ilm))**2
+      ty=ty+ABS(tmat(2,ilm))**2
+      tz=tz+ABS(tmat(3,ilm))**2
+c
+      IF(iprt.GT.0) THEN
+      WRITE(6,*)' final solution'
+      WRITE(6,102)ampx(ic),ampy(ic),ampz(ic)
+      WRITE(6,102)tmat(1,ilm),tmat(2,ilm),tmat(3,ilm)
+      WRITE(6,103)kchan(ic),cs(ic,1),cs(ic,2),cs(ic,3)
+      END IF
+c
+ 102  FORMAT(6e14.6)
+ 103  FORMAT(4e14.6)
+      totx=totx+cs(ic,1)
+      toty=toty+cs(ic,2)
+      totz=totz+cs(ic,3)
+c
+ 111  CONTINUE
+c
+c
+c WRITE transition amplitudes to a punch file
+c
+c tnr 9/19/11 fix phase definitions of x and y dipole amplitudes
+c
+      DO it=1,nww
+         DO jt=1,ilm
+            IF(iww(it).NE.3)tmat(iww(it),jt)=-tmat(iww(it),jt)
+         ENDDO
+      ENDDO
+      ione=1
+      itwo=ic+1
+      rone=1.0d0
+      WRITE(11) ione,itwo,nww,ilm,rone,kchan(ic)
+      WRITE(11)((tmat(iww(it),jt),it=1,nww),jt=1,ilm)
+c
+      IF(iprt.LT.0) THEN
+         WRITE(6,*)"ione,itwo,nww,ilm,rone,kchan(ic)",
+     $    ione,itwo,nww,ilm,rone,kchan(ic)
+         WRITE(6,*)' TMAT on file ic ilm ',ic,ilm
+         WRITE(6,88004)((it,iww(it),tmat(iww(it),jt),it=1,nww),jt=1,ilm)
+88004 FORMAT(3(3x,2i5,4x,f12.8,2x,f12.8))
+      END IF
+c
+c
+c      totx=16*pi*omega/3./137.*totx*100.*.529*.529
+c      toty=16*pi*omega/3./137.*toty*100.*.529*.529
+c      totz=16*pi*omega/3./137.*totz*100.*.529*.529
+c
+      totx=8*pi*omega/3./137.*totx*100.*.529*.529
+      toty=8*pi*omega/3./137.*toty*100.*.529*.529
+      totz=8*pi*omega/3./137.*totz*100.*.529*.529
+      WRITE(6,88001)iene,ic
+88001 FORMAT(/,' ** total cross sections ** ',/,
+     $         ' energy ',i5,' ion channel ',i5)
+      WRITE(6,88002)totx,toty,totz
+      WRITE(6,88003)tx,ty,tz
+88002 FORMAT(3(2x,e15.7),//)
+88003 FORMAT(' Trace TMAT ',/,3(2x,e15.7),//)
+      ome(iene,ic)=omega
+      crx(iene,ic)=totx
+      cry(iene,ic)=toty
+      crz(iene,ic)=totz
+504   CONTINUE
+c
+c
+c CLOSE big loop on incident energies
+c
+ 1000 CONTINUE
+      DO 1001 i=1,nchan
+      WRITE(7,1003) i
+ 1001 WRITE(7,1002)(ome(j,i),27.211*ome(j,i),
+     $ crx(j,i),cry(j,i),crz(j,i),
+     $ j=1,nener)
+ 1002 FORMAT(5f12.5)
+ 1003 FORMAT(/,' Channel  ',i5)
+      STOP
+      END
+      FUNCTION carg(z)
+      COMPLEX*16 z
+      REAL*8 carg
+      carg=ATAN2(imag(z),DBLE(z))
+      RETURN
+      END
+      DOUBLE COMPLEX FUNCTION cgamma(x)
+      IMPLICIT REAL*8 (a - h, o - z)
+      COMPLEX*16 x
+      PARAMETER (
+     &    pi = 3.14159265358979324d+00, 
+     &    pv = 7.31790632447016203d+00, 
+     &    pu = 3.48064577727581257d+00, 
+     &    pr = 3.27673720261526849d-02, 
+     &    p1 = 1.05400280458730808d+01, 
+     &    p2 = 4.73821439163096063d+01, 
+     &    p3 = 9.11395751189899762d+01, 
+     &    p4 = 6.62756400966213521d+01, 
+     &    p5 = 1.32280130755055088d+01, 
+     &    p6 = 2.93729529320536228d-01)
+      PARAMETER (
+     &    q1 = 9.99999999999975753d-01, 
+     &    q2 = 2.00000000000603851d+00, 
+     &    q3 = 2.99999999944915534d+00, 
+     &    q4 = 4.00000003016801681d+00, 
+     &    q5 = 4.99999857982434025d+00, 
+     &    q6 = 6.00009857740312429d+00)
+      xr = dreal(x)
+      xi = dimag(x)
+      IF (xr .LT. 0) THEN
+          wr = 1 - xr
+          wi = -xi
+      ELSE
+          wr = xr
+          wi = xi
+      END IF
+      ur = wr + q6
+      vr = ur * (wr + q5) - wi * wi
+      vi = wi * (wr + q5) + ur * wi
+      yr = p6 + (p5 * ur + p4 * vr)
+      yi = p5 * wi + p4 * vi
+      ur = vr * (wr + q4) - vi * wi
+      ui = vi * (wr + q4) + vr * wi
+      vr = ur * (wr + q3) - ui * wi
+      vi = ui * (wr + q3) + ur * wi
+      yr = yr + (p3 * ur + p2 * vr)
+      yi = yi + (p3 * ui + p2 * vi)
+      ur = vr * (wr + q2) - vi * wi
+      ui = vi * (wr + q2) + vr * wi
+      vr = ur * (wr + q1) - ui * wi
+      vi = ui * (wr + q1) + ur * wi
+      yr = yr + (p1 * ur + vr)
+      yi = yi + (p1 * ui + vi)
+      ur = vr * wr - vi * wi
+      ui = vi * wr + vr * wi
+      t = ur * ur + ui * ui
+      vr = (yr * ur + yi * ui) + pr * t
+      vi = yi * ur - yr * ui
+      yr = wr + pv
+      ur = 0.5d0 * LOG(yr * yr + wi * wi) - 1
+      ui = ATAN2(wi, yr)
+      yr = EXP(ur * (wr - 0.5d0) - ui * wi - pu) / t
+      yi = ui * (wr - 0.5d0) + ur * wi
+      ur = yr * COS(yi)
+      ui = yr * SIN(yi)
+      yr = ur * vr - ui * vi
+      yi = ui * vr + ur * vi
+      IF (xr .LT. 0) THEN
+          wr = pi * xr
+          wi = EXP(pi * xi)
+          vi = 1 / wi
+          ur = (vi + wi) * SIN(wr)
+          ui = (vi - wi) * COS(wr)
+          vr = ur * yr + ui * yi
+          vi = ui * yr - ur * yi
+          ur = 2 * pi / (vr * vr + vi * vi)
+          yr = ur * vr
+          yi = ur * vi
+      END IF
+      cgamma = CMPLX(yr, yi)
+      RETURN
+      END
+

@@ -1,0 +1,14 @@
+$route
+2s+1=1
+mcscf=(cas,number-of-core-orbitals=11,size902=200)
+print=(basis,mcscf=vector)
+drt=(nbf=2,vexcite=99)
+guess=(chk),int=reuse,sym=off,basis=3s2p1d,geom=rdchk
+$title
+o3 3s2p1d basis
+$drt
+1doc1 1uoc1
+$alter
+3 5
+$end
+ 

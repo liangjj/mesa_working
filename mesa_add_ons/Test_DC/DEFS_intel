@@ -1,0 +1,6 @@
+SHELL = /bin/sh
+LIBS = -lguide -lmkl -lmkl_core -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lmkl_lapack
+F90 = mpif90
+F90FLAGS = -L$(MKL_PATH) -I$(MKL_INCLUDE) -O4
+CPPFLAGS =
+LDFLAGS = $(F90FLAGS)

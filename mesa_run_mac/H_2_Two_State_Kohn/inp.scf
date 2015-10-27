@@ -1,0 +1,122 @@
+#comments
+# This runs the scf in a reduced basis.  An IVO follows and then
+# the two lowest energy orbitals are put at the front and the rest
+# of the orbitals are symmetry ordered.
+
+$route
+2s+1=1 hf
+guess=(core)
+scf=(symmetry,pulay,convergence=5)
+print=(guess=all,scf=(vector=all),ivo,nodis,noang)
+geom=(coord,inau,nocrowd)
+sym=(on,reorder-orbitals) internal-orbitals=2
+scattering=kohn
+xint=reuse drop
+$end
+ 
+$nonstd
+1//1,2;
+2//2;
+3//1,2,12,30;
+4//12;
+5//3,2;
+6//2;
+20//1;
+$end
+ 
+$title
+H2 Two State Test
+$end
+ 
+$geom
+h1(basis=small) 0.0 0.0  0.7
+h2(basis=small) 0.0 0.0 -0.7
+$end
+ 
+$small h
+/ old H2
+  type=s
+ 48.4479    1.00
+  type=s
+ 7.28346    1.00
+  type=s
+ 1.65139    1.00
+  type=s
+ .462447    1.00
+  type=s
+ .145885    1.00  
+  type=s
+  1.00      1.00
+  type=s
+  .25       1.00
+  type=s
+  .0725     1.00
+  type=s
+  .03625    1.00
+  type=s
+  .018      1.00
+  type=p
+  1.5000    1.00
+  type=p
+  .50       1.00
+  type=p
+  .25       1.00
+  type=p
+  .125      1.00
+  type=p
+  .0625     1.00
+  type=p
+  .0312     1.00
+  type=p
+  .011      1.00
+$end
+$scat zq
+zq(basis=scat) 0.0 0.0 0.0
+/Added Scattering Functions
+  type=s
+  .009        1.00
+  type=s
+  .0045       1.00
+  type=s
+  .0022       1.00
+  type=s
+  .0011       1.00
+  type=s
+  .0005       1.00
+  type=s
+  .0002       1.00
+  type=p
+  .0078       1.00
+  type=p
+  .0039       1.00
+  type=p
+  .002        1.00
+  type=p
+  .001        1.00
+  type=p
+  .0005       1.00
+  type=p
+  .00025      1.00
+  type=p
+  .0001       1.00
+$end 
+ 
+$drop
+ atom=1 type=p keep=(z)
+ atom=2 type=p keep=(z)
+$end
+     escf=-1.133282782
+     epssigg=-.59457
+     epssigu=-.227914117
+     excited state energy=-.766624326
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,26 @@
+SRCS = \
+	bkwrd.f \
+	caspln.f \
+	convr.f \
+	drvint.f \
+	fbgint.f \
+	fbnint.f \
+	forwrd.f \
+	homog.f \
+	legend.f \
+	legint.f \
+	lmdcmp.f \
+	miscfn.f \
+	mkspln.f \
+	mkylm.f \
+	nrmylm.f \
+	plmtof.f \
+	poisson.f \
+	runiqe.f \
+	scalyu.f \
+	scmphi.f \
+	setzro.f \
+	sqrtwt.f \
+	srtleg.f \
+	ylmint.f \
+	yukawa.f

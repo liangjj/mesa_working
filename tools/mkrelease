@@ -1,0 +1,44 @@
+
+ HOMEDIR=$MESA_HOME
+ LIBDIR=$HOMEDIR'/library'
+ SOURCEDIR=$HOMEDIR'/source'
+ PARTS='chr clams dft dpintgrl intgrl io math sym util'
+ MACHINEDEPENDENT='mdutil/aix mdutil/hp mdutil/sgi'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' mdutil/stardent mdutil/sun'
+ MACHINEDEPENDENT=$MACHINEDEPENDENT' mdutil/ultrix mdutil/unicos'
+ VERSION='version 5.1 11/4/94'
+#for file in library chr clams dft dpintgrl intgrl io math sym util mdutil/sun
+# do main directory, then library, then parts, then main links
+ cd $HOMEDIR
+#sccs check returns a nonzero exit status if something is being edited
+    sccs edit -r5 SCCS
+    echo "release $VERSION" | sccs delget SCCS
+#now do library
+ cd $LIBDIR
+    sccs edit -r5 SCCS
+    echo "release $VERSION" | sccs delget SCCS
+#now do components of library
+ for file in $PARTS
+    do
+       cd $file
+       sccs edit -r5 SCCS
+       echo "release $VERSION" | sccs delget SCCS
+       cd ..
+    done
+ for file in $MACHINEDEPENDENT
+    do
+       cd $LIBDIR'/'$file
+       sccs edit -r5 SCCS
+       echo "release $VERSION" | sccs delget SCCS
+       cd ..
+    done
+#now do main routines
+ cd $HOMEDIR
+ for file in m[0-9]*
+    do
+       cd $file
+       sccs edit -r5 SCCS
+       echo "release $VERSION" | sccs delget SCCS
+       cd ..
+    done
+ 

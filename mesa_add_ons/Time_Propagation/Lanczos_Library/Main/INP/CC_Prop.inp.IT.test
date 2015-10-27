@@ -1,0 +1,56 @@
+$cc_setup
+                 lanczos_test
+    type_calculation=imaginary_time coordinate_system=cartesian
+    space_variable_1=x use_atomic_units kinetic_energy_type=packed
+    xplot get_eigenpairs diagonal_modification=none 
+    plot_step=1 print=all_details  propagation_method=lanczos
+    eigenvalue_convergence=1.d-10 no_coupled_channels no_one_body_potential
+$end
+
+$h0(x)
+ automate number_of_-major_blocks=1
+ number_of_fixed_points=2 left_fixed_point right_fixed_point 
+ drop_left_function drop_right_function xdo_not_diagonalize
+  print=all sector_print=sector_details reuse_space_data
+$end
+
+ $block_1
+  default_order=5 number_of_subregions=1
+  left_boundary=0.0d0 right_boundary=1.d0
+ $end
+
+$v_reg_1(x)
+ use_atomic_units potential=well well_depth=-1.d0
+$end
+
+$time
+ automate number_of_time_regions=5 first_time=0.d0 time_interval=.001d0
+ xprint=(main=(xpointers,xpotential,initial_state,xnon_linear_potential,solution,
+              xh_on-initial-state)) eigenvalue_method=hamiltonian
+$end
+
+$v0(t1)
+ potential=none
+$end
+
+$initial_state
+ driver=unit_vector 
+end
+
+$v_couple
+  v_space_time=none
+$end
+
+$lanczos_data
+ overlap_tolerance=1.e-10 convergence=1.d-10 
+ xprint=(lanczos=all) maximum-number_of_iterations=6
+ maximum_number_of_vectors=10 number_of_trials=1
+ non_orthogonal_basis
+$end
+
+$hamiltonian_parameters
+  non_orthogonal_basis
+  hamiltonian_file_name=from_input  matrix_size=3
+  s_1=(1.)  s_2=(.5,1.)  s_3=(.5,.5,1.) 
+  h_1=(.98) h_2=(.5,1.) h_3=(.5,.5,2.) 
+$end

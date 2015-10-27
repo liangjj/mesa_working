@@ -1,0 +1,259 @@
+ mesa(4.3);7/7/93;hp-ux 9.01 unix.                                              
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      8-jul-1993 21:26:52    
+     los alamos national laboratory;hp735(cesium);                                   
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test12.2                                                                                                   
+     out:    /usr2/mesa/tests/out/hp/test12.2                                                                                                
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /cesium1/rlm/tmp/rwf                                                                                                            
+     rint:   /cesium1/rlm/tmp/rint                                                                                                           
+     int:    /cesium1/rlm/tmp/int                                                                                                            
+     tint:   /cesium1/rlm/tmp/tint                                                                                                           
+     gint:   /cesium1/rlm/tmp/gint                                                                                                           
+     rdint:  /cesium1/rlm/tmp/rdint                                                                                                          
+     dint:   /cesium1/rlm/tmp/dint                                                                                                           
+     zint:   /cesium1/rlm/tmp/zint                                                                                                           
+     ham:    /cesium1/rlm/tmp/ham                                                                                                            
+     moden:  /cesium1/rlm/tmp/moden                                                                                                          
+     aoden:  /cesium1/rlm/tmp/aoden                                                                                                          
+     saoden: /cesium1/rlm/tmp/saoden                                                                                                         
+     gden:   /cesium1/rlm/tmp/gden                                                                                                           
+     fci:    /cesium1/rlm/tmp/fci                                                                                                            
+     machine size:          8000000
+     user defined maxsiz:   1000000
+ title:
+     H2 Two State Calculation
+ route:
+     1//1,2;
+     3//1,2,12,30;
+     4//1;
+     8//6,11;
+     8//19,22;
+     9//2,21,29;
+     20//1;
+ options:
+     2s+1=1,hf,scf=(pulay,convergence=5) guess=(chk,expand) drop=42 ksym=(symmetry=1,
+     psalc) print=(guess=all,scf=vector,nodis,noang) geom=(coord,inau,nocrowd) drt=(n
+     groups=4,nrefs=2) ci=(nroots=2,cycles=60) sym=norotate kohn=(m822=zint,nsmall=2,
+     ncsfs=25,nl2=12,freeze,hqq, energy=(.4410,.55125,.66152,.735))
+
+ m101:  process geometry input.
+ cartesian coordinates(angstroms):
+      cd  cent  el basis          z        coordinates(angstroms)
+                                         x           y           z
+       1    1   h  small      1.000     .000000     .000000     .370424
+       2    2   h  small      1.000     .000000     .000000    -.370424
+       3        zq scat        .000     .000000     .000000     .000000
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    1
+     number beta electrons:     1
+ basis dimensions:
+     # primitive cartesians    20
+     # contracted cartesians   20
+     # basis functions         20
+  m301:dropping functions
+       atom=1 type=p keep=(z)                 
+      ncart ncont  3 1
+       atom=2 type=p keep=(z)                 
+      ncart ncont  3 1
+       atom=3 type=p keep=(z)                 
+      ncart ncont  3 1
+       newnbf: 14
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length      1887
+     maximum usable field length        10551
+     #primitive integrals possible      30455
+     #primitive integrals computed      30192( 99.1%)
+     #contracted integrals possible     22155
+     #contracted integrals kept          8435( 38.1%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     expanding vectors from chk
+  reading   scf vectors from chk
+     initial guess vector.
+                              1         2         3         4         5    
+     eigenvalues --     -.59407   -.21868    .03558   2.07800   2.87622
+          h1      s     -.00329   -.00231    .00165    .00903   -.00932
+                  s     -.02412   -.01573    .03062   -.03807    .03861
+                  s     -.11224   -.09405    .01869    .93388   -.92288
+                  s     -.26445   -.29239    .81340  -1.21715    .75150
+                  s     -.21636  -1.42918   -.85555    .52041   -.22884
+                  z      .01572   -.01619   -.02490   -.36134   -.50137
+          h2      s     -.00329    .00231    .00165    .00903   -.00932
+                  s     -.02412    .01573    .03062   -.03807    .03861
+                  s     -.11224    .09405    .01869    .93388   -.92288
+                  s     -.26445    .29239    .81340  -1.21715    .75150
+                  s     -.21636   1.42918   -.85555    .52041   -.22884
+                  z     -.01572   -.01619    .02490    .36134    .50137
+          zq      s      .00000    .00000    .00000    .00000    .00000
+                  z      .00000    .00000    .00000    .00000    .00000
+                              6         7         8         9        10    
+     eigenvalues --    13.46236  88.85545    .37891   2.55502   4.93527
+          h1      s     -.02932    .89262    .00198   -.01248   -.00344
+                  s     1.08726   -.71690    .03902    .02803   -.00284
+                  s    -1.16108    .43386    .01494  -1.22184   -.24268
+                  s      .62780   -.21649   1.53711   2.09158  -1.06478
+                  s     -.19298    .06740  -2.33915  -1.28390    .36426
+                  z     -.05494    .01647   -.02138   -.18406   1.36682
+          h2      s     -.02932    .89262   -.00198    .01248    .00344
+                  s     1.08726   -.71690   -.03902   -.02803    .00284
+                  s    -1.16108    .43386   -.01494   1.22184    .24268
+                  s      .62780   -.21649  -1.53711  -2.09158   1.06478
+                  s     -.19298    .06740   2.33915   1.28390   -.36426
+                  z      .05494   -.01647   -.02138   -.18406   1.36682
+          zq      s      .00000    .00000    .00000    .00000    .00000
+                  z      .00000    .00000    .00000    .00000    .00000
+                             11        12        13        14    
+     eigenvalues --    14.14266  89.23785    .00000    .00000
+          h1      s      .03181   -.89643   -.01351   -.00575
+                  s    -1.14584    .75083    .05857    .02494
+                  s     1.34217   -.50298   -.19308   -.07826
+                  s     -.79627    .28704    .37991    .24904
+                  s      .45334   -.16309   -.40906   -.48227
+                  z     -.20556    .05833    .01000   -.02141
+          h2      s     -.03181    .89643   -.01351    .00575
+                  s     1.14584   -.75083    .05857   -.02494
+                  s    -1.34217    .50298   -.19308    .07826
+                  s      .79627   -.28704    .37991   -.24904
+                  s     -.45334    .16309   -.40906    .48227
+                  z     -.20556    .05833   -.01000   -.02141
+          zq      s      .00000    .00000   1.08971    .00000
+                  z      .00000    .00000    .00000   1.01320
+     initial guess vector.
+                              1         2         3         4         5    
+     eigenvalues --     -.59407   -.21868    .03558   2.07800   2.87622
+          h1      s     -.00329   -.00231    .00165    .00903   -.00932
+                  s     -.02412   -.01573    .03062   -.03807    .03861
+                  s     -.11224   -.09405    .01869    .93388   -.92288
+                  s     -.26445   -.29239    .81340  -1.21715    .75150
+                  s     -.21636  -1.42918   -.85555    .52041   -.22884
+                  z      .01572   -.01619   -.02490   -.36134   -.50137
+          h2      s     -.00329    .00231    .00165    .00903   -.00932
+                  s     -.02412    .01573    .03062   -.03807    .03861
+                  s     -.11224    .09405    .01869    .93388   -.92288
+                  s     -.26445    .29239    .81340  -1.21715    .75150
+                  s     -.21636   1.42918   -.85555    .52041   -.22884
+                  z     -.01572   -.01619    .02490    .36134    .50137
+          zq      s      .00000    .00000    .00000    .00000    .00000
+                  z      .00000    .00000    .00000    .00000    .00000
+                              6         7         8         9        10    
+     eigenvalues --    13.46236  88.85545    .37891   2.55502   4.93527
+          h1      s     -.02932    .89262    .00198   -.01248   -.00344
+                  s     1.08726   -.71690    .03902    .02803   -.00284
+                  s    -1.16108    .43386    .01494  -1.22184   -.24268
+                  s      .62780   -.21649   1.53711   2.09158  -1.06478
+                  s     -.19298    .06740  -2.33915  -1.28390    .36426
+                  z     -.05494    .01647   -.02138   -.18406   1.36682
+          h2      s     -.02932    .89262   -.00198    .01248    .00344
+                  s     1.08726   -.71690   -.03902   -.02803    .00284
+                  s    -1.16108    .43386   -.01494   1.22184    .24268
+                  s      .62780   -.21649  -1.53711  -2.09158   1.06478
+                  s     -.19298    .06740   2.33915   1.28390   -.36426
+                  z      .05494   -.01647   -.02138   -.18406   1.36682
+          zq      s      .00000    .00000    .00000    .00000    .00000
+                  z      .00000    .00000    .00000    .00000    .00000
+                             11        12        13        14    
+     eigenvalues --    14.14266  89.23785   -.14347   -.14197
+          h1      s      .03181   -.89643   -.00575    .01351
+                  s    -1.14584    .75083    .02494   -.05857
+                  s     1.34217   -.50298   -.07826    .19308
+                  s     -.79627    .28704    .24904   -.37991
+                  s      .45334   -.16309   -.48227    .40906
+                  z     -.20556    .05833   -.02141   -.01000
+          h2      s     -.03181    .89643    .00575    .01351
+                  s     1.14584   -.75083   -.02494   -.05857
+                  s    -1.34217    .50298    .07826    .19308
+                  s      .79627   -.28704   -.24904   -.37991
+                  s     -.45334    .16309    .48227    .40906
+                  z     -.20556    .05833   -.02141    .01000
+          zq      s      .00000    .00000    .00000  -1.08971
+                  z      .00000    .00000   1.01320    .00000
+  m806:kohn drt generation
+     number of symmetries:         1
+     number of basis functions:   14
+     number of references:         2
+     number of groups:             4
+
+
+                           **** orbital information ****
+
+                    basis fcts  # key    type of orbital  sym
+                    ----------  - ---    ---------------  ---
+                       1-  1   1          orbital type  1   0
+                       2-  2   1          orbital type  2   0
+                       3-  3   1          orbital type  3   0
+                       4- 14  11          orbital type  4   0
+   kohn-drt orbital order in use
+
+ kohn run: iout 
+    1    2    3   14   13   12   11   10    9    8
+    7    6    5    4 
+
+ kohn run: orbsym 
+    1    1    1    1    1    1    1    1    1    1
+    1    1    1    1 
+
+ kohn run: orbtbf 
+    1    2    3   14   13   12   11   10    9    8
+    7    6    5    4 
+
+         symmetry 1
+         reference   configurations    unique      total    q
+         ---------   --------------    ------      -----    -
+             1              1             1         1       F
+             2              1             1         2       F
+     there are     6867 integrals to be stored in  1 groups of   6867 each
+ m811:transformation
+     canonical order
+     orbital set:"guess vector"  
+     number of basis functions:          14
+     orthonormality deviation       .13E-14
+     memory use                       52407
+ m819: zeroing integrals 
+ m822: sort to guga order
+     memory use                       47143
+ m902: hamiltonian construction
+     forming the entire hamiltonian of     2 configurations
+     total number of matrix elements:           3
+     effective zero cutoff          :      .1E-08
+     number exceeding cutoff        :           2( 66.7%)
+       incore diagonalization
+
+      root   reference  guess energy    ci energy    c(0)
+       1         1   -1.13226681       -1.13226681      1.0000
+       2         2   -.756876751       -.756876751      1.0000
+       ci energies have been stored on rwf file
+  m921:wfn and density codes
+ m929: direct terms of the kohn hamiltonian 
+          reference energy =  -1.1322668136426
+            target  walks  =  24
+                    npdim  =  1
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1        .1        .0        .0         0
+      101         1        .1        .0        .0         0
+      102         1        .1        .0        .0         0
+      301         1        .4        .0        .0         0
+      302         1        .1        .0        .0         0
+      312         1        .3        .0        .0         0
+      330         1        .1        .0        .0         0
+      401         1        .3        .0        .0         0
+      806         1        .2        .0        .0         0
+      811         1        .4        .0        .0         0
+      819         1        .0        .0        .0         0
+      822         1        .2        .0        .0         0
+      902         1        .3        .0        .0         0
+      921         1        .2        .0        .0         0
+      929         1        .1        .0        .0         0
+             total:       3.0        .0        .0         0

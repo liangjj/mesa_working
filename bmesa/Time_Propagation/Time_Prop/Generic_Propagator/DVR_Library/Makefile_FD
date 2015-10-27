@@ -1,0 +1,42 @@
+#  @(#)Makefile	5.1 11/6/94
+#
+# Makefile for making the propagator codes
+# This assumes the following directory system as well as makefiles
+#
+# You should set your environment variables for the fortran compiler
+# and the varios flags and libraries needed.
+#
+.SUFFIXES: .f90 .mod $(SUFFIXES)
+FC = ifort
+FFLAGS = -c -O4
+MAKE = make
+MFLAGS = 
+RCS = RCS
+#
+# The Main Directory
+GENERIC_PROPAGATOR_DIR = \
+$(MESA_HOME)/bmesa/Time_Propagation/Time_Prop/Generic_Propagator
+DVR_LIBRARY = $(GENERIC_PROPAGATOR_DIR)/DVR_Library
+FD_LIB_DIR = $(DVR_LIBRARY)/fdlib_f90
+#
+# The fd library subdirectories
+#
+FD_MAIN_DIR = $(FD_LIB_DIR)/Main
+#
+FD_DIRECTORY = \
+	$(FD_MAIN_DIR) 
+
+
+all: $(FD_DIRECTORY) 
+
+.RECURSIVE: $(FD_DIRECTORY) 
+$(FD_DIRECTORY): FORCE
+	cd $@ ; $(MAKE) $(MFLAGS)
+
+directory: FORCE
+	cd $(FD_MAIN_DIR) ; $(MAKE) $(MFLAGS) directory
+clean: FORCE
+	cd $(FD_MAIN_DIR) ; $(MAKE) $(MFLAGS) clean
+
+FORCE:
+

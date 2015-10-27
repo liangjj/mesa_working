@@ -1,0 +1,30 @@
+$route
+2s+1=1,maxsiz=1300000
+print=(mcscf=vector)
+mcscf=(cycles=15,number-of-core-orbitals=3)
+drtmc=(rdsym,nsym=1,nbf=4,ngroups=2,nrefs=2)
+guess=(chk)
+basis=dz,sym=off
+$end
+
+$drtmc
+2typ1;1 2typ2;1
+na=2 nb=0 ns=1
+$end
+$groups
+numel=(4,0)
+numel(2,2)
+$end
+
+$title
+ h2o test case:  general mcscf(902) guess from 0.959447,104.83118 scf run
+                 doubles from a single reference
+$geom
+o 
+h1 o r1
+h2 o r2 h1 a1
+
+r1=0.959447
+r2=0.959447
+a1=104.8318
+$end

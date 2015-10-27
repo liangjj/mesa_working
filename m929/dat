@@ -1,0 +1,13 @@
+#   @(#)Makefile	5.1   11/6/94
+#
+# Makefile for M929
+#
+SOURCE = m929
+
+SRCS = \
+	$(MESA_HOME)/$(SOURCE)/direct.f \
+	$(MESA_HOME)/$(SOURCE)/fold.f \
+	$(MESA_HOME)/$(SOURCE)/m929.f \
+	$(MESA_HOME)/$(SOURCE)/prvec.f \
+	$(MESA_HOME)/$(SOURCE)/pvectr.f \
+	$(MESA_HOME)/$(SOURCE)/svectr.f

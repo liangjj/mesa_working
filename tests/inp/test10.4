@@ -1,0 +1,28 @@
+$nonstd
+     1//1,2;
+     2//2;
+     3//2,12,30;  4//1; 5//1;
+     8//2,11; 9//2,21;
+     19//2,51;
+     20//01;
+$route
+2s+1=1,basis=3s2p,print=(basis,scf=(vector=all))
+guess=(huckel),sym=off
+ci=(nroots=3,tolerance=4,tvector="scf vector")
+drt=(vexcite=3)
+properties=(transition=(1,*),e1)
+$title
+o3 :test ci transition dipole
+$title
+o3
+$geom
+o1
+o2 o1 r1
+o3 o1 r1 o2 a1
+ 
+r1=1.278
+a1=116.8
+$end
+$drt
+6fzc1 1doc1 2doc1 3doc1 3uoc1 12fzv1
+$end

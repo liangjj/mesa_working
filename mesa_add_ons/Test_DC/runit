@@ -1,0 +1,1 @@
+mpirun -np 64 -hostfile hostfile_8way ./IMB-MPI1 -npmin 64 > output_8way_64.out < /dev/null &

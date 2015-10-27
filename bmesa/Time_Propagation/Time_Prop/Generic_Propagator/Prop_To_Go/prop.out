@@ -1,0 +1,1260 @@
+ 
+
+                    solve time-dependent schrodinger equation in
+                              imaginary time  
+
+                    algorithm = arnoldi                 
+                    number of variables = 1
+
+                         time-dependent data
+     coordinate system          =         cartesian               
+     units                      = atomic-units                    
+     non-linear potential       = F
+     no spatial hamiltonian     = F
+     calculate eigenvalues      = T
+     kinetic energy type        =         packed  
+     automatic point generation = F
+     calculate projections      = F
+
+     number of time intervals = 5000
+     time step                =           0.00050000
+
+                    axis = x                       
+
+                    generating dvr representation in space
+ 
+ 
+                    Automated Selection of Steps   
+
+ block =   1
+               polynomial order     =    5
+               number of subregions =    3
+               left hand boundary   =  0.00000000E+00
+               right hand boundary  =  0.10000000E+01
+
+      size of the physical basis set =    14
+
+ potential type = well                            
+ angular momentum =   0
+
+ potential type = well                            
+ angular momentum =   0
+
+ potential type = well                            
+ angular momentum =   0
+
+          Diagonalize Full Hamiltonian
+
+          Diagonalize Kinetic Energy Hamiltonian
+
+ Entering Propagation for a 1 dimensional problem
+ Spatial discretization is FEDVR    Number of Points =         14
+
+               Regional Information for DVR Basis, Variable =  1
+
+                 Region     Number of Functions     Type
+                   1                  5             real
+                   2                  6             real
+                   3                  5             real
+
+ space and time    = none                            
+ non-linear        = none                            
+
+     units = atomic-units    
+************************************************************************
+          Time to input basic data               =      0.00000000
+
+          Time to compute global FEDVR spatial 
+          matrices                               =      0.00390625
+
+          Time to compute the regional spatial 
+          matrices                               =      0.00000000
+
+          Time to enter potential parameters     =      0.00390625
+************************************************************************
+
+               iterative diagonalization information
+
+     overlap tolerance                  =  0.10000000E-09
+     convergence criterion              =  0.10000000E-06
+     maximum number of iterations       =     14
+     maximum number of vectors          =     14
+
+ initial state data
+ type initial state = gaussian-pulse          
+
+ overlap integral for gaussian packet =  0.11691106E+01
+
+     initial wavepacket at t=0
+
+     the form of the cartesian packet is:
+
+
+     psi = exp[ - alpha_x * ( x - x_0 )**2 / (2*(sigma_x)**2) - i*beta_x*(x-x_0) ]
+
+ gaussian wave packet parameters
+
+ alpha_x    =  0.10000000E+01
+
+ sigma_x    =  0.10000000E+01
+
+ x_0        =  0.00000000E+00
+
+ n_x        =  0
+
+ beta_x     =  0.10000000E+01
+************************************************************************
+
+                    Begin Arnoldi Propagation
+************************************************************************
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.28596613E+02
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.10401618E+02
+     0.47369520E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.40468538E-01
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.80518058E+01
+     0.27986996E+03
+     0.56968187E+03
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.13801181E-02
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.63998654E+01
+     0.16515244E+03
+     0.52540580E+03
+     0.16262712E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.89279848E-04
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.52734738E+01
+     0.10697243E+03
+     0.35585361E+03
+     0.54366205E+03
+     0.17238305E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.42872369E-05
+eigenvalues of small matrix iteration = 6                                       
+ col          1
+     0.45784639E+01
+     0.71693894E+02
+     0.21900481E+03
+     0.46319308E+03
+     0.55814232E+03
+     0.17252404E+04
+
+     cycle =    6  no. vectors =    6
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.73402297E-07
+
+     done with iteration:Energy =  0.45784639E+01:return
+
+     Time Step =      1
+          Normalization =  0.10000000E+01 Energy    =  0.45784639E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.45784639E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.44498193E+01
+     0.14326082E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.48437123E-02
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.41799130E+01
+     0.11743560E+03
+     0.17465196E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.81840033E-03
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.40906567E+01
+     0.82641090E+02
+     0.42667238E+03
+     0.17484327E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.16050090E-04
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.40631372E+01
+     0.73302493E+02
+     0.33238369E+03
+     0.99437964E+03
+     0.17485395E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.47941828E-06
+eigenvalues of small matrix iteration = 6                                       
+ col          1
+     0.40028362E+01
+     0.52353275E+02
+     0.17802715E+03
+     0.52838061E+03
+     0.17097988E+04
+     0.17494667E+04
+
+     cycle =    6  no. vectors =    6
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.32625494E-07
+
+     done with iteration:Energy =  0.40028362E+01:return
+
+     Time Step =      2
+          Normalization =  0.10000000E+01 Energy    =  0.40028362E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.40028362E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39800222E+01
+     0.29931770E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.12065539E-02
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39740696E+01
+     0.21810991E+03
+     0.95033588E+03
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.61843538E-04
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39654267E+01
+     0.12022109E+03
+     0.47248493E+03
+     0.16921826E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.63817273E-05
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39554054E+01
+     0.58561737E+02
+     0.26667598E+03
+     0.56231382E+03
+     0.17249541E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.22824354E-06
+eigenvalues of small matrix iteration = 6                                       
+ col          1
+     0.39511457E+01
+     0.44684280E+02
+     0.21843176E+03
+     0.40742645E+03
+     0.58511853E+03
+     0.17252365E+04
+
+     cycle =    6  no. vectors =    6
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.29443297E-08
+
+     done with iteration:Energy =  0.39511457E+01:return
+
+     Time Step =      3
+          Normalization =  0.10000000E+01 Energy    =  0.39511457E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39511457E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39485314E+01
+     0.14766261E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.69434713E-03
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39444302E+01
+     0.13625308E+03
+     0.17464425E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.11041368E-03
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39422031E+01
+     0.76008134E+02
+     0.37117720E+03
+     0.17484419E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.24709617E-05
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39414143E+01
+     0.62768524E+02
+     0.31457322E+03
+     0.10778154E+04
+     0.17485465E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.67486950E-07
+
+     done with iteration:Energy =  0.39414143E+01:return
+
+     Time Step =      4
+          Normalization =  0.10000000E+01 Energy    =  0.39414143E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39414143E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39408359E+01
+     0.93955873E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.29377760E-03
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39398247E+01
+     0.19393815E+03
+     0.16910368E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.51577273E-04
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39380985E+01
+     0.58962736E+02
+     0.50848935E+03
+     0.17249821E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.25784822E-05
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39375647E+01
+     0.46542294E+02
+     0.33885882E+03
+     0.55987961E+03
+     0.17252346E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.37566631E-07
+
+     done with iteration:Energy =  0.39375647E+01:return
+
+     Time Step =      5
+          Normalization =  0.10000000E+01 Energy    =  0.39375647E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39375647E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39372081E+01
+     0.14138234E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.25441478E-03
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39364582E+01
+     0.12100149E+03
+     0.17454582E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.43602499E-04
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39360815E+01
+     0.74071292E+02
+     0.45022633E+03
+     0.17484377E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.10291596E-05
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39359834E+01
+     0.65383510E+02
+     0.36271466E+03
+     0.86112808E+03
+     0.17485364E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.25808264E-07
+
+     done with iteration:Energy =  0.39359834E+01:return
+
+     Time Step =      6
+          Normalization =  0.10000000E+01 Energy    =  0.39359834E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39359834E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39358954E+01
+     0.10838482E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.11908547E-03
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39356522E+01
+     0.13071208E+03
+     0.17117904E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.22519744E-04
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39353887E+01
+     0.56575197E+02
+     0.47866169E+03
+     0.17250655E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.78846505E-06
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39353074E+01
+     0.46572238E+02
+     0.34007814E+03
+     0.59886651E+03
+     0.17252346E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.14362891E-07
+
+     done with iteration:Energy =  0.39353074E+01:return
+
+     Time Step =      7
+          Normalization =  0.10000000E+01 Energy    =  0.39353074E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39353074E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39352428E+01
+     0.14067626E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.10822631E-03
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39351066E+01
+     0.12243314E+03
+     0.17452979E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.18646551E-04
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39350361E+01
+     0.73955371E+02
+     0.44974501E+03
+     0.17484386E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.44739317E-06
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39350185E+01
+     0.65476807E+02
+     0.36576094E+03
+     0.85250613E+03
+     0.17485362E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.10910379E-07
+
+     done with iteration:Energy =  0.39350185E+01:return
+
+     Time Step =      8
+          Normalization =  0.10000000E+01 Energy    =  0.39350185E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39350185E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39350025E+01
+     0.10837579E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.50754283E-04
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39349570E+01
+     0.12762085E+03
+     0.17126542E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.96244623E-05
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39349090E+01
+     0.56007734E+02
+     0.46810024E+03
+     0.17250801E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.32772180E-06
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39348948E+01
+     0.46587114E+02
+     0.34088483E+03
+     0.59635575E+03
+     0.17252346E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.58896226E-08
+
+     done with iteration:Energy =  0.39348948E+01:return
+
+     Time Step =      9
+          Normalization =  0.10000000E+01 Energy    =  0.39348948E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348948E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348830E+01
+     0.14066189E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.46333153E-04
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348580E+01
+     0.12269792E+03
+     0.17452645E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.79822877E-05
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348451E+01
+     0.73942525E+02
+     0.45110626E+03
+     0.17484388E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.19238128E-06
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39348419E+01
+     0.65513942E+02
+     0.36710380E+03
+     0.84928641E+03
+     0.17485360E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.46671473E-08
+
+     done with iteration:Energy =  0.39348419E+01:return
+
+     Time Step =     10
+          Normalization =  0.10000000E+01 Energy    =  0.39348419E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348419E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348389E+01
+     0.10856065E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.21736507E-04
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348306E+01
+     0.12708094E+03
+     0.17128572E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.41235916E-05
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348217E+01
+     0.55854563E+02
+     0.46619212E+03
+     0.17250843E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.13962749E-06
+eigenvalues of small matrix iteration = 5                                       
+ col          1
+     0.39348192E+01
+     0.46595591E+02
+     0.34130749E+03
+     0.59545404E+03
+     0.17252346E+04
+
+     cycle =    5  no. vectors =    5
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.24945330E-08
+
+     done with iteration:Energy =  0.39348192E+01:return
+
+     Time Step =     11
+          Normalization =  0.10000000E+01 Energy    =  0.39348192E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348192E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348170E+01
+     0.14079976E+04
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.19869922E-04
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348124E+01
+     0.12269180E+03
+     0.17452682E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.34190687E-05
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348101E+01
+     0.73963710E+02
+     0.45228827E+03
+     0.17484388E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.82473331E-07
+
+     done with iteration:Energy =  0.39348101E+01:return
+
+     Time Step =     12
+          Normalization =  0.10000000E+01 Energy    =  0.39348101E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348101E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348096E+01
+     0.75531058E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.78433270E-05
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348075E+01
+     0.89020227E+02
+     0.17113124E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.14303953E-05
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348061E+01
+     0.50455579E+02
+     0.41659891E+03
+     0.17251035E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.42463508E-07
+
+     done with iteration:Energy =  0.39348061E+01:return
+
+     Time Step =     13
+          Normalization =  0.10000000E+01 Energy    =  0.39348061E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348061E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348055E+01
+     0.37950646E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.66203190E-05
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348048E+01
+     0.15053403E+03
+     0.16411294E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.73989756E-06
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348041E+01
+     0.77028535E+02
+     0.45589644E+03
+     0.17476805E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.49082482E-07
+
+     done with iteration:Energy =  0.39348041E+01:return
+
+     Time Step =     14
+          Normalization =  0.10000000E+01 Energy    =  0.39348041E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348041E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348038E+01
+     0.18240412E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.37886271E-05
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348036E+01
+     0.11553000E+03
+     0.12512173E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.21331860E-06
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348032E+01
+     0.56059455E+02
+     0.41964969E+03
+     0.17170042E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.22428359E-07
+
+     done with iteration:Energy =  0.39348032E+01:return
+
+     Time Step =     15
+          Normalization =  0.10000000E+01 Energy    =  0.39348032E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348032E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348030E+01
+     0.28928209E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.37295324E-05
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348029E+01
+     0.19437545E+03
+     0.10125400E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.21611588E-06
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348028E+01
+     0.92715728E+02
+     0.48525308E+03
+     0.17225881E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.22982805E-07
+
+     done with iteration:Energy =  0.39348028E+01:return
+
+     Time Step =     16
+          Normalization =  0.10000000E+01 Energy    =  0.39348028E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348028E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348027E+01
+     0.26390549E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.23207710E-05
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348026E+01
+     0.17017111E+03
+     0.11239983E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.14300317E-06
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348026E+01
+     0.74027494E+02
+     0.47106179E+03
+     0.17266596E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.15529199E-07
+
+     done with iteration:Energy =  0.39348026E+01:return
+
+     Time Step =     17
+          Normalization =  0.10000000E+01 Energy    =  0.39348026E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348026E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348025E+01
+     0.31119406E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.21575384E-05
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348025E+01
+     0.21328895E+03
+     0.10646586E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.12885215E-06
+eigenvalues of small matrix iteration = 4                                       
+ col          1
+     0.39348024E+01
+     0.10105679E+03
+     0.49176368E+03
+     0.17220082E+04
+
+     cycle =    4  no. vectors =    4
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.13910726E-07
+
+     done with iteration:Energy =  0.39348024E+01:return
+
+     Time Step =     18
+          Normalization =  0.10000000E+01 Energy    =  0.39348024E+01
+************************************************************************
+
+     beginning arnoldi iterations:
+     initial error =  0.10000000E+11
+
+     using    1 trial vectors
+eigenvalues of small matrix iteration = 1                                       
+ col          1
+     0.39348024E+01
+
+     cycle =    1  no. vectors =    1
+
+ exponentiating at delta t =  0.50000000E-03
+eigenvalues of small matrix iteration = 2                                       
+ col          1
+     0.39348024E+01
+     0.27108674E+03
+
+     cycle =    2  no. vectors =    2
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.14400858E-05
+eigenvalues of small matrix iteration = 3                                       
+ col          1
+     0.39348024E+01
+     0.17569959E+03
+     0.11289285E+04
+
+     cycle =    3  no. vectors =    3
+
+ exponentiating at delta t =  0.50000000E-03
+
+ overlap               =  0.89404286E-07
+
+     done with iteration:Energy =  0.39348024E+01:return
+
+          final energy for this step =  0.39348024E+01
+
+     Time Step =     19
+          Normalization =  0.10000000E+01 Energy    =  0.39348024E+01
+************************************************************************
+
+                    End Arnoldi Propagation
+************************************************************************
+************************************************************************
+          Time for the Arnoldi propagation       =      0.00781250
+************************************************************************

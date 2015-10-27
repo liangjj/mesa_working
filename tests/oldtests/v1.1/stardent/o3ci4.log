@@ -1,0 +1,80 @@
+m0 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        0.9
+user        0.0
+sys         0.1
+m1 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        2.8
+user        0.9
+sys         0.5
+m101 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        1.5
+user        0.5
+sys         0.3
+m102 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        8.9
+user        7.0
+sys         0.7
+m202 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        2.3
+user        0.8
+sys         0.4
+m302 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        1.6
+user        0.3
+sys         0.3
+m312 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        1.3
+user        0.2
+sys         0.3
+m330 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        1.3
+user        0.2
+sys         0.3
+m401 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        1.7
+user        1.2
+sys         0.3
+m802 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        1.4
+user        0.8
+sys         0.3
+m811 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real       11.3
+user        7.1
+sys         3.1
+m902 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real    12:16.6
+user     9:21.5
+sys      1:02.2
+m921 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        8.9
+user        4.7
+sys         0.7
+m1902 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        4.6
+user        1.7
+sys         0.5
+m1951 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        7.6
+user        4.6
+sys         0.5
+m2001 inp=o3ci4 out=o3ci4.out chk=mesa.chk rwf=tmp/rlm.rwf int=tmp/rlm.int
+
+real        3.6
+user        0.9
+sys         1.0

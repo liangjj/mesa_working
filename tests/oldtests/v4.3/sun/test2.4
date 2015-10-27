@@ -1,0 +1,234 @@
+ mesa(4.3);7/7/93;System V unix.                                                
+     (c) 1990, the university of california.                                    
+     b.h. lengsfield iii,r.l. martin,p.w. saxe,t.v. russo,m. page,           
+     b. schneider,m.o. braunstein,p.j. hay,a.k. rappe                        
+
+      8-Jul-1993 13:17:40    
+     los alamos national laboratory;sun 4/280s(vivaldi);                             
+ files/memory:
+     inp:    /usr2/mesa/tests/inp/test2.4                                                                                                    
+     out:    /usr2/mesa/tests/out/sun/test2.4                                                                                                
+     chk:    mesa.chk                                                                                                                        
+     dat:    /usr2/mesa/mesa.dat                                                                                                             
+     rwf:    /vivaldi/tmp/rwf                                                                                                                
+     rint:   /vivaldi/tmp/rint                                                                                                               
+     int:    /vivaldi/tmp/int                                                                                                                
+     tint:   /vivaldi/tmp/tint                                                                                                               
+     gint:   /vivaldi/tmp/gint                                                                                                               
+     rdint:  /vivaldi/tmp/rdint                                                                                                              
+     dint:   /vivaldi/tmp/dint                                                                                                               
+     zint:   /vivaldi/tmp/zint                                                                                                               
+     ham:    /vivaldi/tmp/ham                                                                                                                
+     moden:  /vivaldi/tmp/moden                                                                                                              
+     aoden:  /vivaldi/tmp/aoden                                                                                                              
+     saoden: /vivaldi/tmp/saoden                                                                                                             
+     gden:   /vivaldi/tmp/gden                                                                                                               
+     fci:    /vivaldi/tmp/fci                                                                                                                
+     machine size:          4000000
+     user defined maxsiz:   1500000
+ title:
+      h2o test case: scf/analytic frequencies
+ route:
+     1//1,2;
+     2//2;
+     3//2,12,30;
+     4//1;
+     5//1;
+     7//1,2,12;
+     8//11;
+     3//3,23;
+     8//24;
+     10//11,12,13,14,20,22;
+     7//31,32;
+     2//4;
+     20//01;
+ options:
+     2s+1=1,maxsiz=1500000 hf scf=(pulay) frequencies force-constants guess=(chk) geo
+     m=rdchk basis=dz,sym=off
+
+ m101:  process geometry input.
+    z-matrix read from checkpoint file 
+ z-matrix (angstroms and degrees):
+     cd cent  el basis      n1     length          n2    alpha          n3     beta           j
+      1   1   o  dz      
+      2   2   h  dz          1   0.951579 r1      
+      3   3   h  dz          1   0.951579 r2        2  112.542 a1      
+ molecular parameters:
+     charge:                    0
+     multiplicity:              1
+     number alpha electrons:    5
+     number beta electrons:     5
+ basis dimensions:
+     # primitive cartesians    32
+     # contracted cartesians   14
+     # basis functions         14
+ distance matrix (angstroms):
+                              o        h1        h2                              
+                  o     0.00000
+                 h1     0.95158   0.00000
+                 h2     0.95158   1.58281   0.00000
+ interatomic angles:
+          h2-o1-h3 =112.5425
+ symmetry turned off by external request.
+ standard orientation:
+     cd cent  el                   coordinates(angstroms)
+                                 x           y           z
+      1   1   o              0.000000    0.000000    0.000000
+      2   2   h              0.000000    0.000000    0.951579
+      3   3   h              0.878874    0.000000   -0.364806
+ rotational constants (ghz):   1011.2575063    400.3170496    286.7886925
+ isotopes:
+     o       h1      h2      
+ m312:
+     pre-exponential integral cutoff  1.0E-15
+     integral cutoff                  1.0E-10
+     minimum necessary field length     18126
+     maximum usable field length       245526
+     #primitive integrals possible     274866
+     #primitive integrals computed     262666( 95.6%)
+     #contracted integrals possible      5565
+     #contracted integrals kept          4112( 73.9%)
+ m330:
+     sorter will use in-core algorithm
+ m401:initial guess
+     read from the chk.
+ m501:
+     memory use                    3999999
+     all integrals held in core.
+     nuclear repulsion energy:    9.231993
+     iter              energy    diis convergence
+        1       -76.011002260         0.000000003
+     rotating scf orbitals under core fock operator
+ m701: transform one-electron density matrices 
+ m702: one-electron derivative integrals 
+ m712: two-electron derivative integrals
+     gradient integral pre-exponential cutoff: 1.0E-12
+     # integrals possible                       274866
+     # integrals computed                      2198214(799.7%)
+ m811:transformation
+     canonical order
+     orbital set:"scf vector"    
+     number of basis functions:          14
+     orthonormality deviation      0.11E-13
+     memory use                       52407
+ m323:
+     gradient integral pre-exponential cutoff: 1.0E-13
+     gradient integral retention       cutoff: 1.0E-09
+     # integrals kept                            17552
+     # integrals possible                       144272
+     # integrals computed                       130574( 90.5%)
+ m824: derivative lagrangians 
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+     sorter will use in-core algorithm
+ m1011:
+     memory use                    3998999
+     all integrals held in core.
+     sorter will use in-core algorithm
+ m1020:cphf solution by direct method
+     digits accuracy of result: 12
+ m731:transform forces from cartesian to internal coordinates
+     center     atomic           forces (hartrees/bohr)
+     number     number         x           y           z
+       1          8        0.000165    0.000000    0.000110
+       2          1        0.000060    0.000000   -0.000269
+       3          1       -0.000226    0.000000    0.000159
+     max     0.000269     rms     0.000146
+     internal coordinate forces (hartrees/bohr,radian)
+        cent atom   n1     length        n2     alpha        n3       beta       j
+           1   o 
+           2   h     1  -0.000269 (  1)
+           3   h     1  -0.000269 (  2)   2  -0.000109 (  3)
+ m203:transform force constants from cartesian to internal coordinates
+ m204:calculation of vibrational frequencies
+     cartesian force constant matrix
+             1           2           3           4           5
+  ------------------------------------------------------------------
+   1     0.5677068   0.0000000  -0.1928397  -0.0542978   0.0000000
+   2     0.0000000   0.0001989   0.0000000   0.0000000  -0.0000995
+   3    -0.1928397   0.0000000   0.7277957  -0.0361851   0.0000000
+   4    -0.0542978   0.0000000  -0.0361851   0.0528029   0.0000000
+   5     0.0000000  -0.0000995   0.0000000   0.0000000   0.0001358
+   6     0.0384556   0.0000000  -0.5934535  -0.0202032   0.0000000
+   7    -0.5134090   0.0000000   0.2290248   0.0014949   0.0000000
+   8     0.0000000  -0.0000995   0.0000000   0.0000000  -0.0000364
+   9     0.1543841   0.0000000  -0.1343422   0.0563883   0.0000000
+
+
+             6           7           8           9
+  ------------------------------------------------------
+   1     0.0384556  -0.5134090   0.0000000   0.1543841
+   2     0.0000000   0.0000000  -0.0000995   0.0000000
+   3    -0.5934535   0.2290248   0.0000000  -0.1343422
+   4    -0.0202032   0.0014949   0.0000000   0.0563883
+   5     0.0000000   0.0000000  -0.0000364   0.0000000
+   6     0.6077882  -0.0182523   0.0000000  -0.0143347
+   7    -0.0182523   0.5119141   0.0000000  -0.2107724
+   8     0.0000000   0.0000000   0.0001358   0.0000000
+   9    -0.0143347  -0.2107724   0.0000000   0.1486769
+     zero point vibrational energy:    14.21 kcal/mole
+     ***** normal modes of vibration ***** 
+     cartesian normal modes 
+                              1         2         3         4         5
+     frequencies --         0.0       0.0       0.0       0.0       0.0
+         1              0.16219   0.00000  -0.05172   0.09315  -0.74691
+         2             -0.86227   0.47784   0.05757   0.00981  -0.14493
+         3              0.16348   0.23202   0.06035   0.05075  -0.50008
+         4              0.36055   0.61130   0.10478  -0.01001  -0.02413
+         5              0.01927   0.17159  -0.97595   0.11344   0.05115
+         6              0.04104   0.05824   0.01515   0.01274  -0.12553
+         7             -0.08190  -0.23435  -0.05813   0.03618  -0.25011
+         8              0.00001   0.00000   0.12062   0.98606   0.11462
+         9             -0.25437  -0.50635  -0.09361   0.04358  -0.27640
+                              6         7         8         9
+     frequencies --         0.0    1710.8    4024.9    4200.9
+         1             -0.54985  -0.23810  -0.14394  -0.15722
+         2             -0.06123   0.00000   0.00000   0.00000
+         3              0.75709  -0.15897  -0.09610   0.23549
+         4             -0.15284   0.67740  -0.04929   0.00000
+         5              0.04722   0.00000   0.00000   0.00000
+         6              0.19004   0.01240   0.69469  -0.67817
+         7             -0.13234   0.27115   0.62272   0.62635
+         8              0.00000   0.00000   0.00000   0.00000
+         9              0.20373   0.62089  -0.31185  -0.25999
+     internal coordinate normal modes
+                              1         2         3
+     frequencies --      1710.8    4024.9    4200.9
+                 r1     0.03288   0.70683  -0.70711
+                 r2     0.03288   0.70683   0.70711
+                 a1    -0.99892   0.02789   0.00000
+ summary:
+     link   entries               charges          core use       
+                          cpu       sys      io         
+        1         1       2.4       0.4       0.0         0
+      101         1       1.1       0.5       0.0         0
+      102         1      14.2       0.7       0.0         0
+      202         1       1.4       0.4       0.0         0
+      302         1       1.9       0.3       0.0         0
+      312         1      17.3       1.1       0.0         0
+      330         1       1.0       0.5       0.0         0
+      401         1       2.5       0.3       0.0         0
+      501         1       4.4       0.6       0.0         0
+      701         1       0.6       0.2       0.0         0
+      702         1       6.4       0.3       0.0         0
+      712         1      82.6       2.5       0.0         0
+      811         1       5.0       0.9       0.0         0
+      303         1       2.5       0.5       0.0         0
+      323         1      39.9       4.2       0.0         0
+      824         1       9.5       4.5       0.0         0
+     1011         1       0.8       0.4       0.0         0
+     1012         1       0.8       0.6       0.0         0
+     1013         1       1.4       0.6       0.0         0
+     1014         1       1.2       0.4       0.0         0
+     1020         1       0.6       0.3       0.0         0
+     1022         1       0.5       0.3       0.0         0
+      731         1       0.5       0.3       0.0         0
+      732         1       0.5       0.4       0.0         0
+      204         1       0.7       0.3       0.0         0
+             total:     199.6      21.6       0.0         0

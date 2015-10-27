@@ -1,0 +1,41 @@
+
+ ************************************************************************
+
+                    Density Matrix Renormalization Program
+
+ ************************************************************************
+
+     system_Size        =     5 max_Bose_Filling =     5 ITP_switch =     1
+     message_Switch_ITP =     0 max_ITP_steps    =       1500
+     chi_Min            =     1 chi_Max          =     8 chi_Inc    =     1
+     chi_Conv_Switch    =     1 mu_Points        =     2 JU_Points  =     2
+     JU_Switch          =     0
+
+     dt_ITP =  0.10000000E+00 number_Tol_Inner =  0.10000000E-05 number_Tol_Outer =  0.25000000E-04
+     mu_Min =  0.40000000E+00 mu_Max           =  0.50000000E+00 JU_Min           =  0.30000000E+00
+     JU_Max =  0.40000000E+00 trap             =  0.00000000E+00 lambda           =  0.10000000E+00
+
+     itp_Dir  = ITPDATA/   itr_Ext = .dat      
+
+     chi_Enlarge_Switch =     1 chi_Evo    =    10
+     num_Data_Stores    =   100 evo_Switch =     0 message_Switch_Evo =     1
+     x_Shift_Points     =    10
+
+     dt_Evo =  0.10000000E-01 evolve_Time =  0.50000000E+02 x0_Min =  0.10000000E+01 x0_Max =  0.11000000E+01
+
+     evo_In_Dir   = ITPDATA/   evo_In_Ext  = .dat      
+     evo_Out_Dir  = EVODATA/   evo_Out_Ext = .dat      
+     i_In =     1 j_In =     1
+                              OUTPUT DATA
+
+     chi =     5 w0 =     5 w1 =     5 w2 =     0
+
+     mu_Input =  0.40000000E+00 tunnel_Input =  0.30000000E+00 U0_Input  =  0.10000000E+01
+     number   =  0.60000044E+01 energy       = -0.35764933E+01 depletion =  0.20668172E+00
+     gap      =  0.67113015E+00 n_center     =  0.14254630E+01
+
+     chi =     5 w0 =     5 w1 =     5 w2 =     0
+
+     mu_Input =  0.40000000E+00 tunnel_Input =  0.40000000E+00 U0_Input  =  0.10000000E+01
+     number   =  0.70000033E+01 energy       = -0.45088687E+01 depletion =  0.14984375E+00
+     gap      =  0.83893781E+00 n_center     =  0.16344304E+01

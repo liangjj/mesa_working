@@ -1,0 +1,45 @@
+#   @(#)Makefile	1.4   8/2/91
+#
+# Makefile for test
+#
+FC = f77
+FFLAGS = -c -O5
+
+LD = f77
+LDFLAGS =
+BINDIR = /usr1/mesa/bin
+MESCTLIB = /usr1/mesa/library/mesctlib.a
+LAPACK = /usr1/mesa/library//LAPACK/lapack.a
+BLAS = /usr1/mesa/library/LAPACK/blas.a
+PDELIB = /usr1/mesa/library/pdelib/pdelib.a
+DVDLIB = /usr1/mesa/library/dvdson/dvdlib.a
+VECLIB = /usr1/mesa/library/libdxml.a
+
+#BINDIR = /usr1/users/bis/mesa/bin
+#MESCTLIB = /usr1/users/bis/mesa/library/mesctlib.a
+#LAPACK = /usr1/users/bis/mesa/library//LAPACK/lapack.a
+#BLAS = /usr1/users/bis/mesa/library/LAPACK/blas.a
+#PDELIB = /usr1/users/bis/mesa/library/pdelib/pdelib.a
+#DVDLIB = /usr1/users/bis/mesa/library/dvdson/dvdlib.a
+#VECLIB = /usr1/users/bis/mesa/library/libdxml.a
+
+GET = sccs get
+
+SRCS = \
+	hinit.f \
+	hupdat.f \
+	mgdrv.f \
+	nxtvec.f \
+	qcklin.f 
+
+.f.o:
+	$(FC) $(FFLAGS) $<
+
+all: $(BINDIR)/m6666
+
+$(BINDIR)/m6666: $(SRCS:.f=.o) $(PDELIB) $(DVDLIB) $(MESCTLIB) $(LAPACK) \
+                               $(BLAS) $(VECLIB)  
+	$(LD) $(LDFLAGS) $(SRCS:.f=.o)  $(PDELIB) $(DVDLIB) $(MESCTLIB) \
+                                        $(LAPACK) $(BLAS) $(VECLIB) \
+					-o $(BINDIR)/m6666
+

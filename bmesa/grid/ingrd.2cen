@@ -1,0 +1,56 @@
+$route
+ print=(m6201=lm-decomposition)
+ m6201=test-yukawa-integral
+$end
+$nonstd
+     62//00;
+     20//01;
+$end
+$title
+ Test Of Grid Codes
+$end
+$centers
+ no-centers=2
+ position-center-1=(0.,0.,-.7) charge-center-1=1.0 exponent-center-1=1.5
+ test-exponent-center-1=15.0
+ position-center-2=(0.,0.,.7) charge-center-2=1.0 exponent-center-2=1.5
+ test-exponent-center-2=15.0
+$end
+$shells
+ no-radial-shells=8 radial-boundaries=(0.0,.35,.6,.7,.8,1.05,2.0,5.0,10.)
+ radial-quadrature-orders=(30,30,30,30,30,30,30,30)
+ no-theta-divisions-per-shell=(1,1,1,1,1,1,1,1)
+ no-phi-divisions-per-shell=(1,1,1,1,1,1,1,1)
+$end
+$shell-1
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(30) phi-quadrature-orders=(1)
+$end
+$shell-2
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(40) phi-quadrature-orders=(1)
+$end
+$shell-3
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(80) phi-quadrature-orders=(1)
+$end
+$shell-4
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(80) phi-quadrature-orders=(1)
+$end
+$shell-5
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(40) phi-quadrature-orders=(1)
+$end
+$shell-6
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(30) phi-quadrature-orders=(1)
+$end
+$shell-7
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(20) phi-quadrature-orders=(1)
+$end
+$shell-8
+ theta-boundaries=(0.,180.) phi-boundaries=(0.,360.)
+ theta-quadrature-orders=(20) phi-quadrature-orders=(1)
+$end
